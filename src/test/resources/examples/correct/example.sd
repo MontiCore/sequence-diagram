@@ -1,4 +1,4 @@
-sequencediagram sdAuftrag1 {
+sequencediagram sdAuftrag {
 
 	// Interacting objects
 	o: Order;
@@ -6,7 +6,7 @@ sequencediagram sdAuftrag1 {
 	
 	// Offer -> Production
 	o -> c : <<trigger>> sendConfirmation();
-	o <- c : return;
+	o <-- c : return;
 	o -> o : orderParts();
 	<"assert state == Production">
 	
@@ -18,7 +18,7 @@ sequencediagram sdAuftrag1 {
 	// Shipping -> Payment
 	{"JAVA :  Make sure that allItemsSent() is true"}
 	o -> c : sendInvoice(sum);
-	o <- c : return;
+	o <-- c : return;
 	<"assert state == payment">
 	
 	// Payment -> Complete

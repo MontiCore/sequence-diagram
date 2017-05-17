@@ -1,0 +1,13 @@
+sequencediagram example-non-causal {
+
+	// Interacting objects
+	a;
+	b;
+	c;
+	
+	// Interactions
+	a -> b : methode(...);
+	b <- c : methode2(...);
+	
+
+}

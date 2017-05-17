@@ -1,42 +1,95 @@
 package de.monticore.lang;
 
 grammar SD extends de.monticore.common.Common { 
+
+    /*========================================================================*/
+    /*================================ TODOs =================================*/
+    /*========================================================================*/
+    
+    // Stereotypen & Mehr in "SD Fähnchen"
+    // Complete und Incomplete in Objekten
+    // Match:complete, ... in SD
+    // Exception-Example
       
     /*========================================================================*/
     /*=========================== CompilationUnit ============================*/
     /*========================================================================*/
 
-
     /*========================================================================*/
     /*================== INTERFACES AND EXTERNAL SYMBOLS =====================*/
     /*========================================================================*/
 
+    /*========================================================================*/
+    /*=============================== TOKENS =================================*/
+    /*========================================================================*/
 
     /*========================================================================*/
     /*============================ ENUMERATIONS ==============================*/
     /*========================================================================*/
-
+    
+    enum Arrow = LEFT: "<-" | RIGHT: "->";
+    enum DashedArrow = LEFT: "<--" | RIGHT: "-->";
+    Modifier = static: "static";
 
     /*========================================================================*/
     /*============================== Grammar =================================*/
     /*========================================================================*/
 
-	SDDefinition = "sequencediagram" Name "{" SDElement* "}";
-	SDElement = (ObjectDeclaration | MethodCall | OCL | Java);
+	SequenceDiagram = 
+		"sequencediagram" Name "{" 
+		SDElement* 
+		"}";
 	
-	ObjectDeclaration = Name ":" OfType ";";
-	OfType = Name;
+	SDElement = 
+		ObjectDeclaration | 
+		Interaction | 
+		OCL | 
+		Java;
 	
-	MethodCall = Object Direction Object ":" Stereotype? Method ";";
-	Object = Name;
-	Direction = ("<-" | "->");
-	Stereotype = "<<trigger>>";
-	Method = (Name "(" Param? ")" | "return");
-	Param = Name;
+	ObjectDeclaration = 
+		Name ":" OfType ";";
 	
-	OCL = "<" String ">";
+	OfType = 
+		Name;
 	
-	Java = "{" String "}";
+	Interaction = 
+		MethodCall | 
+		Return | 
+		Exception;
+	
+	MethodCall = 
+		Object Arrow Object ":" 
+		Stereotype? Method ";";
+		
+	Object = 
+		Name;
+		
+	Stereotype = 
+		"<<" Name ">>";
+		
+	Method = 
+		Modifier? 
+		Name "(" Params? ")";
+		
+	Params = 
+		Name;
+	
+	Return = 
+		Object DashedArrow Object ":" 
+		"return" Result ";";
+		
+	Result = 
+		Name?;
+	
+	Exception = 
+		Object DashedArrow Object ":" 
+		Method ";";
+	
+	OCL = 
+		"<" String ">";
+	
+	Java = 
+		"{" String "}";
    
     
 }

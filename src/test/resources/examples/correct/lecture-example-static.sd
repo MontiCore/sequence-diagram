@@ -1,0 +1,10 @@
+sequencediagram example-static {
+
+	// Interacting objects
+	kupfer912: Auction;
+	Protocol;
+	
+	kupfer912 -> Protocol: static writeToProtocol("Auction 912 started");
+	kupfer912 --> Protocol: return;
+
+}
