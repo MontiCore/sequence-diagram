@@ -29,11 +29,14 @@ public class HtmlGenerator {
 
 		// Generation
 		Path outputFile = Paths.get(outputPath, ast.getName() + ".html");
-		generator.generate("sd.sequencediagram.ftl", outputFile, ast);
+		generator.generate("html.sequencediagram.ftl", outputFile, ast);
 		Log.trace(LOGGER_NAME, "Generated html diagram for sd " + ast.getName() + " to " + outputDir.getAbsolutePath());
 
 		// Dependencies
-		copyFile(Paths.get(""), Paths.get(""));
+		String dependencies = "src/main/resources/html/";
+		copyFile(Paths.get(dependencies + "white.png"), Paths.get("gen/" + outputPath + "white.png"));
+		copyFile(Paths.get(dependencies + "corner.png"), Paths.get("gen/" + outputPath + "corner.png"));
+		copyFile(Paths.get(dependencies + "head.png"), Paths.get("gen/" + outputPath + "head.png"));
 
 	}
 
