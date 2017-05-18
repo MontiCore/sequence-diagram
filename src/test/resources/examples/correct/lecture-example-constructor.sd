@@ -3,6 +3,7 @@ sequencediagram example_constructor {
 	// Interacting objects
 	kupfer912: Auction;
 	
+	//Constructor call
 	kupfer912 -> (bm:BidMessage) : new BidMessage(...);
 	
 

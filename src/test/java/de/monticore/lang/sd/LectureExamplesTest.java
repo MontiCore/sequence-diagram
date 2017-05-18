@@ -37,6 +37,7 @@ public class LectureExamplesTest {
 		assertEquals(2, sd.getSDElements().size());
 	}
 
+	@Test
 	public void testExampleFactory() throws IOException {
 		// Load model
 		ASTSequenceDiagram sd = loadModel("src/test/resources/examples/correct/lecture-example-factory.sd");
