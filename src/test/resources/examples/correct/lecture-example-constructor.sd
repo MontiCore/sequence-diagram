@@ -6,5 +6,4 @@ sequencediagram example_constructor {
 	//Constructor call
 	kupfer912 -> (bm:BidMessage) : new BidMessage(...);
 	
-
 }
