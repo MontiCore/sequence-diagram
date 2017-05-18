@@ -58,7 +58,7 @@ grammar SD extends de.monticore.common.Common {
 		Exception ;
 	
 	MethodCall = 
-		Object Arrow Object ":" 
+		source:Object Arrow target:Object ":" 
 		Stereotype? 
 		(Method | Constructor);
 		
@@ -91,14 +91,15 @@ grammar SD extends de.monticore.common.Common {
 	Param = String | Name;
 	
 	Return = 
-		Object DashedArrow Object ":" 
+		target:Object DashedArrow source:Object ":" 
 		"return"? Result? ;
 		
 	Result = 
+		"..." |
 		Name;
 	
 	Exception = 
-		Object DashedArrow Object ":" 
+		source:Object DashedArrow target:Object ":" 
 		Method;
 	
 	OCL = 
