@@ -1,4 +1,4 @@
-sequencediagram example-static {
+sequencediagram example_static {
 
 	// Interacting objects
 	kupfer912: Auction;

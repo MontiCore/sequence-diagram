@@ -1,4 +1,4 @@
-sequencediagram example-factory {
+sequencediagram example_factory {
 
 	// Interacting objects
 	kupfer912: Auction;

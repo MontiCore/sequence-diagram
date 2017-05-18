@@ -1,9 +1,9 @@
-sequencediagram example-constructor {
+sequencediagram example_constructor {
 
 	// Interacting objects
 	kupfer912: Auction;
 	
-	kupfer912 -> bm:BidMessage : new BidMessage(...);
+	kupfer912 -> (bm:BidMessage) : new BidMessage(...);
 	
 
 }

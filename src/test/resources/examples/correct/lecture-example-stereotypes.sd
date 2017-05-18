@@ -1,4 +1,4 @@
-sequencediagram example-stereotypes {
+sequencediagram example_stereotypes {
 
 	// Interacting objects
 	:AuctionTest;
@@ -8,8 +8,7 @@ sequencediagram example-stereotypes {
 	// Interaction sequence
 	AuctionTest -> kupfer912 : <<trigger>> handleBid(bid);
 	kupfer912 -> bidPol : validateBid(bid);
-	kupfer912 <-- return BiddingPolicy.OK;
-	AuctionTest <-- kupfer912;
+	kupfer912 <-- bidPol : return BiddingPolicyOK;
+	AuctionTest <-- kupfer912: ;
 	
-
 }

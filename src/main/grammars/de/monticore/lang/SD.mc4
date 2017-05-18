@@ -9,7 +9,6 @@ grammar SD extends de.monticore.common.Common {
     // Stereotypen & Mehr in "SD Fähnchen"
     // Complete und Incomplete in Objekten
     // Match:complete, ... in SD
-    // Exception-Example
       
     /*========================================================================*/
     /*=========================== CompilationUnit ============================*/
@@ -41,55 +40,73 @@ grammar SD extends de.monticore.common.Common {
 		"}";
 	
 	SDElement = 
-		ObjectDeclaration | 
-		Interaction | 
+		(ObjectDeclaration ";") | 
+		(Interaction ";") | 
 		OCL | 
-		Java;
+		Java ;
+		
 	
-	ObjectDeclaration = 
-		Name ":" OfType ";";
-	
-	OfType = 
-		Name;
+	ObjectDeclaration = (	
+		(Name ":" ofType:Name) | 
+		Name |
+		(":" ofType:Name)
+		) ;
 	
 	Interaction = 
 		MethodCall | 
 		Return | 
-		Exception;
+		Exception |
+		Constructor;
 	
 	MethodCall = 
 		Object Arrow Object ":" 
-		Stereotype? Method ";";
+		Stereotype? 
+		Method;
 		
 	Object = 
-		Name;
+		Name |
+		( "(" ObjectDeclaration ")" );
 		
 	Stereotype = 
 		"<<" Name ">>";
 		
 	Method = 
 		Modifier? 
-		Name "(" Params? ")";
+		Name 
+		Args?;
 		
-	Params = 
-		Name;
+	Args = 
+		"("
+		Params?
+		")";
+		
+	Params =
+		"..." |
+		( (Param ",")* Param);
+		
+	Param = String | Name;
 	
 	Return = 
 		Object DashedArrow Object ":" 
-		"return" Result ";";
+		"return"? Result? ;
 		
 	Result = 
-		Name?;
+		Name;
 	
 	Exception = 
 		Object DashedArrow Object ":" 
-		Method ";";
+		Method;
+		
+	Constructor =
+		"new" 
+		Name 
+		Args?;
 	
 	OCL = 
 		"<" String ">";
 	
 	Java = 
 		"{" String "}";
-   
+
     
 }

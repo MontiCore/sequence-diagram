@@ -13,11 +13,13 @@ import org.junit.Test;
 
 import de.monticore.lang.sd._ast.ASTSequenceDiagram;
 import de.monticore.lang.sd._parser.SDParser;
+import de.se_rwth.commons.logging.Log;
 
 public class CorrectExampleTest {
 
 	private ASTSequenceDiagram loadModel(String modelName) throws IOException {
 		// Load model
+		Log.enableFailQuick(false);
 		Path model = Paths.get(modelName);
 		SDParser parser = new SDParser();
 		Optional<ASTSequenceDiagram> sd = parser.parseSequenceDiagram(model.toString());
