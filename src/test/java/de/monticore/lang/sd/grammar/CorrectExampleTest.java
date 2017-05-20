@@ -12,7 +12,6 @@ import java.util.Optional;
 import org.junit.Test;
 
 import de.monticore.lang.sd._ast.ASTSDCompilationUnit;
-import de.monticore.lang.sd._ast.ASTSequenceDiagram;
 import de.monticore.lang.sd._parser.SDParser;
 import de.se_rwth.commons.logging.Log;
 

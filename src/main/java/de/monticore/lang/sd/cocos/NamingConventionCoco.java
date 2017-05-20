@@ -18,7 +18,8 @@ public class NamingConventionCoco implements SDASTObjectDeclarationCoCo {
 				}
 			} else {
 				// Only name is given.
-				// This could be a class, which would be okay
+				// This could be a class,
+				// for which upper case would be okay
 			}
 		}
 		if (node.ofTypeIsPresent()) {

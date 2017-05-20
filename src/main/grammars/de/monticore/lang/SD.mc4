@@ -108,7 +108,7 @@ grammar SD extends de.monticore.common.Common {
 		Args?;
 		
 	Method = 
-		Modifier?
+		StaticModifier?
 		Name 
 		Args?;
 		
@@ -117,7 +117,7 @@ grammar SD extends de.monticore.common.Common {
 		Name
 		Args?;
 				
-	Modifier = 
+	StaticModifier = 
 		["static"]?;
 				
 	Args = 
