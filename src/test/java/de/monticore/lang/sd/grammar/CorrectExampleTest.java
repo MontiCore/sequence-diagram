@@ -11,18 +11,19 @@ import java.util.Optional;
 
 import org.junit.Test;
 
+import de.monticore.lang.sd._ast.ASTSDCompilationUnit;
 import de.monticore.lang.sd._ast.ASTSequenceDiagram;
 import de.monticore.lang.sd._parser.SDParser;
 import de.se_rwth.commons.logging.Log;
 
 public class CorrectExampleTest {
 
-	private ASTSequenceDiagram loadModel(String modelName) throws IOException {
+	private ASTSDCompilationUnit loadModel(String modelName) throws IOException {
 		// Load model
 		Log.enableFailQuick(false);
 		Path model = Paths.get(modelName);
 		SDParser parser = new SDParser();
-		Optional<ASTSequenceDiagram> sd = parser.parseSequenceDiagram(model.toString());
+		Optional<ASTSDCompilationUnit> sd = parser.parseSDCompilationUnit(model.toString());
 		assertFalse(parser.hasErrors());
 		assertTrue(sd.isPresent());
 		return sd.get();
@@ -31,10 +32,10 @@ public class CorrectExampleTest {
 	@Test
 	public void testCorrectExample() throws IOException {
 		// Load model
-		ASTSequenceDiagram sd = loadModel("src/test/resources/examples/correct/example.sd");
+		ASTSDCompilationUnit sd = loadModel("src/test/resources/examples/correct/example.sd");
 
 		// Traverse AST and check for correctness
-		assertEquals(15, sd.getSDElements().size());
+		assertEquals(15, sd.getSequenceDiagram().getSDElements().size());
 	}
 
 }

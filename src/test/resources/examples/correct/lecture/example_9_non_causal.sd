@@ -1,4 +1,4 @@
-sequencediagram example_non_causal {
+sequencediagram example_9_non_causal {
 
 	// Interacting objects
 	a;

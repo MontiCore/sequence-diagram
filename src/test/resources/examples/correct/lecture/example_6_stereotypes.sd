@@ -1,4 +1,4 @@
-sequencediagram example_stereotypes {
+sequencediagram example_6_stereotypes {
 
 	// Interacting objects
 	:AuctionTest;

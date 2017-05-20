@@ -1,5 +1,7 @@
 package de.monticore.lang.sd.cocos;
 
+import static org.junit.Assert.assertFalse;
+
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
@@ -10,7 +12,7 @@ import org.junit.After;
 import org.junit.Test;
 
 import de.monticore.ast.ASTNode;
-import de.monticore.lang.sd._ast.ASTSequenceDiagram;
+import de.monticore.lang.sd._ast.ASTSDCompilationUnit;
 import de.monticore.lang.sd._cocos.SDCoCoChecker;
 import de.monticore.lang.sd._parser.SDParser;
 import de.se_rwth.commons.logging.Log;
@@ -41,30 +43,39 @@ public abstract class SDCocoTest {
 	public abstract void testCorrectExamples();
 
 	protected void testAllCorrectExamples() {
-		for (ASTSequenceDiagram sd : getAllCorrectExamples()) {
+		for (ASTSDCompilationUnit sd : getAllCorrectExamples()) {
 			checker.checkAll(sd);
 		}
 	}
 
-	private List<ASTSequenceDiagram> getAllCorrectExamples() {
-		List<ASTSequenceDiagram> examples = new ArrayList<ASTSequenceDiagram>();
+	private List<ASTSDCompilationUnit> getAllCorrectExamples() {
+		List<ASTSDCompilationUnit> examples = new ArrayList<ASTSDCompilationUnit>();
 		examples.add(parse(CORRECT_PATH + "example.sd"));
-		examples.add(parse(CORRECT_PATH + "lecture/lecture-example-constructor.sd"));
+		examples.add(parse(CORRECT_PATH + "lecture/example_1.sd"));
+		examples.add(parse(CORRECT_PATH + "lecture/example_2_interactions.sd"));
+		examples.add(parse(CORRECT_PATH + "lecture/example_3_static.sd"));
+		examples.add(parse(CORRECT_PATH + "lecture/example_4_constructor.sd"));
+		examples.add(parse(CORRECT_PATH + "lecture/example_5_factory.sd"));
+		examples.add(parse(CORRECT_PATH + "lecture/example_6_stereotypes.sd"));
+		examples.add(parse(CORRECT_PATH + "lecture/example_7_ocl.sd"));
+		examples.add(parse(CORRECT_PATH + "lecture/example_8_ocl_let.sd"));
+		examples.add(parse(CORRECT_PATH + "lecture/example_9_non_causal.sd"));
 		return examples;
 	}
 
-	protected ASTSequenceDiagram parse(String path) {
+	protected ASTSDCompilationUnit parse(String path) {
 		SDParser parser = new SDParser();
 		Path model = Paths.get(path);
-		ASTSequenceDiagram ast = null;
+		ASTSDCompilationUnit ast = null;
 		try {
-			Optional<? extends ASTNode> optAst = parser.parseSequenceDiagram(model.toString());
-			if (optAst.isPresent() && (optAst.get() instanceof ASTSequenceDiagram)) {
-				ast = (ASTSequenceDiagram) optAst.get();
+			Optional<? extends ASTNode> optAst = parser.parseSDCompilationUnit(model.toString());
+			if (optAst.isPresent() && (optAst.get() instanceof ASTSDCompilationUnit)) {
+				ast = (ASTSDCompilationUnit) optAst.get();
 			}
 		} catch (Exception e) {
 			Log.error("Could not parse model " + path);
 		}
+		assertFalse(parser.hasErrors());
 		return ast;
 	}
 

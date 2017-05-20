@@ -1,4 +1,4 @@
-sequencediagram example_lecture {
+sequencediagram example_1 {
 
 	// Interacting objects
 	kupfer912: Auction;

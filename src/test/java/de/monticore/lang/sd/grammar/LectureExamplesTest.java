@@ -11,6 +11,7 @@ import java.util.Optional;
 
 import org.junit.Test;
 
+import de.monticore.lang.sd._ast.ASTSDCompilationUnit;
 import de.monticore.lang.sd._ast.ASTSequenceDiagram;
 import de.monticore.lang.sd._parser.SDParser;
 import de.se_rwth.commons.logging.Log;
@@ -19,21 +20,54 @@ public class LectureExamplesTest {
 
 	private final String MODEL_SRC = "src/test/resources/examples/correct/lecture/";
 
-	private ASTSequenceDiagram loadModel(String modelName) throws IOException {
+	private ASTSDCompilationUnit loadModel(String modelName) throws IOException {
+
 		// Load model
 		Log.enableFailQuick(false);
 		Path model = Paths.get(modelName);
 		SDParser parser = new SDParser();
-		Optional<ASTSequenceDiagram> sd = parser.parseSequenceDiagram(model.toString());
+		Optional<ASTSDCompilationUnit> sdComp = parser.parseSDCompilationUnit(model.toString());
 		assertFalse(parser.hasErrors());
-		assertTrue(sd.isPresent());
-		return sd.get();
+		assertTrue(sdComp.isPresent());
+		return sdComp.get();
+
+	}
+
+	@Test
+	public void testExample() throws IOException {
+		// Load model
+		ASTSDCompilationUnit sdComp = loadModel(MODEL_SRC + "example_1.sd");
+		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
+
+		// Traverse AST and check for correctness
+		assertEquals(8, sd.getSDElements().size());
+	}
+
+	@Test
+	public void testExampleInteractions() throws IOException {
+		// Load model
+		ASTSDCompilationUnit sdComp = loadModel(MODEL_SRC + "example_2_interactions.sd");
+		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
+
+		// Traverse AST and check for correctness
+		assertEquals(16, sd.getSDElements().size());
+	}
+
+	@Test
+	public void testExampleStatic() throws IOException {
+		// Load model
+		ASTSDCompilationUnit sdComp = loadModel(MODEL_SRC + "example_3_static.sd");
+		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
+
+		// Traverse AST and check for correctness
+		assertEquals(4, sd.getSDElements().size());
 	}
 
 	@Test
 	public void testExampleConstructor() throws IOException {
 		// Load model
-		ASTSequenceDiagram sd = loadModel(MODEL_SRC + "lecture-example-constructor.sd");
+		ASTSDCompilationUnit sdComp = loadModel(MODEL_SRC + "example_4_constructor.sd");
+		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
 		assertEquals(2, sd.getSDElements().size());
@@ -42,64 +76,51 @@ public class LectureExamplesTest {
 	@Test
 	public void testExampleFactory() throws IOException {
 		// Load model
-		ASTSequenceDiagram sd = loadModel(MODEL_SRC + "lecture-example-factory.sd");
+		ASTSDCompilationUnit sdComp = loadModel(MODEL_SRC + "example_5_factory.sd");
+		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
 		assertEquals(5, sd.getSDElements().size());
-	}
-
-	@Test
-	public void testExampleInteractions() throws IOException {
-		// Load model
-		ASTSequenceDiagram sd = loadModel(MODEL_SRC + "lecture-example-interactions.sd");
-
-		// Traverse AST and check for correctness
-		assertEquals(16, sd.getSDElements().size());
-	}
-
-	@Test
-	public void testExampleNonCausal() throws IOException {
-		// Load model
-		ASTSequenceDiagram sd = loadModel(MODEL_SRC + "lecture-example-non-causal.sd");
-
-		// Traverse AST and check for correctness
-		assertEquals(5, sd.getSDElements().size());
-	}
-
-	@Test
-	public void testExampleOcl() throws IOException {
-		// Load model
-		ASTSequenceDiagram sd = loadModel(MODEL_SRC + "lecture-example-ocl.sd");
-
-		// Traverse AST and check for correctness
-		assertEquals(10, sd.getSDElements().size());
-	}
-
-	@Test
-	public void testExampleStatic() throws IOException {
-		// Load model
-		ASTSequenceDiagram sd = loadModel(MODEL_SRC + "lecture-example-static.sd");
-
-		// Traverse AST and check for correctness
-		assertEquals(4, sd.getSDElements().size());
 	}
 
 	@Test
 	public void testExampleStereotypes() throws IOException {
 		// Load model
-		ASTSequenceDiagram sd = loadModel(MODEL_SRC + "lecture-example-stereotypes.sd");
+		ASTSDCompilationUnit sdComp = loadModel(MODEL_SRC + "example_6_stereotypes.sd");
+		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
 		assertEquals(7, sd.getSDElements().size());
 	}
 
 	@Test
-	public void testExample() throws IOException {
+	public void testExampleOcl() throws IOException {
 		// Load model
-		ASTSequenceDiagram sd = loadModel(MODEL_SRC + "lecture-example.sd");
+		ASTSDCompilationUnit sdComp = loadModel(MODEL_SRC + "example_7_ocl.sd");
+		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
-		assertEquals(8, sd.getSDElements().size());
+		assertEquals(10, sd.getSDElements().size());
+	}
+
+	@Test
+	public void testExampleOclLet() throws IOException {
+		// Load model
+		ASTSDCompilationUnit sdComp = loadModel(MODEL_SRC + "example_8_ocl_let.sd");
+		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
+
+		// Traverse AST and check for correctness
+		assertEquals(6, sd.getSDElements().size());
+	}
+
+	@Test
+	public void testExampleNonCausal() throws IOException {
+		// Load model
+		ASTSDCompilationUnit sdComp = loadModel(MODEL_SRC + "example_9_non_causal.sd");
+		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
+
+		// Traverse AST and check for correctness
+		assertEquals(5, sd.getSDElements().size());
 	}
 
 }

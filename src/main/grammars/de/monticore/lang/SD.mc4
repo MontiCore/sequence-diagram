@@ -6,32 +6,54 @@ grammar SD extends de.monticore.common.Common {
     /*================================ TODOs =================================*/
     /*========================================================================*/
     
+    // sequencediagram for ... (SCs)
     // Stereotypen & Mehr in "SD Fähnchen"
     // Complete und Incomplete in Objekten
     // Match:complete, ... in SD
+    // Aktivitätsbalken
+       
+    /*========================================================================*/
+    /*=============================== TOKENS =================================*/
+    /*========================================================================*/
+    
+    token NameWithExtras = (Name? '-' Name?)+ ;
       
     /*========================================================================*/
     /*=========================== CompilationUnit ============================*/
     /*========================================================================*/
+    
+    SDCompilationUnit = 
+    	PackageDeclaration?
+    	ImportStatement*
+    	SequenceDiagram;
+    	
+    PackageDeclaration = 
+    	"package" 
+    	QualifiedName
+    	";";
+    	
+    ImportStatement = 
+    	"import"
+    	QualifiedName
+    	";";
 
     /*========================================================================*/
     /*================== INTERFACES AND EXTERNAL SYMBOLS =====================*/
     /*========================================================================*/
 
-    /*========================================================================*/
-    /*=============================== TOKENS =================================*/
-    /*========================================================================*/
+    interface Interaction;
 
     /*========================================================================*/
     /*============================ ENUMERATIONS ==============================*/
     /*========================================================================*/
     
-    enum Arrow = LEFT: "<-" | RIGHT: "->";
-    enum DashedArrow = LEFT: "<--" | RIGHT: "-->";
-    Modifier = static: "static";
+    enum Arrow = 
+    	LEFT: "<-"  | RIGHT: "->" ;
+    enum DashedArrow = 
+    	LEFT: "<--" | RIGHT: "-->";
 
     /*========================================================================*/
-    /*============================== Grammar =================================*/
+    /*=================== Global Sequence Diagram Stuff ======================*/
     /*========================================================================*/
 
 	SequenceDiagram = 
@@ -43,64 +65,86 @@ grammar SD extends de.monticore.common.Common {
 		(ObjectDeclaration ";") | 
 		(Interaction ";") | 
 		OCL | 
-		Java ;
-		
-	
-	ObjectDeclaration = (	
-		(Name ":" ofType:Name) | 
-		Name |
-		(":" ofType:Name)
-		) ;
-	
-	Interaction = 
-		MethodCall |
-		Return | 
-		Exception ;
-	
-	MethodCall = 
-		source:Object Arrow target:Object ":" 
-		Stereotype? 
-		(Method | Constructor);
-		
-	Object = 
-		Name |
-		( "(" ObjectDeclaration ")" );
+		Java;
 		
 	Stereotype = 
-		"<<" Name ">>";
+		"<<" Name ">>";		
+		
+	ObjectReference = 
+		Name | 
+		"(" ObjectDeclaration ")";
+		
+	ObjectDeclaration = 
+		Name |
+		Name ":" ofType:Name |
+		":" ofType:Name;		
+
+    /*========================================================================*/
+    /*=========================== Interactions ===============================*/
+    /*========================================================================*/
+
+	
+	MethodCall implements Interaction = 
+		left:ObjectReference 
+		Arrow 
+		right:ObjectReference 
+		":" 
+		Stereotype*
+		Method;
+		
+	Return implements Interaction = 
+		left:ObjectReference 
+		DashedArrow 
+		right:ObjectReference 
+		":" 
+		ReturnStatement?;
+	
+	Exception implements Interaction = 
+		left:ObjectReference
+		DashedArrow 
+		right:ObjectReference 
+		":" 
+		Name
+		Args?;
 		
 	Method = 
-		Modifier? 
+		Modifier?
 		Name 
 		Args?;
 		
-	Constructor =
+	Constructor extends Method =
 		"new" 
-		Name 
+		Name
 		Args?;
-		
+				
+	Modifier = 
+		["static"]?;
+				
 	Args = 
 		"("
-		Params?
+		ParamList?
 		")";
 		
-	Params =
-		"..." |
+	ParamList =
+		incomplete:["..."] |
 		( (Param ",")* Param);
 		
-	Param = String | Name;
+	Param = 
+		String | 
+		Name | 
+		Num_Int;
 	
-	Return = 
-		target:Object DashedArrow source:Object ":" 
-		"return"? Result? ;
-		
+	ReturnStatement = 
+		"return" 
+		Result?;
+	
 	Result = 
-		"..." |
+		incomplete:["..."] |
 		Name;
-	
-	Exception = 
-		source:Object DashedArrow target:Object ":" 
-		Method;
+		
+    /*========================================================================*/
+    /*=================== Integration of other Languages =====================*/
+    /*========================================================================*/
 	
 	OCL = 
 		"<" String ">";

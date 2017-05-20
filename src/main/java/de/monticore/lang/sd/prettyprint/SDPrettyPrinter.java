@@ -1,6 +1,12 @@
 package de.monticore.lang.sd.prettyprint;
 
 import de.monticore.common.prettyprint.CommonPrettyPrinterConcreteVisitor;
+import de.monticore.lang.sd._ast.ASTArrow;
+import de.monticore.lang.sd._ast.ASTDashedArrow;
+import de.monticore.lang.sd._ast.ASTMethodCall;
+import de.monticore.lang.sd._ast.ASTObjectDeclaration;
+import de.monticore.lang.sd._ast.ASTObjectReference;
+import de.monticore.lang.sd._ast.ASTReturn;
 import de.monticore.lang.sd._visitor.SDVisitor;
 import de.monticore.prettyprint.IndentPrinter;
 
@@ -8,6 +14,38 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 
 	public SDPrettyPrinter(IndentPrinter printer) {
 		super(printer);
+	}
+
+	@Override
+	public void handle(ASTObjectReference o) {
+		if (o.objectDeclarationIsPresent()) {
+			ASTObjectDeclaration od = o.getObjectDeclaration().get();
+			// TODO
+		} else {
+			getPrinter().print(o.getName());
+		}
+	}
+
+	@Override
+	public void handle(ASTMethodCall call) {
+		call.getLeft().accept(realThis);
+		if (call.getArrow() == ASTArrow.LEFT) {
+			getPrinter().print(" <- ");
+		} else {
+			getPrinter().print(" -> ");
+		}
+		call.getRight().accept(realThis);
+	}
+
+	@Override
+	public void handle(ASTReturn ret) {
+		ret.getLeft().accept(realThis);
+		if (ret.getDashedArrow() == ASTDashedArrow.LEFT) {
+			getPrinter().print(" <-- ");
+		} else {
+			getPrinter().print(" --> ");
+		}
+		ret.getRight().accept(realThis);
 	}
 
 	private SDVisitor realThis = this;

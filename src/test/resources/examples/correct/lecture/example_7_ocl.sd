@@ -1,4 +1,4 @@
-sequencediagram example_ocl {
+sequencediagram example_7_ocl {
 
 	// Interacting objects
 	kupfer912: Auction;

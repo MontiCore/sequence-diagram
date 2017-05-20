@@ -1,4 +1,4 @@
-sequencediagram example_interactions {
+sequencediagram example_2_interactions {
 
 	// Interacting objects
 	a : A;
