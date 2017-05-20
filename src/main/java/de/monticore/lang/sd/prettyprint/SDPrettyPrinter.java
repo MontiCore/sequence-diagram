@@ -20,9 +20,20 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 	public void handle(ASTObjectReference o) {
 		if (o.objectDeclarationIsPresent()) {
 			ASTObjectDeclaration od = o.getObjectDeclaration().get();
-			// TODO
+			od.accept(realThis);
 		} else {
-			getPrinter().print(o.getName());
+			getPrinter().print(o.getName().get());
+		}
+	}
+
+	@Override
+	public void handle(ASTObjectDeclaration od) {
+		if (od.nameIsPresent()) {
+			getPrinter().print(od.getName().get());
+		}
+		if (od.ofTypeIsPresent()) {
+			getPrinter().print(":");
+			getPrinter().print(od.getOfType().get());
 		}
 	}
 
