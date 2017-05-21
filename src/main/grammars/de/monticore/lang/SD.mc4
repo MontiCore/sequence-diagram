@@ -74,7 +74,7 @@ grammar SD extends de.monticore.common.Common {
 		Name | 
 		"(" ObjectDeclaration ")";
 		
-	ObjectDeclaration = 
+	symbol ObjectDeclaration = 
 		Name |
 		Name ":" ofType:Name |
 		":" ofType:Name;		

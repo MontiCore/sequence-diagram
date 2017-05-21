@@ -44,6 +44,7 @@ public abstract class SDCocoTest {
 
 	protected void testAllCorrectExamples() {
 		for (ASTSDCompilationUnit sd : getAllCorrectExamples()) {
+			initCoCoChecker(); // Reset after each model check
 			checker.checkAll(sd);
 		}
 	}
