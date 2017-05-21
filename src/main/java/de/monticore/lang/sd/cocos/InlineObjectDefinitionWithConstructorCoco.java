@@ -23,14 +23,16 @@ public class InlineObjectDefinitionWithConstructorCoco implements SDASTMethodCal
 			ASTConstructor constructor = (ASTConstructor) method;
 			if (!target.objectDeclarationIsPresent()) {
 				String name = constructor.getName();
-				Log.error(this.getClass().getSimpleName() + ": The call of constructor " + name
-						+ " does not define a new object with of type " + name + " as target object.");
+				Log.error(
+						this.getClass().getSimpleName() + ": The call of constructor " + name
+								+ " does not define a new object of type " + name + " as target object.",
+						constructor.get_SourcePositionStart());
 			} else {
 				// Constructor name = type name?
 				String typeName = target.getObjectDeclaration().get().getOfType().get();
 				if (!constructor.getName().equals(typeName)) {
 					Log.error(this.getClass().getSimpleName() + ": Type " + typeName + " does not match constructor "
-							+ constructor.getName());
+							+ constructor.getName(), constructor.get_SourcePositionStart());
 				}
 			}
 		}

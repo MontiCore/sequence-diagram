@@ -36,13 +36,14 @@ public class ObjectIdentifierUniqueCoco implements SDASTObjectDeclarationCoCo {
 			pp.handle(node);
 			message += pp.getPrinter().getContent();
 			message += " is invalid as it does not give the object a name or a type.";
-			Log.error(message);
+			Log.error(message, node.get_SourcePositionStart());
 			return;
 		}
 
 		// Name already in use?
 		if (usedIdentifiers.contains(name)) {
-			Log.error(this.getClass().getSimpleName() + ": Identifier " + name + " is already used.");
+			Log.error(this.getClass().getSimpleName() + ": Identifier " + name + " is already used.",
+					node.get_SourcePositionStart());
 		}
 
 		// Add name to used identifiers

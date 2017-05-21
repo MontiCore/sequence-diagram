@@ -10,11 +10,13 @@ grammar SD extends de.monticore.common.Common {
     /*================================ TODOs =================================*/
     /*========================================================================*/
     
-    // CHANGE: Object Declaration not an element, but only at the beginning
+    // OCL-Integration
+    // static Referenz zu Klassen: 
+    // -> Vllt nicht nur auf Naming achten, sondern explizit als "class" benennen
+    
     // sequencediagram for ... (SCs) using ... (CDs) ... initial (OD)
     // -> oder in aufbauende Sprache?
-    // Stereotypen in "SD Fähnchen"?
-    // Matching Stereotypen in Objekten
+    // Stereotypen wie <<match:complete>> auch in "SD Fähnchen"?
     // Aktivitätsbalken
        
     /*========================================================================*/
@@ -69,6 +71,7 @@ grammar SD extends de.monticore.common.Common {
 		
 	symbol ObjectDeclaration = 
 		Stereotype?
+		SDCompleteness?
 		(	Name |
 			Name ":" ofType:Name |
 			":" ofType:Name
@@ -83,8 +86,15 @@ grammar SD extends de.monticore.common.Common {
 		Name | 
 		"(" ObjectDeclaration ")";
 		
-	// special SD-stereotypes
-	// TODO
+	SDCompleteness =
+		[complete :"(C)"] |
+		[free	  :"..."] |
+		[complete :"<<match:complete>>"]|
+		[free     :"<<match:free>>"] 	|
+		[visible  :"<<match:visible>>"] |
+		[initial  :"<<match:initial>>"];
+	
+
 	
     /*========================================================================*/
     /*=========================== Interactions ===============================*/

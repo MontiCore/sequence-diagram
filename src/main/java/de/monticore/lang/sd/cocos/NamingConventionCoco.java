@@ -14,7 +14,7 @@ public class NamingConventionCoco implements SDASTObjectDeclarationCoCo {
 			if (node.ofTypeIsPresent()) {
 				String name = node.getName().get();
 				if (!Character.isLowerCase(name.charAt(0))) {
-					Log.error(errorMessage(node, true, name));
+					Log.error(errorMessage(node, true, name), node.get_SourcePositionStart());
 				}
 			} else {
 				// Only name is given.
@@ -25,7 +25,7 @@ public class NamingConventionCoco implements SDASTObjectDeclarationCoCo {
 		if (node.ofTypeIsPresent()) {
 			String typeName = node.getOfType().get();
 			if (!Character.isUpperCase(typeName.charAt(0))) {
-				Log.error(errorMessage(node, false, typeName));
+				Log.error(errorMessage(node, false, typeName), node.get_SourcePositionStart());
 			}
 		}
 
@@ -38,10 +38,10 @@ public class NamingConventionCoco implements SDASTObjectDeclarationCoCo {
 		pp.handle(node);
 		message += pp.getPrinter().getContent();
 		if (nameOrType) {
-			message += " introduces object name " + name;
+			message += " introduces an object with name " + name;
 			message += " which should be written lower case by convention.";
 		} else {
-			message += " references to type " + name;
+			message += " introduces an object of type " + name;
 			message += " which should be written upper case by convention.";
 		}
 		return message;

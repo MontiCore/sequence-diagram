@@ -3,8 +3,6 @@ package de.monticore.lang.sd.cocos;
 import java.util.ArrayList;
 import java.util.List;
 
-import javax.sound.midi.Sequencer;
-
 import de.monticore.lang.sd._ast.ASTException;
 import de.monticore.lang.sd._ast.ASTInteraction;
 import de.monticore.lang.sd._ast.ASTMethodCall;
@@ -13,7 +11,6 @@ import de.monticore.lang.sd._ast.ASTObjectReference;
 import de.monticore.lang.sd._ast.ASTReturn;
 import de.monticore.lang.sd._ast.ASTSDElement;
 import de.monticore.lang.sd._ast.ASTSequenceDiagram;
-import de.monticore.lang.sd._cocos.SDASTSDElementCoCo;
 import de.monticore.lang.sd._cocos.SDASTSequenceDiagramCoCo;
 import de.se_rwth.commons.logging.Log;
 
@@ -71,7 +68,8 @@ public class ReferencedObjectsDeclaredCoco implements SDASTSequenceDiagramCoCo {
 		else {
 			String name = o.getName().get();
 			if (!declaredObjectNames.contains(name)) {
-				Log.error(this.getClass().getSimpleName() + ": Reference " + name + " refers to an undeclared object.");
+				Log.error(this.getClass().getSimpleName() + ": Reference " + name + " refers to an undeclared object.",
+						o.get_SourcePositionStart());
 			}
 		}
 	}

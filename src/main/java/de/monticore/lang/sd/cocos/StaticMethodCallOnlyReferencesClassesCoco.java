@@ -19,10 +19,10 @@ public class StaticMethodCallOnlyReferencesClassesCoco implements SDASTMethodCal
 		if (node.getMethod().staticModifierIsPresent()) {
 			if (target.getObjectDeclaration().isPresent()) {
 				// not a class, since new object introduced
-				Log.error(errorMessage(node, target, true));
+				Log.error(errorMessage(node, target, true), node.get_SourcePositionStart());
 			} else if (!Character.isUpperCase(target.getName().get().charAt(0))) {
 				// not a class since lower case;
-				Log.error(errorMessage(node, target, false));
+				Log.error(errorMessage(node, target, false), node.get_SourcePositionStart());
 			}
 		}
 
@@ -30,7 +30,7 @@ public class StaticMethodCallOnlyReferencesClassesCoco implements SDASTMethodCal
 		if (!target.getObjectDeclaration().isPresent()) {
 			if (Character.isUpperCase(target.getName().get().charAt(0))) {
 				if (!node.getMethod().staticModifierIsPresent()) {
-					Log.error(errorMessage2(target));
+					Log.error(errorMessage2(target), target.get_SourcePositionStart());
 				}
 			}
 		}
