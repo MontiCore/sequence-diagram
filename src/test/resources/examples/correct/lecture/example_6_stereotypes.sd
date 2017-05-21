@@ -8,7 +8,7 @@ sequencediagram example_6_stereotypes {
 	// Interaction sequence
 	AuctionTest -> kupfer912 : <<trigger>> handleBid(bid);
 	kupfer912 -> bidPol : validateBid(bid);
-	kupfer912 <-- bidPol : return BiddingPolicyOK;
+	kupfer912 <-- bidPol : return BiddingPolicy.OK;
 	AuctionTest <-- kupfer912: ;
 	
 }

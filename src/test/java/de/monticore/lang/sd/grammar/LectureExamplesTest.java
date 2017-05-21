@@ -40,7 +40,8 @@ public class LectureExamplesTest {
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
-		assertEquals(8, sd.getSDElements().size());
+		assertEquals(3, sd.getObjectDeclarations().size());
+		assertEquals(5, sd.getSDElements().size());
 	}
 
 	@Test
@@ -50,7 +51,8 @@ public class LectureExamplesTest {
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
-		assertEquals(16, sd.getSDElements().size());
+		assertEquals(2, sd.getObjectDeclarations().size());
+		assertEquals(14, sd.getSDElements().size());
 	}
 
 	@Test
@@ -60,7 +62,8 @@ public class LectureExamplesTest {
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
-		assertEquals(4, sd.getSDElements().size());
+		assertEquals(2, sd.getObjectDeclarations().size());
+		assertEquals(2, sd.getSDElements().size());
 	}
 
 	@Test
@@ -70,7 +73,8 @@ public class LectureExamplesTest {
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
-		assertEquals(2, sd.getSDElements().size());
+		assertEquals(1, sd.getObjectDeclarations().size());
+		assertEquals(1, sd.getSDElements().size());
 	}
 
 	@Test
@@ -80,7 +84,8 @@ public class LectureExamplesTest {
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
-		assertEquals(5, sd.getSDElements().size());
+		assertEquals(2, sd.getObjectDeclarations().size());
+		assertEquals(3, sd.getSDElements().size());
 	}
 
 	@Test
@@ -90,7 +95,8 @@ public class LectureExamplesTest {
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
-		assertEquals(7, sd.getSDElements().size());
+		assertEquals(3, sd.getObjectDeclarations().size());
+		assertEquals(4, sd.getSDElements().size());
 	}
 
 	@Test
@@ -100,7 +106,8 @@ public class LectureExamplesTest {
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
-		assertEquals(10, sd.getSDElements().size());
+		assertEquals(4, sd.getObjectDeclarations().size());
+		assertEquals(6, sd.getSDElements().size());
 	}
 
 	@Test
@@ -110,7 +117,8 @@ public class LectureExamplesTest {
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
-		assertEquals(6, sd.getSDElements().size());
+		assertEquals(2, sd.getObjectDeclarations().size());
+		assertEquals(4, sd.getSDElements().size());
 	}
 
 	@Test
@@ -120,7 +128,8 @@ public class LectureExamplesTest {
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
-		assertEquals(5, sd.getSDElements().size());
+		assertEquals(3, sd.getObjectDeclarations().size());
+		assertEquals(2, sd.getSDElements().size());
 	}
 
 }

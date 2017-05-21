@@ -7,7 +7,7 @@ sequencediagram example_1 {
 	
 	// Interaction sequence
 	kupfer912 -> bidPol : validateBid(bid);
-	kupfer912 <-- bidPol : return BiddingPolicyOK;
+	kupfer912 <-- bidPol : return BiddingPolicy.OK;
 	
 	kupfer912 -> timePol: newCurrentClosingTime(kupfer912, bid);
 	timePol --> kupfer912: return t;

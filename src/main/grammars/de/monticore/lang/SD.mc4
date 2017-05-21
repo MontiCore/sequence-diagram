@@ -1,15 +1,20 @@
 package de.monticore.lang;
 
+/**
+ * @author Robin Wolters
+*/
+
 grammar SD extends de.monticore.common.Common { 
 
     /*========================================================================*/
     /*================================ TODOs =================================*/
     /*========================================================================*/
     
-    // sequencediagram for ... (SCs)
-    // Stereotypen & Mehr in "SD Fähnchen"
-    // Complete und Incomplete in Objekten
-    // Match:complete, ... in SD
+    // CHANGE: Object Declaration not an element, but only at the beginning
+    // sequencediagram for ... (SCs) using ... (CDs) ... initial (OD)
+    // -> oder in aufbauende Sprache?
+    // Stereotypen in "SD Fähnchen"?
+    // Matching Stereotypen in Objekten
     // Aktivitätsbalken
        
     /*========================================================================*/
@@ -58,27 +63,29 @@ grammar SD extends de.monticore.common.Common {
 
 	SequenceDiagram = 
 		"sequencediagram" Name "{" 
+		(ObjectDeclaration ";")*
 		SDElement* 
 		"}";
+		
+	symbol ObjectDeclaration = 
+		Stereotype?
+		(	Name |
+			Name ":" ofType:Name |
+			":" ofType:Name
+		);	
 	
 	SDElement = 
-		(ObjectDeclaration ";") | 
 		(Interaction ";") | 
 		OCL | 
 		Java;
-		
-	Stereotype = 
-		"<<" Name ">>";		
 		
 	ObjectReference = 
 		Name | 
 		"(" ObjectDeclaration ")";
 		
-	symbol ObjectDeclaration = 
-		Name |
-		Name ":" ofType:Name |
-		":" ofType:Name;		
-
+	// special SD-stereotypes
+	// TODO
+	
     /*========================================================================*/
     /*=========================== Interactions ===============================*/
     /*========================================================================*/
@@ -89,7 +96,7 @@ grammar SD extends de.monticore.common.Common {
 		Arrow 
 		right:ObjectReference 
 		":" 
-		Stereotype*
+		Stereotype?
 		Method;
 		
 	Return implements Interaction = 
@@ -140,7 +147,7 @@ grammar SD extends de.monticore.common.Common {
 	
 	Result = 
 		incomplete:["..."] |
-		Name;
+		QualifiedName;
 		
     /*========================================================================*/
     /*=================== Integration of other Languages =====================*/

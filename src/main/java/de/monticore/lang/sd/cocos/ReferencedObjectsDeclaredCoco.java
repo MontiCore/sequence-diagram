@@ -3,6 +3,8 @@ package de.monticore.lang.sd.cocos;
 import java.util.ArrayList;
 import java.util.List;
 
+import javax.sound.midi.Sequencer;
+
 import de.monticore.lang.sd._ast.ASTException;
 import de.monticore.lang.sd._ast.ASTInteraction;
 import de.monticore.lang.sd._ast.ASTMethodCall;
@@ -10,10 +12,12 @@ import de.monticore.lang.sd._ast.ASTObjectDeclaration;
 import de.monticore.lang.sd._ast.ASTObjectReference;
 import de.monticore.lang.sd._ast.ASTReturn;
 import de.monticore.lang.sd._ast.ASTSDElement;
+import de.monticore.lang.sd._ast.ASTSequenceDiagram;
 import de.monticore.lang.sd._cocos.SDASTSDElementCoCo;
+import de.monticore.lang.sd._cocos.SDASTSequenceDiagramCoCo;
 import de.se_rwth.commons.logging.Log;
 
-public class ReferencedObjectsDeclaredCoco implements SDASTSDElementCoCo {
+public class ReferencedObjectsDeclaredCoco implements SDASTSequenceDiagramCoCo {
 
 	private List<String> declaredObjectNames;
 
@@ -22,27 +26,31 @@ public class ReferencedObjectsDeclaredCoco implements SDASTSDElementCoCo {
 	}
 
 	@Override
-	public void check(ASTSDElement node) {
-		if (node.getObjectDeclaration().isPresent()) {
-			// Object declaration: add to declared vars
-			declare(node.getObjectDeclaration().get());
-		} else if (node.getInteraction().isPresent()) {
-			// Object reference: check if declared
-			ASTInteraction interaction = node.getInteraction().get();
-			if (interaction instanceof ASTMethodCall) {
-				ASTMethodCall i = (ASTMethodCall) interaction;
-				checkForDeclaration(i.getLeft());
-				checkForDeclaration(i.getRight());
-			} else if (interaction instanceof ASTReturn) {
-				ASTReturn i = (ASTReturn) interaction;
-				checkForDeclaration(i.getLeft());
-				checkForDeclaration(i.getRight());
-			} else if (interaction instanceof ASTException) {
-				ASTException i = (ASTException) interaction;
-				checkForDeclaration(i.getLeft());
-				checkForDeclaration(i.getRight());
+	public void check(ASTSequenceDiagram node) {
+		// Object declarations: add to declared vars
+		for (ASTObjectDeclaration od : node.getObjectDeclarations()) {
+			declare(od);
+		}
+		// Object references: check if declared
+		for (ASTSDElement e : node.getSDElements()) {
+			if (e.getInteraction().isPresent()) {
+				ASTInteraction interaction = e.getInteraction().get();
+				if (interaction instanceof ASTMethodCall) {
+					ASTMethodCall i = (ASTMethodCall) interaction;
+					checkForDeclaration(i.getLeft());
+					checkForDeclaration(i.getRight());
+				} else if (interaction instanceof ASTReturn) {
+					ASTReturn i = (ASTReturn) interaction;
+					checkForDeclaration(i.getLeft());
+					checkForDeclaration(i.getRight());
+				} else if (interaction instanceof ASTException) {
+					ASTException i = (ASTException) interaction;
+					checkForDeclaration(i.getLeft());
+					checkForDeclaration(i.getRight());
+				}
 			}
 		}
+
 	}
 
 	private void declare(ASTObjectDeclaration od) {

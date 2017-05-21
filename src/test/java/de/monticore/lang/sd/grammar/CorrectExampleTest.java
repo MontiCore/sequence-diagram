@@ -34,7 +34,8 @@ public class CorrectExampleTest {
 		ASTSDCompilationUnit sd = loadModel("src/test/resources/examples/correct/example.sd");
 
 		// Traverse AST and check for correctness
-		assertEquals(15, sd.getSequenceDiagram().getSDElements().size());
+		assertEquals(2, sd.getSequenceDiagram().getObjectDeclarations().size());
+		assertEquals(13, sd.getSequenceDiagram().getSDElements().size());
 	}
 
 }
