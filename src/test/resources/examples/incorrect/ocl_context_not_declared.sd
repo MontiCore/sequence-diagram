@@ -1,4 +1,4 @@
-sequencediagram example_7_ocl {
+sequencediagram ocl_context_not_declared {
 
 	// Interacting objects
 	kupfer912: Auction;
@@ -13,6 +13,8 @@ sequencediagram example_7_ocl {
 	timePol --> kupfer912: return t;
 	
 	<timepol: ["t.timeSec == bid.time.timeSec + extensionTime"]>
+	
+	<undeclaredName: ["t.timeSec == bid.time.timeSec + extensionTime"]>
 	
 	kupfer912 -> theo : sendMessage(bm);
 	

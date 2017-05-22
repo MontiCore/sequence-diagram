@@ -12,21 +12,21 @@ sequencediagram sdAuftrag {
 	o -> c : <<trigger>> sendConfirmation();
 	o <-- c : return;
 	o -> o : orderParts();
-	<"assert state == Production">
+	<["assert state == Production"]>
 	
 	// Production -> Shipping
 	{"JAVA: Make sure that allItemsProduced() is true"}
 	o -> o : <<trigger>> shipItems();
-	<"assert state == Shipping">
+	<["assert state == Shipping"]>
 	
 	// Shipping -> Payment
 	{"JAVA :  Make sure that allItemsSent() is true"}
 	o -> c : sendInvoice(sum);
 	o <-- c : return;
-	<"assert state == payment">
+	<["assert state == payment"]>
 	
 	// Payment -> Complete
 	{"Java:  Make sure that paid is true"}
-	<"assert state == complete">
+	<["assert state == complete"]>
 	
 }

@@ -79,7 +79,7 @@ grammar SD extends de.monticore.common.Common {
 	
 	SDElement = 
 		(Interaction ";") | 
-		OCL | 
+		OCLBlock | 
 		Java;
 		
 	ObjectReference = 
@@ -163,8 +163,16 @@ grammar SD extends de.monticore.common.Common {
     /*=================== Integration of other Languages =====================*/
     /*========================================================================*/
 	
-	OCL = 
-		"<" String ">";
+	OCLBlock = 
+		"<" 
+		(context:Name ":")? 
+		"["
+		SDOCLExpression
+		"]"
+		">";
+		
+	SDOCLExpression = 
+		String;
 	
 	Java = 
 		"{" String "}";

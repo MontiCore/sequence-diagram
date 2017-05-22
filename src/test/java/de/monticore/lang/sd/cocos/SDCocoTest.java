@@ -52,6 +52,7 @@ public abstract class SDCocoTest {
 	private List<ASTSDCompilationUnit> getAllCorrectExamples() {
 		List<ASTSDCompilationUnit> examples = new ArrayList<ASTSDCompilationUnit>();
 		examples.add(parse(CORRECT_PATH + "example.sd"));
+		examples.add(parse(CORRECT_PATH + "example_completeness_and_stereotypes.sd"));
 		examples.add(parse(CORRECT_PATH + "lecture/example_1.sd"));
 		examples.add(parse(CORRECT_PATH + "lecture/example_2_interactions.sd"));
 		examples.add(parse(CORRECT_PATH + "lecture/example_3_static.sd"));
