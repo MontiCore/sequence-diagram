@@ -17,7 +17,7 @@ public class ReferencedObjectsDeclaredCocoTest extends SDCocoTest {
 
 	@Override
 	public void testCocoViolation() {
-		ASTSDCompilationUnit sd = parse(INCORRECT_PATH + "reference_undeclared_objects.sd");
+		ASTSDCompilationUnit sd = loadModel(INCORRECT_PATH + "reference_undeclared_objects.sd");
 		checker.checkAll(sd);
 		assertTrue(6 == Log.getErrorCount());
 		assertEquals(6,

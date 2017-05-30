@@ -1,6 +1,5 @@
 package de.monticore.lang.sd.cocos;
 
-import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import de.monticore.lang.sd._ast.ASTSDCompilationUnit;
@@ -17,7 +16,7 @@ public class OCLContextDeclaredCocoTest extends SDCocoTest {
 
 	@Override
 	public void testCocoViolation() {
-		ASTSDCompilationUnit sd = parse(INCORRECT_PATH + "reference_undeclared_objects.sd");
+		ASTSDCompilationUnit sd = loadModel(INCORRECT_PATH + "ocl_context_not_declared.sd");
 		checker.checkAll(sd);
 	}
 

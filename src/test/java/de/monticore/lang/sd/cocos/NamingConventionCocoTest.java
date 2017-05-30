@@ -17,7 +17,7 @@ public class NamingConventionCocoTest extends SDCocoTest {
 
 	@Override
 	public void testCocoViolation() {
-		ASTSDCompilationUnit sd = parse(INCORRECT_PATH + "violated_naming_conventions.sd");
+		ASTSDCompilationUnit sd = loadModel(INCORRECT_PATH + "violated_naming_conventions.sd");
 		checker.checkAll(sd);
 		assertTrue(8 == Log.getErrorCount());
 		assertEquals(8, Log.getFindings().stream().filter(f -> f.buildMsg().contains("NamingConventionCoco")).count());

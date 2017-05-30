@@ -12,9 +12,14 @@ import org.junit.After;
 import org.junit.Test;
 
 import de.monticore.ast.ASTNode;
+import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd._ast.ASTSDCompilationUnit;
 import de.monticore.lang.sd._cocos.SDCoCoChecker;
 import de.monticore.lang.sd._parser.SDParser;
+import de.monticore.lang.sd._symboltable.SDLanguage;
+import de.monticore.lang.sd._symboltable.SDSymbolTableCreator;
+import de.monticore.symboltable.GlobalScope;
+import de.monticore.symboltable.ResolvingConfiguration;
 import de.se_rwth.commons.logging.Log;
 
 public abstract class SDCocoTest {
@@ -51,22 +56,28 @@ public abstract class SDCocoTest {
 
 	private List<ASTSDCompilationUnit> getAllCorrectExamples() {
 		List<ASTSDCompilationUnit> examples = new ArrayList<ASTSDCompilationUnit>();
-		examples.add(parse(CORRECT_PATH + "example.sd"));
-		examples.add(parse(CORRECT_PATH + "example_completeness_and_stereotypes.sd"));
-		examples.add(parse(CORRECT_PATH + "lecture/example_1.sd"));
-		examples.add(parse(CORRECT_PATH + "lecture/example_2_interactions.sd"));
-		examples.add(parse(CORRECT_PATH + "lecture/example_3_static.sd"));
-		examples.add(parse(CORRECT_PATH + "lecture/example_4_constructor.sd"));
-		examples.add(parse(CORRECT_PATH + "lecture/example_5_factory.sd"));
-		examples.add(parse(CORRECT_PATH + "lecture/example_6_stereotypes.sd"));
-		examples.add(parse(CORRECT_PATH + "lecture/example_7_ocl.sd"));
-		examples.add(parse(CORRECT_PATH + "lecture/example_8_ocl_let.sd"));
-		examples.add(parse(CORRECT_PATH + "lecture/example_9_non_causal.sd"));
+		examples.add(loadModel(CORRECT_PATH + "example.sd"));
+		examples.add(loadModel(CORRECT_PATH + "example_completeness_and_stereotypes.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture/example_1.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture/example_2_interactions.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture/example_3_static.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture/example_4_constructor.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture/example_5_factory.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture/example_6_stereotypes.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture/example_7_ocl.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture/example_8_ocl_let.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture/example_9_non_causal.sd"));
 		return examples;
 	}
 
-	protected ASTSDCompilationUnit parse(String path) {
-		SDParser parser = new SDParser();
+	protected ASTSDCompilationUnit loadModel(String path) {
+
+		SDLanguage lang = new SDLanguage();
+		ResolvingConfiguration config = new ResolvingConfiguration();
+		config.addDefaultFilters(lang.getResolvers());
+
+		// Parse model
+		SDParser parser = lang.getParser();
 		Path model = Paths.get(path);
 		ASTSDCompilationUnit ast = null;
 		try {
@@ -78,6 +89,14 @@ public abstract class SDCocoTest {
 			Log.error("Could not parse model " + path);
 		}
 		assertFalse(parser.hasErrors());
+
+		// Build ST
+		GlobalScope scope = new GlobalScope(new ModelPath(model), lang, config);
+		Optional<SDSymbolTableCreator> st = lang.getSymbolTableCreator(config, scope);
+		if (st.isPresent()) {
+			st.get().createFromAST(ast);
+		}
+
 		return ast;
 	}
 

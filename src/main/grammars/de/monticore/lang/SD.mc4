@@ -63,7 +63,7 @@ grammar SD extends de.monticore.common.Common {
     /*=================== Global Sequence Diagram Stuff ======================*/
     /*========================================================================*/
 
-	SequenceDiagram = 
+	symbol scope SequenceDiagram = 
 		"sequencediagram" Name "{" 
 		(ObjectDeclaration ";")*
 		SDElement* 

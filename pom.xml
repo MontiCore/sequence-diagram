@@ -89,19 +89,6 @@
       <classifier>${grammars.classifier}</classifier>
       <scope>provided</scope>
     </dependency>
-    
-    <dependency>
-	  <groupId>de.monticore.lang</groupId>
-	  <artifactId>ocl</artifactId>
-	  <version>0.0.7-SNAPSHOT</version>
-    </dependency>
-
-    <dependency>
-	  <groupId>de.monticore.lang</groupId>
-	  <artifactId>ocl</artifactId>
-	  <version>0.0.7-SNAPSHOT</version>
-      <classifier>${grammars.classifier}</classifier>
-    </dependency>
 
     <dependency>
       <groupId>ch.qos.logback</groupId>
