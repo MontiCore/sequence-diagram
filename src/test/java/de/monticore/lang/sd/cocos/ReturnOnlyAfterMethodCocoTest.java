@@ -17,7 +17,7 @@ public class ReturnOnlyAfterMethodCocoTest extends SDCocoTest {
 
 	@Override
 	public void testCocoViolation() {
-		ASTSDCompilationUnit sd = loadModel(INCORRECT_PATH + "return_before_method.sd");
+		ASTSDCompilationUnit sd = loadModel(INCORRECT_PATH, "return_before_method.sd");
 		checker.checkAll(sd);
 		assertTrue(1 == Log.getErrorCount());
 		assertEquals(1,

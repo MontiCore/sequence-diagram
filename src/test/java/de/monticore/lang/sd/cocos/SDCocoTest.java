@@ -2,7 +2,6 @@ package de.monticore.lang.sd.cocos;
 
 import static org.junit.Assert.assertFalse;
 
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
@@ -56,21 +55,21 @@ public abstract class SDCocoTest {
 
 	private List<ASTSDCompilationUnit> getAllCorrectExamples() {
 		List<ASTSDCompilationUnit> examples = new ArrayList<ASTSDCompilationUnit>();
-		examples.add(loadModel(CORRECT_PATH + "example.sd"));
-		examples.add(loadModel(CORRECT_PATH + "example_completeness_and_stereotypes.sd"));
-		examples.add(loadModel(CORRECT_PATH + "lecture/example_1.sd"));
-		examples.add(loadModel(CORRECT_PATH + "lecture/example_2_interactions.sd"));
-		examples.add(loadModel(CORRECT_PATH + "lecture/example_3_static.sd"));
-		examples.add(loadModel(CORRECT_PATH + "lecture/example_4_constructor.sd"));
-		examples.add(loadModel(CORRECT_PATH + "lecture/example_5_factory.sd"));
-		examples.add(loadModel(CORRECT_PATH + "lecture/example_6_stereotypes.sd"));
-		examples.add(loadModel(CORRECT_PATH + "lecture/example_7_ocl.sd"));
-		examples.add(loadModel(CORRECT_PATH + "lecture/example_8_ocl_let.sd"));
-		examples.add(loadModel(CORRECT_PATH + "lecture/example_9_non_causal.sd"));
+		examples.add(loadModel(CORRECT_PATH, "example.sd"));
+		examples.add(loadModel(CORRECT_PATH, "example_completeness_and_stereotypes.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture", "example_1.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture", "example_2_interactions.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture", "example_3_static.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture", "example_4_constructor.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture", "example_5_factory.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture", "example_6_stereotypes.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture", "example_7_ocl.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture", "example_8_ocl_let.sd"));
+		examples.add(loadModel(CORRECT_PATH + "lecture", "example_9_non_causal.sd"));
 		return examples;
 	}
 
-	protected ASTSDCompilationUnit loadModel(String path) {
+	protected ASTSDCompilationUnit loadModel(String path, String model) {
 
 		SDLanguage lang = new SDLanguage();
 		ResolvingConfiguration config = new ResolvingConfiguration();
@@ -78,20 +77,19 @@ public abstract class SDCocoTest {
 
 		// Parse model
 		SDParser parser = lang.getParser();
-		Path model = Paths.get(path);
 		ASTSDCompilationUnit ast = null;
 		try {
-			Optional<? extends ASTNode> optAst = parser.parseSDCompilationUnit(model.toString());
+			Optional<? extends ASTNode> optAst = parser.parseSDCompilationUnit(path + "/" + model);
 			if (optAst.isPresent() && (optAst.get() instanceof ASTSDCompilationUnit)) {
 				ast = (ASTSDCompilationUnit) optAst.get();
 			}
 		} catch (Exception e) {
-			Log.error("Could not parse model " + path);
+			Log.error("Could not parse model " + path + "/" + model);
 		}
 		assertFalse(parser.hasErrors());
 
 		// Build ST
-		GlobalScope scope = new GlobalScope(new ModelPath(model), lang, config);
+		GlobalScope scope = new GlobalScope(new ModelPath(Paths.get(path)), lang, config);
 		Optional<SDSymbolTableCreator> st = lang.getSymbolTableCreator(config, scope);
 		if (st.isPresent()) {
 			st.get().createFromAST(ast);

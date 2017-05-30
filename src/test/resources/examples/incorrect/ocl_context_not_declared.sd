@@ -12,7 +12,7 @@ sequencediagram ocl_context_not_declared {
 	kupfer912 -> timePol: newCurrentClosingTime(kupfer912, bid);
 	timePol --> kupfer912: return t;
 	
-	<timepol: ["t.timeSec == bid.time.timeSec + extensionTime"]>
+	<timePol: ["t.timeSec == bid.time.timeSec + extensionTime"]>
 	
 	<undeclaredName: ["t.timeSec == bid.time.timeSec + extensionTime"]>
 	

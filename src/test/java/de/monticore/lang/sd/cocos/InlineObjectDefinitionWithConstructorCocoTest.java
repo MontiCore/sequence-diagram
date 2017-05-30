@@ -17,7 +17,7 @@ public class InlineObjectDefinitionWithConstructorCocoTest extends SDCocoTest {
 
 	@Override
 	public void testCocoViolation() {
-		ASTSDCompilationUnit sd = loadModel(INCORRECT_PATH + "inline_objectdefinition_without_constructor.sd");
+		ASTSDCompilationUnit sd = loadModel(INCORRECT_PATH, "inline_objectdefinition_without_constructor.sd");
 		checker.checkAll(sd);
 		assertTrue(2 == Log.getErrorCount());
 		assertEquals(2, Log.getFindings().stream()

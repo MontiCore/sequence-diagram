@@ -17,7 +17,7 @@ public class ObjectIdentifierUniqueCocoTest extends SDCocoTest {
 
 	@Override
 	public void testCocoViolation() {
-		ASTSDCompilationUnit sd = loadModel(INCORRECT_PATH + "no_unique_names.sd");
+		ASTSDCompilationUnit sd = loadModel(INCORRECT_PATH, "no_unique_names.sd");
 		checker.checkAll(sd);
 		assertTrue(4 == Log.getErrorCount());
 		assertEquals(4,

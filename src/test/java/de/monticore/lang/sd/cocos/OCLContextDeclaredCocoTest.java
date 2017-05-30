@@ -16,8 +16,9 @@ public class OCLContextDeclaredCocoTest extends SDCocoTest {
 
 	@Override
 	public void testCocoViolation() {
-		ASTSDCompilationUnit sd = loadModel(INCORRECT_PATH + "ocl_context_not_declared.sd");
+		ASTSDCompilationUnit sd = loadModel(INCORRECT_PATH, "ocl_context_not_declared.sd");
 		checker.checkAll(sd);
+		assertTrue(1 == Log.getErrorCount());
 	}
 
 	@Override
