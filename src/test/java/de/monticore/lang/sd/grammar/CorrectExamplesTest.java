@@ -41,6 +41,16 @@ public class CorrectExamplesTest {
 	}
 
 	@Test
+	public void testExampleWithAllGrammarElements() throws IOException {
+		// Load model
+		ASTSDCompilationUnit sd = loadModel("src/test/resources/examples/correct/allGrammarElements.sd");
+
+		// Traverse AST and check for correctness
+		assertEquals(2, sd.getSequenceDiagram().getObjectDeclarations().size());
+		assertEquals(14, sd.getSequenceDiagram().getSDElements().size());
+	}
+
+	@Test
 	public void testCompletenessExample() throws IOException {
 		// Load model
 		ASTSDCompilationUnit sd = loadModel(
