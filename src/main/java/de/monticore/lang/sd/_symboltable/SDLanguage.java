@@ -12,7 +12,7 @@ public class SDLanguage extends de.monticore.lang.sd._symboltable.SDLanguageTOP 
 
 	@Override
 	protected ModelingLanguageModelLoader<? extends ASTNode> provideModelLoader() {
-		return null;
+		return new SDModelLoader(this);
 	}
 
 }

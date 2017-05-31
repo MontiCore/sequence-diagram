@@ -21,8 +21,7 @@ public class OCLContextDeclaredCoco implements SDASTOCLBlockCoCo {
 				return;
 			}
 			// Could not resolve context name
-			Log.error(this.getClass().getSimpleName() + ": Context " + context
-					+ " is not a declared object. In this scope only the following symbols are known: " + sdScope,
+			Log.error(this.getClass().getSimpleName() + ": Context " + context + " is not a declared object.",
 					node.get_SourcePositionStart());
 		}
 
