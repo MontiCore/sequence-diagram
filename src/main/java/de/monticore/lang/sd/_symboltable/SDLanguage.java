@@ -7,7 +7,6 @@ public class SDLanguage extends de.monticore.lang.sd._symboltable.SDLanguageTOP 
 
 	public SDLanguage() {
 		super("SequenceDiagram", "sd");
-		// TODO Auto-generated constructor stub
 	}
 
 	@Override

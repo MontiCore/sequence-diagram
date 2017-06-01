@@ -68,9 +68,8 @@ public class CorrectExamplesTest {
 		assertTrue(ods.get(4).getSDCompleteness().get().isComplete());
 		assertTrue(ods.get(5).getSDCompleteness().get().isVisible());
 		assertTrue(ods.get(6).getSDCompleteness().get().isInitial());
-		assertTrue(ods.get(7).getStereotype().isPresent());
-		assertEquals(1, ods.get(7).getStereotype().get().getValues().size());
-		assertEquals("someRandomStereotype", ods.get(7).getStereotype().get().getValues().get(0).getName());
+		assertTrue(ods.get(7).getSDStereotype().isPresent());
+		assertEquals("someRandomStereotype", ods.get(7).getSDStereotype().get().getName());
 	}
 
 }

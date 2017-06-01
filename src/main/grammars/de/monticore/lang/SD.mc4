@@ -4,7 +4,7 @@ package de.monticore.lang;
  * @author Robin Wolters
 */
 
-grammar SD extends de.monticore.common.Common { 
+grammar SD extends ocl.monticoreocl.OCL { 
 
     /*========================================================================*/
     /*================================ TODOs =================================*/
@@ -16,7 +16,7 @@ grammar SD extends de.monticore.common.Common {
     
     // sequencediagram for ... (SCs) using ... (CDs) ... initial (OD)
     // -> oder in aufbauende Sprache?
-    // Stereotypen wie <<match:complete>> auch in "SD Fähnchen"?
+    // n wie <<match:complete>> auch in "SD Fähnchen"?
     // Aktivitätsbalken
        
     /*========================================================================*/
@@ -70,7 +70,7 @@ grammar SD extends de.monticore.common.Common {
 		"}";
 		
 	symbol ObjectDeclaration = 
-		Stereotype?
+		SDStereotype?
 		SDCompleteness?
 		(	Name |
 			Name ":" ofType:Name |
@@ -93,8 +93,11 @@ grammar SD extends de.monticore.common.Common {
 		[free     :"<<match:free>>"] 	|
 		[visible  :"<<match:visible>>"] |
 		[initial  :"<<match:initial>>"];
-	
-
+		
+	SDStereotype = 
+		"<<"
+		Name
+		">>";
 	
     /*========================================================================*/
     /*=========================== Interactions ===============================*/
@@ -106,7 +109,7 @@ grammar SD extends de.monticore.common.Common {
 		Arrow 
 		right:ObjectReference 
 		":" 
-		Stereotype?
+		SDStereotype?
 		Method;
 		
 	Return implements Interaction = 

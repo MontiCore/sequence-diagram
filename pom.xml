@@ -23,6 +23,7 @@
     <mc.grammars.assembly.version>0.0.6</mc.grammars.assembly.version>
     <se-commons.version>1.7.7</se-commons.version>
     <antlr.version>4.5.1</antlr.version>
+    <SIUnit.version>0.0.3-SNAPSHOT</SIUnit.version>
 
     <!-- .. Plugins ....................................................... -->
     <monticore.plugin>4.5.3-SNAPSHOT</monticore.plugin>
@@ -89,12 +90,32 @@
       <classifier>${grammars.classifier}</classifier>
       <scope>provided</scope>
     </dependency>
-
+    
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>${logback.version}</version>
       <scope>runtime</scope>
+    </dependency>
+    
+    <dependency>
+	  <groupId>de.monticore.lang</groupId>
+	  <artifactId>ocl</artifactId>
+	  <version>0.0.7-SNAPSHOT</version>
+    </dependency>
+
+    <dependency>
+	  <groupId>de.monticore.lang</groupId>
+	  <artifactId>ocl</artifactId>
+	  <version>0.0.7-SNAPSHOT</version>
+      <classifier>${grammars.classifier}</classifier>
+    </dependency>
+    
+    <dependency>
+      <groupId>de.monticore.lang</groupId>
+      <artifactId>SIUnit</artifactId>
+      <version>${SIUnit.version}</version>
+      <classifier>${grammars.classifier}</classifier>
     </dependency>
 
     <!-- .. Test Libraries ............................................... -->
