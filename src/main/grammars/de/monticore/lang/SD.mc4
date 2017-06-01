@@ -175,7 +175,7 @@ grammar SD extends ocl.monticoreocl.OCL {
 		">";
 		
 	SDOCLExpression = 
-		String;
+		OCLExpression;
 	
 	Java = 
 		"{" String "}";

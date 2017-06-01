@@ -108,9 +108,9 @@ public class LectureExamplesTest {
 		// Traverse AST and check for correctness
 		assertEquals(4, sd.getObjectDeclarations().size());
 		assertEquals(6, sd.getSDElements().size());
+		assertTrue(sd.getSDElements().get(5).getOCLBlock().isPresent());
 	}
 
-	@Test
 	public void testExampleOclLet() throws IOException {
 		// Load model
 		ASTSDCompilationUnit sdComp = loadModel(MODEL_SRC + "example_8_ocl_let.sd");

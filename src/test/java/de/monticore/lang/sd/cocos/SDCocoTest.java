@@ -65,7 +65,8 @@ public abstract class SDCocoTest {
 		examples.add(loadModel(CORRECT_PATH + "lecture", "example_5_factory.sd"));
 		examples.add(loadModel(CORRECT_PATH + "lecture", "example_6_stereotypes.sd"));
 		examples.add(loadModel(CORRECT_PATH + "lecture", "example_7_ocl.sd"));
-		examples.add(loadModel(CORRECT_PATH + "lecture", "example_8_ocl_let.sd"));
+		// examples.add(loadModel(CORRECT_PATH + "lecture",
+		// "example_8_ocl_let.sd"));
 		examples.add(loadModel(CORRECT_PATH + "lecture", "example_9_non_causal.sd"));
 		return examples;
 	}
