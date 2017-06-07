@@ -13,10 +13,7 @@ grammar SD extends ocl.monticoreocl.OCL {
     // OCL-Integration
     // static Referenz zu Klassen: 
     // -> Vllt nicht nur auf Naming achten, sondern explizit als "class" benennen
-    
-    // sequencediagram for ... (SCs) using ... (CDs) ... initial (OD)
-    // -> oder in aufbauende Sprache?
-    // n wie <<match:complete>> auch in "SD Fähnchen"?
+    // n wie <<match:complete>> auch in "SD Fähnchen" => Cocos für Konsistenz
     // Aktivitätsbalken
        
     /*========================================================================*/

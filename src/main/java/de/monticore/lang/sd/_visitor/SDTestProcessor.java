@@ -3,9 +3,12 @@ package de.monticore.lang.sd._visitor;
 import de.monticore.lang.sd._ast.ASTJava;
 import de.monticore.lang.sd._ast.ASTMethodCall;
 import de.monticore.lang.sd._ast.ASTOCLBlock;
+import de.monticore.lang.sd._ast.ASTObjectDeclaration;
 import de.monticore.lang.sd._ast.ASTSequenceDiagram;
 
 public abstract class SDTestProcessor implements SDVisitor {
+
+	protected abstract void handleObjectDeclaration(ASTObjectDeclaration od);
 
 	protected abstract void handleMethodCall(ASTMethodCall call);
 
@@ -13,8 +16,13 @@ public abstract class SDTestProcessor implements SDVisitor {
 
 	protected abstract void handleOCL(ASTOCLBlock ocl);
 
-	public void visitSD(ASTSequenceDiagram sd) {
+	protected void visitSD(ASTSequenceDiagram sd) {
 		this.handle(sd);
+	}
+
+	@Override
+	public void visit(ASTObjectDeclaration od) {
+		handleObjectDeclaration(od);
 	}
 
 	@Override
