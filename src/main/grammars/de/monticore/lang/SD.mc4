@@ -26,19 +26,19 @@ grammar SD extends ocl.monticoreocl.OCL {
     /*=========================== CompilationUnit ============================*/
     /*========================================================================*/
     
-    SDCompilationUnit = 
+    SDArtifact = 
     	PackageDeclaration?
     	ImportStatement*
     	SequenceDiagram;
     	
     PackageDeclaration = 
     	"package" 
-    	QualifiedName
+    	QualifiedName&
     	";";
     	
     ImportStatement = 
     	"import"
-    	QualifiedName
+    	QualifiedName&
     	";";
 
     /*========================================================================*/
@@ -80,7 +80,7 @@ grammar SD extends ocl.monticoreocl.OCL {
 		Java;
 		
 	ObjectReference = 
-		Name | 
+		Name@ObjectDeclaration | 
 		"(" ObjectDeclaration ")";
 		
 	SDCompleteness =
