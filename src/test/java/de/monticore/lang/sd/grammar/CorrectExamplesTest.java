@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import de.monticore.lang.sd._ast.ASTObjectDeclaration;
 import de.monticore.lang.sd._ast.ASTSDArtifact;
+import de.monticore.lang.sd._ast.ASTSDElement;
 import de.monticore.lang.sd._parser.SDParser;
 import de.se_rwth.commons.logging.Log;
 
@@ -70,6 +71,24 @@ public class CorrectExamplesTest {
 		assertFalse(ods.get(7).getSDCompleteness().isPresent());
 		assertFalse(ods.get(7).getSDStereotypes().isEmpty());
 		assertEquals("someRandomStereotype", ods.get(7).getSDStereotypes().get(0).getName());
+	}
+
+	@Test
+	public void testActivityExample() throws IOException {
+		// Load model
+		ASTSDArtifact sd = loadModel("src/test/resources/examples/correct/activities.sd");
+
+		// Traverse AST and check for correctness
+		assertEquals(2, sd.getSequenceDiagram().getObjectDeclarations().size());
+		assertEquals(1, sd.getSequenceDiagram().getSDElements().size());
+		ASTSDElement ac1 = sd.getSequenceDiagram().getSDElements().get(0);
+		assertTrue(ac1.getSDActivity().isPresent());
+		assertEquals(2, ac1.getSDActivity().get().getSDElements().size());
+		ASTSDElement ac2 = ac1.getSDActivity().get().getSDElements().get(1);
+		assertTrue(ac2.getSDActivity().isPresent());
+		assertEquals(1, ac2.getSDActivity().get().getSDElements().size());
+		assertTrue(ac2.getSDActivity().get().getSDElements().get(0).getInteraction().isPresent());
+
 	}
 
 }

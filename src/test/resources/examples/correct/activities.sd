@@ -1,0 +1,14 @@
+sequencediagram activities {
+
+	// Interacting objects
+	o: Order;
+	c: Customer;
+	
+	{
+		o -> c : someMethod(...);
+		{
+			o <-- c : return;
+		}	
+	}
+	
+}

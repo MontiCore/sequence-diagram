@@ -15,18 +15,18 @@ sequencediagram sdAuftrag {
 	<o: [state == Production]>
 	
 	// Production -> Shipping
-	{"JAVA: Make sure that allItemsProduced() is true"}
+	{{"JAVA: Make sure that allItemsProduced() is true"}}
 	o -> o : <<trigger>> shipItems();
 	<o : [state == Shipping]>
 	
 	// Shipping -> Payment
-	{"JAVA :  Make sure that allItemsSent() is true"}
+	{{"JAVA :  Make sure that allItemsSent() is true"}}
 	o -> c : sendInvoice(sum);
 	c --> o : return;
 	<o: [state == payment]>
 	
 	// Payment -> Complete
-	{"Java:  Make sure that paid is true"}
+	{{"Java:  Make sure that paid is true"}}
 	<o: [state == complete]>
 	o -> (m : Mail) : new Mail();
 	

@@ -58,6 +58,7 @@ public abstract class SDCocoTest {
 		examples.add(loadModel(CORRECT_PATH, "example.sd"));
 		examples.add(loadModel(CORRECT_PATH, "example_completeness_and_stereotypes.sd"));
 		examples.add(loadModel(CORRECT_PATH, "allGrammarElements.sd"));
+		examples.add(loadModel(CORRECT_PATH, "activities.sd"));
 		examples.add(loadModel(CORRECT_PATH + "lecture", "example_1.sd"));
 		examples.add(loadModel(CORRECT_PATH + "lecture", "example_2_interactions.sd"));
 		examples.add(loadModel(CORRECT_PATH + "lecture", "example_3_static.sd"));

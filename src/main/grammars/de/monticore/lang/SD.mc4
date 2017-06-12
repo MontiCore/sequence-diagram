@@ -12,8 +12,7 @@ grammar SD extends ocl.monticoreocl.OCL {
     
     // Aktivitätsbalken
     // Referenz zu ObjectDeclaration in ObjectReference
-    // Comments in grammar
-    
+    // Comments in grammar   
        
     /*========================================================================*/
     /*=============================== TOKENS =================================*/
@@ -79,9 +78,15 @@ grammar SD extends ocl.monticoreocl.OCL {
 		);	
 	
 	SDElement = 
+		SDActivity |
 		(Interaction ";") | 
 		OCLBlock | 
 		Java;
+		
+	SDActivity = 
+		"{"
+		SDElement*
+		"}";
 		
 	ObjectReference = 
 		Name |							//TODO @ here 
@@ -179,7 +184,7 @@ grammar SD extends ocl.monticoreocl.OCL {
 		OCLExpression;
 	
 	Java = 
-		"{" String "}";
+		"{{" String "}}";
 
     
 }
