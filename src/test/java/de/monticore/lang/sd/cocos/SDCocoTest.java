@@ -12,7 +12,7 @@ import org.junit.Test;
 
 import de.monticore.ast.ASTNode;
 import de.monticore.io.paths.ModelPath;
-import de.monticore.lang.sd._ast.ASTSDCompilationUnit;
+import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._cocos.SDCoCoChecker;
 import de.monticore.lang.sd._parser.SDParser;
 import de.monticore.lang.sd._symboltable.SDLanguage;
@@ -47,14 +47,14 @@ public abstract class SDCocoTest {
 	public abstract void testCorrectExamples();
 
 	protected void testAllCorrectExamples() {
-		for (ASTSDCompilationUnit sd : getAllCorrectExamples()) {
+		for (ASTSDArtifact sd : getAllCorrectExamples()) {
 			initCoCoChecker(); // Reset after each model check
 			checker.checkAll(sd);
 		}
 	}
 
-	private List<ASTSDCompilationUnit> getAllCorrectExamples() {
-		List<ASTSDCompilationUnit> examples = new ArrayList<ASTSDCompilationUnit>();
+	private List<ASTSDArtifact> getAllCorrectExamples() {
+		List<ASTSDArtifact> examples = new ArrayList<ASTSDArtifact>();
 		examples.add(loadModel(CORRECT_PATH, "example.sd"));
 		examples.add(loadModel(CORRECT_PATH, "example_completeness_and_stereotypes.sd"));
 		examples.add(loadModel(CORRECT_PATH, "allGrammarElements.sd"));
@@ -71,7 +71,7 @@ public abstract class SDCocoTest {
 		return examples;
 	}
 
-	protected ASTSDCompilationUnit loadModel(String path, String model) {
+	protected ASTSDArtifact loadModel(String path, String model) {
 
 		SDLanguage lang = new SDLanguage();
 		ResolvingConfiguration config = new ResolvingConfiguration();
@@ -79,11 +79,11 @@ public abstract class SDCocoTest {
 
 		// Parse model
 		SDParser parser = lang.getParser();
-		ASTSDCompilationUnit ast = null;
+		ASTSDArtifact ast = null;
 		try {
-			Optional<? extends ASTNode> optAst = parser.parseSDCompilationUnit(path + "/" + model);
-			if (optAst.isPresent() && (optAst.get() instanceof ASTSDCompilationUnit)) {
-				ast = (ASTSDCompilationUnit) optAst.get();
+			Optional<? extends ASTNode> optAst = parser.parseSDArtifact(path + "/" + model);
+			if (optAst.isPresent() && (optAst.get() instanceof ASTSDArtifact)) {
+				ast = (ASTSDArtifact) optAst.get();
 			}
 		} catch (Exception e) {
 			Log.error("Could not parse model " + path + "/" + model);

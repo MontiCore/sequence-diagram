@@ -13,18 +13,18 @@ import java.util.Optional;
 import org.junit.Test;
 
 import de.monticore.lang.sd._ast.ASTObjectDeclaration;
-import de.monticore.lang.sd._ast.ASTSDCompilationUnit;
+import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._parser.SDParser;
 import de.se_rwth.commons.logging.Log;
 
 public class CorrectExamplesTest {
 
-	private ASTSDCompilationUnit loadModel(String modelName) throws IOException {
+	private ASTSDArtifact loadModel(String modelName) throws IOException {
 		// Load model
 		Log.enableFailQuick(false);
 		Path model = Paths.get(modelName);
 		SDParser parser = new SDParser();
-		Optional<ASTSDCompilationUnit> sd = parser.parseSDCompilationUnit(model.toString());
+		Optional<ASTSDArtifact> sd = parser.parseSDArtifact(model.toString());
 		assertFalse(parser.hasErrors());
 		assertTrue(sd.isPresent());
 		return sd.get();
@@ -33,7 +33,7 @@ public class CorrectExamplesTest {
 	@Test
 	public void testExample() throws IOException {
 		// Load model
-		ASTSDCompilationUnit sd = loadModel("src/test/resources/examples/correct/example.sd");
+		ASTSDArtifact sd = loadModel("src/test/resources/examples/correct/example.sd");
 
 		// Traverse AST and check for correctness
 		assertEquals(2, sd.getSequenceDiagram().getObjectDeclarations().size());
@@ -43,7 +43,7 @@ public class CorrectExamplesTest {
 	@Test
 	public void testExampleWithAllGrammarElements() throws IOException {
 		// Load model
-		ASTSDCompilationUnit sd = loadModel("src/test/resources/examples/correct/allGrammarElements.sd");
+		ASTSDArtifact sd = loadModel("src/test/resources/examples/correct/allGrammarElements.sd");
 
 		// Traverse AST and check for correctness
 		assertEquals(2, sd.getSequenceDiagram().getObjectDeclarations().size());
@@ -53,8 +53,7 @@ public class CorrectExamplesTest {
 	@Test
 	public void testCompletenessExample() throws IOException {
 		// Load model
-		ASTSDCompilationUnit sd = loadModel(
-				"src/test/resources/examples/correct/example_completeness_and_stereotypes.sd");
+		ASTSDArtifact sd = loadModel("src/test/resources/examples/correct/example_completeness_and_stereotypes.sd");
 
 		// Traverse AST and check for correctness
 		assertEquals(8, sd.getSequenceDiagram().getObjectDeclarations().size());
@@ -68,8 +67,9 @@ public class CorrectExamplesTest {
 		assertTrue(ods.get(4).getSDCompleteness().get().isComplete());
 		assertTrue(ods.get(5).getSDCompleteness().get().isVisible());
 		assertTrue(ods.get(6).getSDCompleteness().get().isInitial());
-		assertTrue(ods.get(7).getSDStereotype().isPresent());
-		assertEquals("someRandomStereotype", ods.get(7).getSDStereotype().get().getName());
+		assertFalse(ods.get(7).getSDCompleteness().isPresent());
+		assertFalse(ods.get(7).getSDStereotypes().isEmpty());
+		assertEquals("someRandomStereotype", ods.get(7).getSDStereotypes().get(0).getName());
 	}
 
 }

@@ -3,7 +3,7 @@ package de.monticore.lang.sd.cocos;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
-import de.monticore.lang.sd._ast.ASTSDCompilationUnit;
+import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._cocos.SDCoCoChecker;
 import de.se_rwth.commons.logging.Log;
 
@@ -17,7 +17,7 @@ public class ObjectIdentifierUniqueCocoTest extends SDCocoTest {
 
 	@Override
 	public void testCocoViolation() {
-		ASTSDCompilationUnit sd = loadModel(INCORRECT_PATH, "no_unique_names.sd");
+		ASTSDArtifact sd = loadModel(INCORRECT_PATH, "no_unique_names.sd");
 		checker.checkAll(sd);
 		assertTrue(4 == Log.getErrorCount());
 		assertEquals(4,

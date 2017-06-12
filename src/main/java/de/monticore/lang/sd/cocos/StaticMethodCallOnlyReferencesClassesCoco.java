@@ -3,7 +3,6 @@ package de.monticore.lang.sd.cocos;
 import de.monticore.lang.sd._ast.ASTMethodCall;
 import de.monticore.lang.sd._ast.ASTObjectReference;
 import de.monticore.lang.sd._cocos.SDASTMethodCallCoCo;
-import de.monticore.lang.sd.helper.SDHelper;
 import de.monticore.lang.sd.prettyprint.SDPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
 import de.se_rwth.commons.logging.Log;
@@ -12,8 +11,7 @@ public class StaticMethodCallOnlyReferencesClassesCoco implements SDASTMethodCal
 
 	@Override
 	public void check(ASTMethodCall node) {
-		SDHelper helper = new SDHelper();
-		ASTObjectReference target = helper.getMethodCallTarget(node);
+		ASTObjectReference target = node.getTarget();
 
 		// static => Target must be a class
 		if (node.getMethod().staticModifierIsPresent()) {

@@ -10,18 +10,16 @@ grammar SD extends ocl.monticoreocl.OCL {
     /*================================ TODOs =================================*/
     /*========================================================================*/
     
-    // OCL-Integration
-    // static Referenz zu Klassen: 
-    // -> Vllt nicht nur auf Naming achten, sondern explizit als "class" benennen
-    // n wie <<match:complete>> auch in "SD Fähnchen" => Cocos für Konsistenz
     // Aktivitätsbalken
+    // Referenz zu ObjectDeclaration in ObjectReference
+    // Comments in grammar
+    
        
     /*========================================================================*/
     /*=============================== TOKENS =================================*/
     /*========================================================================*/
     
-    token NameWithExtras = (Name? '-' Name?)+ ;
-      
+          
     /*========================================================================*/
     /*=========================== CompilationUnit ============================*/
     /*========================================================================*/
@@ -40,13 +38,7 @@ grammar SD extends ocl.monticoreocl.OCL {
     	"import"
     	QualifiedName&
     	";";
-
-    /*========================================================================*/
-    /*================== INTERFACES AND EXTERNAL SYMBOLS =====================*/
-    /*========================================================================*/
-
-    interface Interaction;
-
+    	
     /*========================================================================*/
     /*============================ ENUMERATIONS ==============================*/
     /*========================================================================*/
@@ -57,21 +49,33 @@ grammar SD extends ocl.monticoreocl.OCL {
     	LEFT: "<--" | RIGHT: "-->";
 
     /*========================================================================*/
+    /*================== INTERFACES AND EXTERNAL SYMBOLS =====================*/
+    /*========================================================================*/
+
+    interface Interaction;
+
+    /*========================================================================*/
     /*=================== Global Sequence Diagram Stuff ======================*/
     /*========================================================================*/
 
 	symbol scope SequenceDiagram = 
-		"sequencediagram" Name "{" 
+		"sequencediagram" 
+		SDStereotype* 
+		SDCompleteness? 
+		Name 
+		"{" 
 		(ObjectDeclaration ";")*
 		SDElement* 
 		"}";
 		
 	symbol ObjectDeclaration = 
-		SDStereotype?
+		SDStereotype*
 		SDCompleteness?
-		(	Name |
+		(	
+			Name |
 			Name ":" ofType:Name |
-			":" ofType:Name
+			":" ofType:Name |
+			["class"] Name
 		);	
 	
 	SDElement = 
@@ -80,21 +84,21 @@ grammar SD extends ocl.monticoreocl.OCL {
 		Java;
 		
 	ObjectReference = 
-		Name@ObjectDeclaration | 
+		Name |							//TODO @ here 
 		"(" ObjectDeclaration ")";
-		
-	SDCompleteness =
-		[complete :"(C)"] |
-		[free	  :"..."] |
-		[complete :"<<match:complete>>"]|
-		[free     :"<<match:free>>"] 	|
-		[visible  :"<<match:visible>>"] |
-		[initial  :"<<match:initial>>"];
-		
+				
 	SDStereotype = 
-		"<<"
-		Name
-		">>";
+		"<<" Name ">>";
+	
+	SDCompleteness =
+		(
+		completeness : "(C)" |
+		completeness : "..." |
+		completeness : "<<match:complete>>"|
+		completeness : "<<match:free>>"    |
+		completeness : "<<match:visible>>" |
+		completeness : "<<match:initial>>" 
+		);
 	
     /*========================================================================*/
     /*=========================== Interactions ===============================*/

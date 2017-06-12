@@ -5,7 +5,6 @@ import de.monticore.lang.sd._ast.ASTMethod;
 import de.monticore.lang.sd._ast.ASTMethodCall;
 import de.monticore.lang.sd._ast.ASTObjectReference;
 import de.monticore.lang.sd._cocos.SDASTMethodCallCoCo;
-import de.monticore.lang.sd.helper.SDHelper;
 import de.se_rwth.commons.logging.Log;
 
 public class InlineObjectDefinitionWithConstructorCoco implements SDASTMethodCallCoCo {
@@ -14,8 +13,7 @@ public class InlineObjectDefinitionWithConstructorCoco implements SDASTMethodCal
 	public void check(ASTMethodCall node) {
 
 		// Get target and method
-		SDHelper helper = new SDHelper();
-		ASTObjectReference target = helper.getMethodCallTarget(node);
+		ASTObjectReference target = node.getTarget();
 		ASTMethod method = node.getMethod();
 
 		// method is constructor => inline object definition
