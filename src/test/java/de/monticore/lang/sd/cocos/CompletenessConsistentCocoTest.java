@@ -7,20 +7,21 @@ import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._cocos.SDCoCoChecker;
 import de.se_rwth.commons.logging.Log;
 
-public class NamingConventionCocoTest extends SDCocoTest {
+public class CompletenessConsistentCocoTest extends SDCocoTest {
 
 	@Override
 	protected void initCoCoChecker() {
 		checker = new SDCoCoChecker();
-		checker.addCoCo(new NamingConventionCoco());
+		checker.addCoCo(new CompletenessConsistentCoco());
 	}
 
 	@Override
 	public void testCocoViolation() {
-		ASTSDArtifact sd = loadModel(INCORRECT_PATH, "violated_naming_conventions.sd");
+		ASTSDArtifact sd = loadModel(INCORRECT_PATH, "completeness_inconsistent.sd");
 		checker.checkAll(sd);
-		assertTrue(10 == Log.getErrorCount());
-		assertEquals(10, Log.getFindings().stream().filter(f -> f.buildMsg().contains("NamingConventionCoco")).count());
+		// assertTrue(2 == Log.getErrorCount());
+		assertEquals(2,
+				Log.getFindings().stream().filter(f -> f.buildMsg().contains("CompletenessConsistentCoco")).count());
 	}
 
 	@Override

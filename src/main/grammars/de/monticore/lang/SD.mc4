@@ -10,9 +10,8 @@ grammar SD extends ocl.monticoreocl.OCL {
     /*================================ TODOs =================================*/
     /*========================================================================*/
     
-    // Aktivitätsbalken
     // Referenz zu ObjectDeclaration in ObjectReference
-    // Comments in grammar   
+    // Comment grammar JavaDoc-Style   
        
     /*========================================================================*/
     /*=============================== TOKENS =================================*/

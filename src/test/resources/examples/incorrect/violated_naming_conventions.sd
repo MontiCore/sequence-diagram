@@ -5,6 +5,10 @@ sequencediagram violated_naming_conventions {
 	Kupfer913: Auction;
 	kupfer914: auction;
 	Kupfer915: auction;
+	class Auction;
+	class auction;
+	object;
+	Object;
 	
 	//Constructor call
 	kupfer912 -> bm1 : new BidMessage(...);

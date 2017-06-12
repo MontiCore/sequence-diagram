@@ -12,37 +12,58 @@ public class NamingConventionCoco implements SDASTObjectDeclarationCoCo {
 	public void check(ASTObjectDeclaration node) {
 		if (node.nameIsPresent()) {
 			if (node.ofTypeIsPresent()) {
+				// "object: Type"
 				String name = node.getName().get();
+				String type = node.getOfType().get();
 				if (!Character.isLowerCase(name.charAt(0))) {
-					Log.error(errorMessage(node, true, name), node.get_SourcePositionStart());
+					Log.error(errorMessage(node, 1, name), node.get_SourcePositionStart());
+				}
+				if (!Character.isUpperCase(type.charAt(0))) {
+					Log.error(errorMessage(node, 2, type), node.get_SourcePositionStart());
 				}
 			} else {
-				// Only name is given.
-				// This could be a class,
-				// for which upper case would be okay
+				String name = node.getName().get();
+				if (node.isClass()) {
+					// "class SomeClass"
+					if (!Character.isUpperCase(name.charAt(0))) {
+						Log.error(errorMessage(node, 3, name), node.get_SourcePositionStart());
+					}
+				} else {
+					// "object"
+					if (!Character.isLowerCase(name.charAt(0))) {
+						Log.error(errorMessage(node, 1, name), node.get_SourcePositionStart());
+					}
+				}
 			}
-		}
-		if (node.ofTypeIsPresent()) {
+		} else if (node.ofTypeIsPresent()) {
+			// ": Type"
 			String typeName = node.getOfType().get();
 			if (!Character.isUpperCase(typeName.charAt(0))) {
-				Log.error(errorMessage(node, false, typeName), node.get_SourcePositionStart());
+				Log.error(errorMessage(node, 2, typeName), node.get_SourcePositionStart());
 			}
 		}
 
 	}
 
-	private String errorMessage(ASTObjectDeclaration node, Boolean nameOrType, String name) {
+	private String errorMessage(ASTObjectDeclaration node, int errorKind, String name) {
 		String message = this.getClass().getSimpleName() + ": ";
 		message += "Objectdeclaration ";
 		SDPrettyPrinter pp = new SDPrettyPrinter(new IndentPrinter());
 		pp.handle(node);
 		message += pp.getPrinter().getContent();
-		if (nameOrType) {
+		switch (errorKind) {
+		case 1:
 			message += " introduces an object with name " + name;
 			message += " which should be written lower case by convention.";
-		} else {
+			break;
+		case 2:
 			message += " introduces an object of type " + name;
 			message += " which should be written upper case by convention.";
+			break;
+		case 3:
+			message += " introduces a class " + name;
+			message += " which should be written upper case by convention.";
+			break;
 		}
 		return message;
 	}
