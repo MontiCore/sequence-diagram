@@ -19,7 +19,7 @@ public class InlineObjectDefinitionWithConstructorCoco implements SDASTMethodCal
 		// method is constructor => inline object definition
 		if (method instanceof ASTConstructor) {
 			ASTConstructor constructor = (ASTConstructor) method;
-			if (!target.objectDeclarationIsPresent()) {
+			if (!target.inlineDeclarationIsPresent()) {
 				String name = constructor.getName();
 				Log.error(
 						this.getClass().getSimpleName() + ": The call of constructor " + name
@@ -27,7 +27,7 @@ public class InlineObjectDefinitionWithConstructorCoco implements SDASTMethodCal
 						constructor.get_SourcePositionStart());
 			} else {
 				// Constructor name = type name?
-				String typeName = target.getObjectDeclaration().get().getOfType().get();
+				String typeName = target.getInlineDeclaration().get().getOfType().get();
 				if (!constructor.getName().equals(typeName)) {
 					Log.error(this.getClass().getSimpleName() + ": Type " + typeName + " does not match constructor "
 							+ constructor.getName(), constructor.get_SourcePositionStart());

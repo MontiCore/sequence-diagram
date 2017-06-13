@@ -88,8 +88,8 @@ grammar SD extends ocl.monticoreocl.OCL {
 		"}";
 		
 	ObjectReference = 
-		Name |							//TODO @ here 
-		"(" ObjectDeclaration ")";
+		Name@ObjectDeclaration |
+		"(" inlineDeclaration: ObjectDeclaration ")";
 				
 	SDStereotype = 
 		"<<" Name ">>";

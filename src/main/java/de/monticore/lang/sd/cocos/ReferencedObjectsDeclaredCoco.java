@@ -60,8 +60,8 @@ public class ReferencedObjectsDeclaredCoco implements SDASTSequenceDiagramCoCo {
 
 	private void checkForDeclaration(ASTObjectReference o) {
 		// Object declaration on its own
-		if (o.objectDeclarationIsPresent()) {
-			declare(o.getObjectDeclaration().get());
+		if (o.inlineDeclarationIsPresent()) {
+			declare(o.getInlineDeclaration().get());
 		}
 
 		// Simple reference
