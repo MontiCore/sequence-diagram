@@ -8,6 +8,8 @@ import de.monticore.lang.sd._ast.ASTSequenceDiagram;
 
 public abstract class SDTestProcessor implements SDVisitor {
 
+	protected abstract void handleSequenceDiagram(ASTSequenceDiagram sd);
+
 	protected abstract void handleObjectDeclaration(ASTObjectDeclaration od);
 
 	protected abstract void handleMethodCall(ASTMethodCall call);
@@ -16,7 +18,10 @@ public abstract class SDTestProcessor implements SDVisitor {
 
 	protected abstract void handleOCL(ASTOCLBlock ocl);
 
+	protected abstract void executeAfterTraversal();
+
 	protected void visitSD(ASTSequenceDiagram sd) {
+		this.handleSequenceDiagram(sd);
 		this.handle(sd);
 	}
 
@@ -38,5 +43,10 @@ public abstract class SDTestProcessor implements SDVisitor {
 	@Override
 	public void visit(ASTOCLBlock ocl) {
 		handleOCL(ocl);
+	}
+
+	@Override
+	public void endVisit(ASTSequenceDiagram sd) {
+		this.executeAfterTraversal();
 	}
 }
