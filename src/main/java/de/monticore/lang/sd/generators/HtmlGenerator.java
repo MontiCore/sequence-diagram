@@ -1,4 +1,4 @@
-package de.monticore.lang.sd.generator;
+package de.monticore.lang.sd.generators;
 
 import java.io.File;
 import java.io.IOException;

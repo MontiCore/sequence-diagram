@@ -6,7 +6,7 @@ import de.monticore.lang.sd._ast.ASTOCLBlock;
 import de.monticore.lang.sd._ast.ASTObjectDeclaration;
 import de.monticore.lang.sd._ast.ASTSequenceDiagram;
 
-public abstract class SDTestProcessor implements SDVisitor {
+public abstract class SDTestVisitor implements SDVisitor {
 
 	protected abstract void handleSequenceDiagram(ASTSequenceDiagram sd);
 

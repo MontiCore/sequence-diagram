@@ -8,7 +8,7 @@ import java.util.Optional;
 import de.monticore.ast.ASTNode;
 import de.monticore.lang.sd._ast.ASTSequenceDiagram;
 import de.monticore.lang.sd._parser.SDParser;
-import de.monticore.lang.sd.generator.HtmlGenerator;
+import de.monticore.lang.sd.generators.HtmlGenerator;
 import de.se_rwth.commons.logging.Log;
 
 public class Main {

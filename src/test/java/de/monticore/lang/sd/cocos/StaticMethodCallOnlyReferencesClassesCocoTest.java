@@ -5,6 +5,7 @@ import static org.junit.Assert.assertTrue;
 
 import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._cocos.SDCoCoChecker;
+import de.monticore.lang.sd._cocos.StaticMethodCallOnlyReferencesClassesCoco;
 import de.se_rwth.commons.logging.Log;
 
 public class StaticMethodCallOnlyReferencesClassesCocoTest extends SDCocoTest {

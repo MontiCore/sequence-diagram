@@ -1,4 +1,4 @@
-package de.monticore.lang.sd.cocos;
+package de.monticore.lang.sd._cocos;
 
 import java.util.ArrayList;
 import java.util.List;
