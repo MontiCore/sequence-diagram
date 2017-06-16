@@ -1,7 +1,5 @@
 package de.monticore.lang.sd._symboltable;
 
-import static org.junit.Assert.assertFalse;
-
 import java.nio.file.Paths;
 import java.util.Optional;
 
@@ -63,7 +61,6 @@ public class SDLanguage extends de.monticore.lang.sd._symboltable.SDLanguageTOP 
 		} catch (Exception e) {
 			Log.error("Could not parse model " + path + "/" + model);
 		}
-		assertFalse(parser.hasErrors());
 
 		// Build ST
 		GlobalScope scope = new GlobalScope(new ModelPath(Paths.get(path)), this, config);

@@ -1,24 +1,14 @@
 package de.monticore.lang.sd.cocos;
 
-import static org.junit.Assert.assertFalse;
-
-import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.After;
 import org.junit.Test;
 
-import de.monticore.ast.ASTNode;
-import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._cocos.SDCoCoChecker;
-import de.monticore.lang.sd._parser.SDParser;
 import de.monticore.lang.sd._symboltable.SDLanguage;
-import de.monticore.lang.sd._symboltable.SDSymbolTableCreator;
-import de.monticore.symboltable.GlobalScope;
-import de.monticore.symboltable.ResolvingConfiguration;
 import de.se_rwth.commons.logging.Log;
 
 public abstract class SDCocoTest {
