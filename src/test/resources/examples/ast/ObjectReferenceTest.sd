@@ -1,0 +1,11 @@
+sequencediagram objectreferences {
+
+	// Interacting objects
+	a : A;
+	b : B;
+	
+	// Methods
+	a -> b : methode();
+	a -> (c : C) : methode();
+	
+}
