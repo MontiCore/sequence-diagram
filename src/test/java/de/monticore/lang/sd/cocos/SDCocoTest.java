@@ -55,10 +55,7 @@ public abstract class SDCocoTest {
 
 	private List<ASTSDArtifact> getAllCorrectExamples() {
 		List<ASTSDArtifact> examples = new ArrayList<ASTSDArtifact>();
-		examples.add(loadModel(CORRECT_PATH, "example.sd"));
-		examples.add(loadModel(CORRECT_PATH, "example_completeness_and_stereotypes.sd"));
-		examples.add(loadModel(CORRECT_PATH, "allGrammarElements.sd"));
-		examples.add(loadModel(CORRECT_PATH, "activities.sd"));
+		// Lecture examples
 		examples.add(loadModel(CORRECT_PATH + "lecture", "example_1.sd"));
 		examples.add(loadModel(CORRECT_PATH + "lecture", "example_2_interactions.sd"));
 		examples.add(loadModel(CORRECT_PATH + "lecture", "example_3_static.sd"));
@@ -69,36 +66,17 @@ public abstract class SDCocoTest {
 		// examples.add(loadModel(CORRECT_PATH + "lecture",
 		// "example_8_ocl_let.sd"));
 		examples.add(loadModel(CORRECT_PATH + "lecture", "example_9_non_causal.sd"));
+		// Own examples
+		examples.add(loadModel(CORRECT_PATH, "example.sd"));
+		examples.add(loadModel(CORRECT_PATH, "example_completeness_and_stereotypes.sd"));
+		examples.add(loadModel(CORRECT_PATH, "allGrammarElements.sd"));
+		examples.add(loadModel(CORRECT_PATH, "activities.sd"));
 		return examples;
 	}
 
 	protected ASTSDArtifact loadModel(String path, String model) {
-
 		SDLanguage lang = new SDLanguage();
-		ResolvingConfiguration config = new ResolvingConfiguration();
-		config.addDefaultFilters(lang.getResolvers());
-
-		// Parse model
-		SDParser parser = lang.getParser();
-		ASTSDArtifact ast = null;
-		try {
-			Optional<? extends ASTNode> optAst = parser.parseSDArtifact(path + "/" + model);
-			if (optAst.isPresent() && (optAst.get() instanceof ASTSDArtifact)) {
-				ast = (ASTSDArtifact) optAst.get();
-			}
-		} catch (Exception e) {
-			Log.error("Could not parse model " + path + "/" + model);
-		}
-		assertFalse(parser.hasErrors());
-
-		// Build ST
-		GlobalScope scope = new GlobalScope(new ModelPath(Paths.get(path)), lang, config);
-		Optional<SDSymbolTableCreator> st = lang.getSymbolTableCreator(config, scope);
-		if (st.isPresent()) {
-			st.get().createFromAST(ast);
-		}
-
-		return ast;
+		return lang.loadModelWithoutCocos(path, model);
 	}
 
 }

@@ -5,36 +5,29 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.monticore.lang.sd._ast.ASTObjectDeclaration;
 import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._ast.ASTSDElement;
-import de.monticore.lang.sd._parser.SDParser;
+import de.monticore.lang.sd._symboltable.SDLanguage;
 import de.se_rwth.commons.logging.Log;
 
 public class CorrectExamplesTest {
 
-	private ASTSDArtifact loadModel(String modelName) throws IOException {
-		// Load model
-		Log.enableFailQuick(false);
-		Path model = Paths.get(modelName);
-		SDParser parser = new SDParser();
-		Optional<ASTSDArtifact> sd = parser.parseSDArtifact(model.toString());
-		assertFalse(parser.hasErrors());
-		assertTrue(sd.isPresent());
-		return sd.get();
+	@BeforeClass
+	public static void setUp() {
+		Log.enableFailQuick(true);
 	}
 
 	@Test
 	public void testExample() throws IOException {
 		// Load model
-		ASTSDArtifact sd = loadModel("src/test/resources/examples/correct/example.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sd = lang.loadModel("src/test/resources/examples/correct", "example.sd");
 
 		// Traverse AST and check for correctness
 		assertEquals(2, sd.getSequenceDiagram().getObjectDeclarations().size());
@@ -44,7 +37,8 @@ public class CorrectExamplesTest {
 	@Test
 	public void testExampleWithAllGrammarElements() throws IOException {
 		// Load model
-		ASTSDArtifact sd = loadModel("src/test/resources/examples/correct/allGrammarElements.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sd = lang.loadModel("src/test/resources/examples/correct", "allGrammarElements.sd");
 
 		// Traverse AST and check for correctness
 		assertEquals(2, sd.getSequenceDiagram().getObjectDeclarations().size());
@@ -54,7 +48,9 @@ public class CorrectExamplesTest {
 	@Test
 	public void testCompletenessExample() throws IOException {
 		// Load model
-		ASTSDArtifact sd = loadModel("src/test/resources/examples/correct/example_completeness_and_stereotypes.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sd = lang.loadModel("src/test/resources/examples/correct",
+				"example_completeness_and_stereotypes.sd");
 
 		// Traverse AST and check for correctness
 		assertEquals(8, sd.getSequenceDiagram().getObjectDeclarations().size());
@@ -76,7 +72,8 @@ public class CorrectExamplesTest {
 	@Test
 	public void testActivityExample() throws IOException {
 		// Load model
-		ASTSDArtifact sd = loadModel("src/test/resources/examples/correct/activities.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sd = lang.loadModel("src/test/resources/examples/correct", "activities.sd");
 
 		// Traverse AST and check for correctness
 		assertEquals(2, sd.getSequenceDiagram().getObjectDeclarations().size());

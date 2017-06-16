@@ -1,42 +1,32 @@
 package de.monticore.lang.sd.grammar;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.util.Optional;
 
+import org.junit.BeforeClass;
 import org.junit.Test;
 
 import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._ast.ASTSequenceDiagram;
-import de.monticore.lang.sd._parser.SDParser;
+import de.monticore.lang.sd._symboltable.SDLanguage;
 import de.se_rwth.commons.logging.Log;
 
 public class LectureExamplesTest {
 
 	private final String MODEL_SRC = "src/test/resources/examples/correct/lecture/";
 
-	private ASTSDArtifact loadModel(String modelName) throws IOException {
-
-		// Load model
-		Log.enableFailQuick(false);
-		Path model = Paths.get(modelName);
-		SDParser parser = new SDParser();
-		Optional<ASTSDArtifact> sdComp = parser.parseSDArtifact(model.toString());
-		assertFalse(parser.hasErrors());
-		assertTrue(sdComp.isPresent());
-		return sdComp.get();
-
+	@BeforeClass
+	public static void setUp() {
+		Log.enableFailQuick(true);
 	}
 
 	@Test
 	public void testExample() throws IOException {
 		// Load model
-		ASTSDArtifact sdComp = loadModel(MODEL_SRC + "example_1.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sdComp = lang.loadModelWithoutCocos(MODEL_SRC, "example_1.sd");
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
@@ -47,7 +37,8 @@ public class LectureExamplesTest {
 	@Test
 	public void testExampleInteractions() throws IOException {
 		// Load model
-		ASTSDArtifact sdComp = loadModel(MODEL_SRC + "example_2_interactions.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sdComp = lang.loadModelWithoutCocos(MODEL_SRC, "example_2_interactions.sd");
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
@@ -58,7 +49,8 @@ public class LectureExamplesTest {
 	@Test
 	public void testExampleStatic() throws IOException {
 		// Load model
-		ASTSDArtifact sdComp = loadModel(MODEL_SRC + "example_3_static.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sdComp = lang.loadModelWithoutCocos(MODEL_SRC, "example_3_static.sd");
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
@@ -69,7 +61,8 @@ public class LectureExamplesTest {
 	@Test
 	public void testExampleConstructor() throws IOException {
 		// Load model
-		ASTSDArtifact sdComp = loadModel(MODEL_SRC + "example_4_constructor.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sdComp = lang.loadModelWithoutCocos(MODEL_SRC, "example_4_constructor.sd");
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
@@ -80,7 +73,8 @@ public class LectureExamplesTest {
 	@Test
 	public void testExampleFactory() throws IOException {
 		// Load model
-		ASTSDArtifact sdComp = loadModel(MODEL_SRC + "example_5_factory.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sdComp = lang.loadModelWithoutCocos(MODEL_SRC, "example_5_factory.sd");
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
@@ -91,7 +85,8 @@ public class LectureExamplesTest {
 	@Test
 	public void testExampleStereotypes() throws IOException {
 		// Load model
-		ASTSDArtifact sdComp = loadModel(MODEL_SRC + "example_6_stereotypes.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sdComp = lang.loadModelWithoutCocos(MODEL_SRC, "example_6_stereotypes.sd");
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
@@ -102,7 +97,8 @@ public class LectureExamplesTest {
 	@Test
 	public void testExampleOcl() throws IOException {
 		// Load model
-		ASTSDArtifact sdComp = loadModel(MODEL_SRC + "example_7_ocl.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sdComp = lang.loadModelWithoutCocos(MODEL_SRC, "example_7_ocl.sd");
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
@@ -113,7 +109,8 @@ public class LectureExamplesTest {
 
 	public void testExampleOclLet() throws IOException {
 		// Load model
-		ASTSDArtifact sdComp = loadModel(MODEL_SRC + "example_8_ocl_let.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sdComp = lang.loadModelWithoutCocos(MODEL_SRC, "example_8_ocl_let.sd");
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness
@@ -124,7 +121,8 @@ public class LectureExamplesTest {
 	@Test
 	public void testExampleNonCausal() throws IOException {
 		// Load model
-		ASTSDArtifact sdComp = loadModel(MODEL_SRC + "example_9_non_causal.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sdComp = lang.loadModelWithoutCocos(MODEL_SRC, "example_9_non_causal.sd");
 		ASTSequenceDiagram sd = sdComp.getSequenceDiagram();
 
 		// Traverse AST and check for correctness

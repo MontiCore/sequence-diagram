@@ -1,14 +1,9 @@
 package de.monticore.lang.sd.ast;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
 
 import java.io.IOException;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
-import java.util.Optional;
 
 import org.junit.Test;
 
@@ -17,25 +12,14 @@ import de.monticore.lang.sd._ast.ASTMethodCall;
 import de.monticore.lang.sd._ast.ASTReturn;
 import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._ast.ASTSDElement;
-import de.monticore.lang.sd._parser.SDParser;
-import de.se_rwth.commons.logging.Log;
+import de.monticore.lang.sd._symboltable.SDLanguage;
 
 public class InteractionGetSourceTargetTest {
 
-	private ASTSDArtifact loadModel(String modelName) throws IOException {
-		// Load model
-		Log.enableFailQuick(false);
-		Path model = Paths.get(modelName);
-		SDParser parser = new SDParser();
-		Optional<ASTSDArtifact> sd = parser.parseSDArtifact(model.toString());
-		assertFalse(parser.hasErrors());
-		assertTrue(sd.isPresent());
-		return sd.get();
-	}
-
 	@Test
 	public void test() throws IOException {
-		ASTSDArtifact sd = loadModel("src/test/resources/examples/ast/SourceTargetTest.sd");
+		SDLanguage lang = new SDLanguage();
+		ASTSDArtifact sd = lang.loadModel("src/test/resources/examples/ast", "SourceTargetTest.sd");
 		List<ASTSDElement> elements = sd.getSequenceDiagram().getSDElements();
 
 		ASTMethodCall e1 = (ASTMethodCall) elements.get(0).getInteraction().get();
