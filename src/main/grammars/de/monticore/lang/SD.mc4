@@ -10,8 +10,11 @@ grammar SD extends ocl.monticoreocl.OCL {
     /*================================ TODOs =================================*/
     /*========================================================================*/
     
-    // Referenz zu ObjectDeclaration in ObjectReference
-    // Comment grammar JavaDoc-Style   
+    // Integrate JavaDSL
+    // Comment grammar JavaDoc-Style  
+    // OD Integration (optional)
+    // => z.B. Nach imports: initial abc.od;
+ 
        
     /*========================================================================*/
     /*=============================== TOKENS =================================*/
@@ -175,15 +178,14 @@ grammar SD extends ocl.monticoreocl.OCL {
 		"<" 
 		(context:Name ":")? 
 		"["
-		SDOCLExpression
+		OCLExpression
 		"]"
 		">";
-		
-	SDOCLExpression = 
-		OCLExpression;
 	
 	Java = 
-		"{{" String "}}";
+		"{{"
+		String
+		"}}";
 
     
 }

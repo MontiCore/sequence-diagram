@@ -3,17 +3,16 @@ sequencediagram example_3_static {
 	// Interacting objects
 	a: A;
 	b;
-	StaticClass;
+	class StaticClass;
 
 	// Static calls	
 	a -> StaticClass: static writeToProtocol("This is correct");
 	a -> b: static writeToProtocol("This is wrong");
 	b -> a: static writeToProtocol("This is wrong");
-	b -> (a : StaticClass): static writeToProtocol("This is wrong");
-	b -> (: StaticClass): static writeToProtocol("This is wrong");
+	b -> (c : StaticClass): static writeToProtocol("This is wrong");
+	b -> (: SomeOtherClass): static writeToProtocol("This is wrong");
 	
 	// Non static, forbidden calls
 	a -> StaticClass: writeToProtocol("This is wrong");
-	b -> A: writeToProtocol("This is wrong");
 
 }

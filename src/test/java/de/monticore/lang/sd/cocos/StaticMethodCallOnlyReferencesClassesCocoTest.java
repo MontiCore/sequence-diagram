@@ -20,8 +20,8 @@ public class StaticMethodCallOnlyReferencesClassesCocoTest extends SDCocoTest {
 	public void testCocoViolation() {
 		ASTSDArtifact sd = loadModel(INCORRECT_PATH, "static_method_refers_to_object.sd");
 		checker.checkAll(sd);
-		assertTrue(6 == Log.getErrorCount());
-		assertEquals(6, Log.getFindings().stream()
+		assertTrue(5 == Log.getErrorCount());
+		assertEquals(5, Log.getFindings().stream()
 				.filter(f -> f.buildMsg().contains("StaticMethodCallOnlyReferencesClassesCoco")).count());
 	}
 

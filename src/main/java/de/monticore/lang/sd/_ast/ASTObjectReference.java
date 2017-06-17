@@ -5,6 +5,7 @@ import java.util.Optional;
 import de.monticore.lang.sd._symboltable.ObjectDeclarationSymbol;
 import de.monticore.symboltable.Scope;
 import de.monticore.symboltable.Symbol;
+import de.se_rwth.commons.logging.Log;
 
 public class ASTObjectReference extends ASTObjectReferenceTOP {
 
@@ -33,6 +34,9 @@ public class ASTObjectReference extends ASTObjectReferenceTOP {
 		// Otherwise: Scan through AST
 		Scope sdScope = getEnclosingScope().get();
 		Optional<Symbol> symbol = sdScope.resolveLocally(getName().get(), ObjectDeclarationSymbol.KIND);
+		if (!symbol.isPresent()) {
+			Log.warn("Cannot resolve declaration to object " + getName().get());
+		}
 		return (ASTObjectDeclaration) symbol.get().getAstNode().get();
 	}
 
