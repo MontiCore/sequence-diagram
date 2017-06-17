@@ -1,11 +1,15 @@
 package de.monticore.lang.sd.prettyprint;
 
 import de.monticore.common.prettyprint.CommonPrettyPrinterConcreteVisitor;
+import de.monticore.lang.sd._ast.ASTArgs;
 import de.monticore.lang.sd._ast.ASTArrow;
 import de.monticore.lang.sd._ast.ASTDashedArrow;
+import de.monticore.lang.sd._ast.ASTMethod;
 import de.monticore.lang.sd._ast.ASTMethodCall;
 import de.monticore.lang.sd._ast.ASTObjectDeclaration;
 import de.monticore.lang.sd._ast.ASTObjectReference;
+import de.monticore.lang.sd._ast.ASTParam;
+import de.monticore.lang.sd._ast.ASTParamList;
 import de.monticore.lang.sd._ast.ASTReturn;
 import de.monticore.lang.sd._visitor.SDVisitor;
 import de.monticore.prettyprint.IndentPrinter;
@@ -46,6 +50,36 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 			getPrinter().print(" -> ");
 		}
 		call.getRight().accept(realThis);
+	}
+
+	@Override
+	public void handle(ASTMethod method) {
+		if (method.staticModifierIsPresent()) {
+			getPrinter().print("static ");
+		}
+		getPrinter().print(method.getName());
+		if (method.argsIsPresent()) {
+			method.getArgs().get().accept(realThis);
+		}
+	}
+
+	@Override
+	public void handle(ASTArgs args) {
+		getPrinter().print("(");
+		if (args.paramListIsPresent()) {
+			args.getParamList().get().accept(realThis);
+		}
+		getPrinter().print(")");
+	}
+
+	@Override
+	public void handle(ASTParamList paramlist) {
+		// TODO
+	}
+
+	@Override
+	public void handle(ASTParam param) {
+		// TODO
 	}
 
 	@Override
