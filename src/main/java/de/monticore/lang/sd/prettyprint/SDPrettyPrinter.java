@@ -1,5 +1,7 @@
 package de.monticore.lang.sd.prettyprint;
 
+import java.util.Iterator;
+
 import de.monticore.common.prettyprint.CommonPrettyPrinterConcreteVisitor;
 import de.monticore.lang.sd._ast.ASTArgs;
 import de.monticore.lang.sd._ast.ASTArrow;
@@ -74,12 +76,31 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 
 	@Override
 	public void handle(ASTParamList paramlist) {
-		// TODO
+		if (paramlist.isIncomplete()) {
+			// Incomplete
+			getPrinter().print("...");
+		} else {
+			// Print param list
+			Iterator<ASTParam> it = paramlist.getParams().iterator();
+			while (it.hasNext()) {
+				ASTParam p = it.next();
+				p.accept(realThis);
+				if (it.hasNext()) {
+					getPrinter().print(",");
+				}
+			}
+		}
 	}
 
 	@Override
 	public void handle(ASTParam param) {
-		// TODO
+		if (param.nameIsPresent()) {
+			getPrinter().print(param.getName().get());
+		} else if (param.num_IntIsPresent()) {
+			getPrinter().print(param.getNum_Int().get());
+		} else if (param.stringIsPresent()) {
+			getPrinter().print(param.getString().get());
+		}
 	}
 
 	@Override
