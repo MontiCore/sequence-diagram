@@ -6,8 +6,10 @@ import de.monticore.common.prettyprint.CommonPrettyPrinterConcreteVisitor;
 import de.monticore.lang.sd._ast.ASTArgs;
 import de.monticore.lang.sd._ast.ASTArrow;
 import de.monticore.lang.sd._ast.ASTDashedArrow;
+import de.monticore.lang.sd._ast.ASTJava;
 import de.monticore.lang.sd._ast.ASTMethod;
 import de.monticore.lang.sd._ast.ASTMethodCall;
+import de.monticore.lang.sd._ast.ASTOCLBlock;
 import de.monticore.lang.sd._ast.ASTObjectDeclaration;
 import de.monticore.lang.sd._ast.ASTObjectReference;
 import de.monticore.lang.sd._ast.ASTParam;
@@ -15,21 +17,12 @@ import de.monticore.lang.sd._ast.ASTParamList;
 import de.monticore.lang.sd._ast.ASTReturn;
 import de.monticore.lang.sd._visitor.SDVisitor;
 import de.monticore.prettyprint.IndentPrinter;
+import ocl.monticoreocl.ocl._ast.ASTOCLExpression;
 
 public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implements SDVisitor {
 
 	public SDPrettyPrinter(IndentPrinter printer) {
 		super(printer);
-	}
-
-	@Override
-	public void handle(ASTObjectReference o) {
-		if (o.inlineDeclarationIsPresent()) {
-			ASTObjectDeclaration od = o.getInlineDeclaration().get();
-			od.accept(realThis);
-		} else {
-			getPrinter().print(o.getName().get());
-		}
 	}
 
 	@Override
@@ -40,6 +33,16 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 		if (od.ofTypeIsPresent()) {
 			getPrinter().print(":");
 			getPrinter().print(od.getOfType().get());
+		}
+	}
+
+	@Override
+	public void handle(ASTObjectReference o) {
+		if (o.inlineDeclarationIsPresent()) {
+			ASTObjectDeclaration od = o.getInlineDeclaration().get();
+			od.accept(realThis);
+		} else {
+			getPrinter().print(o.getName().get());
 		}
 	}
 
@@ -113,6 +116,30 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 		}
 		ret.getRight().accept(realThis);
 	}
+
+	@Override
+	public void handle(ASTOCLBlock ocl) {
+		getPrinter().print("<");
+		if (ocl.contextIsPresent()) {
+			getPrinter().print(ocl.getContext().get());
+			getPrinter().print(": ");
+		}
+		getPrinter().print("[");
+		ocl.getOCLExpression().accept(realThis);
+		getPrinter().print("]");
+		getPrinter().print(">");
+	}
+
+	@Override
+	public void handle(ASTJava java) {
+		getPrinter().print("{{");
+		getPrinter().print(java.getString());
+		getPrinter().print("}}");
+	}
+
+	/*
+	 * Only visitor-related
+	 */
 
 	private SDVisitor realThis = this;
 
