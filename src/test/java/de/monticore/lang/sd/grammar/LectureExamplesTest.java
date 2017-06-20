@@ -104,7 +104,7 @@ public class LectureExamplesTest {
 		// Traverse AST and check for correctness
 		assertEquals(4, sd.getObjectDeclarations().size());
 		assertEquals(6, sd.getSDElements().size());
-		assertTrue(sd.getSDElements().get(5).getOCLBlock().isPresent());
+		assertTrue(sd.getSDElements().get(5).getSDOCL().isPresent());
 	}
 
 	public void testExampleOclLet() throws IOException {

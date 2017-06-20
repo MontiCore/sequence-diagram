@@ -6,18 +6,17 @@ import de.monticore.common.prettyprint.CommonPrettyPrinterConcreteVisitor;
 import de.monticore.lang.sd._ast.ASTArgs;
 import de.monticore.lang.sd._ast.ASTArrow;
 import de.monticore.lang.sd._ast.ASTDashedArrow;
-import de.monticore.lang.sd._ast.ASTJava;
 import de.monticore.lang.sd._ast.ASTMethod;
 import de.monticore.lang.sd._ast.ASTMethodCall;
-import de.monticore.lang.sd._ast.ASTOCLBlock;
 import de.monticore.lang.sd._ast.ASTObjectDeclaration;
 import de.monticore.lang.sd._ast.ASTObjectReference;
 import de.monticore.lang.sd._ast.ASTParam;
 import de.monticore.lang.sd._ast.ASTParamList;
 import de.monticore.lang.sd._ast.ASTReturn;
+import de.monticore.lang.sd._ast.ASTSDJava;
+import de.monticore.lang.sd._ast.ASTSDOCL;
 import de.monticore.lang.sd._visitor.SDVisitor;
 import de.monticore.prettyprint.IndentPrinter;
-import ocl.monticoreocl.ocl._ast.ASTOCLExpression;
 
 public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implements SDVisitor {
 
@@ -118,7 +117,7 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 	}
 
 	@Override
-	public void handle(ASTOCLBlock ocl) {
+	public void handle(ASTSDOCL ocl) {
 		getPrinter().print("<");
 		if (ocl.contextIsPresent()) {
 			getPrinter().print(ocl.getContext().get());
@@ -131,7 +130,7 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 	}
 
 	@Override
-	public void handle(ASTJava java) {
+	public void handle(ASTSDJava java) {
 		getPrinter().print("{{");
 		getPrinter().print(java.getString());
 		getPrinter().print("}}");

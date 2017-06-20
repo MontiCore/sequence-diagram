@@ -4,7 +4,7 @@ package de.monticore.lang;
  * @author Robin Wolters
 */
 
-grammar SD extends ocl.monticoreocl.OCL { 
+grammar SD extends de.monticore.java.JavaDSL, ocl.monticoreocl.OCL { 
 
     /*========================================================================*/
     /*================================ TODOs =================================*/
@@ -82,8 +82,8 @@ grammar SD extends ocl.monticoreocl.OCL {
 	SDElement = 
 		SDActivity |
 		(Interaction ";") | 
-		OCLBlock | 
-		Java;
+		SDOCL | 
+		SDJava;
 		
 	SDActivity = 
 		"{"
@@ -174,7 +174,7 @@ grammar SD extends ocl.monticoreocl.OCL {
     /*=================== Integration of other Languages =====================*/
     /*========================================================================*/
 	
-	OCLBlock = 
+	SDOCL = 
 		"<" 
 		(context:Name ":")? 
 		"["
@@ -182,7 +182,7 @@ grammar SD extends ocl.monticoreocl.OCL {
 		"]"
 		">";
 	
-	Java = 
+	SDJava = 
 		"{{"
 		String
 		"}}";

@@ -17,13 +17,13 @@ sequencediagram sdAuftrag {
 	// Production -> Shipping
 	{{"JAVA: Make sure that allItemsProduced() is true"}}
 	o -> o : <<trigger>> shipItems();
-	<[assert state == Shipping]>
+	<[state == Shipping]>
 	
 	// Shipping -> Payment
 	{{"JAVA :  Make sure that allItemsSent() is true"}}
 	o -> c : sendInvoice(sum);
 	o <-- c : return;
-	<[assert state == payment]>
+	<[state == payment]>
 	
 	// Payment -> Complete
 	{{"Java:  Make sure that paid is true"}}
