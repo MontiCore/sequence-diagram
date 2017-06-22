@@ -15,18 +15,18 @@ sequencediagram allGrammarElements {
 	<o: [state == Production]>
 	
 	// Production -> Shipping
-	{{"JAVA: Make sure that allItemsProduced() is true"}}
+	java: {produceAllItems();}
 	o -> o : <<trigger>> shipItems();
 	<o : [state == Shipping]>
 	
 	// Shipping -> Payment
-	{{"JAVA :  Make sure that allItemsSent() is true"}}
+	java: {sendAllItems();}
 	o -> c : sendInvoice(sum);
 	c --> o : return;
 	<o: [state == payment]>
 	
 	// Payment -> Complete
-	{{"Java:  Make sure that paid is true"}}
+	java: {pay();}
 	<o: [state == complete]>
 	o -> (m : Mail) : new Mail();
 	

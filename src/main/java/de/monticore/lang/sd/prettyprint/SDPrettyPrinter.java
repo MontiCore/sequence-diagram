@@ -132,7 +132,7 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 	@Override
 	public void handle(ASTSDJava java) {
 		getPrinter().print("{{");
-		getPrinter().print(java.getString());
+		// getPrinter().print(java.getString());
 		getPrinter().print("}}");
 	}
 

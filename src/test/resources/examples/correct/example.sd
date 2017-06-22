@@ -15,18 +15,18 @@ sequencediagram example {
 	<[state == Production]>
 	
 	// Production -> Shipping
-	{{"JAVA: Make sure that allItemsProduced() is true"}}
+	java: {produceAllItems();}
 	o -> o : <<trigger>> shipItems();
 	<[state == Shipping]>
 	
 	// Shipping -> Payment
-	{{"JAVA :  Make sure that allItemsSent() is true"}}
+	java: {sendAllItems();}
 	o -> c : sendInvoice(sum);
 	o <-- c : return;
 	<[state == payment]>
 	
 	// Payment -> Complete
-	{{"Java:  Make sure that paid is true"}}
+	java: {pay();}
 	<[state == complete]>
 	
 }

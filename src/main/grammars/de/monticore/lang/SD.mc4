@@ -183,9 +183,9 @@ grammar SD extends de.monticore.java.JavaDSL, ocl.monticoreocl.OCL {
 		">";
 	
 	SDJava = 
-		"{{"
-		String
-		"}}";
+		"java: {"
+		BlockStatement
+		"}";
 
     
 }
