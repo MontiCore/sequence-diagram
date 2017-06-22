@@ -13,7 +13,7 @@
   <properties>
 
     <!-- .. Libraries ..................................................... -->
-    <monticore.version>4.5.3-SNAPSHOT</monticore.version>
+    <monticore.version>4.5.3</monticore.version>
     <monticore.java.version>4.3.9</monticore.java.version>
 
     <antlr.version>4.5</antlr.version>
@@ -27,7 +27,7 @@
     <SIUnit.version>0.0.3-SNAPSHOT</SIUnit.version>
 
     <!-- .. Plugins ....................................................... -->
-    <monticore.plugin>4.5.3-SNAPSHOT</monticore.plugin>
+    <monticore.plugin>4.5.3</monticore.plugin>
 
     <assembly.plugin>2.5.4</assembly.plugin>
     <compiler.plugin>3.3</compiler.plugin>
