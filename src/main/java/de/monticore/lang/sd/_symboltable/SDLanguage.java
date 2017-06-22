@@ -23,8 +23,10 @@ import de.se_rwth.commons.logging.Log;
 
 public class SDLanguage extends de.monticore.lang.sd._symboltable.SDLanguageTOP {
 
+	public static final String FILE_EXTENSION = "sd";
+
 	public SDLanguage() {
-		super("SequenceDiagram", "sd");
+		super("SequenceDiagram", FILE_EXTENSION);
 	}
 
 	/**
@@ -47,10 +49,13 @@ public class SDLanguage extends de.monticore.lang.sd._symboltable.SDLanguageTOP 
 
 	private ASTSDArtifact loadModel(String path, String model, boolean checkCocos) {
 
-		ResolvingConfiguration config = new ResolvingConfiguration();
-		config.addDefaultFilters(getResolvers());
+		if (path.endsWith("/")) {
+			path = path.substring(0, path.length() - 1);
+		}
 
 		// Parse model
+		ResolvingConfiguration config = new ResolvingConfiguration();
+		config.addDefaultFilters(getResolvers());
 		SDParser parser = getParser();
 		ASTSDArtifact ast = null;
 		try {
@@ -58,6 +63,7 @@ public class SDLanguage extends de.monticore.lang.sd._symboltable.SDLanguageTOP 
 			if (optAst.isPresent() && (optAst.get() instanceof ASTSDArtifact)) {
 				ast = (ASTSDArtifact) optAst.get();
 			}
+			ast.setFileName(path, model);
 		} catch (Exception e) {
 			Log.error("Could not parse model " + path + "/" + model);
 		}

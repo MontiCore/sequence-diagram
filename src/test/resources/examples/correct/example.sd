@@ -1,8 +1,8 @@
-package correct;
+package examples.correct;
 
-import cdAuftrag.cd;
+import examples.correct.activities.sd;
 
-sequencediagram sdAuftrag {
+sequencediagram example {
 
 	// Interacting objects
 	o: Order;

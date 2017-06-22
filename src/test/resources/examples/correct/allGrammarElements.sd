@@ -1,8 +1,8 @@
 package correct;
 
-import cdAuftrag.cd;
+import correct.example.sd;
 
-sequencediagram sdAuftrag {
+sequencediagram allGrammarElements {
 
 	// Interacting objects
 	<<someStereotype>> (C) o: Order;
