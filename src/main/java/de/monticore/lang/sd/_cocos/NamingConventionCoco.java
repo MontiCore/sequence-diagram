@@ -16,22 +16,22 @@ public class NamingConventionCoco implements SDASTObjectDeclarationCoCo {
 				String name = node.getName().get();
 				String type = node.getOfType().get();
 				if (!Character.isLowerCase(name.charAt(0))) {
-					Log.error(errorMessage(node, 1, name), node.get_SourcePositionStart());
+					Log.warn(errorMessage(node, 1, name), node.get_SourcePositionStart());
 				}
 				if (!Character.isUpperCase(type.charAt(0))) {
-					Log.error(errorMessage(node, 2, type), node.get_SourcePositionStart());
+					Log.warn(errorMessage(node, 2, type), node.get_SourcePositionStart());
 				}
 			} else {
 				String name = node.getName().get();
 				if (node.isClass()) {
 					// "class SomeClass"
 					if (!Character.isUpperCase(name.charAt(0))) {
-						Log.error(errorMessage(node, 3, name), node.get_SourcePositionStart());
+						Log.warn(errorMessage(node, 3, name), node.get_SourcePositionStart());
 					}
 				} else {
 					// "object"
 					if (!Character.isLowerCase(name.charAt(0))) {
-						Log.error(errorMessage(node, 1, name), node.get_SourcePositionStart());
+						Log.warn(errorMessage(node, 1, name), node.get_SourcePositionStart());
 					}
 				}
 			}
@@ -39,7 +39,7 @@ public class NamingConventionCoco implements SDASTObjectDeclarationCoCo {
 			// ": Type"
 			String typeName = node.getOfType().get();
 			if (!Character.isUpperCase(typeName.charAt(0))) {
-				Log.error(errorMessage(node, 2, typeName), node.get_SourcePositionStart());
+				Log.warn(errorMessage(node, 2, typeName), node.get_SourcePositionStart());
 			}
 		}
 

@@ -20,6 +20,7 @@ public class ImportStatementsValidCocoTest extends SDCocoTest {
 	public void testCocoViolation() {
 		ASTSDArtifact sd = loadModel(INCORRECT_PATH, "faulty_imports.sd");
 		checker.checkAll(sd);
+		assertEquals(2, Log.getErrorCount());
 		assertEquals(2,
 				Log.getFindings().stream().filter(f -> f.buildMsg().contains("ImportStatementsValidCoco")).count());
 	}
@@ -28,6 +29,8 @@ public class ImportStatementsValidCocoTest extends SDCocoTest {
 	public void testCorrectExamples() {
 		testAllCorrectExamples();
 		assertTrue(0 == Log.getErrorCount());
+		assertEquals(0,
+				Log.getFindings().stream().filter(f -> f.buildMsg().contains("ImportStatementsValidCoco")).count());
 	}
 
 }

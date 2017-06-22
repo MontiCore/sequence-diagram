@@ -1,7 +1,6 @@
 package de.monticore.lang.sd.cocos;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._cocos.ObjectIdentifierUniqueCoco;
@@ -20,7 +19,7 @@ public class ObjectIdentifierUniqueCocoTest extends SDCocoTest {
 	public void testCocoViolation() {
 		ASTSDArtifact sd = loadModel(INCORRECT_PATH, "no_unique_names.sd");
 		checker.checkAll(sd);
-		assertTrue(4 == Log.getErrorCount());
+		assertEquals(4, Log.getErrorCount());
 		assertEquals(4,
 				Log.getFindings().stream().filter(f -> f.buildMsg().contains("ObjectIdentifierUniqueCoco")).count());
 	}
@@ -28,7 +27,9 @@ public class ObjectIdentifierUniqueCocoTest extends SDCocoTest {
 	@Override
 	public void testCorrectExamples() {
 		testAllCorrectExamples();
-		assertTrue(0 == Log.getErrorCount());
+		assertEquals(0, Log.getErrorCount());
+		assertEquals(0,
+				Log.getFindings().stream().filter(f -> f.buildMsg().contains("ObjectIdentifierUniqueCoco")).count());
 	}
 
 }

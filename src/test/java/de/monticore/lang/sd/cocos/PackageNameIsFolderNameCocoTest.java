@@ -20,6 +20,7 @@ public class PackageNameIsFolderNameCocoTest extends SDCocoTest {
 	public void testCocoViolation() {
 		ASTSDArtifact sd = loadModel(INCORRECT_PATH, "wrong_package.sd");
 		checker.checkAll(sd);
+		assertEquals(0, Log.getErrorCount());
 		assertEquals(1,
 				Log.getFindings().stream().filter(f -> f.buildMsg().contains("PackageNameIsFolderNameCoco")).count());
 	}

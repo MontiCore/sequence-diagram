@@ -48,7 +48,7 @@ public class ReturnOnlyAfterMethodCoco implements SDASTInteractionCoCo {
 			openMethodCalls.remove(toBeRemoved);
 		} else {
 			// No open method call: Coco violation
-			Log.error(errorMessage(node), node.get_SourcePositionStart());
+			Log.warn(errorMessage(node), node.get_SourcePositionStart());
 		}
 
 	}

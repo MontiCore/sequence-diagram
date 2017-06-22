@@ -20,7 +20,7 @@ public class CompletenessConsistentCocoTest extends SDCocoTest {
 	public void testCocoViolation() {
 		ASTSDArtifact sd = loadModel(INCORRECT_PATH, "completeness_inconsistent.sd");
 		checker.checkAll(sd);
-		// assertTrue(2 == Log.getErrorCount());
+		assertEquals(2, Log.getErrorCount());
 		assertEquals(2,
 				Log.getFindings().stream().filter(f -> f.buildMsg().contains("CompletenessConsistentCoco")).count());
 	}
@@ -29,6 +29,8 @@ public class CompletenessConsistentCocoTest extends SDCocoTest {
 	public void testCorrectExamples() {
 		testAllCorrectExamples();
 		assertTrue(0 == Log.getErrorCount());
+		assertEquals(0,
+				Log.getFindings().stream().filter(f -> f.buildMsg().contains("CompletenessConsistentCoco")).count());
 	}
 
 }

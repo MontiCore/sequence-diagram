@@ -1,7 +1,6 @@
 package de.monticore.lang.sd.cocos;
 
 import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
 
 import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._cocos.NamingConventionCoco;
@@ -20,14 +19,15 @@ public class NamingConventionCocoTest extends SDCocoTest {
 	public void testCocoViolation() {
 		ASTSDArtifact sd = loadModel(INCORRECT_PATH, "violated_naming_conventions.sd");
 		checker.checkAll(sd);
-		assertTrue(10 == Log.getErrorCount());
+		assertEquals(0, Log.getErrorCount());
 		assertEquals(10, Log.getFindings().stream().filter(f -> f.buildMsg().contains("NamingConventionCoco")).count());
 	}
 
 	@Override
 	public void testCorrectExamples() {
 		testAllCorrectExamples();
-		assertTrue(0 == Log.getErrorCount());
+		assertEquals(0, Log.getErrorCount());
+		assertEquals(0, Log.getFindings().stream().filter(f -> f.buildMsg().contains("NamingConventionCoco")).count());
 	}
 
 }
