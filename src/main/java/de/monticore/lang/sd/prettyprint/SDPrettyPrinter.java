@@ -28,6 +28,7 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 	public String prettyPrint(ASTSDNode node) {
 		node.accept(this);
 		String result = getPrinter().getContent();
+		getPrinter().clearBuffer();
 		return result;
 	}
 
