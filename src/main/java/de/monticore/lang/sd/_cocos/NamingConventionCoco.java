@@ -49,8 +49,7 @@ public class NamingConventionCoco implements SDASTObjectDeclarationCoCo {
 		String message = this.getClass().getSimpleName() + ": ";
 		message += "Objectdeclaration ";
 		SDPrettyPrinter pp = new SDPrettyPrinter(new IndentPrinter());
-		pp.handle(node);
-		message += pp.getPrinter().getContent();
+		message += pp.prettyPrint(node);
 		switch (errorKind) {
 		case 1:
 			message += " introduces an object with name " + name;

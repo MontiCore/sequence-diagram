@@ -44,13 +44,11 @@ public class StaticMethodCallOnlyReferencesClassesCoco implements SDASTMethodCal
 		if (objectDeclaration) {
 			message += ", but refers to a new ObjectDeclaration ";
 			SDPrettyPrinter pp = new SDPrettyPrinter(new IndentPrinter());
-			pp.handle(target);
-			message += pp.getPrinter().getContent();
+			message += pp.prettyPrint(target);
 		} else {
 			message += ", but target is written in lower case: ";
 			SDPrettyPrinter pp = new SDPrettyPrinter(new IndentPrinter());
-			pp.handle(target);
-			message += pp.getPrinter().getContent();
+			message += pp.prettyPrint(target);
 		}
 		message += ".";
 		return message;
@@ -60,8 +58,7 @@ public class StaticMethodCallOnlyReferencesClassesCoco implements SDASTMethodCal
 		String message = this.getClass().getSimpleName() + ": ";
 		message += "Method calls targeting classes (here: class ";
 		SDPrettyPrinter pp = new SDPrettyPrinter(new IndentPrinter());
-		pp.handle(target);
-		message += pp.getPrinter().getContent();
+		message += pp.prettyPrint(target);
 		message += ") must be marked as static";
 		message += ".";
 		return message;

@@ -33,8 +33,7 @@ public class ObjectIdentifierUniqueCoco implements SDASTObjectDeclarationCoCo {
 		if (name.equals("")) {
 			String message = this.getClass().getSimpleName() + ": The object declaration ";
 			SDPrettyPrinter pp = new SDPrettyPrinter(new IndentPrinter());
-			pp.handle(node);
-			message += pp.getPrinter().getContent();
+			message += pp.prettyPrint(node);
 			message += " is invalid as it does not give the object a name or a type.";
 			Log.error(message, node.get_SourcePositionStart());
 			return;

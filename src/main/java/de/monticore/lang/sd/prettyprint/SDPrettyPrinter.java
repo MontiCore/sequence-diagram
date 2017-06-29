@@ -14,6 +14,7 @@ import de.monticore.lang.sd._ast.ASTParam;
 import de.monticore.lang.sd._ast.ASTParamList;
 import de.monticore.lang.sd._ast.ASTReturn;
 import de.monticore.lang.sd._ast.ASTSDJava;
+import de.monticore.lang.sd._ast.ASTSDNode;
 import de.monticore.lang.sd._ast.ASTSDOCL;
 import de.monticore.lang.sd._visitor.SDVisitor;
 import de.monticore.prettyprint.IndentPrinter;
@@ -22,6 +23,12 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 
 	public SDPrettyPrinter(IndentPrinter printer) {
 		super(printer);
+	}
+
+	public String prettyPrint(ASTSDNode node) {
+		node.accept(this);
+		String result = getPrinter().getContent();
+		return result;
 	}
 
 	@Override
