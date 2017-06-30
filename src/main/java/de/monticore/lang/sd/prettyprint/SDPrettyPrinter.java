@@ -3,6 +3,7 @@ package de.monticore.lang.sd.prettyprint;
 import java.util.Iterator;
 
 import de.monticore.common.prettyprint.CommonPrettyPrinterConcreteVisitor;
+import de.monticore.java.prettyprint.JavaDSLPrettyPrinter;
 import de.monticore.lang.sd._ast.ASTArgs;
 import de.monticore.lang.sd._ast.ASTArrow;
 import de.monticore.lang.sd._ast.ASTDashedArrow;
@@ -139,9 +140,11 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 
 	@Override
 	public void handle(ASTSDJava java) {
-		getPrinter().print("{{");
-		// getPrinter().print(java.getString());
-		getPrinter().print("}}");
+		getPrinter().print("java: {");
+		JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
+		String javaPP = pp.prettyprint(java.getBlockStatement());
+		getPrinter().print(javaPP);
+		getPrinter().print("}");
 	}
 
 	/*
