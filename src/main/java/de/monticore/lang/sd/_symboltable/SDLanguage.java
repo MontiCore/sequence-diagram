@@ -6,14 +6,18 @@ import java.util.Optional;
 import de.monticore.ast.ASTNode;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd._ast.ASTSDArtifact;
+import de.monticore.lang.sd._cocos.CommonFileExtensionCoco;
 import de.monticore.lang.sd._cocos.CompletenessConsistentCoco;
+import de.monticore.lang.sd._cocos.ImportStatementsValidCoco;
 import de.monticore.lang.sd._cocos.InlineObjectDefinitionWithConstructorCoco;
 import de.monticore.lang.sd._cocos.NamingConventionCoco;
 import de.monticore.lang.sd._cocos.OCLContextDeclaredCoco;
 import de.monticore.lang.sd._cocos.ObjectIdentifierUniqueCoco;
+import de.monticore.lang.sd._cocos.PackageNameIsFolderNameCoco;
 import de.monticore.lang.sd._cocos.ReferencedObjectsDeclaredCoco;
 import de.monticore.lang.sd._cocos.ReturnOnlyAfterMethodCoco;
 import de.monticore.lang.sd._cocos.SDCoCoChecker;
+import de.monticore.lang.sd._cocos.SDNameIsArtifactNameCoco;
 import de.monticore.lang.sd._cocos.StaticMethodCallOnlyReferencesClassesCoco;
 import de.monticore.lang.sd._parser.SDParser;
 import de.monticore.modelloader.ModelingLanguageModelLoader;
@@ -86,13 +90,17 @@ public class SDLanguage extends de.monticore.lang.sd._symboltable.SDLanguageTOP 
 
 	public void checkAllCocos(ASTSDArtifact model) {
 		SDCoCoChecker checker = new SDCoCoChecker();
+		checker.addCoCo(new CommonFileExtensionCoco());
 		checker.addCoCo(new CompletenessConsistentCoco());
+		checker.addCoCo(new ImportStatementsValidCoco());
 		checker.addCoCo(new InlineObjectDefinitionWithConstructorCoco());
 		checker.addCoCo(new NamingConventionCoco());
 		checker.addCoCo(new ObjectIdentifierUniqueCoco());
 		checker.addCoCo(new OCLContextDeclaredCoco());
+		checker.addCoCo(new PackageNameIsFolderNameCoco());
 		checker.addCoCo(new ReferencedObjectsDeclaredCoco());
 		checker.addCoCo(new ReturnOnlyAfterMethodCoco());
+		checker.addCoCo(new SDNameIsArtifactNameCoco());
 		checker.addCoCo(new StaticMethodCallOnlyReferencesClassesCoco());
 		checker.checkAll(model);
 	}
