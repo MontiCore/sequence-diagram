@@ -105,12 +105,12 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 
 	@Override
 	public void handle(ASTParam param) {
-		if (param.nameIsPresent()) {
-			getPrinter().print(param.getName().get());
+		if (param.referenceIsPresent()) {
+			getPrinter().print(param.getReference().get());
 		} else if (param.num_IntIsPresent()) {
 			getPrinter().print(param.getNum_Int().get());
 		} else if (param.stringIsPresent()) {
-			getPrinter().print(param.getString().get());
+			getPrinter().print("\"" + param.getString().get() + "\"");
 		}
 	}
 

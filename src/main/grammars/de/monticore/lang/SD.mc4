@@ -255,12 +255,12 @@ grammar SD extends de.monticore.java.JavaDSL, ocl.monticoreocl.OCL {
 
 	/** ASTParam represents a parameter which can be a string, variable or Integer
       @attribute string Static string parameter
-      @attribute name Reference to a variable as parameter
+      @attribute reference Reference to a variable as parameter
       @attribute num_Int Static integer parameter
     */ 				
 	Param = 
 		String | 
-		Name | 
+		reference: QualifiedName | 
 		Num_Int;
 	
 	/** ASTReturnStatements represents a return statement which may have a result
