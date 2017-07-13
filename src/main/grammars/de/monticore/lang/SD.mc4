@@ -298,9 +298,8 @@ grammar SD extends de.monticore.java.JavaDSL, ocl.monticoreocl.OCL {
       @attribute blockStatement Statement in JavaDSL
     */ 	
 	SDJava = 
-		"java: {"
-		BlockStatement
-		"}";
+		"java" ":" 
+		blockStatement:JavaBlock;
 
     
 }
