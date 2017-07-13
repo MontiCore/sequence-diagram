@@ -272,11 +272,11 @@ grammar SD extends de.monticore.java.JavaDSL, ocl.monticoreocl.OCL {
 	
 	/** ASTResult represents a result returned by a return statement
       @attribute incomplete Marks the result as incomplete
-      @attribute qualifiedName A name representing a variable or enum
+      @attribute value A name representing a variable or enum
     */ 		
 	Result = 
 		incomplete:["..."] |
-		QualifiedName;
+		value: Param;
 		
     /*========================================================================*/
     /*=================== Integration of other Languages =====================*/
