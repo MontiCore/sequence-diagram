@@ -4,7 +4,7 @@ package de.monticore.lang;
  * @author Robin Wolters
 */
 
-grammar SD extends de.monticore.java.JavaDSL, ocl.monticoreocl.OCL { 
+grammar SD extends de.monticore.java.JavaDSL, ocl.monticoreocl.OCL, de.monticore.types.Types { 
 
     /*========================================================================*/
     /*================================ TODOs =================================*/

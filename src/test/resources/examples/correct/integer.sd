@@ -1,0 +1,5 @@
+sequencediagram integer {
+
+	java: {value = 1;}
+	
+}
