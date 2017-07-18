@@ -24,7 +24,8 @@ public class ImportStatementsValidCoco implements SDASTSDArtifactCoCo {
 			// Check if package name is valid
 			if (!coco2.isSuffix(path, packageName)) {
 				Log.error(this.getClass().getSimpleName() + ": Cannot resolve import statements. The package name "
-						+ packageName + " of " + path + "/" + fileName + " does not match its path on the file system");
+						+ packageName + " of " + path + "/" + fileName + " does not match its path on the file system",
+						node.get_SourcePositionStart());
 			}
 			root = path.replaceAll(packageName.replaceAll("\\.", "/"), "");
 		}

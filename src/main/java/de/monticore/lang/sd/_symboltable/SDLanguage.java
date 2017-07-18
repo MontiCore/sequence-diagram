@@ -9,6 +9,7 @@ import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._cocos.CommonFileExtensionCoco;
 import de.monticore.lang.sd._cocos.CompletenessConsistentCoco;
 import de.monticore.lang.sd._cocos.ImportStatementsValidCoco;
+import de.monticore.lang.sd._cocos.IncompleteOnlyWhenAllowedCoco;
 import de.monticore.lang.sd._cocos.InlineObjectDefinitionWithConstructorCoco;
 import de.monticore.lang.sd._cocos.NamingConventionCoco;
 import de.monticore.lang.sd._cocos.OCLContextDeclaredCoco;
@@ -93,6 +94,7 @@ public class SDLanguage extends de.monticore.lang.sd._symboltable.SDLanguageTOP 
 		checker.addCoCo(new CommonFileExtensionCoco());
 		checker.addCoCo(new CompletenessConsistentCoco());
 		checker.addCoCo(new ImportStatementsValidCoco());
+		checker.addCoCo(new IncompleteOnlyWhenAllowedCoco());
 		checker.addCoCo(new InlineObjectDefinitionWithConstructorCoco());
 		checker.addCoCo(new NamingConventionCoco());
 		checker.addCoCo(new ObjectIdentifierUniqueCoco());

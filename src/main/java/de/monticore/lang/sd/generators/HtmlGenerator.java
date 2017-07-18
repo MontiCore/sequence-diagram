@@ -25,7 +25,6 @@ public class HtmlGenerator {
 		String outputPath = name.toLowerCase() + "/";
 
 		// Some processing
-		// TODO
 
 		// Generation
 		Path outputFile = Paths.get(outputPath, ast.getName() + ".html");

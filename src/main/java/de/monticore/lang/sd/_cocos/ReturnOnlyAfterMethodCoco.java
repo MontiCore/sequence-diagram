@@ -60,10 +60,10 @@ public class ReturnOnlyAfterMethodCoco implements SDASTInteractionCoCo {
 		message += pp.prettyPrint(node);
 		message += " occurs without previous call from ";
 		pp = new SDPrettyPrinter(new IndentPrinter());
-		message += pp.prettyPrint(node);
+		message += pp.prettyPrint(node.getTarget());
 		message += " to ";
 		pp = new SDPrettyPrinter(new IndentPrinter());
-		message += pp.prettyPrint(node);
+		message += pp.prettyPrint(node.getSource());
 		message += ".";
 		return message;
 	}
