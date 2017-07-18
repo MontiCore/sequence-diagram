@@ -70,7 +70,7 @@ public class SDLanguage extends de.monticore.lang.sd._symboltable.SDLanguageTOP 
 			}
 			ast.setFileName(path, model);
 		} catch (Exception e) {
-			Log.error("Could not parse model " + path + "/" + model);
+			Log.error("Could not parse model " + path + "/" + model + ". " + e.getMessage());
 		}
 
 		// Build ST
