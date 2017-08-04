@@ -97,13 +97,22 @@ public class CorrectExamplesTest {
 		// Traverse AST and check for correctness
 		assertEquals(2, sd.getSequenceDiagram().getObjectDeclarations().size());
 		assertEquals(1, sd.getSequenceDiagram().getSDElements().size());
+
 		ASTSDElement ac1 = sd.getSequenceDiagram().getSDElements().get(0);
 		assertTrue(ac1.getSDActivity().isPresent());
 		assertEquals(2, ac1.getSDActivity().get().getSDElements().size());
+
 		ASTSDElement ac2 = ac1.getSDActivity().get().getSDElements().get(1);
 		assertTrue(ac2.getSDActivity().isPresent());
-		assertEquals(1, ac2.getSDActivity().get().getSDElements().size());
-		assertTrue(ac2.getSDActivity().get().getSDElements().get(0).getInteraction().isPresent());
+		assertEquals(2, ac2.getSDActivity().get().getSDElements().size());
+
+		ASTSDElement ac3 = ac2.getSDActivity().get().getSDElements().get(1);
+		assertTrue(ac3.getSDActivity().isPresent());
+		assertEquals(2, ac3.getSDActivity().get().getSDElements().size());
+
+		ASTSDElement ac4 = ac3.getSDActivity().get().getSDElements().get(1);
+		assertTrue(ac4.getSDActivity().isPresent());
+		assertEquals(0, ac4.getSDActivity().get().getSDElements().size());
 
 	}
 
