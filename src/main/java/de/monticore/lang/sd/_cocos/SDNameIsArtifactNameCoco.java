@@ -36,7 +36,7 @@ public class SDNameIsArtifactNameCoco implements SDASTSDArtifactCoCo {
 		// Check if sdName == fileName without extension
 		if (!sdName.equals(baseFileName)) {
 			Log.warn(this.getClass().getSimpleName() + ": The sequence diagram name " + sdName
-					+ " does not match the artifact name " + baseFileName);
+					+ " does not match the artifact name " + baseFileName, node.get_SourcePositionStart());
 		}
 
 	}
