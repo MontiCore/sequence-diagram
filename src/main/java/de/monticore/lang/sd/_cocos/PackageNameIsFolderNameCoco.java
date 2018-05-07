@@ -19,8 +19,8 @@
 
 package de.monticore.lang.sd._cocos;
 
-import de.monticore.lang.sd._ast.ASTPackageDeclaration;
 import de.monticore.lang.sd._ast.ASTSDArtifact;
+import de.monticore.lang.sd._ast.ASTSDPackageDeclaration;
 import de.se_rwth.commons.logging.Log;
 
 public class PackageNameIsFolderNameCoco implements SDASTSDArtifactCoCo {
@@ -32,7 +32,7 @@ public class PackageNameIsFolderNameCoco implements SDASTSDArtifactCoCo {
 		String file = node.getFileName();
 
 		if (node.packageDeclarationIsPresent()) {
-			ASTPackageDeclaration packageDeclaration = node.getPackageDeclaration().get();
+			ASTSDPackageDeclaration packageDeclaration = node.getPackageDeclaration().get();
 			String packageName = packageDeclaration.getQualifiedName().toString();
 			// Check if package is suffix of path
 			if (!isSuffix(path, packageName)) {

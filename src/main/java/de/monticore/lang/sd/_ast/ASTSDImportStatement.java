@@ -23,13 +23,13 @@ import java.util.List;
 
 import de.monticore.types.types._ast.ASTQualifiedName;
 
-public class ASTImportStatement extends ASTImportStatementTOP {
+public class ASTSDImportStatement extends ASTSDImportStatementTOP {
 
-	public ASTImportStatement() {
+	public ASTSDImportStatement() {
 		super();
 	}
 
-	public ASTImportStatement(ASTQualifiedName qualifiedName) {
+	public ASTSDImportStatement(ASTQualifiedName qualifiedName) {
 		super(qualifiedName);
 	}
 

@@ -30,7 +30,7 @@ public class ASTSDArtifact extends ASTSDArtifactTOP {
 		super();
 	}
 
-	public ASTSDArtifact(ASTPackageDeclaration packageDeclaration, List<ASTImportStatement> importStatements,
+	public ASTSDArtifact(ASTSDPackageDeclaration packageDeclaration, List<ASTSDImportStatement> importStatements,
 			ASTSequenceDiagram sequenceDiagram) {
 		super(packageDeclaration, importStatements, sequenceDiagram);
 	}

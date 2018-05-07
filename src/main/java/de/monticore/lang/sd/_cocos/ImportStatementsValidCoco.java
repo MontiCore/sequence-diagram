@@ -19,12 +19,12 @@
 
 package de.monticore.lang.sd._cocos;
 
-import java.io.File;
-
-import de.monticore.lang.sd._ast.ASTImportStatement;
-import de.monticore.lang.sd._ast.ASTPackageDeclaration;
 import de.monticore.lang.sd._ast.ASTSDArtifact;
+import de.monticore.lang.sd._ast.ASTSDImportStatement;
+import de.monticore.lang.sd._ast.ASTSDPackageDeclaration;
 import de.se_rwth.commons.logging.Log;
+
+import java.io.File;
 
 public class ImportStatementsValidCoco implements SDASTSDArtifactCoCo {
 
@@ -37,7 +37,7 @@ public class ImportStatementsValidCoco implements SDASTSDArtifactCoCo {
 
 		// Package declaration present?
 		if (node.getPackageDeclaration().isPresent()) {
-			ASTPackageDeclaration packageDeclaration = node.getPackageDeclaration().get();
+			ASTSDPackageDeclaration packageDeclaration = node.getPackageDeclaration().get();
 			String packageName = packageDeclaration.getQualifiedName().toString();
 			PackageNameIsFolderNameCoco coco2 = new PackageNameIsFolderNameCoco();
 			// Check if package name is valid
@@ -50,7 +50,7 @@ public class ImportStatementsValidCoco implements SDASTSDArtifactCoCo {
 		}
 
 		// Check if for each import statement there exists a file
-		for (ASTImportStatement imp : node.getImportStatements()) {
+		for (ASTSDImportStatement imp : node.getImportStatements()) {
 			File file = new File(root + imp.getPath(), imp.getFileName());
 			if (!file.exists()) {
 				Log.error(this.getClass().getSimpleName() + ": Cannot find file " + file.getAbsolutePath()
