@@ -26,7 +26,7 @@ public class ASTReturn extends ASTReturnTOP {
 	}
 
 	public ASTReturn(ASTObjectReference left, ASTDashedArrow dashedArrow, ASTObjectReference right,
-			ASTReturnStatement returnStatement) {
+			ASTSDReturnStatement returnStatement) {
 		super(left, dashedArrow, right, returnStatement);
 	}
 

@@ -189,7 +189,7 @@ grammar SD extends de.monticore.java.JavaDSL, ocl.monticoreocl.OCL, de.monticore
 		DashedArrow
 		right:ObjectReference
 		":"
-		ReturnStatement?;
+		returnStatement:SDReturnStatement?;
 
 	/** ASTException represents an exception as one kind of interaction
       @attribute left ObjectReference that occurs first (left)
@@ -258,10 +258,10 @@ grammar SD extends de.monticore.java.JavaDSL, ocl.monticoreocl.OCL, de.monticore
 		reference: QualifiedName |
 		Num_Int;
 
-	/** ASTReturnStatements represents a return statement which may have a result
+	/** ASTSDReturnStatements represents a return statement which may have a result
       @attribute result Optional result that gets returned
     */
-	ReturnStatement =
+	SDReturnStatement =
 		"return"
 		Result?;
 
