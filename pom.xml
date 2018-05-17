@@ -6,14 +6,14 @@
 
   <groupId>de.monticore.lang</groupId>
   <artifactId>sd</artifactId>
-  <version>0.0.2-SNAPSHOT</version>
+  <version>0.0.2</version>
 
   <!-- == PROJECT PROPERTIES ============================================== -->
 
   <properties>
 
     <!-- .. Libraries ..................................................... -->
-    <monticore.version>4.5.3.1</monticore.version>
+    <monticore.version>4.5.3.2</monticore.version>
     <monticore.java.version>4.3.9</monticore.java.version>
 
     <antlr.version>4.5</antlr.version>
@@ -22,9 +22,9 @@
     <junit.version>4.12</junit.version>
     <logback.version>1.1.2</logback.version>
     <mc.grammars.assembly.version>0.0.6</mc.grammars.assembly.version>
-    <se-commons.version>1.7.7</se-commons.version>
+    <se-commons.version>1.7.8</se-commons.version>
     <antlr.version>4.5.1</antlr.version>
-    <SIUnit.version>0.0.3-SNAPSHOT</SIUnit.version>
+    <SIUnit.version>0.0.5</SIUnit.version>
 
     <!-- .. Plugins ....................................................... -->
     <monticore.plugin>4.5.3.1</monticore.plugin>
@@ -102,13 +102,13 @@
     <dependency>
 	  <groupId>de.monticore.lang</groupId>
 	  <artifactId>ocl</artifactId>
-	  <version>0.0.7-SNAPSHOT</version>
+	  <version>0.0.7</version>
     </dependency>
 
     <dependency>
 	  <groupId>de.monticore.lang</groupId>
 	  <artifactId>ocl</artifactId>
-	  <version>0.0.7-SNAPSHOT</version>
+	  <version>0.0.7</version>
       <classifier>${grammars.classifier}</classifier>
     </dependency>
     
