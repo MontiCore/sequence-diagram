@@ -19,8 +19,8 @@ public class ImportStatementsValidCoco implements SDASTSDArtifactCoCo {
 		String root = path;
 
 		// Package declaration present?
-		if (node.getPackageDeclaration().isPresent()) {
-			ASTSDPackageDeclaration packageDeclaration = node.getPackageDeclaration().get();
+		if (node.isPresentPackageDeclaration()) {
+			ASTSDPackageDeclaration packageDeclaration = node.getPackageDeclaration();
 			String packageName = packageDeclaration.getQualifiedName().toString();
 			PackageNameIsFolderNameCoco coco2 = new PackageNameIsFolderNameCoco();
 			// Check if package name is valid
@@ -33,7 +33,7 @@ public class ImportStatementsValidCoco implements SDASTSDArtifactCoCo {
 		}
 
 		// Check if for each import statement there exists a file
-		for (ASTSDImportStatement imp : node.getImportStatements()) {
+		for (ASTSDImportStatement imp : node.getImportStatementsList()) {
 			File file = new File(root + imp.getPath(), imp.getFileName());
 			if (!file.exists()) {
 				Log.error(this.getClass().getSimpleName() + ": Cannot find file " + file.getAbsolutePath()

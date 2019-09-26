@@ -2,16 +2,7 @@
 
 package de.monticore.lang.sd._cocos;
 
-import de.monticore.lang.sd._ast.ASTConstructor;
-import de.monticore.lang.sd._ast.ASTException;
-import de.monticore.lang.sd._ast.ASTInteraction;
-import de.monticore.lang.sd._ast.ASTMethod;
-import de.monticore.lang.sd._ast.ASTMethodCall;
-import de.monticore.lang.sd._ast.ASTObjectReference;
-import de.monticore.lang.sd._ast.ASTReturn;
-import de.monticore.lang.sd._ast.ASTSDCompleteness;
-import de.monticore.lang.sd._ast.ASTSDElement;
-import de.monticore.lang.sd._ast.ASTSequenceDiagram;
+import de.monticore.lang.sd._ast.*;
 import de.se_rwth.commons.logging.Log;
 
 public class IncompleteOnlyWhenAllowedCoco implements SDASTSequenceDiagramCoCo {
@@ -20,13 +11,13 @@ public class IncompleteOnlyWhenAllowedCoco implements SDASTSequenceDiagramCoCo {
 
 	@Override
 	public void check(ASTSequenceDiagram node) {
-		if (node.sDCompletenessIsPresent()) {
-			sdIsComplete = node.getSDCompleteness().get().isComplete();
+		if (node.isPresentSDCompleteness()) {
+			sdIsComplete = node.getSDCompleteness().isComplete();
 		}
 
-		for (ASTSDElement e : node.getSDElements()) {
-			if (e.getInteraction().isPresent()) {
-				check(e.getInteraction().get());
+		for (ASTSDElement e : node.getSDElementList()) {
+			if (e.isPresentInteraction()) {
+				check(e.getInteraction());
 			}
 		}
 
@@ -42,16 +33,16 @@ public class IncompleteOnlyWhenAllowedCoco implements SDASTSequenceDiagramCoCo {
 				ASTMethod method = methodCall.getMethod();
 				if (method instanceof ASTConstructor) {
 					ASTConstructor cons = (ASTConstructor) method;
-					if (cons.argsIsPresent() && cons.getArgs().get().paramListIsPresent()
-							&& cons.getArgs().get().getParamList().get().isIncomplete()) {
+					if (cons.isPresentArgs() && cons.getArgs().isPresentParamList()
+							&& cons.getArgs().getParamList().isIncomplete()) {
 						Log.error(
 								this.getClass().getSimpleName()
 										+ ": Cannot mark constructor parameter list as incomplete if matching is complete. ",
 								node.get_SourcePositionStart());
 					}
 				} else {
-					if (method.argsIsPresent() && method.getArgs().get().paramListIsPresent()
-							&& method.getArgs().get().getParamList().get().isIncomplete()) {
+					if (method.isPresentArgs() && method.getArgs().isPresentParamList()
+							&& method.getArgs().getParamList().isIncomplete()) {
 						Log.error(
 								this.getClass().getSimpleName()
 										+ ": Cannot mark method parameter list as incomplete if matching is complete. ",
@@ -67,8 +58,8 @@ public class IncompleteOnlyWhenAllowedCoco implements SDASTSequenceDiagramCoCo {
 			ASTException exception = (ASTException) node;
 			if (sdIsComplete || islocallyComplete(exception.getSource())) {
 				// No ... allowed
-				if (exception.argsIsPresent() && exception.getArgs().get().paramListIsPresent()
-						&& exception.getArgs().get().getParamList().get().isIncomplete()) {
+				if (exception.isPresentArgs() && exception.getArgs().isPresentParamList()
+						&& exception.getArgs().getParamList().isIncomplete()) {
 					Log.error(
 							this.getClass().getSimpleName()
 									+ ": Cannot mark exception parameter list as incomplete if matching is complete. ",
@@ -83,8 +74,8 @@ public class IncompleteOnlyWhenAllowedCoco implements SDASTSequenceDiagramCoCo {
 			ASTReturn ret = (ASTReturn) node;
 			if (sdIsComplete || islocallyComplete(ret.getSource())) {
 				// No ... allowed
-				if (ret.returnStatementIsPresent() && ret.getReturnStatement().get().resultIsPresent()
-						&& ret.getReturnStatement().get().getResult().get().isIncomplete()) {
+				if (ret.isPresentReturnStatement() && ret.getReturnStatement().isPresentResult()
+						&& ret.getReturnStatement().getResult().isIncomplete()) {
 					Log.error(
 							this.getClass().getSimpleName()
 									+ ": Cannot mark return result as incomplete if matching is complete. ",
@@ -98,8 +89,8 @@ public class IncompleteOnlyWhenAllowedCoco implements SDASTSequenceDiagramCoCo {
 
 	private boolean islocallyComplete(ASTObjectReference ref) {
 		if (ref.getDeclaration() != null) {
-			if (ref.getDeclaration().sDCompletenessIsPresent()) {
-				ASTSDCompleteness comp = ref.getDeclaration().getSDCompleteness().get();
+			if (ref.getDeclaration().isPresentSDCompleteness()) {
+				ASTSDCompleteness comp = ref.getDeclaration().getSDCompleteness();
 				if (comp.isComplete()) {
 					return true;
 				}

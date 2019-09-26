@@ -2,18 +2,17 @@
 
 package de.monticore.lang.sd.generators;
 
+import de.monticore.generating.GeneratorEngine;
+import de.monticore.generating.GeneratorSetup;
+import de.monticore.lang.sd._ast.ASTSequenceDiagram;
+import de.se_rwth.commons.logging.Log;
+
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
-import java.util.Optional;
-
-import de.monticore.generating.GeneratorEngine;
-import de.monticore.generating.GeneratorSetup;
-import de.monticore.lang.sd._ast.ASTSequenceDiagram;
-import de.se_rwth.commons.logging.Log;
 
 public class HtmlGenerator {
 
@@ -51,9 +50,10 @@ public class HtmlGenerator {
 	}
 
 	private static GeneratorEngine createGeneratorEngine(File outputDirectory) {
-		final GeneratorSetup setup = new GeneratorSetup(outputDirectory);
-		setup.setCommentStart(Optional.of("<!--"));
-		setup.setCommentEnd(Optional.of("-->"));
+		final GeneratorSetup setup = new GeneratorSetup();
+		setup.setOutputDirectory(outputDirectory);
+		setup.setCommentStart("<!--");
+		setup.setCommentEnd("-->");
 		return new GeneratorEngine(setup);
 	}
 

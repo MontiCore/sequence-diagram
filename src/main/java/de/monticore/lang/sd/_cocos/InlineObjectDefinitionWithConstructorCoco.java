@@ -6,7 +6,6 @@ import de.monticore.lang.sd._ast.ASTConstructor;
 import de.monticore.lang.sd._ast.ASTMethod;
 import de.monticore.lang.sd._ast.ASTMethodCall;
 import de.monticore.lang.sd._ast.ASTObjectReference;
-import de.monticore.lang.sd._cocos.SDASTMethodCallCoCo;
 import de.se_rwth.commons.logging.Log;
 
 public class InlineObjectDefinitionWithConstructorCoco implements SDASTMethodCallCoCo {
@@ -21,7 +20,7 @@ public class InlineObjectDefinitionWithConstructorCoco implements SDASTMethodCal
 		// method is constructor => inline object definition
 		if (method instanceof ASTConstructor) {
 			ASTConstructor constructor = (ASTConstructor) method;
-			if (!target.inlineDeclarationIsPresent()) {
+			if (!target.isPresentInlineDeclaration()) {
 				String name = constructor.getName();
 				Log.error(
 						this.getClass().getSimpleName() + ": The call of constructor " + name
@@ -29,7 +28,7 @@ public class InlineObjectDefinitionWithConstructorCoco implements SDASTMethodCal
 						constructor.get_SourcePositionStart());
 			} else {
 				// Constructor name = type name?
-				String typeName = target.getInlineDeclaration().get().getOfType().get();
+				String typeName = target.getInlineDeclaration().getOfType();
 				if (!constructor.getName().equals(typeName)) {
 					Log.error(this.getClass().getSimpleName() + ": Type " + typeName + " does not match constructor "
 							+ constructor.getName(), constructor.get_SourcePositionStart());

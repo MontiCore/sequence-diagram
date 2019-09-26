@@ -2,6 +2,8 @@
 
 package de.monticore.lang.sd._ast;
 
+import java.util.Optional;
+
 public class ASTReturn extends ASTReturnTOP {
 
 	public ASTReturn() {
@@ -9,7 +11,7 @@ public class ASTReturn extends ASTReturnTOP {
 	}
 
 	public ASTReturn(ASTObjectReference left, ASTDashedArrow dashedArrow, ASTObjectReference right,
-			ASTSDReturnStatement returnStatement) {
+			Optional<ASTSDReturnStatement> returnStatement) {
 		super(left, dashedArrow, right, returnStatement);
 	}
 

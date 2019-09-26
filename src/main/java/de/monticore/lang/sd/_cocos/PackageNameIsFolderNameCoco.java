@@ -14,8 +14,8 @@ public class PackageNameIsFolderNameCoco implements SDASTSDArtifactCoCo {
 		String path = node.getPath();
 		String file = node.getFileName();
 
-		if (node.packageDeclarationIsPresent()) {
-			ASTSDPackageDeclaration packageDeclaration = node.getPackageDeclaration().get();
+		if (node.isPresentPackageDeclaration()) {
+			ASTSDPackageDeclaration packageDeclaration = node.getPackageDeclaration();
 			String packageName = packageDeclaration.getQualifiedName().toString();
 			// Check if package is suffix of path
 			if (!isSuffix(path, packageName)) {

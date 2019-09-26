@@ -2,12 +2,12 @@
 
 package de.monticore.lang.sd._ast;
 
-import java.util.Optional;
-
 import de.monticore.lang.sd._symboltable.ObjectDeclarationSymbol;
 import de.monticore.symboltable.Scope;
 import de.monticore.symboltable.Symbol;
 import de.se_rwth.commons.logging.Log;
+
+import java.util.Optional;
 
 public class ASTObjectReference extends ASTObjectReferenceTOP {
 
@@ -15,9 +15,14 @@ public class ASTObjectReference extends ASTObjectReferenceTOP {
 		super();
 	}
 
-	public ASTObjectReference(String name, ASTObjectDeclaration inlineDeclaration) {
-		super(name, inlineDeclaration);
-	}
+    public ASTObjectReference(String name, ASTObjectDeclaration inlineDeclaration) {
+        super(Optional.of(name), Optional.ofNullable(inlineDeclaration));
+    }
+
+    public ASTObjectReference(Optional<String> name, Optional<ASTObjectDeclaration> inlineDeclaration) {
+        super(name, inlineDeclaration);
+    }
+
 
 	/**
 	 * Gets the AST node of the object declaration in which the referenced
@@ -29,15 +34,15 @@ public class ASTObjectReference extends ASTObjectReferenceTOP {
 	 */
 	public ASTObjectDeclaration getDeclaration() {
 		// Local inline declaration: Just return it
-		if (inlineDeclarationIsPresent()) {
-			return getInlineDeclaration().get();
+		if (getInlineDeclarationOpt().isPresent()) {
+			return getInlineDeclarationOpt().get();
 		}
 
 		// Otherwise: Scan through AST
-		Scope sdScope = getEnclosingScope().get();
-		Optional<Symbol> symbol = sdScope.resolveLocally(getName().get(), ObjectDeclarationSymbol.KIND);
+		Scope sdScope = getEnclosingScopeOpt().get();
+		Optional<Symbol> symbol = sdScope.resolveLocally(getName(), ObjectDeclarationSymbol.KIND);
 		if (!symbol.isPresent()) {
-			Log.warn("Cannot resolve declaration to object " + getName().get());
+			Log.warn("Cannot resolve declaration to object " + getName());
 		}
 		return (ASTObjectDeclaration) symbol.get().getAstNode().get();
 	}

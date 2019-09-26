@@ -2,6 +2,8 @@
 
 package de.monticore.lang.sd._ast;
 
+import java.util.Optional;
+
 public class ASTException extends ASTExceptionTOP {
 
 	public ASTException() {
@@ -9,7 +11,7 @@ public class ASTException extends ASTExceptionTOP {
 	}
 
 	public ASTException(ASTObjectReference left, ASTDashedArrow dashedArrow, ASTObjectReference right, String name,
-			ASTArgs args) {
+			Optional<ASTArgs> args) {
 		super(left, dashedArrow, right, name, args);
 	}
 

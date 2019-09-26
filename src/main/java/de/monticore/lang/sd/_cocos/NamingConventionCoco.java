@@ -3,7 +3,6 @@
 package de.monticore.lang.sd._cocos;
 
 import de.monticore.lang.sd._ast.ASTObjectDeclaration;
-import de.monticore.lang.sd._cocos.SDASTObjectDeclarationCoCo;
 import de.monticore.lang.sd.prettyprint.SDPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
 import de.se_rwth.commons.logging.Log;
@@ -12,11 +11,11 @@ public class NamingConventionCoco implements SDASTObjectDeclarationCoCo {
 
 	@Override
 	public void check(ASTObjectDeclaration node) {
-		if (node.nameIsPresent()) {
-			if (node.ofTypeIsPresent()) {
+		if (node.isPresentName()) {
+			if (node.isPresentOfType()) {
 				// "object: Type"
-				String name = node.getName().get();
-				String type = node.getOfType().get();
+				String name = node.getName();
+				String type = node.getOfType();
 				if (!Character.isLowerCase(name.charAt(0))) {
 					Log.warn(errorMessage(node, 1, name), node.get_SourcePositionStart());
 				}
@@ -24,7 +23,7 @@ public class NamingConventionCoco implements SDASTObjectDeclarationCoCo {
 					Log.warn(errorMessage(node, 2, type), node.get_SourcePositionStart());
 				}
 			} else {
-				String name = node.getName().get();
+				String name = node.getName();
 				if (node.isClass()) {
 					// "class SomeClass"
 					if (!Character.isUpperCase(name.charAt(0))) {
@@ -37,9 +36,9 @@ public class NamingConventionCoco implements SDASTObjectDeclarationCoCo {
 					}
 				}
 			}
-		} else if (node.ofTypeIsPresent()) {
+		} else if (node.isPresentOfType()) {
 			// ": Type"
-			String typeName = node.getOfType().get();
+			String typeName = node.getOfType();
 			if (!Character.isUpperCase(typeName.charAt(0))) {
 				Log.warn(errorMessage(node, 2, typeName), node.get_SourcePositionStart());
 			}

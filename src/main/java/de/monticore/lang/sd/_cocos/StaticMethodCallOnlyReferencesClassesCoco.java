@@ -5,7 +5,6 @@ package de.monticore.lang.sd._cocos;
 import de.monticore.lang.sd._ast.ASTMethodCall;
 import de.monticore.lang.sd._ast.ASTObjectDeclaration;
 import de.monticore.lang.sd._ast.ASTObjectReference;
-import de.monticore.lang.sd._cocos.SDASTMethodCallCoCo;
 import de.monticore.lang.sd.prettyprint.SDPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
 import de.se_rwth.commons.logging.Log;
@@ -17,8 +16,8 @@ public class StaticMethodCallOnlyReferencesClassesCoco implements SDASTMethodCal
 		ASTObjectReference target = node.getTarget();
 
 		// static => Target must be a class
-		if (node.getMethod().staticModifierIsPresent()) {
-			if (target.getInlineDeclaration().isPresent()) {
+		if (node.getMethod().isPresentStaticModifier() && node.getMethod().getStaticModifier().isStatic()) {
+			if (target.isPresentInlineDeclaration()) {
 				// not a class, since new object introduced
 				Log.error(errorMessage(node, target, true), node.get_SourcePositionStart());
 			} else {
@@ -30,10 +29,10 @@ public class StaticMethodCallOnlyReferencesClassesCoco implements SDASTMethodCal
 		}
 
 		// target is a class => static
-		if (!target.getInlineDeclaration().isPresent()) {
+		if (!target.getInlineDeclarationOpt().isPresent()) {
 			ASTObjectDeclaration declaration = target.getDeclaration();
 			if (declaration.isClass()) {
-				if (!node.getMethod().staticModifierIsPresent()) {
+				if (!node.getMethod().isPresentStaticModifier() || !node.getMethod().getStaticModifier().isStatic()) {
 					Log.error(errorMessage2(target), target.get_SourcePositionStart());
 				}
 			}
