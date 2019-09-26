@@ -2,16 +2,15 @@
 
 package de.monticore.lang.sd.ast;
 
-import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertTrue;
-
-import java.io.IOException;
-
-import org.junit.Test;
-
 import de.monticore.lang.sd._ast.ASTObjectDeclaration;
 import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._symboltable.SDLanguage;
+import org.junit.Test;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertFalse;
+import static org.junit.Assert.assertTrue;
 
 public class SDCompletenessEvaluationTest {
 
@@ -22,50 +21,50 @@ public class SDCompletenessEvaluationTest {
 				"example_completeness_and_stereotypes.sd");
 		ASTObjectDeclaration od;
 
-		od = sd.getSequenceDiagram().getObjectDeclarations().get(0);
-		assertFalse(od.getSDCompleteness().isPresent());
+		od = sd.getSequenceDiagram().getObjectDeclarationList().get(0);
+		assertFalse(od.getSDCompletenessOpt().isPresent());
 
-		od = sd.getSequenceDiagram().getObjectDeclarations().get(1);
-		assertTrue(od.getSDCompleteness().isPresent());
-		assertFalse(od.getSDCompleteness().get().isComplete());
-		assertTrue(od.getSDCompleteness().get().isFree());
-		assertFalse(od.getSDCompleteness().get().isInitial());
-		assertFalse(od.getSDCompleteness().get().isVisible());
+		od = sd.getSequenceDiagram().getObjectDeclarationList().get(1);
+		assertTrue(od.getSDCompletenessOpt().isPresent());
+		assertFalse(od.getSDCompletenessOpt().get().isComplete());
+		assertTrue(od.getSDCompletenessOpt().get().isFree());
+		assertFalse(od.getSDCompletenessOpt().get().isInitial());
+		assertFalse(od.getSDCompletenessOpt().get().isVisible());
 
-		od = sd.getSequenceDiagram().getObjectDeclarations().get(2);
-		assertTrue(od.getSDCompleteness().isPresent());
-		assertFalse(od.getSDCompleteness().get().isComplete());
-		assertTrue(od.getSDCompleteness().get().isFree());
-		assertFalse(od.getSDCompleteness().get().isInitial());
-		assertFalse(od.getSDCompleteness().get().isVisible());
+		od = sd.getSequenceDiagram().getObjectDeclarationList().get(2);
+		assertTrue(od.getSDCompletenessOpt().isPresent());
+		assertFalse(od.getSDCompletenessOpt().get().isComplete());
+		assertTrue(od.getSDCompletenessOpt().get().isFree());
+		assertFalse(od.getSDCompletenessOpt().get().isInitial());
+		assertFalse(od.getSDCompletenessOpt().get().isVisible());
 
-		od = sd.getSequenceDiagram().getObjectDeclarations().get(3);
-		assertTrue(od.getSDCompleteness().isPresent());
-		assertTrue(od.getSDCompleteness().get().isComplete());
-		assertFalse(od.getSDCompleteness().get().isFree());
-		assertFalse(od.getSDCompleteness().get().isInitial());
-		assertFalse(od.getSDCompleteness().get().isVisible());
+		od = sd.getSequenceDiagram().getObjectDeclarationList().get(3);
+		assertTrue(od.getSDCompletenessOpt().isPresent());
+		assertTrue(od.getSDCompletenessOpt().get().isComplete());
+		assertFalse(od.getSDCompletenessOpt().get().isFree());
+		assertFalse(od.getSDCompletenessOpt().get().isInitial());
+		assertFalse(od.getSDCompletenessOpt().get().isVisible());
 
-		od = sd.getSequenceDiagram().getObjectDeclarations().get(4);
-		assertTrue(od.getSDCompleteness().isPresent());
-		assertTrue(od.getSDCompleteness().get().isComplete());
-		assertFalse(od.getSDCompleteness().get().isFree());
-		assertFalse(od.getSDCompleteness().get().isInitial());
-		assertFalse(od.getSDCompleteness().get().isVisible());
+		od = sd.getSequenceDiagram().getObjectDeclarationList().get(4);
+		assertTrue(od.getSDCompletenessOpt().isPresent());
+		assertTrue(od.getSDCompletenessOpt().get().isComplete());
+		assertFalse(od.getSDCompletenessOpt().get().isFree());
+		assertFalse(od.getSDCompletenessOpt().get().isInitial());
+		assertFalse(od.getSDCompletenessOpt().get().isVisible());
 
-		od = sd.getSequenceDiagram().getObjectDeclarations().get(5);
-		assertTrue(od.getSDCompleteness().isPresent());
-		assertFalse(od.getSDCompleteness().get().isComplete());
-		assertFalse(od.getSDCompleteness().get().isFree());
-		assertFalse(od.getSDCompleteness().get().isInitial());
-		assertTrue(od.getSDCompleteness().get().isVisible());
+		od = sd.getSequenceDiagram().getObjectDeclarationList().get(5);
+		assertTrue(od.getSDCompletenessOpt().isPresent());
+		assertFalse(od.getSDCompletenessOpt().get().isComplete());
+		assertFalse(od.getSDCompletenessOpt().get().isFree());
+		assertFalse(od.getSDCompletenessOpt().get().isInitial());
+		assertTrue(od.getSDCompletenessOpt().get().isVisible());
 
-		od = sd.getSequenceDiagram().getObjectDeclarations().get(6);
-		assertTrue(od.getSDCompleteness().isPresent());
-		assertFalse(od.getSDCompleteness().get().isComplete());
-		assertFalse(od.getSDCompleteness().get().isFree());
-		assertTrue(od.getSDCompleteness().get().isInitial());
-		assertFalse(od.getSDCompleteness().get().isVisible());
+		od = sd.getSequenceDiagram().getObjectDeclarationList().get(6);
+		assertTrue(od.getSDCompletenessOpt().isPresent());
+		assertFalse(od.getSDCompletenessOpt().get().isComplete());
+		assertFalse(od.getSDCompletenessOpt().get().isFree());
+		assertTrue(od.getSDCompletenessOpt().get().isInitial());
+		assertFalse(od.getSDCompletenessOpt().get().isVisible());
 
 	}
 

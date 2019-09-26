@@ -3,6 +3,7 @@
 package de.monticore.lang.sd._ast;
 
 import java.util.List;
+import java.util.Optional;
 
 public class ASTSDArtifact extends ASTSDArtifactTOP {
 
@@ -13,8 +14,8 @@ public class ASTSDArtifact extends ASTSDArtifactTOP {
 		super();
 	}
 
-	public ASTSDArtifact(ASTSDPackageDeclaration packageDeclaration, List<ASTSDImportStatement> importStatements,
-			ASTSequenceDiagram sequenceDiagram) {
+	public ASTSDArtifact(Optional<ASTSDPackageDeclaration> packageDeclaration, List<ASTSDImportStatement> importStatements,
+                         ASTSequenceDiagram sequenceDiagram) {
 		super(packageDeclaration, importStatements, sequenceDiagram);
 	}
 

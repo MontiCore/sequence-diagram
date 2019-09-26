@@ -2,9 +2,9 @@
 
 package de.monticore.lang.sd._ast;
 
-import java.util.List;
-
 import de.monticore.types.types._ast.ASTQualifiedName;
+
+import java.util.List;
 
 public class ASTSDImportStatement extends ASTSDImportStatementTOP {
 
@@ -23,7 +23,7 @@ public class ASTSDImportStatement extends ASTSDImportStatementTOP {
 	}
 
 	public String getFileName() {
-		List<String> parts = this.getQualifiedName().getParts();
+		List<String> parts = this.getQualifiedName().getPartList();
 		String fileName = parts.get(parts.size() - 2) + "." + parts.get(parts.size() - 1);
 		return fileName;
 	}

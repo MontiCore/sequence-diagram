@@ -2,6 +2,8 @@
 
 package de.monticore.lang.sd._ast;
 
+import java.util.Optional;
+
 public class ASTMethodCall extends ASTMethodCallTOP {
 
 	public ASTMethodCall() {
@@ -9,7 +11,7 @@ public class ASTMethodCall extends ASTMethodCallTOP {
 	}
 
 	public ASTMethodCall(ASTObjectReference left, ASTArrow arrow, ASTObjectReference right,
-			ASTSDStereotype sDStereotype, ASTMethod method) {
+                         Optional<ASTSDStereotype> sDStereotype, ASTMethod method) {
 		super(left, arrow, right, sDStereotype, method);
 	}
 

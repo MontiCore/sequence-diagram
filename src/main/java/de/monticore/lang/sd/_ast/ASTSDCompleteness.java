@@ -2,13 +2,15 @@
 
 package de.monticore.lang.sd._ast;
 
+import java.util.Optional;
+
 public class ASTSDCompleteness extends ASTSDCompletenessTOP {
 
 	public ASTSDCompleteness() {
 		super();
 	}
 
-	public ASTSDCompleteness(String completeness) {
+	public ASTSDCompleteness(Optional<String> completeness) {
 		super(completeness);
 	}
 

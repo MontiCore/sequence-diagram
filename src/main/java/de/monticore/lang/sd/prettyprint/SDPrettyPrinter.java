@@ -2,25 +2,14 @@
 
 package de.monticore.lang.sd.prettyprint;
 
-import java.util.Iterator;
-
+import de.monticore.ast.ASTNode;
 import de.monticore.common.prettyprint.CommonPrettyPrinterConcreteVisitor;
 import de.monticore.java.prettyprint.JavaDSLPrettyPrinter;
-import de.monticore.lang.sd._ast.ASTArgs;
-import de.monticore.lang.sd._ast.ASTArrow;
-import de.monticore.lang.sd._ast.ASTDashedArrow;
-import de.monticore.lang.sd._ast.ASTMethod;
-import de.monticore.lang.sd._ast.ASTMethodCall;
-import de.monticore.lang.sd._ast.ASTObjectDeclaration;
-import de.monticore.lang.sd._ast.ASTObjectReference;
-import de.monticore.lang.sd._ast.ASTParam;
-import de.monticore.lang.sd._ast.ASTParamList;
-import de.monticore.lang.sd._ast.ASTReturn;
-import de.monticore.lang.sd._ast.ASTSDJava;
-import de.monticore.lang.sd._ast.ASTSDNode;
-import de.monticore.lang.sd._ast.ASTSDOCL;
+import de.monticore.lang.sd._ast.*;
 import de.monticore.lang.sd._visitor.SDVisitor;
 import de.monticore.prettyprint.IndentPrinter;
+
+import java.util.Iterator;
 
 public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implements SDVisitor {
 
@@ -37,22 +26,22 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 
 	@Override
 	public void handle(ASTObjectDeclaration od) {
-		if (od.nameIsPresent()) {
-			getPrinter().print(od.getName().get());
+		if (od.isPresentName()) {
+			getPrinter().print(od.getName());
 		}
-		if (od.ofTypeIsPresent()) {
+		if (od.isPresentOfType()) {
 			getPrinter().print(":");
-			getPrinter().print(od.getOfType().get());
+			getPrinter().print(od.getOfType());
 		}
 	}
 
 	@Override
 	public void handle(ASTObjectReference o) {
-		if (o.inlineDeclarationIsPresent()) {
-			ASTObjectDeclaration od = o.getInlineDeclaration().get();
+		if (o.isPresentInlineDeclaration()) {
+			ASTObjectDeclaration od = o.getInlineDeclaration();
 			od.accept(realThis);
 		} else {
-			getPrinter().print(o.getName().get());
+			getPrinter().print(o.getName());
 		}
 	}
 
@@ -69,20 +58,20 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 
 	@Override
 	public void handle(ASTMethod method) {
-		if (method.staticModifierIsPresent()) {
+		if (method.isPresentStaticModifier() && method.getStaticModifier().isStatic()) {
 			getPrinter().print("static ");
 		}
 		getPrinter().print(method.getName());
-		if (method.argsIsPresent()) {
-			method.getArgs().get().accept(realThis);
+		if (method.isPresentArgs()) {
+			method.getArgs().accept(realThis);
 		}
 	}
 
 	@Override
 	public void handle(ASTArgs args) {
 		getPrinter().print("(");
-		if (args.paramListIsPresent()) {
-			args.getParamList().get().accept(realThis);
+		if (args.isPresentParamList()) {
+			args.getParamList().accept(realThis);
 		}
 		getPrinter().print(")");
 	}
@@ -94,7 +83,7 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 			getPrinter().print("...");
 		} else {
 			// Print param list
-			Iterator<ASTParam> it = paramlist.getParams().iterator();
+			Iterator<ASTParam> it = paramlist.getParamList().iterator();
 			while (it.hasNext()) {
 				ASTParam p = it.next();
 				p.accept(realThis);
@@ -107,12 +96,12 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 
 	@Override
 	public void handle(ASTParam param) {
-		if (param.referenceIsPresent()) {
-			getPrinter().print(param.getReference().get());
-		} else if (param.num_IntIsPresent()) {
-			getPrinter().print(param.getNum_Int().get());
-		} else if (param.stringIsPresent()) {
-			getPrinter().print("\"" + param.getString().get() + "\"");
+		if (param.isPresentReference()) {
+			getPrinter().print(param.getReference());
+		} else if (param.isPresentNum_Int()) {
+			getPrinter().print(param.getNum_Int());
+		} else if (param.isPresentString()) {
+			getPrinter().print("\"" + param.getString() + "\"");
 		}
 	}
 
@@ -130,12 +119,14 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 	@Override
 	public void handle(ASTSDOCL ocl) {
 		getPrinter().print("<");
-		if (ocl.contextIsPresent()) {
-			getPrinter().print(ocl.getContext().get());
+		if (ocl.isPresentContext()) {
+			getPrinter().print(ocl.getContext());
 			getPrinter().print(": ");
 		}
 		getPrinter().print("[");
-		ocl.getOCLExpression().accept(realThis);
+		//TODO:
+        getPrinter().print("TODO: OCL");
+//		ocl.getOCLExpression().accept(realThis);
 		getPrinter().print("]");
 		getPrinter().print(">");
 	}
@@ -149,7 +140,19 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 		getPrinter().print("}");
 	}
 
-	/*
+	//TODO: Added for ?
+    @Override
+    public void endVisit(ASTNode node) {
+        super.endVisit(node);
+    }
+
+    //TODO: Added for ?
+    @Override
+    public void visit(ASTNode node) {
+        super.visit(node);
+    }
+
+    /*
 	 * Only visitor-related
 	 */
 
@@ -167,8 +170,9 @@ public class SDPrettyPrinter extends CommonPrettyPrinterConcreteVisitor implemen
 	 * @see de.monticore.common.prettyprint.CommonPrettyPrinterConcreteVisitor#getRealThis()
 	 */
 	@Override
-	public SDVisitor getRealThis() {
-		return realThis;
+	public SDPrettyPrinter getRealThis() {
+		return  (SDPrettyPrinter) realThis;
 	}
+
 
 }

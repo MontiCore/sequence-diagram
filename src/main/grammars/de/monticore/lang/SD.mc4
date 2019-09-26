@@ -6,8 +6,10 @@ package de.monticore.lang;
  * @author Robin Wolters
 */
 
-grammar SD extends de.monticore.java.JavaDSL, ocl.monticoreocl.OCL, de.monticore.types.Types {
+grammar SD extends de.monticore.java.JavaDSL,  de.monticore.types.Types {
 
+
+// ocl.monticoreocl.OCL,
     /*========================================================================*/
     /*=============================== TOKENS =================================*/
     /*========================================================================*/
@@ -285,7 +287,8 @@ grammar SD extends de.monticore.java.JavaDSL, ocl.monticoreocl.OCL, de.monticore
 		"<"
 		(context:Name ":")?
 		"["
-		OCLExpression
+		NotAFakeOCLConstraint
+		// OCLConstraint
 		"]"
 		">";
 
@@ -296,5 +299,9 @@ grammar SD extends de.monticore.java.JavaDSL, ocl.monticoreocl.OCL, de.monticore
 		"java" ":"
 		blockStatement:JavaBlock;
 
+   //TODO: Remove the following two placeholders once OCL is back
+   NotAFakeOCLConstraint = NAFOCLP*;
+
+   NAFOCLP = QualifiedName | "==" | "+" |  "&&";
 
 }

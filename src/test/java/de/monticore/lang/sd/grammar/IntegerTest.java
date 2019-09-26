@@ -2,19 +2,18 @@
 
 package de.monticore.lang.sd.grammar;
 
-import static org.junit.Assert.assertEquals;
-
-import java.io.IOException;
-
-import org.junit.BeforeClass;
-import org.junit.Test;
-
 import de.monticore.java.prettyprint.JavaDSLPrettyPrinter;
 import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._ast.ASTSDElement;
 import de.monticore.lang.sd._symboltable.SDLanguage;
 import de.monticore.prettyprint.IndentPrinter;
 import de.se_rwth.commons.logging.Log;
+import org.junit.BeforeClass;
+import org.junit.Test;
+
+import java.io.IOException;
+
+import static org.junit.Assert.assertEquals;
 
 public class IntegerTest {
 
@@ -30,9 +29,9 @@ public class IntegerTest {
 		ASTSDArtifact sd = lang.loadModel("src/test/resources/examples/correct", "integer.sd");
 
 		// Assertion
-		ASTSDElement el = sd.getSequenceDiagram().getSDElements().get(0);
+		ASTSDElement el = sd.getSequenceDiagram().getSDElementList().get(0);
 		JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
-		String java = pp.prettyprint(el.getSDJava().get().getBlockStatement().getBlockStatements().get(0));
+		String java = pp.prettyprint(el.getSDJavaOpt().get().getBlockStatement().getBlockStatementList().get(0));
 		assertEquals("value=1;\n", java);
 	}
 

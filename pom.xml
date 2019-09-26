@@ -7,28 +7,28 @@
 
   <groupId>de.monticore.lang</groupId>
   <artifactId>sd</artifactId>
-  <version>0.0.3-SNAPSHOT</version>
+  <version>0.0.3-SNAPSHOT-M5</version>
 
   <!-- == PROJECT PROPERTIES ============================================== -->
 
   <properties>
 
     <!-- .. Libraries ..................................................... -->
-    <monticore.version>4.5.3.2</monticore.version>
-    <monticore.java.version>4.3.9</monticore.java.version>
+    <monticore.version>5.0.1.1</monticore.version>
+    <monticore.java.version>4.3.13</monticore.java.version>
 
-    <antlr.version>4.5</antlr.version>
+    <antlr.version>4.7.1</antlr.version>
     <guava.version>18.0</guava.version>
     <jsr305.version>3.0.0</jsr305.version>
     <junit.version>4.12</junit.version>
     <logback.version>1.1.2</logback.version>
-    <mc.grammars.assembly.version>0.0.6</mc.grammars.assembly.version>
+    <mc.grammars.assembly.version>0.0.10</mc.grammars.assembly.version>
     <se-commons.version>1.7.8</se-commons.version>
-    <antlr.version>4.5.1</antlr.version>
     <SIUnit.version>0.0.5</SIUnit.version>
 
+    <ocl.version>1.10.0-SNAPSHOT</ocl.version>
+
     <!-- .. Plugins ....................................................... -->
-    <monticore.plugin>4.5.3.1</monticore.plugin>
 
     <assembly.plugin>2.5.4</assembly.plugin>
     <compiler.plugin>3.3</compiler.plugin>
@@ -103,13 +103,13 @@
     <dependency>
 	  <groupId>de.monticore.lang</groupId>
 	  <artifactId>ocl</artifactId>
-	  <version>0.0.7</version>
+	  <version>${ocl.version}</version>
     </dependency>
 
     <dependency>
 	  <groupId>de.monticore.lang</groupId>
 	  <artifactId>ocl</artifactId>
-	  <version>0.0.7</version>
+	  <version>${ocl.version}</version>
       <classifier>${grammars.classifier}</classifier>
     </dependency>
     
@@ -150,7 +150,7 @@
       <plugin>
         <groupId>de.monticore.mojo</groupId>
         <artifactId>monticore-maven-plugin</artifactId>
-        <version>${monticore.plugin}</version>
+        <version>${monticore.version}</version>
         <configuration>
           <skip>false</skip>
           <!-- Enable/disable EMF-Generation -->

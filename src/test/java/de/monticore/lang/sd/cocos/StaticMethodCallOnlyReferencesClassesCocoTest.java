@@ -2,12 +2,12 @@
 
 package de.monticore.lang.sd.cocos;
 
-import static org.junit.Assert.assertEquals;
-
 import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._cocos.SDCoCoChecker;
 import de.monticore.lang.sd._cocos.StaticMethodCallOnlyReferencesClassesCoco;
 import de.se_rwth.commons.logging.Log;
+
+import static org.junit.Assert.assertEquals;
 
 public class StaticMethodCallOnlyReferencesClassesCocoTest extends SDCocoTest {
 
@@ -19,6 +19,7 @@ public class StaticMethodCallOnlyReferencesClassesCocoTest extends SDCocoTest {
 
 	@Override
 	public void testCocoViolation() {
+	    System.err.println("static_method_refers_to_object start");
 		ASTSDArtifact sd = loadModel(INCORRECT_PATH, "static_method_refers_to_object.sd");
 		checker.checkAll(sd);
 		assertEquals(5, Log.getErrorCount());

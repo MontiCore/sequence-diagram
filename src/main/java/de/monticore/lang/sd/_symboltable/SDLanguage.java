@@ -2,31 +2,18 @@
 
 package de.monticore.lang.sd._symboltable;
 
-import java.nio.file.Paths;
-import java.util.Optional;
-
 import de.monticore.ast.ASTNode;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd._ast.ASTSDArtifact;
-import de.monticore.lang.sd._cocos.CommonFileExtensionCoco;
-import de.monticore.lang.sd._cocos.CompletenessConsistentCoco;
-import de.monticore.lang.sd._cocos.ImportStatementsValidCoco;
-import de.monticore.lang.sd._cocos.IncompleteOnlyWhenAllowedCoco;
-import de.monticore.lang.sd._cocos.InlineObjectDefinitionWithConstructorCoco;
-import de.monticore.lang.sd._cocos.NamingConventionCoco;
-import de.monticore.lang.sd._cocos.OCLContextDeclaredCoco;
-import de.monticore.lang.sd._cocos.ObjectIdentifierUniqueCoco;
-import de.monticore.lang.sd._cocos.PackageNameIsFolderNameCoco;
-import de.monticore.lang.sd._cocos.ReferencedObjectsDeclaredCoco;
-import de.monticore.lang.sd._cocos.ReturnOnlyAfterMethodCoco;
-import de.monticore.lang.sd._cocos.SDCoCoChecker;
-import de.monticore.lang.sd._cocos.SDNameIsArtifactNameCoco;
-import de.monticore.lang.sd._cocos.StaticMethodCallOnlyReferencesClassesCoco;
+import de.monticore.lang.sd._cocos.*;
 import de.monticore.lang.sd._parser.SDParser;
 import de.monticore.modelloader.ModelingLanguageModelLoader;
 import de.monticore.symboltable.GlobalScope;
 import de.monticore.symboltable.ResolvingConfiguration;
 import de.se_rwth.commons.logging.Log;
+
+import java.nio.file.Paths;
+import java.util.Optional;
 
 public class SDLanguage extends de.monticore.lang.sd._symboltable.SDLanguageTOP {
 
@@ -62,7 +49,7 @@ public class SDLanguage extends de.monticore.lang.sd._symboltable.SDLanguageTOP 
 
 		// Parse model
 		ResolvingConfiguration config = new ResolvingConfiguration();
-		config.addDefaultFilters(getResolvers());
+		config.addDefaultFilters(getResolvingFilters());
 		SDParser parser = getParser();
 		ASTSDArtifact ast = null;
 		try {

@@ -2,14 +2,13 @@
 
 package de.monticore.lang.sd._cocos;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import de.monticore.lang.sd._ast.ASTObjectDeclaration;
-import de.monticore.lang.sd._cocos.SDASTObjectDeclarationCoCo;
 import de.monticore.lang.sd.prettyprint.SDPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
 import de.se_rwth.commons.logging.Log;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class ObjectIdentifierUniqueCoco implements SDASTObjectDeclarationCoCo {
 
@@ -24,10 +23,10 @@ public class ObjectIdentifierUniqueCoco implements SDASTObjectDeclarationCoCo {
 
 		// Extract name
 		String name = "";
-		if (node.nameIsPresent()) {
-			name = node.getName().get();
-		} else if (node.ofTypeIsPresent()) {
-			name = node.getOfType().get();
+		if (node.isPresentName()) {
+			name = node.getName();
+		} else if (node.isPresentOfType()) {
+			name = node.getOfType();
 		}
 
 		// No name for the object

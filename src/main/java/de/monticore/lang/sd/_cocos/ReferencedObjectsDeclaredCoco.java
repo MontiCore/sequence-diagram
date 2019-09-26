@@ -2,19 +2,11 @@
 
 package de.monticore.lang.sd._cocos;
 
+import de.monticore.lang.sd._ast.*;
+import de.se_rwth.commons.logging.Log;
+
 import java.util.ArrayList;
 import java.util.List;
-
-import de.monticore.lang.sd._ast.ASTException;
-import de.monticore.lang.sd._ast.ASTInteraction;
-import de.monticore.lang.sd._ast.ASTMethodCall;
-import de.monticore.lang.sd._ast.ASTObjectDeclaration;
-import de.monticore.lang.sd._ast.ASTObjectReference;
-import de.monticore.lang.sd._ast.ASTReturn;
-import de.monticore.lang.sd._ast.ASTSDElement;
-import de.monticore.lang.sd._ast.ASTSequenceDiagram;
-import de.monticore.lang.sd._cocos.SDASTSequenceDiagramCoCo;
-import de.se_rwth.commons.logging.Log;
 
 public class ReferencedObjectsDeclaredCoco implements SDASTSequenceDiagramCoCo {
 
@@ -27,13 +19,13 @@ public class ReferencedObjectsDeclaredCoco implements SDASTSequenceDiagramCoCo {
 	@Override
 	public void check(ASTSequenceDiagram node) {
 		// Object declarations: add to declared vars
-		for (ASTObjectDeclaration od : node.getObjectDeclarations()) {
+		for (ASTObjectDeclaration od : node.getObjectDeclarationList()) {
 			declare(od);
 		}
 		// Object references: check if declared
-		for (ASTSDElement e : node.getSDElements()) {
-			if (e.getInteraction().isPresent()) {
-				ASTInteraction interaction = e.getInteraction().get();
+		for (ASTSDElement e : node.getSDElementList()) {
+			if (e.getInteractionOpt().isPresent()) {
+				ASTInteraction interaction = e.getInteraction();
 				if (interaction instanceof ASTMethodCall) {
 					ASTMethodCall i = (ASTMethodCall) interaction;
 					checkForDeclaration(i.getLeft());
@@ -53,22 +45,22 @@ public class ReferencedObjectsDeclaredCoco implements SDASTSequenceDiagramCoCo {
 	}
 
 	private void declare(ASTObjectDeclaration od) {
-		if (od.nameIsPresent()) {
-			declaredObjectNames.add(od.getName().get());
-		} else if (od.getOfType().isPresent()) {
-			declaredObjectNames.add(od.getOfType().get());
+		if (od.isPresentName()) {
+			declaredObjectNames.add(od.getName());
+		} else if (od.getOfTypeOpt().isPresent()) {
+			declaredObjectNames.add(od.getOfTypeOpt().get());
 		}
 	}
 
 	private void checkForDeclaration(ASTObjectReference o) {
 		// Object declaration on its own
-		if (o.inlineDeclarationIsPresent()) {
-			declare(o.getInlineDeclaration().get());
+		if (o.isPresentInlineDeclaration()) {
+			declare(o.getInlineDeclaration());
 		}
 
 		// Simple reference
 		else {
-			String name = o.getName().get();
+			String name = o.getName();
 			if (!declaredObjectNames.contains(name)) {
 				Log.error(this.getClass().getSimpleName() + ": Reference " + name + " refers to an undeclared object.",
 						o.get_SourcePositionStart());
