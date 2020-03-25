@@ -3,7 +3,6 @@
 package de.monticore.lang;
 
 /**
- * @author Robin Wolters
 */
 
 grammar SD extends de.monticore.java.JavaDSL,  de.monticore.types.Types {
