@@ -15,59 +15,59 @@ import de.se_rwth.commons.logging.Log;
 
 public class ReturnOnlyAfterMethodCoco implements SDASTInteractionCoCo {
 
-	private Set<ASTMethodCall> openMethodCalls;
+  private Set<ASTMethodCall> openMethodCalls;
 
-	public ReturnOnlyAfterMethodCoco() {
-		openMethodCalls = new HashSet<ASTMethodCall>();
-	}
+  public ReturnOnlyAfterMethodCoco() {
+    openMethodCalls = new HashSet<ASTMethodCall>();
+  }
 
-	@Override
-	public void check(ASTInteraction node) {
-		if (node instanceof ASTMethodCall) {
-			check((ASTMethodCall) node);
-		} else if (node instanceof ASTReturn) {
-			check((ASTReturn) node);
-		}
+  @Override
+  public void check(ASTInteraction node) {
+    if (node instanceof ASTMethodCall) {
+      check((ASTMethodCall) node);
+    } else if (node instanceof ASTReturn) {
+      check((ASTReturn) node);
+    }
 
-	}
+  }
 
-	private void check(ASTMethodCall node) {
-		openMethodCalls.add(node);
-	}
+  private void check(ASTMethodCall node) {
+    openMethodCalls.add(node);
+  }
 
-	private void check(ASTReturn node) {
+  private void check(ASTReturn node) {
 
-		ASTMethodCall toBeRemoved = null;
-		for (ASTMethodCall call : openMethodCalls) {
-			// Response to open Method call : remove it
-			if (call.getSource().deepEquals(node.getTarget()) && call.getTarget().deepEquals(node.getSource())) {
-				toBeRemoved = call;
-				break;
-			}
-		}
+    ASTMethodCall toBeRemoved = null;
+    for (ASTMethodCall call : openMethodCalls) {
+      // Response to open Method call : remove it
+      if (call.getSource().deepEquals(node.getTarget()) && call.getTarget().deepEquals(node.getSource())) {
+        toBeRemoved = call;
+        break;
+      }
+    }
 
-		if (toBeRemoved != null) {
-			openMethodCalls.remove(toBeRemoved);
-		} else {
-			// No open method call: Coco violation
-			Log.warn(errorMessage(node), node.get_SourcePositionStart());
-		}
+    if (toBeRemoved != null) {
+      openMethodCalls.remove(toBeRemoved);
+    } else {
+      // No open method call: Coco violation
+      Log.warn(errorMessage(node), node.get_SourcePositionStart());
+    }
 
-	}
+  }
 
-	private String errorMessage(ASTReturn node) {
-		String message = this.getClass().getSimpleName() + ": ";
-		message += "Return ";
-		SDPrettyPrinter pp = new SDPrettyPrinter(new IndentPrinter());
-		message += pp.prettyPrint(node);
-		message += " occurs without previous call from ";
-		pp = new SDPrettyPrinter(new IndentPrinter());
-		message += pp.prettyPrint(node.getTarget());
-		message += " to ";
-		pp = new SDPrettyPrinter(new IndentPrinter());
-		message += pp.prettyPrint(node.getSource());
-		message += ".";
-		return message;
-	}
+  private String errorMessage(ASTReturn node) {
+    String message = this.getClass().getSimpleName() + ": ";
+    message += "Return ";
+    SDPrettyPrinter pp = new SDPrettyPrinter(new IndentPrinter());
+    message += pp.prettyPrint(node);
+    message += " occurs without previous call from ";
+    pp = new SDPrettyPrinter(new IndentPrinter());
+    message += pp.prettyPrint(node.getTarget());
+    message += " to ";
+    pp = new SDPrettyPrinter(new IndentPrinter());
+    message += pp.prettyPrint(node.getSource());
+    message += ".";
+    return message;
+  }
 
 }

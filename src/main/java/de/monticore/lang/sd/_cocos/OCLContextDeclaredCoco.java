@@ -12,20 +12,20 @@ import java.util.Optional;
 
 public class OCLContextDeclaredCoco implements SDASTSDOCLCoCo {
 
-	@Override
-	public void check(ASTSDOCL node) {
-		if (node.isPresentContext()) {
-			String context = node.getContext();
-			Scope sdScope = node.getEnclosingScope();
-			Optional<Symbol> symbol = sdScope.resolveLocally(context, ObjectDeclarationSymbol.KIND);
-			if (symbol.isPresent()) {
-				return;
-			}
-			// Could not resolve context name
-			Log.error(this.getClass().getSimpleName() + ": Context " + context + " is not a declared object.",
-					node.get_SourcePositionStart());
-		}
+  @Override
+  public void check(ASTSDOCL node) {
+    if (node.isPresentContext()) {
+      String context = node.getContext();
+      Scope sdScope = node.getEnclosingScope();
+      Optional<Symbol> symbol = sdScope.resolveLocally(context, ObjectDeclarationSymbol.KIND);
+      if (symbol.isPresent()) {
+        return;
+      }
+      // Could not resolve context name
+      Log.error(this.getClass().getSimpleName() + ": Context " + context + " is not a declared object.",
+          node.get_SourcePositionStart());
+    }
 
-	}
+  }
 
 }

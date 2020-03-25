@@ -12,17 +12,17 @@ import static org.junit.Assert.assertEquals;
 
 public class ImportStatementFilenameTest {
 
-	@Test
-	public void test() {
-		// Build import statement
-		ASTQualifiedName qn = SDNodeFactory.createASTQualifiedName();
-		qn.setPartList(Lists.newArrayList("a", "b", "c", "test", "exe"));
-		ASTSDImportStatement ast = SDNodeFactory.createASTSDImportStatement();
-		ast.setQualifiedName(qn);
+  @Test
+  public void test() {
+    // Build import statement
+    ASTQualifiedName qn = SDNodeFactory.createASTQualifiedName();
+    qn.setPartList(Lists.newArrayList("a", "b", "c", "test", "exe"));
+    ASTSDImportStatement ast = SDNodeFactory.createASTSDImportStatement();
+    ast.setQualifiedName(qn);
 
-		// Check for correct name resolution
-		assertEquals("test.exe", ast.getFileName());
-		assertEquals("a/b/c/", ast.getPath());
-	}
+    // Check for correct name resolution
+    assertEquals("test.exe", ast.getFileName());
+    assertEquals("a/b/c/", ast.getPath());
+  }
 
 }

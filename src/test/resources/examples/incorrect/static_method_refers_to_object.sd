@@ -2,19 +2,19 @@
 
 sequencediagram example_3_static {
 
-	// Interacting objects
-	a: A;
-	b;
-	class StaticClass;
+  // Interacting objects
+  a: A;
+  b;
+  class StaticClass;
 
-	// Static calls	
-	a -> StaticClass: static writeToProtocol("This is correct");
-	a -> b: static writeToProtocol("This is wrong");
-	b -> a: static writeToProtocol("This is wrong");
-	b -> (c : StaticClass): static writeToProtocol("This is wrong");
-	b -> (: SomeOtherClass): static writeToProtocol("This is wrong");
-	
-	// Non static, forbidden calls
-	a -> StaticClass: writeToProtocol("This is wrong");
+  // Static calls
+  a -> StaticClass: static writeToProtocol("This is correct");
+  a -> b: static writeToProtocol("This is wrong");
+  b -> a: static writeToProtocol("This is wrong");
+  b -> (c : StaticClass): static writeToProtocol("This is wrong");
+  b -> (: SomeOtherClass): static writeToProtocol("This is wrong");
+
+  // Non static, forbidden calls
+  a -> StaticClass: writeToProtocol("This is wrong");
 
 }

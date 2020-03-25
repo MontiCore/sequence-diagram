@@ -17,22 +17,22 @@ import static org.junit.Assert.assertEquals;
 
 public class IntegerTest {
 
-	@BeforeClass
-	public static void setUp() {
-		Log.enableFailQuick(true);
-	}
+  @BeforeClass
+  public static void setUp() {
+    Log.enableFailQuick(true);
+  }
 
-	@Test
-	public void testExample() throws IOException {
-		// Load model and check if integer gets parsed
-		SDLanguage lang = new SDLanguage();
-		ASTSDArtifact sd = lang.loadModel("src/test/resources/examples/correct", "integer.sd");
+  @Test
+  public void testExample() throws IOException {
+    // Load model and check if integer gets parsed
+    SDLanguage lang = new SDLanguage();
+    ASTSDArtifact sd = lang.loadModel("src/test/resources/examples/correct", "integer.sd");
 
-		// Assertion
-		ASTSDElement el = sd.getSequenceDiagram().getSDElementList().get(0);
-		JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
-		String java = pp.prettyprint(el.getSDJavaOpt().get().getBlockStatement().getBlockStatementList().get(0));
-		assertEquals("value=1;\n", java);
-	}
+    // Assertion
+    ASTSDElement el = sd.getSequenceDiagram().getSDElementList().get(0);
+    JavaDSLPrettyPrinter pp = new JavaDSLPrettyPrinter(new IndentPrinter());
+    String java = pp.prettyprint(el.getSDJavaOpt().get().getBlockStatement().getBlockStatementList().get(0));
+    assertEquals("value=1;\n", java);
+  }
 
 }

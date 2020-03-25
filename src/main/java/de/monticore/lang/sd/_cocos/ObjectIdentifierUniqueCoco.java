@@ -12,43 +12,43 @@ import java.util.List;
 
 public class ObjectIdentifierUniqueCoco implements SDASTObjectDeclarationCoCo {
 
-	private List<String> usedIdentifiers;
+  private List<String> usedIdentifiers;
 
-	public ObjectIdentifierUniqueCoco() {
-		usedIdentifiers = new ArrayList<String>();
-	}
+  public ObjectIdentifierUniqueCoco() {
+    usedIdentifiers = new ArrayList<String>();
+  }
 
-	@Override
-	public void check(ASTObjectDeclaration node) {
+  @Override
+  public void check(ASTObjectDeclaration node) {
 
-		// Extract name
-		String name = "";
-		if (node.isPresentName()) {
-			name = node.getName();
-		} else if (node.isPresentOfType()) {
-			name = node.getOfType();
-		}
+    // Extract name
+    String name = "";
+    if (node.isPresentName()) {
+      name = node.getName();
+    } else if (node.isPresentOfType()) {
+      name = node.getOfType();
+    }
 
-		// No name for the object
-		// (grammar should forbid this)
-		if (name.equals("")) {
-			String message = this.getClass().getSimpleName() + ": The object declaration ";
-			SDPrettyPrinter pp = new SDPrettyPrinter(new IndentPrinter());
-			message += pp.prettyPrint(node);
-			message += " is invalid as it does not give the object a name or a type.";
-			Log.error(message, node.get_SourcePositionStart());
-			return;
-		}
+    // No name for the object
+    // (grammar should forbid this)
+    if (name.equals("")) {
+      String message = this.getClass().getSimpleName() + ": The object declaration ";
+      SDPrettyPrinter pp = new SDPrettyPrinter(new IndentPrinter());
+      message += pp.prettyPrint(node);
+      message += " is invalid as it does not give the object a name or a type.";
+      Log.error(message, node.get_SourcePositionStart());
+      return;
+    }
 
-		// Name already in use?
-		if (usedIdentifiers.contains(name)) {
-			Log.error(this.getClass().getSimpleName() + ": Identifier " + name + " is already used.",
-					node.get_SourcePositionStart());
-		}
+    // Name already in use?
+    if (usedIdentifiers.contains(name)) {
+      Log.error(this.getClass().getSimpleName() + ": Identifier " + name + " is already used.",
+          node.get_SourcePositionStart());
+    }
 
-		// Add name to used identifiers
-		usedIdentifiers.add(name);
+    // Add name to used identifiers
+    usedIdentifiers.add(name);
 
-	}
+  }
 
 }

@@ -101,15 +101,15 @@
     </dependency>
     
     <dependency>
-	  <groupId>de.monticore.lang</groupId>
-	  <artifactId>ocl</artifactId>
-	  <version>${ocl.version}</version>
+    <groupId>de.monticore.lang</groupId>
+    <artifactId>ocl</artifactId>
+    <version>${ocl.version}</version>
     </dependency>
 
     <dependency>
-	  <groupId>de.monticore.lang</groupId>
-	  <artifactId>ocl</artifactId>
-	  <version>${ocl.version}</version>
+    <groupId>de.monticore.lang</groupId>
+    <artifactId>ocl</artifactId>
+    <version>${ocl.version}</version>
       <classifier>${grammars.classifier}</classifier>
     </dependency>
     
