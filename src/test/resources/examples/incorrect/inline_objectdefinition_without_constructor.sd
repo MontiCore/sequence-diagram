@@ -2,11 +2,11 @@
 
 sequencediagram example_4_constructor {
 
-	// Interacting objects
-	kupfer912: Auction;
-	
-	//Constructor call
-	kupfer912 -> b : new BidMessage(...);
-	kupfer912 -> BidMessage : new BidMessage(...);
-	
+  // Interacting objects
+  kupfer912: Auction;
+
+  //Constructor call
+  kupfer912 -> b : new BidMessage(...);
+  kupfer912 -> BidMessage : new BidMessage(...);
+
 }

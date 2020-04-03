@@ -16,45 +16,45 @@ import java.nio.file.StandardCopyOption;
 
 public class HtmlGenerator {
 
-	private final static String LOGGER_NAME = HtmlGenerator.class.getName();
+  private final static String LOGGER_NAME = HtmlGenerator.class.getName();
 
-	public static void generate(ASTSequenceDiagram ast, File outputDir) {
+  public static void generate(ASTSequenceDiagram ast, File outputDir) {
 
-		// Target dir
-		GeneratorEngine generator = createGeneratorEngine(outputDir);
-		String name = ast.getName();
-		String outputPath = name.toLowerCase() + "/";
+    // Target dir
+    GeneratorEngine generator = createGeneratorEngine(outputDir);
+    String name = ast.getName();
+    String outputPath = name.toLowerCase() + "/";
 
-		// Some processing
+    // Some processing
 
-		// Generation
-		Path outputFile = Paths.get(outputPath, ast.getName() + ".html");
-		generator.generate("html.sequencediagram.ftl", outputFile, ast);
-		Log.trace(LOGGER_NAME, "Generated html diagram for sd " + ast.getName() + " to " + outputDir.getAbsolutePath());
+    // Generation
+    Path outputFile = Paths.get(outputPath, ast.getName() + ".html");
+    generator.generate("html.sequencediagram.ftl", outputFile, ast);
+    Log.trace(LOGGER_NAME, "Generated html diagram for sd " + ast.getName() + " to " + outputDir.getAbsolutePath());
 
-		// Dependencies
-		String dependencies = "src/main/resources/html/";
-		copyFile(Paths.get(dependencies + "white.png"), Paths.get("gen/" + outputPath + "white.png"));
-		copyFile(Paths.get(dependencies + "corner.png"), Paths.get("gen/" + outputPath + "corner.png"));
-		copyFile(Paths.get(dependencies + "head.png"), Paths.get("gen/" + outputPath + "head.png"));
+    // Dependencies
+    String dependencies = "src/main/resources/html/";
+    copyFile(Paths.get(dependencies + "white.png"), Paths.get("gen/" + outputPath + "white.png"));
+    copyFile(Paths.get(dependencies + "corner.png"), Paths.get("gen/" + outputPath + "corner.png"));
+    copyFile(Paths.get(dependencies + "head.png"), Paths.get("gen/" + outputPath + "head.png"));
 
-	}
+  }
 
-	private static void copyFile(Path in, Path out) {
-		try {
-			Files.copy(in, out, StandardCopyOption.REPLACE_EXISTING);
-		} catch (IOException e) {
-			e.printStackTrace();
-			Log.error("Could not copy resource file.");
-		}
-	}
+  private static void copyFile(Path in, Path out) {
+    try {
+      Files.copy(in, out, StandardCopyOption.REPLACE_EXISTING);
+    } catch (IOException e) {
+      e.printStackTrace();
+      Log.error("Could not copy resource file.");
+    }
+  }
 
-	private static GeneratorEngine createGeneratorEngine(File outputDirectory) {
-		final GeneratorSetup setup = new GeneratorSetup();
-		setup.setOutputDirectory(outputDirectory);
-		setup.setCommentStart("<!--");
-		setup.setCommentEnd("-->");
-		return new GeneratorEngine(setup);
-	}
+  private static GeneratorEngine createGeneratorEngine(File outputDirectory) {
+    final GeneratorSetup setup = new GeneratorSetup();
+    setup.setOutputDirectory(outputDirectory);
+    setup.setCommentStart("<!--");
+    setup.setCommentEnd("-->");
+    return new GeneratorEngine(setup);
+  }
 
 }

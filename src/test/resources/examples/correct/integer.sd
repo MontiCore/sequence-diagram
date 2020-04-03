@@ -2,6 +2,6 @@
 
 sequencediagram integer {
 
-	java: {value = 1;}
-	
+  java: {value = 1;}
+
 }

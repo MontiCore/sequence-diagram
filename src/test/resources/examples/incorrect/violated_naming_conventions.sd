@@ -2,22 +2,22 @@
 
 sequencediagram violated_naming_conventions {
 
-	// Interacting objects
-	kupfer912: Auction;
-	Kupfer913: Auction;
-	kupfer914: auction;
-	Kupfer915: auction;
-	class Auction;
-	class auction;
-	object;
-	Object;
-	
-	//Constructor call
-	kupfer912 -> bm1 : new BidMessage(...);
-	kupfer912 -> (bm2:BidMessage) : new BidMessage(...);
-	kupfer912 -> (Bm3:BidMessage) : new BidMessage(...);
-	kupfer912 -> (bm4:bidMessage) : new BidMessage(...);
-	kupfer912 -> (Bm5:bidMessage) : new BidMessage(...);
-	
-	
+  // Interacting objects
+  kupfer912: Auction;
+  Kupfer913: Auction;
+  kupfer914: auction;
+  Kupfer915: auction;
+  class Auction;
+  class auction;
+  object;
+  Object;
+
+  //Constructor call
+  kupfer912 -> bm1 : new BidMessage(...);
+  kupfer912 -> (bm2:BidMessage) : new BidMessage(...);
+  kupfer912 -> (Bm3:BidMessage) : new BidMessage(...);
+  kupfer912 -> (bm4:bidMessage) : new BidMessage(...);
+  kupfer912 -> (Bm5:bidMessage) : new BidMessage(...);
+
+
 }

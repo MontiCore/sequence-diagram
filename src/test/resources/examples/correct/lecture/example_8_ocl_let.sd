@@ -2,15 +2,15 @@
 
 sequencediagram example_8_ocl_let {
 
-	// Interacting objects
-	kupfer912: Auction;
-	theo: Person;
-	
-	// Interaction sequence
-	<theo: [let int m = theo.message.size]>	
-	kupfer912 -> theo : sendMessage(bm);
-	kupfer912 <-- theo: ;
-	<theo: [theo.message.size == m+1]>
-	
+  // Interacting objects
+  kupfer912: Auction;
+  theo: Person;
+
+  // Interaction sequence
+  <theo: [let int m = theo.message.size]>
+  kupfer912 -> theo : sendMessage(bm);
+  kupfer912 <-- theo: ;
+  <theo: [theo.message.size == m+1]>
+
 
 }

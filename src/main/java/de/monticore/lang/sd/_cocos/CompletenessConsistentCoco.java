@@ -11,26 +11,26 @@ import java.util.Optional;
 
 public class CompletenessConsistentCoco implements SDASTSequenceDiagramCoCo {
 
-	private Optional<ASTSDCompleteness> globalCompleteness;
+  private Optional<ASTSDCompleteness> globalCompleteness;
 
-	@Override
-	public void check(ASTSequenceDiagram node) {
-		globalCompleteness = node.getSDCompletenessOpt();
-		for (ASTObjectDeclaration od : node.getObjectDeclarationList()) {
-			check(od);
-		}
-	}
+  @Override
+  public void check(ASTSequenceDiagram node) {
+    globalCompleteness = node.getSDCompletenessOpt();
+    for (ASTObjectDeclaration od : node.getObjectDeclarationList()) {
+      check(od);
+    }
+  }
 
-	private void check(ASTObjectDeclaration od) {
-		if (globalCompleteness.isPresent() && globalCompleteness.get().isComplete()) {
-			if (od.getSDCompletenessOpt().isPresent() && !od.getSDCompletenessOpt().get().isComplete()) {
-				Log.error(
-						this.getClass().getSimpleName()
-								+ ": Completeness of sequence diagram is set to complete, but completeness of object declaration is set to a different one.",
-						od.get_SourcePositionStart());
+  private void check(ASTObjectDeclaration od) {
+    if (globalCompleteness.isPresent() && globalCompleteness.get().isComplete()) {
+      if (od.getSDCompletenessOpt().isPresent() && !od.getSDCompletenessOpt().get().isComplete()) {
+        Log.error(
+            this.getClass().getSimpleName()
+                + ": Completeness of sequence diagram is set to complete, but completeness of object declaration is set to a different one.",
+            od.get_SourcePositionStart());
 
-			}
-		}
-	}
+      }
+    }
+  }
 
 }
