@@ -14,8 +14,8 @@
   <properties>
 
     <!-- .. Libraries ..................................................... -->
-    <monticore.version>5.0.1.1</monticore.version>
-    <monticore.java.version>4.3.13</monticore.java.version>
+    <monticore.version>6.0.0</monticore.version>
+    <monticore.java.version>4.3.17</monticore.java.version>
 
     <antlr.version>4.7.1</antlr.version>
     <guava.version>18.0</guava.version>

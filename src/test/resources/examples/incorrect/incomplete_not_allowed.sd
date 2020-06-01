@@ -1,6 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-sequencediagram imcomplete_not_allowed {
+sequencediagram incomplete_not_allowed {
 
   ... a : A;
   (C) b : B;

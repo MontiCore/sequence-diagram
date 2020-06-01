@@ -1,0 +1,37 @@
+package de.monticore.lang;
+
+component grammar SDBase extends de.monticore.MCBasics {
+
+    symbol scope SequenceDiagram = "sequencediagram" MatchModifier? Name
+        "{"
+            SDObject*
+            SDElement*
+        "}"
+    ;
+
+    interface MatchModifier;
+
+    interface SDElement;
+
+    SDObject =
+        MatchModifier? ObjectDeclaration
+    ;
+
+    interface symbol ObjectDeclaration;
+
+    ObjectReference =
+        Name@ObjectDeclaration
+        | "(" inlineDeclaration:ObjectDeclaration ")"
+    ;
+
+    Interaction implements SDElement =
+        left:ObjectReference
+        Arrow
+        right:ObjectReference
+        (":" Action)?
+    ;
+
+    interface Arrow;
+
+    interface Action;
+}

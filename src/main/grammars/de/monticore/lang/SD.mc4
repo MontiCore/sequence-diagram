@@ -1,306 +1,114 @@
-/* (c) https://github.com/MontiCore/monticore */
-
 package de.monticore.lang;
 
-/**
-*/
+component grammar SD extends de.monticore.lang.SDBase,
+                             de.monticore.types.MCBasicTypes,
+                             de.monticore.expressions.CommonExpressions {
 
-grammar SD extends de.monticore.java.JavaDSL,  de.monticore.types.Types {
+    start SDArtifact;
 
+    PackageDeclaration = "package" MCQualifiedName& ";";
 
-// ocl.monticoreocl.OCL,
-    /*========================================================================*/
-    /*=============================== TOKENS =================================*/
-    /*========================================================================*/
-
-
-    /*========================================================================*/
-    /*=========================== CompilationUnit ============================*/
-    /*========================================================================*/
-
-    /** ASTSDArtifact represents the whole compilation unit
-      @attribute packageDeclaration Optional package declaration of this sequence diagram
-      @attribute importStatements List of imported elements
-      @attribute sequenceDiagram Actual sequence diagram
-    */
     SDArtifact =
-      packageDeclaration:SDPackageDeclaration?
-      importStatements:SDImportStatement*
-      SequenceDiagram;
+        PackageDeclaration?
+        MCImportStatement*
+        SequenceDiagram
+    ;
 
-    /** ASTSDPackageDeclaration represents the declaration of a SD package
-      @attribute qualifiedName Qualified name of the package (keywords allowed)
-    */
-    SDPackageDeclaration =
-      "package"
-      QualifiedName&
-      ";";
 
-    /** ASTSDImportStatement represents an import statement
-      @attribute qualifiedName Qualified name of an import (keywords allowed)
-    */
-    SDImportStatement =
-      "import"
-      QualifiedName&
-      ";";
 
-    /*========================================================================*/
-    /*============================ ENUMERATIONS ==============================*/
-    /*========================================================================*/
+    CompleteModifier implements MatchModifier =
+        "complete" | "(c)"
+    ;
 
-    enum Arrow =
-      LEFT: "<-"  | RIGHT: "->" ;
-    enum DashedArrow =
-      LEFT: "<--" | RIGHT: "-->";
+    FreeModifier implements MatchModifier =
+        "free" | "..."
+    ;
 
-    /*========================================================================*/
-    /*================== INTERFACES AND EXTERNAL SYMBOLS =====================*/
-    /*========================================================================*/
+    InitialModifier implements MatchModifier =
+        "initial"
+    ;
 
-    /** ASTInteraction stands for all the different kinds of actions that are
-        possible within a sequence diagram.
-        These are method calls (including constructor calls), return statements
-        and exceptions.
-    */
-    interface Interaction;
+    VisibleModifier implements MatchModifier =
+        "visible"
+    ;
 
-    /*========================================================================*/
-    /*=================== Global Sequence Diagram Stuff ======================*/
-    /*========================================================================*/
 
-    /** ASTSequenceDiagram represents the actual sequence diagram
-      @attribute sDStereotypes List of optional stereotypes for the SD
-      @attribute sDCompleteness Optional "special" stereotype representing the
-             SD completeness (free, complete, initial, visible)
-      @attribute name Name of the sequence diagram
-      @attribute objectDeclarations List of initial objects visible in the SD
-      @attribute sdElements List of possible syntax elements of an SD
-    */
-  symbol scope SequenceDiagram =
-    "sequencediagram"
-    SDStereotype*
-    SDCompleteness?
-    Name
-    "{"
-    (ObjectDeclaration ";")*
-    SDElement*
-    "}";
 
-  /** ASTObjectDeclaration represents the declaration of an SD object
-      @attribute sDStereotypes List of optional stereotypes for the object
-      @attribute sDCompleteness Optional "special" stereotype representing the
-             object's completeness (free, complete, initial, visible)
-      @attribute name Name of the object (may be empty when anonymous with type)
-               Can also be used when refering to static classes
-      @attribute ofType Type of the object (may be empty when name is set)
-    */
-  symbol ObjectDeclaration =
-    SDStereotype*
-    SDCompleteness?
-    (
-      Name |
-      Name ":" ofType:Name |
-      ":" ofType:Name |
-      ["class"] Name
-    );
+    scope SDActivity implements SDElement =
+        "{"
+            SDElement*
+        "}"
+    ;
 
-  /** ASTSDElement represents a syntax element of a sequence diagram,
-      which can be an activity, interaction, OCL statement or java statement
-      @attribute sDActivity Activity which contains further elements
-             (known from the typical vertical blocks in visual SDs)
-      @attribute interaction Interaction (method, return or exception)
-      @attribute sDOCL Statement written in OCL language
-      @attribute sDJava Statement written in Java DSL
-    */
-  SDElement =
-    SDActivity |
-    (Interaction ";") |
-    SDOCL |
-    SDJava;
 
-  /** ASTSDActivity represents an activity which contains further elements
-        (known from the typical vertical blocks in visual SDs)
-      which can be an activity, interaction, OCL statement or java statement
-      @attribute sDElements List of SDElements that are subordinate to this activity
-    */
-  SDActivity =
-    "{"
-    SDElement*
-    "}";
 
-  /** ASTObjectReference represents a reference to a declared (or new) object
-      @attribute name Name of the referenced and previously declared object
-      @attribute inlineDeclaration ObjectDeclaration which introduces a new object
-    */
-  ObjectReference =
-    Name |
-    "(" inlineDeclaration: ObjectDeclaration ")";
 
-  /** ASTSDStereotype represents a stereotype for SDs (simpler variant than common)
-      @attribute name Name of the stereotyoe
-    */
-  SDStereotype =
-    "<<" Name ">>";
 
-  /** ASTSDCompleteness represents a special kind of stereotype known in SDs
-      @attribute completeness Completeness in String representation
-             Can be one of the following:
-             - .../<<match:free>> (default)
-             - (C)/<<match:complete>>
-             - <<match:visible>>
-             - <<match:initial>>
-    */
-  SDCompleteness =
-    (
-    completeness : "(C)" |
-    completeness : "..." |
-    completeness : "<<match:complete>>"|
-    completeness : "<<match:free>>"    |
-    completeness : "<<match:visible>>" |
-    completeness : "<<match:initial>>"
-    );
+    BasicObjectDeclaration implements ObjectDeclaration =
+        Name
+    ;
 
-    /*========================================================================*/
-    /*=========================== Interactions ===============================*/
-    /*========================================================================*/
+    ConcreteObjectDeclaration implements ObjectDeclaration =
+        Name ":" MCObjectType
+    ;
 
-  /** ASTMethodCall represents a regular method or constructor call as one kind of interaction
-      @attribute left ObjectReference that occurs first (left)
-      @attribute arrow Kind of arrow that shows the call direction
-      @attribute right ObjectReference that occurs second (right)
-      @attribute sDStereotype Optional method stereotype
-      @attribute method Method body of the interaction
-    */
-  MethodCall implements Interaction =
-    left:ObjectReference
-    Arrow
-    right:ObjectReference
-    ":"
-    SDStereotype?
-    Method;
+    AnonymousObjectDeclaration implements ObjectDeclaration =
+        ":" MCObjectType
+    ;
 
-  /** ASTMethodCall represents a regular return as one kind of interaction
-      @attribute left ObjectReference that occurs first (left)
-      @attribute dashedArrow Kind of dashed arrow that shows the call direction
-      @attribute right ObjectReference that occurs second (right)
-      @attribute returnStatement Return statement of this interaction
-    */
-  Return implements Interaction =
-    left:ObjectReference
-    DashedArrow
-    right:ObjectReference
-    ":"
-    returnStatement:SDReturnStatement?;
+    ClassObjectDeclaration implements ObjectDeclaration =
+        "class" MCObjectType
+    ;
 
-  /** ASTException represents an exception as one kind of interaction
-      @attribute left ObjectReference that occurs first (left)
-      @attribute dashedArrow Kind of dashed arrow that shows the call direction
-      @attribute right ObjectReference that occurs second (right)
-      @attribute Name Name of the exception type
-      @attribute args Arguments for the exception constructor
-    */
-  Exception implements Interaction =
-    left:ObjectReference
-    DashedArrow
-    right:ObjectReference
-    ":"
-    Name
-    Args?;
 
-  /** ASTMethod represents the method body of a method call
-      @attribute staticModifier Optional modifier that marks this method as a static call
-      @attribute Name Name of method
-      @attribute args Arguments for the method
-    */
-  Method =
-    StaticModifier?
-    Name
-    Args?;
 
-  /** ASTConstructor represents a special kind of method body, a constructor
-      @attribute Name Name of constructor (i.e. class)
-      @attribute args Arguments for the constructor
-    */
-  Constructor extends Method =
-    "new"
-    Name
-    Args?;
 
-  /** ASTStaticModifier modifier that marks a method as a static call
-    */
-  StaticModifier =
-    ["static"]?;
 
-  /** ASTArgs represents a list of parameters within brackets ()
-      Note: Used this layer as syntactic sugar to evaluate incomplete
-      parameter lists in ASTs more easily
-      @attribute paramList List of parameters or ... (incomplete)
-    */
-  Args =
-    "("
-    ParamList?
-    ")";
+    BasicArrow implements Arrow =
+        toLeft:["->"] | toRight:["<-"]
+    ;
 
-  /** ASTParamList represents a List of parameters or ... (incomplete)
-      @attribute incomplete Marks this list as incomplete
-      @attribute params  List of parameters
-    */
-  ParamList =
-    incomplete:["..."] |
-    ( (Param ",")* Param);
+    DashedArrow implements Arrow =
+        toLeft:["-->"] | toRight:["<--"]
+    ;
 
-  /** ASTParam represents a parameter which can be a string, variable or Integer
-      @attribute string Static string parameter
-      @attribute reference Reference to a variable as parameter
-      @attribute num_Int Static integer parameter
-    */
-  Param =
-    String |
-    reference: QualifiedName |
-    Num_Int;
 
-  /** ASTSDReturnStatements represents a return statement which may have a result
-      @attribute result Optional result that gets returned
-    */
-  SDReturnStatement =
-    "return"
-    Result?;
 
-  /** ASTResult represents a result returned by a return statement
-      @attribute incomplete Marks the result as incomplete
-      @attribute value A name representing a variable or enum
-    */
-  Result =
-    incomplete:["..."] |
-    value: Param;
 
-    /*========================================================================*/
-    /*=================== Integration of other Languages =====================*/
-    /*========================================================================*/
 
-  /** ASTSDOCL represents an OCL element within a SD
-      @attribute context Optional OCL context (variable or class) for a constraint
-      @attribute oCLExpression Expression in OCL language
-    */
-  SDOCL =
-    "<"
-    (context:Name ":")?
-    "["
-    NotAFakeOCLConstraint
-    // OCLConstraint
-    "]"
-    ">";
 
-  /** ASTSDJava represents an java statement within a SD
-      @attribute blockStatement Statement in JavaDSL
-    */
-  SDJava =
-    "java" ":"
-    blockStatement:JavaBlock;
+    MethodAction implements Action =
+        MethodModifier*
+        ["static"]?
+        Name
+        Args? //(Arguments | "(" incomplete:["..."] ")")? // Arguments?
+    ;
 
-   //TODO: Remove the following two placeholders once OCL is back
-   NotAFakeOCLConstraint = NAFOCLP*;
+    interface MethodModifier;
 
-   NAFOCLP = QualifiedName | "==" | "+" |  "&&";
+    TriggerModifier implements MethodModifier =
+        "trigger"
+    ;
 
+    ConstructorAction extends MethodAction =
+        "new" Name Args?
+    ;
+
+    Args = Arguments |  "(" incomplete:["..."] ")";
+
+//    IncompleteExpression implements Expression =
+//        "..."
+//    ;
+
+    ReturnAction implements Action =
+        "return"? Result?
+    ;
+
+    Result =
+        incomplete:["..."] | Literal
+    ;
+
+    ExceptionAction implements Action =
+        "throws" Name Args?
+    ;
 }
