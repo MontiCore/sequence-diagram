@@ -6,10 +6,8 @@ component grammar SD extends de.monticore.lang.SDBase,
 
     start SDArtifact;
 
-    PackageDeclaration = "package" MCQualifiedName& ";";
-
     SDArtifact =
-        PackageDeclaration?
+        ("package" MCQualifiedName& ";")?
         MCImportStatement*
         SequenceDiagram
     ;
@@ -94,11 +92,11 @@ component grammar SD extends de.monticore.lang.SDBase,
         "new" Name Args?
     ;
 
-    Args = Arguments |  "(" incomplete:["..."] ")";
+    Args = Arguments;
 
-//    IncompleteExpression implements Expression =
-//        "..."
-//    ;
+    IncompleteExpression implements Expression =
+        "..."
+    ;
 
     ReturnAction implements Action =
         "return"? Result?
