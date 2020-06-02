@@ -79,7 +79,7 @@ component grammar SD extends de.monticore.lang.SDBase,
         MethodModifier*
         ["static"]?
         Name
-        Args? //(Arguments | "(" incomplete:["..."] ")")? // Arguments?
+        Arguments?
     ;
 
     interface MethodModifier;
@@ -89,10 +89,8 @@ component grammar SD extends de.monticore.lang.SDBase,
     ;
 
     ConstructorAction extends MethodAction =
-        "new" Name Args?
+        "new" Name Arguments?
     ;
-
-    Args = Arguments;
 
     IncompleteExpression implements Expression =
         "..."
@@ -107,6 +105,6 @@ component grammar SD extends de.monticore.lang.SDBase,
     ;
 
     ExceptionAction implements Action =
-        "throws" Name Args?
+        "throws" Name Arguments?
     ;
 }

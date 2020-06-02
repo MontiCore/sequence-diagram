@@ -20,7 +20,7 @@ component grammar SDBase extends de.monticore.MCBasics {
     interface ObjectDeclaration;
 
     ObjectReference =
-        Name@ObjectDeclaration
+        Name
         | "(" inlineDeclaration:ObjectDeclaration ")"
     ;
 
