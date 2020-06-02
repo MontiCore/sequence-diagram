@@ -1,6 +1,7 @@
 package de.monticore.lang;
 
-component grammar SD extends de.monticore.lang.SDBase,
+grammar SD extends de.monticore.lang.SDBase,
+                             de.monticore.literals.MCCommonLiterals,
                              de.monticore.expressions.CommonExpressions {
 
     start SDArtifact;
