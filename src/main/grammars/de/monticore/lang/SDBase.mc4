@@ -1,6 +1,7 @@
 package de.monticore.lang;
 
-component grammar SDBase extends de.monticore.MCBasics {
+component grammar SDBase extends de.monticore.MCBasics,
+                                 de.monticore.types.MCBasicTypes {
 
     symbol scope SequenceDiagram = MatchModifier? "sequencediagram" Name
         "{"
@@ -13,15 +14,29 @@ component grammar SDBase extends de.monticore.MCBasics {
 
     interface SDElement;
 
-    SDObject =
-        MatchModifier? ObjectDeclaration
+    symbol SDObject =
+        MatchModifier?
+        (
+            Name
+        |
+            Name? ":" MCObjectType
+        |
+            "class" MCObjectType
+        )
     ;
 
-    interface ObjectDeclaration;
+    astrule SDObject =
+        method public String getName() {
+            if (isPresentName()) {
+                return this.name.get();
+            }
+            return "";
+        }
+    ;
 
     ObjectReference =
-        Name
-        | "(" inlineDeclaration:ObjectDeclaration ")"
+        Name@SDObject
+        | "(" inlineDeclaration:SDObject ")"
     ;
 
     Interaction implements SDElement =

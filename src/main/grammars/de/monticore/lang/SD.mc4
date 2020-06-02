@@ -1,7 +1,6 @@
 package de.monticore.lang;
 
 component grammar SD extends de.monticore.lang.SDBase,
-                             de.monticore.types.MCBasicTypes,
                              de.monticore.expressions.CommonExpressions {
 
     start SDArtifact;
@@ -42,26 +41,6 @@ component grammar SD extends de.monticore.lang.SDBase,
 
 
 
-    BasicObjectDeclaration implements ObjectDeclaration =
-        Name
-    ;
-
-    ConcreteObjectDeclaration implements ObjectDeclaration =
-        Name ":" MCObjectType
-    ;
-
-    AnonymousObjectDeclaration implements ObjectDeclaration =
-        ":" MCObjectType
-    ;
-
-    ClassObjectDeclaration implements ObjectDeclaration =
-        "class" MCObjectType
-    ;
-
-
-
-
-
     BasicArrow implements Arrow =
         toLeft:["->"] | toRight:["<-"]
     ;
@@ -89,7 +68,7 @@ component grammar SD extends de.monticore.lang.SDBase,
     ;
 
     ConstructorAction extends MethodAction =
-        "new" Name Arguments?
+        "new" MCQualifiedName Arguments?
     ;
 
     IncompleteExpression implements Expression =
@@ -105,6 +84,6 @@ component grammar SD extends de.monticore.lang.SDBase,
     ;
 
     ExceptionAction implements Action =
-        "throws" Name Arguments?
+        "throws" MCQualifiedName Arguments?
     ;
 }
