@@ -8,6 +8,9 @@ import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._symboltable.SDLanguage;
 import de.se_rwth.commons.logging.Log;
 
+/**
+ * Verifies that SequenceDiagrams have the file ending .sd
+ */
 public class CommonFileExtensionCoco implements SDASTSDArtifactCoCo {
 
   @Override
