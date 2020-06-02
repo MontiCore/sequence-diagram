@@ -11,8 +11,6 @@ component grammar SD extends de.monticore.lang.SDBase,
         SequenceDiagram
     ;
 
-
-
     CompleteModifier implements MatchModifier =
         "complete" | "(c)"
     ;
@@ -29,17 +27,11 @@ component grammar SD extends de.monticore.lang.SDBase,
         "visible"
     ;
 
-
-
     scope SDActivity implements SDElement =
         "{"
             SDElement*
         "}"
     ;
-
-
-
-
 
     BasicArrow implements Arrow =
         toLeft:["->"] | toRight:["<-"]
@@ -48,11 +40,6 @@ component grammar SD extends de.monticore.lang.SDBase,
     DashedArrow implements Arrow =
         toLeft:["-->"] | toRight:["<--"]
     ;
-
-
-
-
-
 
     MethodAction implements Action =
         MethodModifier*
