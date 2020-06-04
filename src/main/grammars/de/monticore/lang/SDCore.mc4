@@ -1,7 +1,6 @@
 package de.monticore.lang;
 
-component grammar SDCore extends de.monticore.MCBasics,
-                                 de.monticore.types.MCBasicTypes {
+component grammar SDCore extends de.monticore.types.MCBasicTypes {
 
   SDArtifact =
     ("package" MCQualifiedName& ";")?
