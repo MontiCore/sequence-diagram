@@ -1,0 +1,78 @@
+package de.monticore.lang;
+
+component grammar SDCore extends de.monticore.MCBasics,
+                                 de.monticore.types.MCBasicTypes {
+
+  SDArtifact =
+    ("package" MCQualifiedName& ";")?
+    MCImportStatement*
+    SequenceDiagram;
+
+  symbol scope SequenceDiagram =
+    SequenceDiagramModifiers "sequencediagram" Name "{"
+      Object*
+      SDElement*
+    "}";
+
+  /**
+   * Extension point for SequenceDiagramModifiers.
+   * No extension required.
+   */
+  interface SequenceDiagramModifiers;
+  EmptySequenceDiagramModifiers implements SequenceDiagramModifiers = ;
+  interface SequenceDiagramModifier;
+
+
+  /**
+   * Every implementation of SequenceDiagramModifiers must provide
+   * a set of SequenceDiagramModifier.
+   */
+  astrule SequenceDiagramModifiers = method
+    public Set<ASTSequenceDiagramModifier> getSequencediagramModifiers() {
+      return new HashSet<>();
+    };
+
+  /**
+   * Object definition or usage.
+   * Symboltablecreator creates instances of VariableSymbol
+   * for named objects.
+   */
+  Object =
+    ObjectModifiers (Name | Name? ":" MCObjectType);
+
+  /**
+   * Extension point for SDObjectModifiers.
+   * No extension required.
+   */
+  interface ObjectModifiers;
+  EmptyObjectModifiers implements ObjectModifiers = ;
+  interface ObjectModifier;
+
+  /**
+   * Every implementation of ObjectModifiers must provide
+   * a set of ObjectModifier.
+   */
+  astrule ObjectModifiers = method
+    public Set<ASTObjectModifier> getObjectModifiers() {
+      return new HashSet<>();
+    };
+
+  interface SDElement;
+
+  interface Interaction extends SDElement =
+    from:InteractionEntity? to:InteractionEntity? Action;
+
+  /**
+   * Extension point for used InteractonEntities such as objects.
+   */
+  interface InteractionEntity;
+
+  /**
+   * ObjectInteractionEntities either point to an existing object
+   * or introduce a new object.
+   */
+  ObjectInteractionEntity implements InteractionEntity =
+    Name | "(" inlineDeclaration:Object ")";
+
+  interface Action;
+}

@@ -1,0 +1,11 @@
+package de.monticore.lang;
+
+component grammar SD4Test extends de.monticore.lang.SD4Code {
+
+  interface Condition extends SDElement;
+
+  ExpressionCondition implements Condition =
+    "<" Expression ">";
+
+  // OCL/P conditions are added when OCL/P is implemented
+}
