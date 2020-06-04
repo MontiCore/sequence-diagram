@@ -1,6 +1,6 @@
 package de.monticore.lang;
 
-grammar SD4TestJava extends de.monticore.lang.SD4Test,
+grammar SD4JavaTest extends de.monticore.lang.SD4Test,
                             de.monticore.literals.MCJavaLiterals {
   start SDArtifact;
 }
