@@ -8,7 +8,7 @@ component grammar SDBase extends de.monticore.lang.SDCore {
     ":" Action; // only OrdinaryInteractionAction are allowed.
 
   /*
-   * Extension point for Actions that can be used in OrdinaryInteractions.
+   * Extension point for Actions that should used in OrdinaryInteractions.
    */
   OrdinaryInteractionAction implements Action;
 

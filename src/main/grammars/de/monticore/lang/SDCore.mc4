@@ -22,7 +22,6 @@ component grammar SDCore extends de.monticore.MCBasics,
   EmptySequenceDiagramModifiers implements SequenceDiagramModifiers = ;
   interface SequenceDiagramModifier;
 
-
   /**
    * Every implementation of SequenceDiagramModifiers must provide
    * a set of SequenceDiagramModifier.
@@ -34,8 +33,7 @@ component grammar SDCore extends de.monticore.MCBasics,
 
   /**
    * Object definition or usage.
-   * Symboltablecreator creates instances of VariableSymbol
-   * for named objects.
+   * Symboltablecreator creates instances of VariableSymbolfor named objects.
    */
   Object =
     ObjectModifiers (Name | Name? ":" MCObjectType);
