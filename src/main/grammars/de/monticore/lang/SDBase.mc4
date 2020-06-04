@@ -10,7 +10,7 @@ component grammar SDBase extends de.monticore.lang.SDCore {
   /*
    * Extension point for Actions that should be used in OrdinaryInteractions.
    */
-  OrdinaryInteractionAction implements Action;
+  interface OrdinaryInteractionAction extends Action;
 
   /**
    * Activity bars.
