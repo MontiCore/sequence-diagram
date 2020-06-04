@@ -2,20 +2,21 @@ package de.monticore.lang;
 
 component grammar BasicSDModifiers extends de.monticore.lang.SDCore {
 
-  MatchModifiers implements ObjectModifiers, SequenceDiagramModifiers =
-    MatchModifier*;
+  ObjectModifiersImpl implements ObjectModifiers =
+     ObjectModifier*;
 
-  interface MatchModifier extends ObjectModifier, SequenceDiagramModifier;
+  SequenceDiagramModifiersImpl implements SequenceDiagramModifiers =
+    SequenceDiagramModifier*;
 
-  CompleteModifier implements MatchModifier =
+  CompleteModifier implements ObjectModifier, SequenceDiagramModifier =
     "complete" | "(c)";
 
-  FreeModifier implements MatchModifier =
+  FreeModifier implements ObjectModifier, SequenceDiagramModifier =
     "free" | "...";
 
-  InitialModifier implements MatchModifier =
+  InitialModifier implements ObjectModifier, SequenceDiagramModifier =
     "initial";
 
-  VisibleModifier implements MatchModifier =
+  VisibleModifier implements ObjectModifier, SequenceDiagramModifier =
     "visible";
 }

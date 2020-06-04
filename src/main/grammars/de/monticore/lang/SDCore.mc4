@@ -27,7 +27,7 @@ component grammar SDCore extends de.monticore.MCBasics,
    * a set of SequenceDiagramModifier.
    */
   astrule SequenceDiagramModifiers = method
-    public Set<ASTSequenceDiagramModifier> getSequencediagramModifiers() {
+    public List<ASTSequenceDiagramModifier> SequenceDiagramModifierList() {
       return new HashSet<>();
     };
 
@@ -51,7 +51,7 @@ component grammar SDCore extends de.monticore.MCBasics,
    * a set of ObjectModifier.
    */
   astrule ObjectModifiers = method
-    public Set<ASTObjectModifier> getObjectModifiers() {
+    public List<ASTObjectModifier> getObjectModifierList() {
       return new HashSet<>();
     };
 
