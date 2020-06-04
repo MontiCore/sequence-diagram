@@ -2,4 +2,5 @@ package de.monticore.lang;
 
 component grammar SDOCLConditions extends de.monticore.lang.SDCore {
   // OCLCondition implements SDElement = "<" OCLExpression ">";
+  // WILL BE IMPLEMENTED AS SOON AS OCL IMPLEMENTATION IS PROVIDED
 }
