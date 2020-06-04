@@ -3,19 +3,19 @@ package de.monticore.lang;
 component grammar SDBase extends de.monticore.lang.SDCore {
 
   OrdinaryInteraction implements Interaction =
-    from:InteractionEntity? "->"
-    to:InteractionEntity?
+    source:InteractionEntity? "->"
+    target:InteractionEntity?
     ":" Action; // only OrdinaryInteractionAction are allowed.
 
   /*
-   * Extension point for Actions that should used in OrdinaryInteractions.
+   * Extension point for Actions that should be used in OrdinaryInteractions.
    */
   OrdinaryInteractionAction implements Action;
 
   /**
    * Activity bars.
-   * An activity bar starts at the speficied position on the lifeline of
-   * the target object of the first interaction in the SDElementList.
+   * An activity bar starts on the lifeline of the target object of the
+   * first interaction in the SDElement list.
    */
   scope Activity implements SDElement =
     "{"

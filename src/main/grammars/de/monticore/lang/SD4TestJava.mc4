@@ -1,12 +1,6 @@
 package de.monticore.lang;
 
 grammar SD4TestJava extends de.monticore.lang.SD4Test,
-                            de.monticore.literals.MCCommonLiterals,
-                                        de.monticore.expressions.CommonExpressions,
-                                        de.monticore.expressions.AssignmentExpressions,
-                                        de.monticore.types.MCSimpleGenericTypes,
-                                        de.monticore.statements.MCCommonStatements,
-                                        de.monticore.statements.MCVarDeclarationStatements
-                            {
+                            de.monticore.literals.MCJavaLiterals {
   start SDArtifact;
 }

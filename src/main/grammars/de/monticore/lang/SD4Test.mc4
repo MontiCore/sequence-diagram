@@ -7,5 +7,5 @@ component grammar SD4Test extends de.monticore.lang.SD4Code {
   ExpressionCondition implements Condition =
     "<" Expression ">";
 
-  // OCL/P conditions are added when OCL/P is implemented
+  // OCL/P conditions are added as soon as OCL/P is implemented
 }

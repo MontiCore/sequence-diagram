@@ -4,6 +4,9 @@ component grammar SD4Code extends de.monticore.lang.SDBase,
                                   de.monticore.lang.BasicSDModifiers,
                                   de.monticore.expressions.CommonExpressions {
 
+  /*
+   * Actions for method invocations.
+   */
   MethodInvocationAction implements Action =
     MethodModifier* ["static"]? Name Arguments?;
 
@@ -14,27 +17,47 @@ component grammar SD4Code extends de.monticore.lang.SDBase,
 
   TriggerModifier implements MethodModifier = "trigger";
 
+  /*
+   * Actions for constructor calls.
+   */
   ConstructorAction implements Action =
     "new" MCQualifiedName Arguments?;
 
+  /*
+   * Extension point for actions occurring when a method
+   * returns the control flow to its environment, such as
+   * returns and exceptions.
+   */
   interface EndOfMethodAction extends Action;
 
+  /*
+   * Actions for returns.
+   */
   ReturnAction implements EndOfMethodAction =
     ("return" Expression)?;
 
+  /*
+   * Actions for exceptions.
+   */
   ExceptionAction implements EndOfMethodAction =
     "throw" MCQualifiedName Arguments?;
 
   EndOfMethodInteraction implements Interaction =
-    ((from:InteractionEntity "-->" to:InteractionEntity?) |
-     (to:InteractionEntity? "<--" from:InteractionEntity))
+    target:InteractionEntity? "<--"
+    source:InteractionEntity?
     ":" Action; // only EndOfMethodActions are allowed.
 
   /**
-   * Used for incomplete specifications of (method, exception, return, etc.) arguments.
+   * IncompleteExpression is introduced to enable modeling of
+   * incomplete specifications of arguments, for example, used in
+   * method invocations, exceptions, returns, etc.
    */
   IncompleteExpression implements Expression =
     "...";
 
+  /**
+   * ClassInteractionEntity enables to use classes as the sources and targets
+   * of interactions. This enables modeling the invocation of static methods.
+   */
   ClassInteractionEntity implements InteractionEntity = "class" MCObjectType;
 }
