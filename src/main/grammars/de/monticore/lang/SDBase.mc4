@@ -17,7 +17,7 @@ component grammar SDBase extends de.monticore.lang.SDCore {
    * An activity bar starts on the lifeline of the target object of the
    * first interaction in the SDElement list.
    */
-  scope Activity implements SDElement =
+  Activity implements SDElement =
     "{"
       SDElement*
     "}";
