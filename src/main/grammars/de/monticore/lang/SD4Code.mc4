@@ -56,7 +56,7 @@ component grammar SD4Code extends de.monticore.lang.SDBase,
     "...";
 
   /**
-   * ClassInteractionEntity enables to use classes as the sources and targets
+   * ClassInteractionEntity enables using classes as the sources and targets
    * of interactions. This enables modeling the invocation of static methods.
    */
   ClassInteractionEntity implements InteractionEntity =
