@@ -7,7 +7,7 @@ component grammar SD4Code extends de.monticore.lang.SDBase,
   /*
    * Actions for method invocations.
    */
-  MethodInvocationAction implements Action =
+  MethodInvocationAction implements OrdinaryInteractionAction =
     MethodModifier* ["static"]? Name Arguments?;
 
   /**
@@ -20,7 +20,7 @@ component grammar SD4Code extends de.monticore.lang.SDBase,
   /*
    * Actions for constructor calls.
    */
-  ConstructorAction implements Action =
+  ConstructorAction implements OrdinaryInteractionAction =
     "new" MCQualifiedName Arguments?;
 
   /*
