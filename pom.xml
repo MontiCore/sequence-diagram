@@ -14,7 +14,7 @@
   <properties>
 
     <!-- .. Libraries ..................................................... -->
-    <monticore.version>6.0.0</monticore.version>
+    <monticore.version>6.1.0-SNAPSHOT</monticore.version>
     <monticore.java.version>4.3.17</monticore.java.version>
 
     <antlr.version>4.7.1</antlr.version>
@@ -92,14 +92,14 @@
       <classifier>${grammars.classifier}</classifier>
       <scope>provided</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>${logback.version}</version>
       <scope>runtime</scope>
     </dependency>
-    
+
     <dependency>
     <groupId>de.monticore.lang</groupId>
     <artifactId>ocl</artifactId>
@@ -112,14 +112,14 @@
     <version>${ocl.version}</version>
       <classifier>${grammars.classifier}</classifier>
     </dependency>
-    
+
     <dependency>
       <groupId>de.monticore.lang</groupId>
       <artifactId>SIUnit</artifactId>
       <version>${SIUnit.version}</version>
       <classifier>${grammars.classifier}</classifier>
     </dependency>
-    
+
     <dependency>
       <groupId>de.monticore</groupId>
       <artifactId>javaDSL</artifactId>

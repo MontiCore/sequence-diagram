@@ -1,0 +1,8 @@
+package de.monticore.lang;
+
+grammar SD4Java extends de.monticore.lang.SD4Code,
+                        de.monticore.lang.SDExpressionConditions,
+                        de.monticore.lang.SDOCLConditions,
+                        de.monticore.literals.MCJavaLiterals {
+  start SDArtifact;
+}

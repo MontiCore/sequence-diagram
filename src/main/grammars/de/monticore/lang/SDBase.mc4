@@ -1,52 +1,24 @@
 package de.monticore.lang;
 
-component grammar SDBase extends de.monticore.MCBasics,
-                                 de.monticore.types.MCBasicTypes {
+component grammar SDBase extends de.monticore.lang.SDCore {
 
-    symbol scope SequenceDiagram = MatchModifier? "sequencediagram" Name
-        "{"
-            SDObject*
-            SDElement*
-        "}"
-    ;
+  OrdinaryInteraction implements Interaction =
+    source:InteractionEntity? "->"
+    target:InteractionEntity?
+    ":" Action; // only OrdinaryInteractionAction are allowed.
 
-    interface MatchModifier;
+  /*
+   * Extension point for Actions that should be used in OrdinaryInteractions.
+   */
+  interface OrdinaryInteractionAction extends Action;
 
-    interface SDElement;
-
-    symbol SDObject =
-        MatchModifier?
-        (
-            Name
-        |
-            Name? ":" MCObjectType
-        |
-            "class" MCObjectType
-        )
-    ;
-
-    astrule SDObject =
-        method public String getName() {
-            if (isPresentName()) {
-                return this.name.get();
-            }
-            return "";
-        }
-    ;
-
-    ObjectReference =
-        Name@SDObject
-        | "(" inlineDeclaration:SDObject ")"
-    ;
-
-    Interaction implements SDElement =
-        left:ObjectReference
-        Arrow
-        right:ObjectReference
-        ":" Action
-    ;
-
-    interface Arrow;
-
-    interface Action;
+  /**
+   * Activity bars.
+   * An activity bar starts on the lifeline of the target object of the
+   * first interaction in the SDElement list.
+   */
+  Activity implements SDElement =
+    "{"
+      SDElement*
+    "}";
 }

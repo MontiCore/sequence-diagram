@@ -1,0 +1,85 @@
+package de.monticore.lang;
+
+component grammar SDCore extends de.monticore.types.MCBasicTypes {
+
+  SDArtifact =
+    ("package" MCQualifiedName& ";")?
+    MCImportStatement*
+    SequenceDiagram;
+
+  symbol scope SequenceDiagram =
+    SequenceDiagramModifiers "sequencediagram" Name "{"
+      Object*
+      SDElement*
+    "}";
+
+
+  /**
+   * Extension point for SequenceDiagramModifiers.
+   * No extension required.
+   */
+  interface SequenceDiagramModifiers;
+  NoSequenceDiagramModifiers implements SequenceDiagramModifiers = ;
+  interface SequenceDiagramModifier;
+
+  /**
+   * Every implementation of SequenceDiagramModifiers must provide
+   * a list of ASTSequenceDiagramModifiers.
+   */
+  astrule SequenceDiagramModifiers = method
+    public List<ASTSequenceDiagramModifier> SequenceDiagramModifierList() {
+      return new HashSet<>();
+    };
+
+
+  /**
+   * Object definition or usage.
+   * Symboltablecreator creates instances of VariableSymbol for named objects.
+   */
+  Object =
+    ObjectModifiers (Name | Name? ":" MCObjectType);
+
+
+  /**
+   * Extension point for ObjectModifiers.
+   * No extension required.
+   */
+  interface ObjectModifiers;
+  NoObjectModifiers implements ObjectModifiers = ;
+  interface ObjectModifier;
+
+  /**
+   * Every implementation of ObjectModifiers must provide
+   * a list of ASTObjectModifiers.
+   */
+  astrule ObjectModifiers = method
+    public List<ASTObjectModifier> getObjectModifierList() {
+      return new HashSet<>();
+    };
+
+  interface SDElement;
+
+  /*
+   * Extension point for Interactions.
+   * To enable a uniform handling of interactions, the fields
+   * "source" defining the source of the interaction, "target"
+   * defining the target of the interaction, and "action" defining
+   * the action of the interaction are required.
+   */
+  interface Interaction extends SDElement =
+    source:InteractionEntity? target:InteractionEntity? Action;
+
+  /**
+   * Extension point for used InteractonEntities such as objects.
+   */
+  interface InteractionEntity;
+
+  /**
+   * ObjectInteractionEntities either point to an existing object
+   * or introduce a new object.
+   */
+  ObjectInteractionEntity implements InteractionEntity =
+    Name | "(" inlineDeclaration:Object ")";
+
+  interface Action;
+}
