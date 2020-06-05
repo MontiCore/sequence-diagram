@@ -28,8 +28,9 @@ component grammar SDCore extends de.monticore.types.MCBasicTypes {
    */
   astrule SequenceDiagramModifiers = method
     public List<ASTSequenceDiagramModifier> SequenceDiagramModifierList() {
-      return new HashSet<>();
+      return new ArrayList<>();
     };
+
 
 
   /**
@@ -52,10 +53,12 @@ component grammar SDCore extends de.monticore.types.MCBasicTypes {
    * Every implementation of ObjectModifiers must provide
    * a list of ASTObjectModifiers.
    */
+
   astrule ObjectModifiers = method
     public List<ASTObjectModifier> getObjectModifierList() {
-      return new HashSet<>();
+      return new ArrayList<>();
     };
+
 
   interface SDElement;
 
