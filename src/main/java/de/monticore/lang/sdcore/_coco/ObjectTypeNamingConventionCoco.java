@@ -1,6 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package de.monticore.lang.sd._coco.core;
+package de.monticore.lang.sdcore._coco;
 
 import de.monticore.lang.sdcore._ast.ASTObject;
 import de.monticore.lang.sdcore._cocos.SDCoreASTObjectCoCo;

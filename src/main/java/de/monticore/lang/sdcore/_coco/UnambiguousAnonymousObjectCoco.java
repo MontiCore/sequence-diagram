@@ -1,9 +1,9 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package de.monticore.lang.sd._coco.core;
+package de.monticore.lang.sdcore._coco;
 
 import com.google.common.collect.Sets;
-import de.monticore.lang.sd.util.Duplicates;
+import de.monticore.lang.util.Duplicates;
 import de.monticore.lang.sdcore._ast.ASTObject;
 import de.monticore.lang.sdcore._ast.ASTSequenceDiagram;
 import de.monticore.lang.sdcore._cocos.SDCoreASTSequenceDiagramCoCo;
@@ -11,7 +11,6 @@ import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
-import java.util.Collections;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;

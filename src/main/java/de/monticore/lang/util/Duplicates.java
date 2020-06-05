@@ -1,4 +1,4 @@
-package de.monticore.lang.sd.util;
+package de.monticore.lang.util;
 
 import java.util.Collections;
 import java.util.List;
