@@ -3,13 +3,13 @@
 sequencediagram example_5_factory {
 
   // Interacting objects
-  kupfer912: Auction;
-  f: Factory;
+  kupfer912: Auction
+  f: Factory
 
   // Factory call
-  kupfer912 -> f : getNewBidMessage(...);
-  f -> (bm:BidMessage) : new BidMessage(...);
-  kupfer912 <-- f : return bm;
+  kupfer912 -> f : getNewBidMessage(...)
+  f -> (bm:BidMessage) : new BidMessage(...)
+  kupfer912 <-- f : return bm
 
 
 }

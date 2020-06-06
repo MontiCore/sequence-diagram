@@ -3,7 +3,7 @@
 package de.monticore.lang.sdcore._cocos;
 
 import de.monticore.lang.SDCocoTest;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 
 import static org.junit.Assert.assertEquals;
 

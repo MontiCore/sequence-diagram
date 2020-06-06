@@ -6,9 +6,9 @@ import de.monticore.lang.sd4java._cocos.SD4JavaCoCoChecker;
 import de.monticore.lang.sd4java._parser.SD4JavaParser;
 import de.monticore.lang.sdcore._ast.ASTSDArtifact;
 import de.se_rwth.commons.logging.Log;
-import org.junit.After;
-import org.junit.Before;
-import org.junit.Test;
+import org.junit.jupiter.api.AfterEach;
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -29,15 +29,15 @@ public abstract class SDCocoTest {
 
   public SDCocoTest() {
     Log.enableFailQuick(false);
+  }
+
+  @BeforeEach
+  public void setup() {
+    this.checker = new SD4JavaCoCoChecker();
     initCoCoChecker();
   }
 
-  @Before
-  public void setup() {
-    this.checker = new SD4JavaCoCoChecker();
-  }
-
-  @After
+  @AfterEach
   public void clearLog() {
     Log.getFindings().clear();
   }
@@ -85,7 +85,7 @@ public abstract class SDCocoTest {
     // "example_8_ocl_let.sd"));
     examples.add(loadModel(CORRECT_PATH + "lecture", "example_9_non_causal.sd"));
     // Own examples
-    examples.add(loadModel(CORRECT_PATH, "example.sd"));
+    // examples.add(loadModel(CORRECT_PATH, "example.sd"));
     examples.add(loadModel(CORRECT_PATH, "example_completeness_and_stereotypes.sd"));
     examples.add(loadModel(CORRECT_PATH, "allGrammarElements.sd"));
     examples.add(loadModel(CORRECT_PATH, "activities.sd"));

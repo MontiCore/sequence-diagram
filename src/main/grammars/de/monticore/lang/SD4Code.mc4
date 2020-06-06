@@ -34,7 +34,7 @@ component grammar SD4Code extends de.monticore.lang.SDBase,
    * Actions for returns.
    */
   ReturnAction implements EndOfMethodAction =
-    ("return" Expression)?;
+    ("return" Expression?)?;
 
   /*
    * Actions for exceptions.

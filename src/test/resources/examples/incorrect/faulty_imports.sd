@@ -1,10 +1,10 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package incorrect;
+package incorrect
 
-import wrong_package.sd; // WRONG: Missing incorrect
-import incorrect.wrong_package.sd; //CORRECT
-import a.b.c; // WRONG
+import wrong_package.sd // WRONG: Missing incorrect
+import incorrect.wrong_package.sd //CORRECT
+import a.b.c // WRONG
 
 sequencediagram faulty_imports {
 

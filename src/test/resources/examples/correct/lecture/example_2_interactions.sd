@@ -3,27 +3,27 @@
 sequencediagram example_2_interactions {
 
   // Interacting objects
-  a : A;
-  b : B;
+  a : A
+  b : B
 
   // Method calls
-  a -> b : methodenname();
-  a -> b : methodenname(arg);
-  a -> b : methodenname(arg1, arg2);
-  a -> b : methodenname;
-  a -> b : methodenname(...);
+  a -> b : methodenname()
+  a -> b : methodenname(arg)
+  a -> b : methodenname(arg1, arg2)
+  a -> b : methodenname
+  a -> b : methodenname(...)
 
   // Returns
-  a --> b : return Ergebnis;
-  a --> b : return ...;
-  a --> b : return;
-  a --> b : ;
+  b <-- a : return Ergebnis
+  b <-- a : return ...
+  b <-- a : return
+  b <-- a :
 
   // Exceptions
-  a --> b : ExceptionTyp();
-  a --> b : ExceptionTyp(arg);
-  a --> b : ExceptionTyp(arg1, arg2);
-  a --> b : ExceptionTyp;
-  a --> b : ExceptionTyp(...);
+  b <-- a : ExceptionTyp()
+  b <-- a : ExceptionTyp(arg)
+  b <-- a : ExceptionTyp(arg1, arg2)
+  b <-- a : ExceptionTyp
+  b <-- a : ExceptionTyp(...)
 
 }

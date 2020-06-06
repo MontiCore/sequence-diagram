@@ -20,8 +20,8 @@ public class UniqueObjectNamingCoco implements SDCoreASTSequenceDiagramCoCo {
   @Override
   public void check(ASTSequenceDiagram sd) {
     List<ASTObject> objects = sd.getObjectList();
-    if(hasDublicatedObjectNames(objects)) {
-      List<String> duplicates = getDublicatedObjectNames(objects);
+    if(hasDuplicatedObjectNames(objects)) {
+      List<String> duplicates = getDuplicatedObjectNames(objects);
       duplicates.forEach(
               duplicate -> Log.error(String.format(MESSAGE_ERROR_IDENTIFIER_AMBIGUOUS, duplicate))
       );
@@ -36,14 +36,14 @@ public class UniqueObjectNamingCoco implements SDCoreASTSequenceDiagramCoCo {
   private List<String> getNamesOfObject(List<ASTObject> sdObjects) {
     return sdObjects.stream().map(ASTObject::getName).collect(Collectors.toList());
   }
-  private boolean hasDublicatedObjectNames(List<ASTObject> sdObjects) {
+  private boolean hasDuplicatedObjectNames(List<ASTObject> sdObjects) {
     List<ASTObject> namedObjects = getNamedObjects(sdObjects);
     List<String> names = getNamesOfObject(namedObjects);
     Set<String> uniqueNames = Sets.newHashSet(names);
     return names.size() > uniqueNames.size();
   }
-  private List<String> getDublicatedObjectNames(List<ASTObject> astsdObjects) {
-    List<String> names = astsdObjects.stream().map(ASTObject::getName).collect(Collectors.toList());
+  private List<String> getDuplicatedObjectNames(List<ASTObject> astsdObjects) {
+    List<String> names = astsdObjects.stream().filter(ASTObject::isPresentName).map(ASTObject::getName).collect(Collectors.toList());
     return Duplicates.inStringList(names);
   }
 
