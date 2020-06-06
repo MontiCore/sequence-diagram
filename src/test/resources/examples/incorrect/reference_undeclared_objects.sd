@@ -1,5 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 
+package examples.incorrect;
+
 sequencediagram example_2_interactions {
 
   // Declarations

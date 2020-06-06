@@ -1,8 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package examples.correct
+package examples.correct;
 
-import examples.correct.activities.sd
+import examples.correct.activities;
 
 sequencediagram example {
 

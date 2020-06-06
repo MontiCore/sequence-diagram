@@ -1,5 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 
+package examples.incorrect;
+
 sequencediagram example_4_constructor {
 
   // Interacting objects
