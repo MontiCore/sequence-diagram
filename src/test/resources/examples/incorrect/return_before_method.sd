@@ -5,8 +5,8 @@ package examples.incorrect;
 sequencediagram cocoviolation1 {
 
   // Interacting objects
-  a: A
-  b: B
+  a: A;
+  b: B;
 
   // Return without previous call
   a <-- b : return ...

@@ -5,14 +5,12 @@ package examples.incorrect;
 sequencediagram violated_naming_conventions {
 
   // Interacting objects
-  kupfer912: Auction
-  Kupfer913: Auction
-  kupfer914: auction
-  Kupfer915: auction
-  class Auction
-  class auction
-  object
-  Object
+  kupfer912: Auction;
+  Kupfer913: Auction;
+  kupfer914: auction;
+  Kupfer915: auction;
+  object;
+  Object;
 
   //Constructor call
   kupfer912 -> bm1 : new BidMessage(...)

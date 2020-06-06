@@ -5,8 +5,8 @@ package examples.correct.lecture;
 sequencediagram example_8_ocl_let {
 
   // Interacting objects
-  kupfer912: Auction
-  theo: Person
+  kupfer912: Auction;
+  theo: Person;
 
   // Interaction sequence
   <theo: [let int m = theo.message.size]>

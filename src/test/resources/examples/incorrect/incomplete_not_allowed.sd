@@ -4,10 +4,10 @@ package examples.incorrect;
 
 sequencediagram incomplete_not_allowed {
 
-  ... a : A
-  (C) b : B
-  <<match:visible>> c : C
-  <<match:initial>> d : D
+  ... a : A;
+  (c) b : B;
+  visible c : C;
+  initial d : D;
 
   a ->  a : method(...)     // OK
   a ->  a : new Object(...)  // OK

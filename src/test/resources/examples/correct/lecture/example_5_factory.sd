@@ -5,8 +5,8 @@ package examples.correct.lecture;
 sequencediagram example_5_factory {
 
   // Interacting objects
-  kupfer912: Auction
-  f: Factory
+  kupfer912: Auction;
+  f: Factory;
 
   // Factory call
   kupfer912 -> f : getNewBidMessage(...)

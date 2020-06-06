@@ -1,8 +1,12 @@
 package de.monticore.lang.sd4code._cocos;
 
+import de.monticore.lang.sd4code._ast.ASTEndOfMethodInteraction;
 import de.monticore.lang.sd4code._ast.ASTMethodInvocationAction;
 import de.monticore.lang.sd4code._ast.ASTReturnAction;
+import de.monticore.lang.sd4code._visitor.SD4CodeDelegatorVisitor;
 import de.monticore.lang.sd4code._visitor.SD4CodeVisitor;
+import de.monticore.lang.sdbase._ast.ASTOrdinaryInteraction;
+import de.monticore.lang.sdbase._visitor.SDBaseVisitor;
 import de.monticore.lang.sdcore._ast.ASTInteraction;
 import de.monticore.lang.sdcore._ast.ASTSDArtifact;
 import de.monticore.lang.sdcore._cocos.SDCoreASTSDArtifactCoCo;
@@ -26,26 +30,17 @@ public class ReturnOnlyAfterMethodCoco implements SDCoreASTSDArtifactCoCo {
 
     private final Set<ASTInteraction> openMethodCalls = new HashSet<>();
 
-    private boolean isMethodCall = false;
-    private boolean isReturnCall = false;
+    ReturnOnlyAfterMethodCocoVisitor() {
 
-    @Override
-    public void visit(ASTMethodInvocationAction node) {
-      isMethodCall = true;
     }
 
     @Override
-    public void visit(ASTReturnAction node) {
-      isReturnCall = true;
+    public void visit(ASTOrdinaryInteraction node) {
+      openMethodCalls.add(node);
     }
 
     @Override
-    public void endVisit(ASTInteraction node) {
-      if (isMethodCall) {
-        isMethodCall = false;
-        openMethodCalls.add(node);
-      } else if (isReturnCall) {
-        isReturnCall = false;
+    public void visit(ASTEndOfMethodInteraction node) {
         for (ASTInteraction interaction : openMethodCalls) {
           if (interaction.getSource().deepEquals(node.getTarget()) && interaction.getTarget().deepEquals(node.getSource())) {
             openMethodCalls.remove(interaction);
@@ -55,6 +50,5 @@ public class ReturnOnlyAfterMethodCoco implements SDCoreASTSDArtifactCoCo {
 //        Log.warn(String.format(MESSAGE, pp.prettyPrint(node), pp.prettyPrint(node.getTarget(), pp.prettyPrint(node.getSource()))),
 //                node.get_SourcePositionStart());
       }
-    }
   }
 }

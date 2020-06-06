@@ -4,8 +4,8 @@ package examples.ast;
 sequencediagram example_2_interactions {
 
   // Interacting objects
-  a : A
-  b : B
+  a : A;
+  b : B;
 
   // Method calls
   a -> b : methodenname()

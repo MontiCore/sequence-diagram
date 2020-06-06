@@ -5,10 +5,10 @@ package examples.incorrect;
 sequencediagram ocl_context_not_declared {
 
   // Interacting objects
-  kupfer912: Auction
-  bidPol: BiddingPolicy
-  timePol: TimingPolicy
-  theo: Person
+  kupfer912: Auction;
+  bidPol: BiddingPolicy;
+  timePol: TimingPolicy;
+  theo: Person;
 
   // Interaction sequence
   kupfer912 -> bidPol : validateBid(bid)

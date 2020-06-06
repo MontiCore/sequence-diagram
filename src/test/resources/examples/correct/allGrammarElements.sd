@@ -7,8 +7,8 @@ import correct.example;
 sequencediagram allGrammarElements {
 
   // Interacting objects
-  (c) o: Order
-  c: Customer
+  (c) o: Order;
+  c: Customer;
 
   // Offer -> Production
   o -> c : trigger sendConfirmation()

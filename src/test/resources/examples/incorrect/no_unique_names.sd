@@ -4,12 +4,12 @@ package examples.incorrect;
 
 sequencediagram sd_test {
 
-  o: Order
-  c: Customer
-  : SomeClass
-  o: AnotherOrder  //violation
-  : SomeClass    //violation
-  b: Customer
+  o: Order;
+  c: Customer;
+  : SomeClass;
+  o: AnotherOrder;  //violation
+  : SomeClass;    //violation
+  b: Customer;
 
   // Inline definitions
   o -> (c:C) : new C(...)        // Violation

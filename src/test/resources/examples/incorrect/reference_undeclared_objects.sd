@@ -5,9 +5,9 @@ package examples.incorrect;
 sequencediagram example_2_interactions {
 
   // Declarations
-  a : A
-  b : B
-  c : C
+  a : A;
+  b : B;
+  c : C;
 
   // References
   a -> b : methodenname()

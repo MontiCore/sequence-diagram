@@ -4,10 +4,10 @@ package examples.ast;
 sequencediagram objectreferences {
 
   // Interacting objects
-  a : A
-  b : B
-  :C
-  class D
+  a : A;
+  b : B;
+  :C;
+  class D;
 
   // Methods
   a -> b : method()

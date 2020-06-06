@@ -7,8 +7,8 @@ import examples.correct.activities;
 sequencediagram example {
 
   // Interacting objects
-  o: Order
-  c: Customer
+  o: Order;
+  c: Customer;
 
   // Offer -> Production
   o -> c : <<trigger>> sendConfirmation()

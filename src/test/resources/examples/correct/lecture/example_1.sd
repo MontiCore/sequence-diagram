@@ -5,9 +5,9 @@ package examples.correct.lecture;
 sequencediagram example_1 {
 
   // Interacting objects
-  kupfer912: Auction
-  bidPol: BiddingPolicy
-  timePol: TimingPolicy
+  kupfer912: Auction;
+  bidPol: BiddingPolicy;
+  timePol: TimingPolicy;
 
   // Interaction sequence
   kupfer912 -> bidPol : validateBid(bid)

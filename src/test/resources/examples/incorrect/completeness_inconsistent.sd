@@ -5,11 +5,11 @@ package examples.incorrect;
 sequencediagram (C) example_completeness_and_stereotypes {
 
   // Free
-  a : A
-  (C) b : B
-  <<match:complete>> c : C
+  a : A;
+  (c) b : B;
+  complete c : C;
   ... d : D
-  <<match:initial>> e : E
+  initial e : E;
 
 
 }

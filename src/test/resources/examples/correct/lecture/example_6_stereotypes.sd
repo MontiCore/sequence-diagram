@@ -5,9 +5,9 @@ package examples.correct.lecture;
 sequencediagram example_6_stereotypes {
 
   // Interacting objects
-  :AuctionTest
-  kupfer912: Auction
-  bidPol: BiddingPolicy
+  :AuctionTest;
+  kupfer912: Auction;
+  bidPol: BiddingPolicy;
 
   // Interaction sequence
   AuctionTest -> kupfer912 : trigger handleBid(bid)

@@ -5,9 +5,9 @@ package examples.correct.lecture;
 sequencediagram example_9_non_causal {
 
   // Interacting objects
-  a
-  b
-  c
+  a;
+  b;
+  c;
 
   // Interactions
   a -> b : methode(...)

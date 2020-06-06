@@ -5,7 +5,7 @@ package examples.correct.lecture;
 sequencediagram example_4_constructor {
 
   // Interacting objects
-  kupfer912: Auction
+  kupfer912: Auction;
 
   //Constructor call
   kupfer912 -> (bm:BidMessage) : new BidMessage(...)
