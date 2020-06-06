@@ -14,7 +14,7 @@
   <properties>
 
     <!-- .. Libraries ..................................................... -->
-    <monticore.version>6.1.0-SNAPSHOT</monticore.version>
+    <monticore.version>6.1.0</monticore.version>
     <monticore.java.version>4.3.17</monticore.java.version>
 
     <antlr.version>4.7.1</antlr.version>
