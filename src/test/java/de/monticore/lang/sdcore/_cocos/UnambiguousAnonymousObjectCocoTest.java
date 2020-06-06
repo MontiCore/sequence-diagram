@@ -21,6 +21,6 @@ public class UnambiguousAnonymousObjectCocoTest extends SDCocoTest {
 
   @Test
   public void testCocoViolation() {
-    testCocoViolation("no_unique_names.sd", 4, 4);
+    testCocoViolation("no_unique_names.sd", 1, 1);
   }
 }
