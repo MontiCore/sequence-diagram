@@ -16,7 +16,8 @@ import java.util.stream.Collectors;
 
 public class UnambiguousAnonymousObjectCoco implements SDCoreASTSequenceDiagramCoCo {
 
-  static final String MESSAGE_ERROR_ANONYMOUS_OBJECT_AMBIGUOUS = "Anonymous object %s is ambiguous. No clear identifier.";
+  static final String MESSAGE_ERROR_ANONYMOUS_OBJECT_AMBIGUOUS = UnambiguousAnonymousObjectCoco.class.getSimpleName() + ": "
+          + "Anonymous object %s is ambiguous. No clear identifier.";
 
   private final MCBasicTypesPrettyPrinter prettyPrinter;
   public UnambiguousAnonymousObjectCoco() {

@@ -11,7 +11,9 @@ import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
 public class InlineDeclarationMandatoryTypeSpecificationCoco implements SDCoreASTObjectInteractionEntityCoCo {
-  static final String MESSAGE_ERROR_MANDATORY_TYPE_SPECIFICATION = "The type must be specified";
+  static final String MESSAGE_ERROR_MANDATORY_TYPE_SPECIFICATION =
+          InlineDeclarationMandatoryTypeSpecificationCoco.class.getSimpleName() + ": "
+          + "The type must be specified";
 
   private final MCBasicTypesPrettyPrinter prettyPrinter;
   public InlineDeclarationMandatoryTypeSpecificationCoco() {

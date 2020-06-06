@@ -14,8 +14,10 @@ import de.se_rwth.commons.logging.Log;
 
 public class MethodActionRefersToCorrectTargetCoco implements SDBaseASTOrdinaryInteractionCoCo {
 
-    final static String MESSAGE_ERROR_REFERS_TO_OBJECT = "Method call must refer to an class";
-    final static String MESSAGE_ERROR_REFERS_TO_CLASS = "Method call must refer to an object";
+    final static String MESSAGE_ERROR_REFERS_TO_OBJECT =  ReturnOnlyAfterMethodCoco.class.getSimpleName() + ": "
+            +"Method call must refer to an class";
+    final static String MESSAGE_ERROR_REFERS_TO_CLASS =  ReturnOnlyAfterMethodCoco.class.getSimpleName() + ": "
+            + "Method call must refer to an object";
     @Override
     public void check(ASTOrdinaryInteraction interaction) {
         if(!interaction.isPresentTarget()) {

@@ -14,7 +14,8 @@ import java.util.stream.Collectors;
 
 public class UniqueObjectNamingCoco implements SDCoreASTSequenceDiagramCoCo {
 
-  static final String MESSAGE_ERROR_IDENTIFIER_AMBIGUOUS = "Identifier %s is ambiguous.";
+  static final String MESSAGE_ERROR_IDENTIFIER_AMBIGUOUS = UniqueObjectNamingCoco.class.getSimpleName() + ": "
+          +"Identifier %s is ambiguous.";
 
   @Override
   public void check(ASTSequenceDiagram sd) {
