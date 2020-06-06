@@ -15,13 +15,15 @@ import java.util.stream.Collectors;
 
 public class UniqueObjectNamingCoco implements SDCoreASTSequenceDiagramCoCo {
 
+  static final String MESSAGE_ERROR_IDENTIFIER_AMBIGUOUS = "Identifier %s is ambiguous.";
+
   @Override
   public void check(ASTSequenceDiagram sd) {
     List<ASTObject> objects = sd.getObjectList();
     if(hasDublicatedObjectNames(objects)) {
       List<String> duplicates = getDublicatedObjectNames(objects);
       duplicates.forEach(
-              duplicate -> Log.error("Identifier " + duplicate + " ambiguous.")
+              duplicate -> Log.error(String.format(MESSAGE_ERROR_IDENTIFIER_AMBIGUOUS, duplicate))
       );
     }
   }

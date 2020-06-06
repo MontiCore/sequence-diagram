@@ -11,6 +11,8 @@ import de.se_rwth.commons.logging.Log;
 
 public class ObjectTypeNamingConventionCoco implements SDCoreASTObjectCoCo {
 
+  static final String MESSAGE_WARNING_UPPER_CASE = "Objectdeclaration introduces an object with name %s " +
+          "+which should be written upper case by convention.";
   private final MCBasicTypesPrettyPrinter prettyPrinter;
   public ObjectTypeNamingConventionCoco() {
     this.prettyPrinter = new MCBasicTypesPrettyPrinter(new IndentPrinter());
@@ -22,9 +24,7 @@ public class ObjectTypeNamingConventionCoco implements SDCoreASTObjectCoCo {
       ASTMCObjectType mcObjectType = object.getMCObjectType();
       String objectTypeName = mcObjectType.printType(prettyPrinter);
       if (Character.isLowerCase(objectTypeName.charAt(0))) {
-        Log.warn("Objectdeclaration introduces an object with name "
-                + objectTypeName
-                + " which should be written upper case by convention.", object.get_SourcePositionStart()
+        Log.warn(String.format(MESSAGE_WARNING_UPPER_CASE, objectTypeName), object.get_SourcePositionStart()
         );
       }
     }

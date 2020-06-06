@@ -17,6 +17,8 @@ import java.util.stream.Collectors;
 
 public class UnambiguousAnonymousObjectCoco implements SDCoreASTSequenceDiagramCoCo {
 
+  static final String MESSAGE_ERROR_ANONYMOUS_OBJECT_AMBIGUOUS = "Anonymous object %s is ambiguous. No clear identifier.";
+
   private final MCBasicTypesPrettyPrinter prettyPrinter;
   public UnambiguousAnonymousObjectCoco() {
     this.prettyPrinter = new MCBasicTypesPrettyPrinter(new IndentPrinter());
@@ -28,7 +30,7 @@ public class UnambiguousAnonymousObjectCoco implements SDCoreASTSequenceDiagramC
     if(hasDublicatedAnonymousObject(objects)) {
       List<String> duplicates = getDublicatedAnonymousObject(objects);
       duplicates.forEach(
-              duplicate -> Log.error("Anonymous object " + duplicate + " is ambiguous. No clear identifier.")
+              duplicate -> Log.error(String.format(MESSAGE_ERROR_ANONYMOUS_OBJECT_AMBIGUOUS, duplicate))
       );
     }
   }
