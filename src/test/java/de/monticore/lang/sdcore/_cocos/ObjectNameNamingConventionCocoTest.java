@@ -21,7 +21,7 @@ public class ObjectNameNamingConventionCocoTest extends SDCocoTest {
 
   @Test
   public void testCocoViolation() {
-    testCocoViolation("violated_naming_conventions.sd", 0, 10);
+    testCocoViolation("violated_naming_conventions.sd", 0, 5);
   }
 
 }
