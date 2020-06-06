@@ -1,27 +1,40 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package de.monticore.lang.sd.cocos;
+package de.monticore.lang;
 
-import de.monticore.lang.sd._ast.ASTSDArtifact;
-import de.monticore.lang.sd._cocos.SDCoCoChecker;
-import de.monticore.lang.sd._symboltable.SDLanguage;
+import de.monticore.lang.sd4java._cocos.SD4JavaCoCoChecker;
+import de.monticore.lang.sd4java._parser.SD4JavaParser;
+import de.monticore.lang.sdcore._ast.ASTSDArtifact;
 import de.se_rwth.commons.logging.Log;
 import org.junit.After;
+import org.junit.Before;
 import org.junit.Test;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.List;
+
+import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.fail;
+
 
 public abstract class SDCocoTest {
 
   private final static String CORRECT_PATH = "src/test/resources/examples/correct/";
   protected final static String INCORRECT_PATH = "src/test/resources/examples/incorrect/";
 
-  protected SDCoCoChecker checker;
+  private final SD4JavaParser parser = new SD4JavaParser();
+
+  protected SD4JavaCoCoChecker checker;
 
   public SDCocoTest() {
     Log.enableFailQuick(false);
     initCoCoChecker();
+  }
+
+  @Before
+  public void setup() {
+    this.checker = new SD4JavaCoCoChecker();
   }
 
   @After
@@ -31,11 +44,23 @@ public abstract class SDCocoTest {
 
   protected abstract void initCoCoChecker();
 
-  @Test
-  public abstract void testCocoViolation();
+  protected abstract Class<?> getCoCoUnderTest();
+
+  protected void testCocoViolation(String modelName, int errorCount, int logFindingsCount) {
+    ASTSDArtifact sd = loadModel(INCORRECT_PATH, modelName);
+    checker.checkAll(sd);
+    assertEquals(errorCount, Log.getErrorCount());
+    assertEquals(logFindingsCount,
+            Log.getFindings().stream().filter(f -> f.buildMsg().contains(getCoCoUnderTest().getSimpleName())).count());
+  }
 
   @Test
-  public abstract void testCorrectExamples();
+  public void testCorrectExamples() {
+    testAllCorrectExamples();
+    assertEquals(0, Log.getErrorCount());
+    assertEquals(0,
+            Log.getFindings().stream().filter(f -> f.buildMsg().contains(getCoCoUnderTest().getSimpleName())).count());
+  }
 
   protected void testAllCorrectExamples() {
     for (ASTSDArtifact sd : getAllCorrectExamples()) {
@@ -68,9 +93,13 @@ public abstract class SDCocoTest {
   }
 
   protected ASTSDArtifact loadModel(String path, String model) {
-    SDLanguage lang = new SDLanguage();
-    System.err.println("Loading model: " + path + "/" + model);
-    return lang.loadModelWithoutCocos(path, model);
+    try {
+      return parser.parse(path + "/" + model).get();
+    } catch (IOException | NullPointerException e) {
+      System.err.println("Loading model: " + path + "/" + model + " failed: " + e.getMessage());
+      fail();
+    }
+    return null;
   }
 
 }

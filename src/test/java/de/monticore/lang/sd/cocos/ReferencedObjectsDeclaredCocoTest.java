@@ -4,6 +4,7 @@ package de.monticore.lang.sd.cocos;
 
 import static org.junit.Assert.assertEquals;
 
+import de.monticore.lang.SDCocoTest;
 import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._cocos.ReferencedObjectsDeclaredCoco;
 import de.monticore.lang.sd._cocos.SDCoCoChecker;
