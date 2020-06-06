@@ -1,6 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package correct
+package correct;
 
 sequencediagram uncommon_file_extension {
 

@@ -22,7 +22,7 @@ public class PackageNameIsFolderNameCocoTest extends SDCocoTest {
 
   @Test
   public void testCocoViolation() {
-    testCocoViolation("wrong_package.sd", 0, 1);
+    testCocoViolation("wrong_package.sd", 1, 1);
   }
 
 }
