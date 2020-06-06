@@ -21,7 +21,7 @@ component grammar SD4Code extends de.monticore.lang.SDBase,
    * Actions for constructor calls.
    */
   ConstructorAction implements OrdinaryInteractionAction =
-    "new" MCQualifiedName Arguments?;
+    "new" MCObjectType Arguments?;
 
   /*
    * Extension point for actions occurring on interactions
