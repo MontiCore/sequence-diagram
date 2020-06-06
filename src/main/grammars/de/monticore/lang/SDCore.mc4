@@ -9,7 +9,7 @@ component grammar SDCore extends de.monticore.types.MCBasicTypes {
 
   symbol scope SequenceDiagram =
     SequenceDiagramModifiers "sequencediagram" Name "{"
-      Object*
+      (Object ";")*
       SDElement*
     "}";
 
@@ -38,7 +38,7 @@ component grammar SDCore extends de.monticore.types.MCBasicTypes {
    * Symboltablecreator creates instances of VariableSymbol for named objects.
    */
   Object =
-    ObjectModifiers (Name | Name? ":" MCObjectType) ";";
+    ObjectModifiers (Name | Name? ":" MCObjectType);
 
 
   /**
