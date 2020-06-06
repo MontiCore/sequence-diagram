@@ -1,9 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package de.monticore.lang.sdcore._coco;
+package de.monticore.lang.sdcore._cocos;
 
 import de.monticore.lang.sdcore._ast.ASTObject;
-import de.monticore.lang.sdcore._cocos.SDCoreASTObjectCoCo;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.mcbasictypes._ast.ASTMCObjectType;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;

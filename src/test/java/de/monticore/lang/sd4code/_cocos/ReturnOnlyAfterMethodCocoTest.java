@@ -5,7 +5,6 @@ package de.monticore.lang.sd4code._cocos;
 import static org.junit.Assert.assertEquals;
 
 import de.monticore.lang.SDCocoTest;
-import de.monticore.lang.sd4code._coco.ReturnOnlyAfterMethodCoco;
 import org.junit.Test;
 
 public class ReturnOnlyAfterMethodCocoTest extends SDCocoTest {

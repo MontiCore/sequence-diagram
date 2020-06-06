@@ -6,9 +6,6 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import de.monticore.lang.SDCocoTest;
-import de.monticore.lang.sdcore._ast.ASTSDArtifact;
-import de.monticore.lang.sdcore._coco.PackageNameIsFolderNameCoco;
-import de.se_rwth.commons.logging.Log;
 import org.junit.Test;
 
 public class PackageNameIsFolderNameCocoTest extends SDCocoTest {

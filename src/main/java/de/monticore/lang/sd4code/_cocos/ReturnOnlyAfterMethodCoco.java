@@ -1,4 +1,4 @@
-package de.monticore.lang.sd4code._coco;
+package de.monticore.lang.sd4code._cocos;
 
 import de.monticore.lang.sd4code._ast.ASTMethodInvocationAction;
 import de.monticore.lang.sd4code._ast.ASTReturnAction;
