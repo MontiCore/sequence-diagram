@@ -1,0 +1,29 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package de.monticore.lang.sdcore._cocos;
+
+import de.monticore.lang.SDCocoTest;
+import de.monticore.lang.sdcore._ast.ASTSDArtifact;
+import de.monticore.lang.sdcore._coco.UnambiguousAnonymousObjectCoco;
+import de.se_rwth.commons.logging.Log;
+import org.junit.Test;
+
+import static org.junit.Assert.assertEquals;
+
+public class UnambiguousAnonymousObjectCocoTest extends SDCocoTest {
+
+  @Override
+  protected void initCoCoChecker() {
+    checker.addCoCo(new UnambiguousAnonymousObjectCoco());
+  }
+
+  @Override
+  protected Class<?> getCoCoUnderTest() {
+    return UnambiguousAnonymousObjectCoco.class;
+  }
+
+  @Test
+  public void testCocoViolation() {
+    testCocoViolation("no_unique_names.sd", 4, 4);
+  }
+}

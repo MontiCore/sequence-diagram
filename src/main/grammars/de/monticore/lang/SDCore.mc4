@@ -3,7 +3,7 @@ package de.monticore.lang;
 component grammar SDCore extends de.monticore.types.MCBasicTypes {
 
   SDArtifact =
-    ("package" MCQualifiedName& ";")?
+    ("package" packageDeclaration:MCQualifiedName& ";")?
     MCImportStatement*
     SequenceDiagram;
 

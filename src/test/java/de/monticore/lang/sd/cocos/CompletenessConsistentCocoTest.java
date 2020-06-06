@@ -5,6 +5,7 @@ package de.monticore.lang.sd.cocos;
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
+import de.monticore.lang.SDCocoTest;
 import de.monticore.lang.sd._ast.ASTSDArtifact;
 import de.monticore.lang.sd._cocos.CompletenessConsistentCoco;
 import de.monticore.lang.sd._cocos.SDCoCoChecker;
