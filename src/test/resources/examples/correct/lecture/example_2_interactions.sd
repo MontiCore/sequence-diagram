@@ -22,10 +22,10 @@ sequencediagram example_2_interactions {
   b <-- a :
 
   // Exceptions
-  b <-- a : ExceptionTyp()
-  b <-- a : ExceptionTyp(arg)
-  b <-- a : ExceptionTyp(arg1, arg2)
-  b <-- a : ExceptionTyp
-  b <-- a : ExceptionTyp(...)
+  b <-- a : throw ExceptionTyp()
+  b <-- a : throw ExceptionTyp(arg)
+  b <-- a : throw ExceptionTyp(arg1, arg2)
+  b <-- a : throw ExceptionTyp
+  b <-- a : throw ExceptionTyp(...)
 
 }
