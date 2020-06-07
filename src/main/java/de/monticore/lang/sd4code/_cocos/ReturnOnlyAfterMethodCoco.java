@@ -4,6 +4,7 @@ import de.monticore.lang.sd4code._ast.ASTEndOfMethodInteraction;
 import de.monticore.lang.sd4code._ast.ASTMethodInvocationAction;
 import de.monticore.lang.sd4code._ast.ASTReturnAction;
 import de.monticore.lang.sd4code._visitor.SD4CodeDelegatorVisitor;
+import de.monticore.lang.sd4code._visitor.SD4CodeInheritanceVisitor;
 import de.monticore.lang.sd4code._visitor.SD4CodeVisitor;
 import de.monticore.lang.sdbase._ast.ASTOrdinaryInteraction;
 import de.monticore.lang.sdbase._visitor.SDBaseVisitor;
@@ -27,10 +28,22 @@ public class ReturnOnlyAfterMethodCoco implements SDCoreASTSDArtifactCoCo {
     node.accept(visitor);
   }
 
-  private static final class ReturnOnlyAfterMethodCocoVisitor implements SD4CodeVisitor {
+  private static final class ReturnOnlyAfterMethodCocoVisitor implements SD4CodeInheritanceVisitor {
 //    private final SDPrettyPrinter pp = new SDPrettyPrinter();
 
     private final Set<ASTInteraction> openMethodCalls = new HashSet<>();
+
+    private SD4CodeVisitor realThis = this;
+
+    @Override
+    public SD4CodeVisitor getRealThis() {
+      return realThis;
+    }
+
+    @Override
+    public void setRealThis(SD4CodeVisitor realThis) {
+      this.realThis = realThis;
+    }
 
     @Override
     public void visit(ASTOrdinaryInteraction node) {

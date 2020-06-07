@@ -2,6 +2,7 @@ package de.monticore.lang;
 
 component grammar SD4Code extends de.monticore.lang.SDBase,
                                   de.monticore.lang.BasicSDModifiers,
+                                  de.monticore.literals.MCCommonLiterals,
                                   de.monticore.expressions.CommonExpressions {
 
   /*
