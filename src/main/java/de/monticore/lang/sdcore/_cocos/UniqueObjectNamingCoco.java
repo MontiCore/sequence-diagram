@@ -44,7 +44,7 @@ public class UniqueObjectNamingCoco implements SDCoreASTSequenceDiagramCoCo {
   }
   private List<String> getDuplicatedObjectNames(List<ASTObject> astsdObjects) {
     List<String> names = astsdObjects.stream().filter(ASTObject::isPresentName).map(ASTObject::getName).collect(Collectors.toList());
-    return Duplicates.inStringList(names);
+    return new Duplicates<String>().apply(names);
   }
 
 

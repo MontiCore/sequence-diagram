@@ -20,6 +20,7 @@ public class UnambiguousAnonymousObjectCoco implements SDCoreASTSequenceDiagramC
           + "Anonymous object %s is ambiguous. No clear identifier.";
 
   private final MCBasicTypesPrettyPrinter prettyPrinter;
+
   public UnambiguousAnonymousObjectCoco() {
     this.prettyPrinter = new MCBasicTypesPrettyPrinter(new IndentPrinter());
   }
@@ -27,34 +28,36 @@ public class UnambiguousAnonymousObjectCoco implements SDCoreASTSequenceDiagramC
   @Override
   public void check(ASTSequenceDiagram sd) {
     List<ASTObject> objects = sd.getObjectList();
-    if(hasDublicatedAnonymousObject(objects)) {
+    if (hasDublicatedAnonymousObject(objects)) {
       List<String> duplicates = getDublicatedAnonymousObject(objects);
       duplicates.forEach(
               duplicate -> Log.error(String.format(MESSAGE_ERROR_ANONYMOUS_OBJECT_AMBIGUOUS, duplicate))
       );
     }
   }
+
   private List<ASTObject> getAnonymousObjects(List<ASTObject> sdObjects) {
     return sdObjects.stream()
             .filter(object -> object.isPresentMCObjectType() && !object.isPresentName())
             .collect(Collectors.toList());
   }
-  private List<String> getTypeOfObject(List<ASTObject> objects) {
-    return objects
-            .stream()
-            .map(object -> object.getMCObjectType().printType(prettyPrinter))
-            .collect(Collectors.toList());
-  }
+
   private boolean hasDublicatedAnonymousObject(List<ASTObject> sdObjects) {
     List<ASTObject> anonymousObject = getAnonymousObjects(sdObjects);
     List<String> anonymousTypeNames = getTypeOfObject(anonymousObject);
     Set<String> uniqueAnonymousTypeNames = Sets.newHashSet(anonymousTypeNames);
     return anonymousTypeNames.size() != uniqueAnonymousTypeNames.size();
   }
+
   private List<String> getDublicatedAnonymousObject(List<ASTObject> sdObjects) {
     List<ASTObject> anonymousObject = getAnonymousObjects(sdObjects);
-    List<String> anonymousObjectNames = getTypeOfObject(anonymousObject);
-    return Duplicates.inStringList(anonymousObjectNames);
+    return new Duplicates<String>().apply(getTypeOfObject(anonymousObject));
   }
 
+  private List<String> getTypeOfObject(List<ASTObject> objects) {
+    return objects
+            .stream()
+            .map(object -> object.getMCObjectType().printType(prettyPrinter))
+            .collect(Collectors.toList());
+  }
 }
