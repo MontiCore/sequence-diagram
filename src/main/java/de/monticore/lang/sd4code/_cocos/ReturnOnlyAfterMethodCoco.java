@@ -20,7 +20,7 @@ import java.util.Set;
 public class ReturnOnlyAfterMethodCoco implements SDCoreASTSDArtifactCoCo {
 
   static final String MESSAGE = ReturnOnlyAfterMethodCoco.class.getSimpleName() + ": " +
-          "Return %s occurs without previous call from %s to %s.";
+          "Return '%s' occurs without previous call from '%s' to '%s'.";
 
   @Override
   public void check(ASTSDArtifact node) {
@@ -32,6 +32,8 @@ public class ReturnOnlyAfterMethodCoco implements SDCoreASTSDArtifactCoCo {
 //    private final SDPrettyPrinter pp = new SDPrettyPrinter();
 
     private final Set<ASTInteraction> openMethodCalls = new HashSet<>();
+
+    private boolean isReturnInteraction = false;
 
     private SD4CodeVisitor realThis = this;
 
@@ -51,32 +53,41 @@ public class ReturnOnlyAfterMethodCoco implements SDCoreASTSDArtifactCoCo {
     }
 
     @Override
-    public void visit(ASTEndOfMethodInteraction node) {
-      for (ASTInteraction interaction : openMethodCalls) {
-        if (doInteractionsMatch(node, interaction)) {
-          openMethodCalls.remove(interaction);
-          return;
+    public void visit(ASTReturnAction node) {
+      isReturnInteraction = true;
+    }
+
+    @Override
+    public void endVisit(ASTEndOfMethodInteraction node) {
+      if (isReturnInteraction) {
+        isReturnInteraction = false;
+        for (ASTInteraction interaction : openMethodCalls) {
+          if (doInteractionsMatch(node, interaction)) {
+            openMethodCalls.remove(interaction);
+            return;
+          }
         }
+        //TODO replace toString by prettyPrinter
+        String nodeAsString = node.toString();
+        String targetAsString = node.isPresentTarget() ? node.getTarget().toString() : "";
+        String sourceAsString = node.isPresentSource() ? node.getSource().toString() : "";
+        Log.warn(String.format(MESSAGE, nodeAsString, targetAsString, sourceAsString),//pp.prettyPrint(node), pp.prettyPrint(node.getTarget(), pp.prettyPrint(node.getSource()))),
+                node.get_SourcePositionStart());
       }
-      String nodeAsString = node.toString();
-      String targetAsString = node.isPresentTarget() ? node.getTarget().toString() : "";
-      String sourceAsString = node.isPresentSource() ? node.getSource().toString() : "";
-      Log.warn(String.format(MESSAGE, nodeAsString, targetAsString, sourceAsString),//pp.prettyPrint(node), pp.prettyPrint(node.getTarget(), pp.prettyPrint(node.getSource()))),
-              node.get_SourcePositionStart());
     }
 
     private boolean doInteractionsMatch(ASTInteraction e1, ASTInteraction e2) {
-      return _doInteractionsMatch(e1, e2) && _doInteractionsMatch(e2, e1);
-    }
-
-    private boolean _doInteractionsMatch(ASTInteraction e1, ASTInteraction e2) {
-      if (!e1.isPresentSource() && !e2.isPresentTarget()) {
-        return true;
+      if (e1.isPresentSource() != e2.isPresentTarget() || e1.isPresentTarget() != e2.isPresentSource()) {
+        return false;
       }
+      boolean result = true;
       if (e1.isPresentSource() && e2.isPresentTarget()) {
-        return e1.getSource().deepEquals(e2.getTarget());
+        result = e1.getSource().deepEquals(e2.getTarget());
       }
-      return false;
+      if (e1.isPresentTarget() && e2.isPresentSource()) {
+        result &= e1.getTarget().deepEquals(e2.getSource());
+      }
+      return result;
     }
   }
 }

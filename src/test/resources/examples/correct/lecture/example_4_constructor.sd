@@ -8,6 +8,6 @@ sequencediagram example_4_constructor {
   kupfer912: Auction;
 
   //Constructor call
-  kupfer912 -> (bm:BidMessage) : new BidMessage(...)
+  kupfer912 -> (bm:BidMessage) : new BidMessage(...);
 
 }

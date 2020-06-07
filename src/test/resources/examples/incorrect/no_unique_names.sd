@@ -12,7 +12,7 @@ sequencediagram sd_test {
   b: Customer;
 
   // Inline definitions
-  o -> (c:C) : new C(...)        // Violation
-  o -> (:SomeClass) : new SomeClass(...)  // Violation
+  o -> (c:C) : new C(...);        // Violation
+  o -> (:SomeClass) : new SomeClass(...);  // Violation
 
 }

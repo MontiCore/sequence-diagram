@@ -10,8 +10,8 @@ sequencediagram example_8_ocl_let {
 
   // Interaction sequence
   <theo: [let int m = theo.message.size]>
-  kupfer912 -> theo : sendMessage(bm)
-  kupfer912 <-- theo:
+  kupfer912 -> theo : sendMessage(bm);
+  kupfer912 <-- theo:;
   <theo: [theo.message.size == m+1]>
 
 

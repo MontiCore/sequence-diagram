@@ -9,13 +9,13 @@ sequencediagram example_3_static {
   b;
 
   // Static calls
-  a -> class StaticClass: static writeToProtocol("This is correct")
-  a -> b: static writeToProtocol("This is wrong")
-  b -> a: static writeToProtocol("This is wrong")
-  b -> (c : StaticClass): static writeToProtocol("This is wrong")
-  b -> (: SomeOtherClass): static writeToProtocol("This is wrong")
+  a -> class StaticClass: static writeToProtocol("This is correct");
+  a -> b: static writeToProtocol("This is wrong");
+  b -> a: static writeToProtocol("This is wrong");
+  b -> (c : StaticClass): static writeToProtocol("This is wrong");
+  b -> (: SomeOtherClass): static writeToProtocol("This is wrong");
 
   // Non static, forbidden calls
-  a -> class StaticClass: writeToProtocol("This is wrong")
+  a -> class StaticClass: writeToProtocol("This is wrong");
 
 }

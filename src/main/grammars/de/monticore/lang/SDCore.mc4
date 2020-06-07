@@ -10,7 +10,7 @@ component grammar SDCore extends de.monticore.types.MCBasicTypes {
   symbol scope SequenceDiagram =
     SequenceDiagramModifiers "sequencediagram" Name "{"
       (Object ";")*
-      SDElement*
+      (SDElement)*
     "}";
 
 

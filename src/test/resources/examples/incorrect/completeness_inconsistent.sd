@@ -8,7 +8,7 @@ sequencediagram (C) example_completeness_and_stereotypes {
   a : A;
   (c) b : B;
   complete c : C;
-  ... d : D
+  ... d : D;
   initial e : E;
 
 

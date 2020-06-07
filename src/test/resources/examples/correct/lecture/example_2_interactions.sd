@@ -9,23 +9,23 @@ sequencediagram example_2_interactions {
   b : B;
 
   // Method calls
-  a -> b : methodenname()
-  a -> b : methodenname(arg)
-  a -> b : methodenname(arg1, arg2)
-  a -> b : methodenname
-  a -> b : methodenname(...)
+  a -> b : methodenname();
+  a -> b : methodenname(arg);
+  a -> b : methodenname(arg1, arg2);
+  a -> b : methodenname;
+  a -> b : methodenname(...);
 
   // Returns
-  b <-- a : return Ergebnis
-  b <-- a : return ...
-  b <-- a : return
-  b <-- a :
+  a <-- b : return Ergebnis;
+  a <-- b : return ...;
+  a <-- b : return;
+  a <-- b :;
 
   // Exceptions
-  b <-- a : throw ExceptionTyp()
-  b <-- a : throw ExceptionTyp(arg)
-  b <-- a : throw ExceptionTyp(arg1, arg2)
-  b <-- a : throw ExceptionTyp
-  b <-- a : throw ExceptionTyp(...)
+  a <-- b : throw ExceptionTyp();
+  a <-- b : throw ExceptionTyp(arg);
+  a <-- b : throw ExceptionTyp(arg1, arg2);
+  a <-- b : throw ExceptionTyp;
+  a <-- b : throw ExceptionTyp(...);
 
 }

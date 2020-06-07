@@ -8,11 +8,11 @@ sequencediagram activities {
   b;
 
   {
-    a -> b : methode1(...)
+    a -> b : methode1(...);
     {
-      b -> a : methode2(...)
+      b -> a : methode2(...);
       {
-        a -> b : methode3(...)
+        a -> b : methode3(...);
         {
         }
       }

@@ -46,7 +46,7 @@ component grammar SD4Code extends de.monticore.lang.SDBase,
   EndOfMethodInteraction implements Interaction =
     target:InteractionEntity? "<--"
     source:InteractionEntity?
-    ":" Action; // only EndOfMethodActions are allowed.
+    ":" Action ";"; // only EndOfMethodActions are allowed.
 
   /**
    * IncompleteExpression is introduced to enable modeling of
