@@ -50,8 +50,7 @@ public class UnambiguousAnonymousObjectCoco implements SDCoreASTSequenceDiagramC
   }
 
   private List<String> getDublicatedAnonymousObject(List<ASTObject> sdObjects) {
-    List<ASTObject> anonymousObject = getAnonymousObjects(sdObjects);
-    return new Duplicates<String>().apply(getTypeOfObject(anonymousObject));
+    return new Duplicates<String>().apply(getTypeOfObject(getAnonymousObjects(sdObjects)));
   }
 
   private List<String> getTypeOfObject(List<ASTObject> objects) {
