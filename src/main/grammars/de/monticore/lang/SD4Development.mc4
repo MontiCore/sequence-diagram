@@ -38,8 +38,8 @@ grammar SD4Development extends de.monticore.lang.SDBasis,
    * Interactions ending calls.
    */
   SDEndCall implements SDInteraction =
-    SDSource? SDEndCallArrow
-    SDTarget?
+    SDTarget? SDEndCallArrow
+    SDSource?
     ":" SDAction ";";
 
   SDEndCallArrow = {noSpace(2)}? "<" "-";
