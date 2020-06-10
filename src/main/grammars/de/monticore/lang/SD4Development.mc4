@@ -5,7 +5,7 @@ grammar SD4Development extends de.monticore.lang.SDBasis,
                                 * OCLExpressions ARE ADDED AS SOON AS THE GRAMMAR IS IMPLEMENTED
                                 * ocl.monticore.OCLExpressions,
                                 */
-                               de.monticore.expressions.CommonExpressions,
+                               de.monticore.expressions.ExpressionsBasis,
                                de.monticore.literals.MCCommonLiterals {
 
   start SDArtifact;

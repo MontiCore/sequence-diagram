@@ -1,8 +1,8 @@
 package de.monticore.lang;
 
 component grammar SDBasis extends de.monticore.types.MCBasicTypes,
-                                 de.monticore.expressions.CommonExpressions,
-                                 de.monticore.UMLStereotype {
+                                  //de.monticore.expressions.CommonExpressions,
+                                  de.monticore.UMLStereotype {
 
   SDArtifact =
     ("package" MCQualifiedName& ";")?
