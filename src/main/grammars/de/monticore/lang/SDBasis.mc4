@@ -1,0 +1,63 @@
+package de.monticore.lang;
+
+component grammar SDBasis extends de.monticore.types.MCBasicTypes,
+                                 de.monticore.expressions.CommonExpressions,
+                                 de.monticore.UMLStereotype {
+
+  SDArtifact =
+    ("package" MCQualifiedName& ";")?
+    MCImportStatement*
+    SequenceDiagram;
+
+  symbol scope SequenceDiagram =
+    Stereotype? SDModifier* "sequencediagram" Name "{"
+      Object*
+      SDElement*
+    "}";
+
+
+  /*
+   * Common match-modifiers for sequence diagrams and objects.
+   */
+  enum SDModifier =
+    COMPLETE:"(c)" | "complete" | FREE:"..." | "free" | "initial" | "visible";
+
+  /**
+   * Object definition or usage.
+   * Symboltablecreator creates instances of VariableSymbol for named objects.
+   */
+  SDObject implements Variable =
+    Stereotype? SDModifier* (Name | Name? ":" MCObjectType) ";";
+
+  interface SDElement;
+
+  /*
+   * Extension point for Interactions.
+   * To enable a uniform handling of interactions, the fields
+   * "source" defining the source of the interaction, "target"
+   * defining the target of the interaction, and "action" defining
+   * the action of the interaction are required.
+   */
+  interface SDInteraction extends SDElement =
+    SDSource? SDTarget? SDAction;
+
+  /*
+   * Possible sources of interactions.
+   */
+  SDSource = Name@Variable;
+
+  /*
+   * Possible targets of interactions.
+   */
+  SDTarget = Name@Variable;
+
+  interface SDAction;
+
+  /*
+   * Sending messages.
+   * Including the curly brackets starts an activity bar on the lifeline
+   * of the target object that ends with the closing curly bracket.
+   */
+  SDSendMessage implements SDInteraction =
+    SDSource? "->" SDTarget? ":" SDAction (";" | "{" SDElement* "}");
+}

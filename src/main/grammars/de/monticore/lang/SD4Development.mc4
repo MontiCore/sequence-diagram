@@ -1,0 +1,71 @@
+package de.monticore.lang;
+
+grammar SD4Development extends de.monticore.lang.SDBasis,
+                               /*
+                                * OCLExpressions ARE ADDED AS SOON AS THE GRAMMAR IS IMPLEMENTED
+                                * ocl.monticore.OCLExpressions,
+                                */
+                               de.monticore.expressions.CommonExpressions,
+                               de.monticore.literals.MCCommonLiterals {
+
+  start SDArtifact;
+
+  /*
+   * Actions for method invocations.
+   */
+  SDCall implements SDAction =
+    "trigger"? ["static"]? Name Arguments?;
+
+  /*
+   * Actions for constructor calls.
+   */
+  SDNew implements SDAction =
+    "new" MCQualifiedName Arguments?;
+
+  /*
+   * Actions for returns.
+   */
+  SDReturn implements SDAction =
+    ("return" Expression?)?;
+
+  /*
+   * Actions for exceptions.
+   */
+  SDThrow implements SDAction =
+    "throw" MCQualifiedName Arguments?;
+
+  /*
+   * Interactions ending calls.
+   */
+  SDEndCall implements SDInteraction =
+    SDSource? SDEndCallArrow
+    SDTarget?
+    ":" SDAction ";";
+
+  SDEndCallArrow = {noSpace(2)}? "<" "-";
+
+  /**
+   * SDIncompleteExpression is introduced to enable modeling of
+   * incomplete specifications of arguments, for example, used in
+   * method invocations, exceptions, returns, etc.
+   */
+  SDIncompleteExpression implements Expression =
+    {noSpace(2,3)}? "." "." ".";
+
+  /**
+   * SDClassTarget enables using classes as the targets of interactions.
+   * This enables modeling the invocation of static methods.
+   */
+  SDClassTarget extends SDTarget =
+    "class" MCObjectType;
+
+
+  /*
+  SDOCLCondition and SDOCLAssignment are added as soon as OCL is implemented.
+  SDOCLCondition implements SDElement =
+    "assert" OCLExpression ";";
+
+  SDOCLAssignment implements SDElement =
+    LetDeclaration;
+  */
+}

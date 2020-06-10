@@ -1,9 +1,0 @@
-package de.monticore.lang;
-
-component grammar SDExpressionConditions extends
-                        de.monticore.lang.SDCore,
-                        de.monticore.expressions.CommonExpressions,
-                        de.monticore.expressions.AssignmentExpressions {
-  ExpressionCondition implements SDElement =
-    "<" Expression ">";
-}
