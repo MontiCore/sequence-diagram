@@ -1,7 +1,7 @@
 package de.monticore.lang;
 
 component grammar SDBasis extends de.monticore.types.MCBasicTypes,
-                                  //de.monticore.expressions.CommonExpressions,
+                                  de.monticore.types.BasicTypeSymbols,
                                   de.monticore.UMLStereotype {
 
   SDArtifact =
@@ -11,7 +11,7 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
 
   symbol scope SequenceDiagram =
     Stereotype? SDModifier* "sequencediagram" Name "{"
-      Object*
+      (SDNamedObject | SDAnonymousObject)*
       SDElement*
     "}";
 
@@ -26,8 +26,11 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
    * Object definition or usage.
    * Symboltablecreator creates instances of VariableSymbol for named objects.
    */
-  SDObject implements Variable =
-    Stereotype? SDModifier* (Name | Name? ":" MCObjectType) ";";
+  SDNamedObject implements Variable =
+    Stereotype? SDModifier* Name (":" MCObjectType)? ";";
+
+  SDAnonymousObject =
+    Stereotype? SDModifier* ":" MCObjectType ";";
 
   interface SDElement;
 
@@ -44,12 +47,14 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
   /*
    * Possible sources of interactions.
    */
-  SDSource = Name@Variable;
+  interface SDSource;
+  SDObjectSource implements SDSource = Name@Variable;
 
   /*
    * Possible targets of interactions.
    */
-  SDTarget = Name@Variable;
+  interface SDTarget;
+  SDObjectTarget implements SDTarget = Name@Variable;
 
   interface SDAction;
 

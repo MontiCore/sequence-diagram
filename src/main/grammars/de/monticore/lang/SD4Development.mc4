@@ -56,7 +56,7 @@ grammar SD4Development extends de.monticore.lang.SDBasis,
    * SDClassTarget enables using classes as the targets of interactions.
    * This enables modeling the invocation of static methods.
    */
-  SDClassTarget extends SDTarget =
+  SDClassTarget implements SDTarget =
     "class" MCObjectType;
 
 
