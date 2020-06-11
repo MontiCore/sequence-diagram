@@ -1,4 +1,9 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang;
+
+/* Alpha-version: This is intended to become a MontiCore stable grammar. */
+
+// TODO: Kommentierung im stil zB der Klassendiagramme fehlt.
 
 component grammar SDBasis extends de.monticore.types.MCBasicTypes,
                                   de.monticore.types.BasicTypeSymbols,
@@ -9,37 +14,62 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
     MCImportStatement*
     SequenceDiagram;
 
+  /* TODO: Etwas Erklaerung ... (und spaeter auch)
+   */
   symbol scope SequenceDiagram =
     Stereotype? SDModifier* "sequencediagram" Name "{"
       (SDNamedObject | SDAnonymousObject)*
       SDElement*
     "}";
 
+// TODO besser:      SDElement*  auslagern in
+//  scope SDBody =    SDElement*
+// siehe dazu SD4Dev.
 
   /*
-   * Common match-modifiers for sequence diagrams and objects.
+   * Modifiers for sequence diagrams and objects.
+   *
+   * They are used to improve the possible use of sequence diagrams.
+   * See [Rum17] B. Rumpe: Agile Modeling with UML: 
+   * Code Generation, Testing, Refactoring. Springer International, May 2017. 
+   * or also: http://mbse.se-rwth.de/
    */
+// TODO: key(".") statt ein dauerhaftes Keywort einzusetzen
+// TODO {nospace(2,3)}? "(" key{"c"} ")"  (weil es anderswo als Expression stehen darf
   enum SDModifier =
     COMPLETE:"(c)" | "complete" | FREE:"..." | "free" | "initial" | "visible";
 
   /**
-   * Object definition or usage.
-   * Symboltablecreator creates instances of VariableSymbol for named objects.
+   * Object definition introducing a new object in form of
+   * a VariableSymbol (by implementing Variable)
    */
   SDNamedObject implements Variable =
     Stereotype? SDModifier* Name (":" MCObjectType)? ";";
 
+  /** 
+   * Sequence diagrams allow to introduce anonymous objects.
+   * Unfortunately in a textual notation object names are needed
+   * to refer to the object as source or target of an interaction.
+   * The use of anonymous objects is therefore limited, e.g. to 
+   * creational interactions.
+   */
+// TODO macht das überhaupt einen Sinn hier? Scheint unbenutzbar?   
   SDAnonymousObject =
     Stereotype? SDModifier* ":" MCObjectType ";";
 
+  /**
+   * Extension point for construct defined in a sequence diagram,
+   * including invariants and interactions
+   */
   interface SDElement;
 
   /*
    * Extension point for Interactions.
-   * To enable a uniform handling of interactions, the fields
-   * "source" defining the source of the interaction, "target"
-   * defining the target of the interaction, and "action" defining
-   * the action of the interaction are required.
+   * To enable a uniform handling of interactions, the nonterminals
+   * "source" defining the source of the interaction, 
+   * "target" defining its target, and 
+   * "action" for the action are defined here 
+   * (without concrete syntactic order).
    */
   interface SDInteraction extends SDElement =
     SDSource? SDTarget? SDAction;
@@ -56,13 +86,19 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
   interface SDTarget;
   SDObjectTarget implements SDTarget = Name@Variable;
 
+  /**
+   * Extension point: form of actions.
+   * this contains the action part of an interaction, but 
+   * not sender and receiver.
+   */
   interface SDAction;
 
   /*
-   * Sending messages.
+   * Sending messages: the most common interaction.
    * Including the curly brackets starts an activity bar on the lifeline
    * of the target object that ends with the closing curly bracket.
    */
   SDSendMessage implements SDInteraction =
     SDSource? "->" SDTarget? ":" SDAction (";" | "{" SDElement* "}");
+    
 }

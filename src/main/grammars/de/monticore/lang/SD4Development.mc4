@@ -1,41 +1,61 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang;
 
-grammar SD4Development extends de.monticore.lang.SDBasis,
+/* Alpha-version: This is intended to become a MontiCore stable grammar. */
+
+// TODO: Kommentierung im stil zB der Klassendiagramme fehlt.
+
+grammar SD4Development extends 
+                   de.monticore.lang.SDBasis,
                                /*
-                                * OCLExpressions ARE ADDED AS SOON AS THE GRAMMAR IS IMPLEMENTED
+                                * ExpressionBasis is replaced by OCLExpressions 
+                                * when THE GRAMMAR IS IMPLEMENTED
                                 * ocl.monticore.OCLExpressions,
                                 */
-                               de.monticore.expressions.ExpressionsBasis,
-                               de.monticore.literals.MCCommonLiterals {
+// TODO: aber das ist sie doch: unter  de.monticore.expressions.OCLExpressions,
+// evtl. in Kombination mit anderen Expressions?
+                   de.monticore.expressions.ExpressionsBasis,
+                   de.monticore.literals.MCCommonLiterals   {
 
   start SDArtifact;
 
   /*
-   * Actions for method invocations.
+   * Actions for a triggering message.
+   * Triggers are used e.g. in tests to start the test execution
+   * (as opposed to normal interactions that are observations)
    */
+// todo: key(trigger), static (da weiss ich es nicht?-> marita fragen)
   SDCall implements SDAction =
     "trigger"? ["static"]? Name Arguments?;
 
   /*
-   * Actions for constructor calls.
+   * Actions for creation of a new object.
+   * This may also hint towards a Builder/Factory call in the implementation:
+   * and is open to the tool developer.
    */
   SDNew implements SDAction =
     "new" MCQualifiedName Arguments?;
 
   /*
    * Actions for returns.
+   * This allows "return", "return 5", and "return ..." for an 
+   * unspecified value
    */
   SDReturn implements SDAction =
     ("return" Expression?)?;
 
   /*
-   * Actions for exceptions.
+   * Actions for exceptions,
+   * which in this context can be interpreted as special 
+   * form of "return"
    */
   SDThrow implements SDAction =
     "throw" MCQualifiedName Arguments?;
 
   /*
-   * Interactions ending calls.
+   * Interactions ending calls:
+   * i.d. the arrow shows that a return comes (the return statement can
+   * but need not be given explicitly)
    */
   SDEndCall implements SDInteraction =
     SDTarget? SDEndCallArrow
@@ -51,6 +71,10 @@ grammar SD4Development extends de.monticore.lang.SDBasis,
    */
   SDIncompleteExpression implements Expression =
     {noSpace(2,3)}? "." "." ".";
+// TODO: Problem: monticore-grammar/src/main/grammars/de/monticore/Completeness.mc4
+// monticore-grammar/src/main/grammars/de/monticore/JavaLight.mc4
+// wenn ein anderer den Token dann doch definiert sieht es ungünstig aus ...
+// --> siehe meine Email
 
   /**
    * SDClassTarget enables using classes as the targets of interactions.
@@ -59,12 +83,18 @@ grammar SD4Development extends de.monticore.lang.SDBasis,
   SDClassTarget implements SDTarget =
     "class" MCObjectType;
 
-
   /*
   SDOCLCondition and SDOCLAssignment are added as soon as OCL is implemented.
+// TODO: sollten wir eigentlich weitgehend haben, wenn nicht kann man auch mal CommonExpr. nehmen
+//  SDOCLCondition besser SDCondition
+// key ...
   SDOCLCondition implements SDElement =
     "assert" OCLExpression ";";
 
+// TODO: besser SDVariableDeclaration
+// und auch das lässt sich schon definieren?
+// übrigens: für Variablen dieser Art braucht es dann einen Scope,
+// deshalb wäre SDBody eine Option
   SDOCLAssignment implements SDElement =
     LetDeclaration;
   */
