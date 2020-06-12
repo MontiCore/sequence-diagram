@@ -1,7 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang;
 
-/* Alpha-version: This is intended to become a MontiCore stable grammar. */
+/* This is a MontiCore stable grammar.
+ * Adaptations -- if any -- are conservative. */
 
 /*
  * This grammar defines a textual representation of UML/P sequence
@@ -37,9 +38,11 @@ package de.monticore.lang;
  *  * OCLExpressions for embedding OCL expressions as conditions and to
  *  * be able to use expressions for the definition of local variables.
  */
-grammar SD4Development extends de.monticore.lang.SDBasis,
-                               de.monticore.literals.MCCommonLiterals,
-                               de.monticore.expressions.OCLExpressions {
+grammar SD4Development extends 
+                  de.monticore.lang.SDBasis,
+                  de.monticore.literals.MCCommonLiterals,
+                  de.monticore.expressions.OCLExpressions {
+
   start SDArtifact;
 
   /*
