@@ -3,8 +3,10 @@ package de.monticore.lang;
 
 /* Alpha-version: This is intended to become a MontiCore stable grammar. */
 
-// TODO: Kommentierung im stil zB der Klassendiagramme fehlt.
-
+/* TODO: Kommentierung im stil zB der Klassendiagramme fehlt.
+ * OKa: Ich führe die Kommentierung ein, sobald der Inhalt der Grammatik stimmt,
+ *      um Arbeitsaufwand zu sparen.
+ */
 component grammar SDBasis extends de.monticore.types.MCBasicTypes,
                                   de.monticore.types.BasicTypeSymbols,
                                   de.monticore.UMLStereotype {
@@ -15,6 +17,8 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
     SequenceDiagram;
 
   /* TODO: Etwas Erklaerung ... (und spaeter auch)
+   * OKa: Ich führe die Kommentierung ein, sobald der Inhalt der Grammatik stimmt,
+   *      um Arbeitsaufwand zu sparen.
    */
   symbol scope SequenceDiagram =
     Stereotype? SDModifier* "sequencediagram" Name "{"

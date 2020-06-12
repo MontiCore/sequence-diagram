@@ -3,20 +3,20 @@ package de.monticore.lang;
 
 /* Alpha-version: This is intended to become a MontiCore stable grammar. */
 
-// TODO: Kommentierung im stil zB der Klassendiagramme fehlt.
-
-grammar SD4Development extends 
+/* TODO: Kommentierung im stil zB der Klassendiagramme fehlt.
+ * OKa: Ich führe die Kommentierung ein, sobald der Inhalt der Grammatik stimmt,
+ *      um Arbeitsaufwand zu sparen.
+ */
+grammar SD4Development extends
                    de.monticore.lang.SDBasis,
-                               /*
-                                * ExpressionBasis is replaced by OCLExpressions 
-                                * when THE GRAMMAR IS IMPLEMENTED
-                                * ocl.monticore.OCLExpressions,
-                                */
-// TODO: aber das ist sie doch: unter  de.monticore.expressions.OCLExpressions,
-// evtl. in Kombination mit anderen Expressions?
-                   de.monticore.expressions.ExpressionsBasis,
                    de.monticore.literals.MCCommonLiterals,
-                   de.monticore.expressions.CommonExpressions {
+                   /*
+                    * Expressions grammars are replaced by OCLExpressions
+                    * when THE GRAMMAR IS IMPLEMENTED
+                    */
+                    // ocl.monticore.OCLExpressions,
+                   de.monticore.expressions.AssignmentExpressions,
+                   de.monticore.expressions.OCLExpressions {
 
   start SDArtifact;
 
@@ -25,9 +25,8 @@ grammar SD4Development extends
    * Triggers are used e.g. in tests to start the test execution
    * (as opposed to normal interactions that are observations)
    */
-// todo: key(trigger), static (da weiss ich es nicht?-> marita fragen)
   SDCall implements SDAction =
-    "trigger"? ["static"]? Name Arguments?;
+    [key("trigger")]? [key("static")]? Name Arguments?;
 
   /*
    * Actions for creation of a new object.
@@ -80,15 +79,16 @@ grammar SD4Development extends
     "class" MCObjectType;
 
   /*
-  SDOCLCondition and SDOCLAssignment are added as soon as OCL is implemented.
-// TODO: sollten wir eigentlich weitgehend haben, wenn nicht kann man auch mal CommonExpr. nehmen
-  SDCondition implements SDElement =
-    key("assert") OCLExpression ";";
+   * Required extensions for OCL externals
+   */
+  EDeclaration = Expression; // coco: only AssignmentExpressions
+  ExtType = MCObjectType;
 
-// und auch das l�sst sich schon definieren?
-// �brigens: f�r Variablen dieser Art braucht es dann einen Scope,
-// deshalb w�re SDBody eine Option
+  // SDOCLCondition and SDOCLAssignment are added as soon as OCL is implemented.
+  SDCondition implements SDElement =
+    key("assert") Expression ";";
+
   SDVariableDeclaration implements SDElement =
-    LetDeclaration;
-  */
+    key("let") assignment:Expression ";" // coco: only AssignmentExpressions
+    SDBody;
 }
