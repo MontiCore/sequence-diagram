@@ -69,12 +69,7 @@ grammar SD4Development extends
    * incomplete specifications of arguments, for example, used in
    * method invocations, exceptions, returns, etc.
    */
-  SDIncompleteExpression implements Expression =
-    {noSpace(2,3)}? "." "." ".";
-// TODO: Problem: monticore-grammar/src/main/grammars/de/monticore/Completeness.mc4
-// monticore-grammar/src/main/grammars/de/monticore/JavaLight.mc4
-// wenn ein anderer den Token dann doch definiert sieht es ungünstig aus ...
-// --> siehe meine Email
+  SDIncompleteExpression implements Expression = "...";
 
   /**
    * SDClassTarget enables using classes as the targets of interactions.
@@ -92,9 +87,9 @@ grammar SD4Development extends
     "assert" OCLExpression ";";
 
 // TODO: besser SDVariableDeclaration
-// und auch das lässt sich schon definieren?
-// übrigens: für Variablen dieser Art braucht es dann einen Scope,
-// deshalb wäre SDBody eine Option
+// und auch das lï¿½sst sich schon definieren?
+// ï¿½brigens: fï¿½r Variablen dieser Art braucht es dann einen Scope,
+// deshalb wï¿½re SDBody eine Option
   SDOCLAssignment implements SDElement =
     LetDeclaration;
   */
