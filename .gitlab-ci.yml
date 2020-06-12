@@ -1,6 +1,6 @@
 # (c) https://github.com/MontiCore/monticore
 
-image: gradle:3.5.4-jdk-8-alpine
+image: maven:3.5.4-jdk-8-alpine
 
 variables:
   GRADLE_OPTS: "-Dorg.gradle.daemon=false"
