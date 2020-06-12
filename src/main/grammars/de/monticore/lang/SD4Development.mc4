@@ -85,11 +85,10 @@ grammar SD4Development extends
   SDCondition implements SDElement =
     "assert" OCLExpression ";";
 
-// TODO: besser SDVariableDeclaration
 // und auch das l�sst sich schon definieren?
 // �brigens: f�r Variablen dieser Art braucht es dann einen Scope,
 // deshalb w�re SDBody eine Option
-  SDOCLAssignment implements SDElement =
+  SDVariableDeclaration implements SDElement =
     LetDeclaration;
   */
 }
