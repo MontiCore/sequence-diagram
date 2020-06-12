@@ -34,8 +34,9 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
    */
 // TODO: key(".") statt ein dauerhaftes Keywort einzusetzen
 // TODO {nospace(2,3)}? "(" key{"c"} ")"  (weil es anderswo als Expression stehen darf
+// OKa: Antwort auf Mail vom 12.06.2020 von BR abwarten und entsprechend reagieren
   enum SDModifier =
-    COMPLETE:"(c)" | "complete" | FREE:"..." | "free" | "initial" | "visible";
+    COMPLETE: key("(c)") | key("complete") | FREE:key("...") | key("free") | key("initial") | key("visible");
 
   /**
    * Object definition introducing a new object in form of
@@ -51,7 +52,8 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
    * The use of anonymous objects is therefore limited, e.g. to 
    * creational interactions.
    */
-// TODO macht das �berhaupt einen Sinn hier? Scheint unbenutzbar?   
+// TODO macht das �berhaupt einen Sinn hier? Scheint unbenutzbar?
+// OKa: Antwort auf Mail vom 12.06.2020 von BR abwarten und entsprechend reagieren
   SDAnonymousObject =
     Stereotype? SDModifier* ":" MCObjectType ";";
 
