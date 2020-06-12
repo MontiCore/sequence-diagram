@@ -15,7 +15,8 @@ grammar SD4Development extends
 // TODO: aber das ist sie doch: unter  de.monticore.expressions.OCLExpressions,
 // evtl. in Kombination mit anderen Expressions?
                    de.monticore.expressions.ExpressionsBasis,
-                   de.monticore.literals.MCCommonLiterals   {
+                   de.monticore.literals.MCCommonLiterals,
+                   de.monticore.expressions.CommonExpressions {
 
   start SDArtifact;
 
@@ -81,9 +82,8 @@ grammar SD4Development extends
   /*
   SDOCLCondition and SDOCLAssignment are added as soon as OCL is implemented.
 // TODO: sollten wir eigentlich weitgehend haben, wenn nicht kann man auch mal CommonExpr. nehmen
-// key ...
   SDCondition implements SDElement =
-    "assert" OCLExpression ";";
+    key("assert") OCLExpression ";";
 
 // und auch das l�sst sich schon definieren?
 // �brigens: f�r Variablen dieser Art braucht es dann einen Scope,
