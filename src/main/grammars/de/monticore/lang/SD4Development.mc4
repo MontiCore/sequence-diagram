@@ -81,9 +81,8 @@ grammar SD4Development extends
   /*
   SDOCLCondition and SDOCLAssignment are added as soon as OCL is implemented.
 // TODO: sollten wir eigentlich weitgehend haben, wenn nicht kann man auch mal CommonExpr. nehmen
-//  SDOCLCondition besser SDCondition
 // key ...
-  SDOCLCondition implements SDElement =
+  SDCondition implements SDElement =
     "assert" OCLExpression ";";
 
 // TODO: besser SDVariableDeclaration
