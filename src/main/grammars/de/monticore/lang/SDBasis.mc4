@@ -19,12 +19,10 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
   symbol scope SequenceDiagram =
     Stereotype? SDModifier* "sequencediagram" Name "{"
       (SDNamedObject | SDAnonymousObject)*
-      SDElement*
+      SDBody
     "}";
 
-// TODO besser:      SDElement*  auslagern in
-//  scope SDBody =    SDElement*
-// siehe dazu SD4Dev.
+  scope SDBody = SDElement*;
 
   /*
    * Modifiers for sequence diagrams and objects.
@@ -53,7 +51,7 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
    * The use of anonymous objects is therefore limited, e.g. to 
    * creational interactions.
    */
-// TODO macht das überhaupt einen Sinn hier? Scheint unbenutzbar?   
+// TODO macht das ï¿½berhaupt einen Sinn hier? Scheint unbenutzbar?   
   SDAnonymousObject =
     Stereotype? SDModifier* ":" MCObjectType ";";
 
