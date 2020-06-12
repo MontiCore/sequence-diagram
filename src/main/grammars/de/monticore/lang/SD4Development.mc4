@@ -15,7 +15,7 @@ grammar SD4Development extends
                     * when THE GRAMMAR IS IMPLEMENTED
                     */
                     // ocl.monticore.OCLExpressions,
-                   de.monticore.expressions.AssignmentExpressions,
+                   // de.monticore.expressions.AssignmentExpressions,
                    de.monticore.expressions.OCLExpressions {
 
   start SDArtifact;
@@ -89,6 +89,5 @@ grammar SD4Development extends
     key("assert") Expression ";";
 
   SDVariableDeclaration implements SDElement =
-    key("let") assignment:Expression ";" // coco: only AssignmentExpressions
-    SDBody;
+    key("let") MCType Name = assignment:Expression ";";
 }
