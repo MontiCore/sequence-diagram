@@ -7,16 +7,9 @@ package de.monticore.lang;
  * OKa: Ich führe die Kommentierung ein, sobald der Inhalt der Grammatik stimmt,
  *      um Arbeitsaufwand zu sparen.
  */
-grammar SD4Development extends
-                   de.monticore.lang.SDBasis,
-                   de.monticore.literals.MCCommonLiterals,
-                   /*
-                    * Expressions grammars are replaced by OCLExpressions
-                    * when THE GRAMMAR IS IMPLEMENTED
-                    */
-                    // ocl.monticore.OCLExpressions,
-                   // de.monticore.expressions.AssignmentExpressions,
-                   de.monticore.expressions.OCLExpressions {
+grammar SD4Development extends de.monticore.lang.SDBasis,
+                               de.monticore.literals.MCCommonLiterals,
+                               de.monticore.expressions.OCLExpressions {
 
   start SDArtifact;
 
@@ -26,7 +19,7 @@ grammar SD4Development extends
    * (as opposed to normal interactions that are observations)
    */
   SDCall implements SDAction =
-    [key("trigger")]? [key("static")]? Name Arguments?;
+    [key("trigger")]? ["static"]? Name Arguments?;
 
   /*
    * Actions for creation of a new object.
@@ -80,8 +73,10 @@ grammar SD4Development extends
 
   /*
    * Required extensions for OCL externals
+   * These externals must be overriden because otherwise this grammar
+   * had to be a component grammar.
    */
-  EDeclaration = Expression; // coco: only AssignmentExpressions
+  EDeclaration = MCType Name "=" assignment:Expression;
   ExtType = MCObjectType;
 
   // SDOCLCondition and SDOCLAssignment are added as soon as OCL is implemented.
@@ -89,5 +84,5 @@ grammar SD4Development extends
     key("assert") Expression ";";
 
   SDVariableDeclaration implements SDElement =
-    key("let") MCType Name = assignment:Expression ";";
+    key("let") EDeclaration ";";
 }

@@ -16,10 +16,6 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
     MCImportStatement*
     SequenceDiagram;
 
-  /* TODO: Etwas Erklaerung ... (und spaeter auch)
-   * OKa: Ich führe die Kommentierung ein, sobald der Inhalt der Grammatik stimmt,
-   *      um Arbeitsaufwand zu sparen.
-   */
   symbol scope SequenceDiagram =
     Stereotype? SDModifier* "sequencediagram" Name "{"
       SDObject*
@@ -42,7 +38,7 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
      {noSpace(2,3)}? "(" key("c") ")" | key("complete");
 
    SDFreeModifier implements SDModifier =
-     key("...") | key("free");
+     "..." | key("free");
 
    SDInitialModifier implements SDModifier =
      key("initial");
@@ -58,22 +54,10 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
    * anonymous objects. Unfortunately in a textual notation object
    * names are needed to refer to the object as source or target
    * of an interaction. The use of anonymous objects is therefore
-   * not possible with this grammar, e.g. to creational interactions.
+   * not possible with this grammar.
    */
   SDObject implements Variable =
     Stereotype? SDModifier* Name (":" MCObjectType)? ";";
-
-  /** 
-   * Sequence diagrams allow to introduce anonymous objects.
-   * Unfortunately in a textual notation object names are needed
-   * to refer to the object as source or target of an interaction.
-   * The use of anonymous objects is therefore limited, e.g. to 
-   * creational interactions.
-   */
-// TODO macht das �berhaupt einen Sinn hier? Scheint unbenutzbar?
-// OKa: Antwort auf Mail vom 12.06.2020 von BR abwarten und entsprechend reagieren
-  SDAnonymousObject =
-    Stereotype? SDModifier* ":" MCObjectType ";";
 
   /**
    * Extension point for construct defined in a sequence diagram,
