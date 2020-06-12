@@ -145,8 +145,9 @@ component grammar SDBasis extends de.monticore.types.MCBasicTypes,
 
   /*
    * Sending messages: the most common interaction.
-   * Including the curly brackets starts an activity bar on the lifeline
-   * of the target object that ends with the closing curly bracket.
+   * Including the curly brackets starts an activity bar on the
+   * lifeline of the target object. The activity bar ends with the
+   * closing curly bracket.
    */
   SDSendMessage implements SDInteraction =
     SDSource? "->" SDTarget? ":" SDAction (";" | "{" SDElement* "}");
