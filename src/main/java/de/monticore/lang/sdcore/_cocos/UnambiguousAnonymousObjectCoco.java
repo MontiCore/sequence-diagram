@@ -28,8 +28,8 @@ public class UnambiguousAnonymousObjectCoco implements SDCoreASTSequenceDiagramC
   @Override
   public void check(ASTSequenceDiagram sd) {
     List<ASTObject> objects = sd.getObjectList();
-    if (hasDublicatedAnonymousObject(objects)) {
-      List<String> duplicates = getDublicatedAnonymousObject(objects);
+    if (hasDuplicatedAnonymousObject(objects)) {
+      List<String> duplicates = getDuplicatedAnonymousObject(objects);
       duplicates.forEach(
               duplicate -> Log.error(String.format(MESSAGE_ERROR_ANONYMOUS_OBJECT_AMBIGUOUS, duplicate))
       );
@@ -42,14 +42,14 @@ public class UnambiguousAnonymousObjectCoco implements SDCoreASTSequenceDiagramC
             .collect(Collectors.toList());
   }
 
-  private boolean hasDublicatedAnonymousObject(List<ASTObject> sdObjects) {
+  private boolean hasDuplicatedAnonymousObject(List<ASTObject> sdObjects) {
     List<ASTObject> anonymousObject = getAnonymousObjects(sdObjects);
     List<String> anonymousTypeNames = getTypeOfObject(anonymousObject);
     Set<String> uniqueAnonymousTypeNames = Sets.newHashSet(anonymousTypeNames);
     return anonymousTypeNames.size() != uniqueAnonymousTypeNames.size();
   }
 
-  private List<String> getDublicatedAnonymousObject(List<ASTObject> sdObjects) {
+  private List<String> getDuplicatedAnonymousObject(List<ASTObject> sdObjects) {
     return new Duplicates<String>().apply(getTypeOfObject(getAnonymousObjects(sdObjects)));
   }
 

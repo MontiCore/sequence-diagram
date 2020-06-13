@@ -12,7 +12,7 @@ version = "0.0.3-SNAPSHOT-M5"
 description = "Sequence Diagram DSL"
 sourceCompatibility = "1.8"
 
-def mc_version = "6.1.0"
+def mc_version = "6.2.0-SNAPSHOT"
 def commons_version = "1.7.9"
 def grammar_classifier = "grammars"
 def grammarDir = "src/main/grammars"
@@ -67,13 +67,8 @@ repositories {
 }
 
 def grammarDependencies = ext {
-    SDCore = []
-    SDBase = ["SDCore"]
-    BasicSDModifiers = ["SDCore"]
-    SDExpressionConditions = ["SDCore"]
-    SDOCLConditions = ["SDCore"]
-    SD4Code = ["SDBase", "BasicSDModifiers"]
-    SD4Java = ["SD4Code", "SDExpressionConditions", "SDOCLConditions"]
+    SDBasis = []
+    SD4Development = ["SDBasis"]
 }
 
 // one task per grammar file
