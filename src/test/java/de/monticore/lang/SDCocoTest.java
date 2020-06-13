@@ -4,17 +4,14 @@ package de.monticore.lang;
 
 import de.monticore.lang.sd4java._cocos.SD4JavaCoCoChecker;
 import de.monticore.lang.sd4java._parser.SD4JavaParser;
-import de.monticore.lang.sdcore._ast.ASTSDArtifact;
+import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.NoSuchElementException;
 
 import static org.junit.Assert.assertEquals;

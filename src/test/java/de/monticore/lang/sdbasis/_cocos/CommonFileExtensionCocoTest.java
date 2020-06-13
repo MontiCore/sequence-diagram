@@ -1,11 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package de.monticore.lang.sdcore._cocos;
+package de.monticore.lang.sdbasis._cocos;
 
 import static org.junit.Assert.assertEquals;
-
-import de.monticore.lang.SDCocoTest;
-import de.se_rwth.commons.logging.Log;
 
 //public class CommonFileExtensionCocoTest extends SDCocoTest {
 //

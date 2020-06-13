@@ -1,6 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package de.monticore.lang.sdcore._ast;
+package de.monticore.lang.sdbasis._ast;
 
 import java.nio.file.Path;
 

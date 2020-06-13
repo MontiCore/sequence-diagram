@@ -1,11 +1,11 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package de.monticore.lang.sdcore._cocos;
+package de.monticore.lang.sdbasis._cocos;
 
 import com.google.common.collect.Sets;
 import de.monticore.lang.util.Duplicates;
-import de.monticore.lang.sdcore._ast.ASTObject;
-import de.monticore.lang.sdcore._ast.ASTSequenceDiagram;
+import de.monticore.lang.sdbasis._ast.ASTObject;
+import de.monticore.lang.sdbasis._ast.ASTSequenceDiagram;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.List;

@@ -1,6 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package de.monticore.lang.sd4code._cocos;
+package de.monticore.lang.sd4development._cocos;
 
 import static org.junit.Assert.assertEquals;
 

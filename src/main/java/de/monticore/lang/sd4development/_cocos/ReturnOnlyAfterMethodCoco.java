@@ -1,4 +1,4 @@
-package de.monticore.lang.sd4code._cocos;
+package de.monticore.lang.sd4development._cocos;
 
 import de.monticore.lang.sd4code._ast.ASTEndOfMethodInteraction;
 import de.monticore.lang.sd4code._ast.ASTMethodInvocationAction;
@@ -8,10 +8,10 @@ import de.monticore.lang.sd4code._visitor.SD4CodeInheritanceVisitor;
 import de.monticore.lang.sd4code._visitor.SD4CodeVisitor;
 import de.monticore.lang.sdbase._ast.ASTOrdinaryInteraction;
 import de.monticore.lang.sdbase._visitor.SDBaseVisitor;
-import de.monticore.lang.sdcore._ast.ASTInteraction;
-import de.monticore.lang.sdcore._ast.ASTInteractionEntity;
-import de.monticore.lang.sdcore._ast.ASTSDArtifact;
-import de.monticore.lang.sdcore._cocos.SDCoreASTSDArtifactCoCo;
+import de.monticore.lang.sdbasis._ast.ASTInteraction;
+import de.monticore.lang.sdbasis._ast.ASTInteractionEntity;
+import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.lang.sdbasis._cocos.SDCoreASTSDArtifactCoCo;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.HashSet;

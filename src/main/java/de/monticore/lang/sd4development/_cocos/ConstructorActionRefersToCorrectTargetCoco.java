@@ -1,15 +1,15 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package de.monticore.lang.sd4code._cocos;
+package de.monticore.lang.sd4development._cocos;
 
 
 import de.monticore.lang.sd4code._ast.ASTConstructorAction;
 import de.monticore.lang.sdbase._ast.ASTOrdinaryInteraction;
 import de.monticore.lang.sdbase._cocos.SDBaseASTOrdinaryInteractionCoCo;
-import de.monticore.lang.sdcore._ast.ASTAction;
-import de.monticore.lang.sdcore._ast.ASTInteractionEntity;
-import de.monticore.lang.sdcore._ast.ASTObject;
-import de.monticore.lang.sdcore._ast.ASTObjectInteractionEntity;
+import de.monticore.lang.sdbasis._ast.ASTAction;
+import de.monticore.lang.sdbasis._ast.ASTInteractionEntity;
+import de.monticore.lang.sdbasis._ast.ASTObject;
+import de.monticore.lang.sdbasis._ast.ASTObjectInteractionEntity;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.mcbasictypes._ast.ASTMCObjectType;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;

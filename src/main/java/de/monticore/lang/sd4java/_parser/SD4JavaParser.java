@@ -1,6 +1,6 @@
 package de.monticore.lang.sd4java._parser;
 
-import de.monticore.lang.sdcore._ast.ASTSDArtifact;
+import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 
 import java.io.IOException;
 import java.nio.file.Paths;

@@ -1,27 +1,28 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package de.monticore.lang.sdcore._cocos;
+package de.monticore.lang.sdbasis._cocos;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 import de.monticore.lang.SDCocoTest;
 import org.junit.jupiter.api.Test;
 
-public class SDNameIsArtifactNameCocoTest extends SDCocoTest {
+public class PackageNameIsFolderNameCocoTest extends SDCocoTest {
 
   @Override
   protected void initCoCoChecker() {
-    checker.addCoCo(new SDNameIsArtifactNameCoco());
+    checker.addCoCo(new PackageNameIsFolderNameCoco());
   }
 
   @Override
   protected Class<?> getCoCoUnderTest() {
-    return SDNameIsArtifactNameCoco.class;
+    return PackageNameIsFolderNameCoco.class;
   }
 
   @Test
   public void testCocoViolation() {
-    testCocoViolation("artifact_not_sd_name.sd", 0, 1);
+    testCocoViolation("wrong_package.sd", 1, 1);
   }
 
 }

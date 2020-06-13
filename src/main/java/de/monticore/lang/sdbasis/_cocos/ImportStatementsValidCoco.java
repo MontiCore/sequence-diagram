@@ -1,7 +1,7 @@
-package de.monticore.lang.sdcore._cocos;
+package de.monticore.lang.sdbasis._cocos;
 
-import de.monticore.lang.sdcore._ast.ASTSDArtifact;
-import de.monticore.lang.sdcore._symboltable.SDCoreArtifactScope;
+import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.lang.sdbasis._symboltable.SDCoreArtifactScope;
 import de.monticore.symboltable.ImportStatement;
 import de.se_rwth.commons.logging.Log;
 
