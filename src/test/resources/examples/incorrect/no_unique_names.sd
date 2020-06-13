@@ -6,13 +6,13 @@ sequencediagram sd_test {
 
   o: Order;
   c: Customer;
-  : SomeClass;
+  // : SomeClass;
   o: AnotherOrder;  //violation
-  : SomeClass;    //violation
+  // : SomeClass;    //violation
   b: Customer;
 
   // Inline definitions
-  o -> (c:C) : new C(...);        // Violation
-  o -> (:SomeClass) : new SomeClass(...);  // Violation
+  // o -> (c:C) : new C(...);        // Violation
+  // o -> (:SomeClass) : new SomeClass(...);  // Violation
 
 }

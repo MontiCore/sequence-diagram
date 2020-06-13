@@ -70,7 +70,7 @@ public class SDParserTest {
   private void testParseModel(String path, String model) {
     try {
       Optional<ASTSDArtifact> ast = parser.parse(path + model);
-      assertTrue(ast.isPresent());
+      assertTrue(ast.isPresent(), "Failed to parse model: " + model);
     } catch (IOException | NoSuchElementException e) {
       System.err.println("Loading model: " + model + " failed: " + e.getMessage());
       fail();

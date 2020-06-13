@@ -9,7 +9,7 @@ sequencediagram cocoviolation1 {
   b: B;
 
   // Return without previous call
-  a <-- b : return ...;
+  a <- b : return ...;
 
 
 
