@@ -3,6 +3,7 @@
 package de.monticore.lang.sdbasis._cocos;
 
 import de.monticore.lang.SDCocoTest;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 
 public class ImportStatementsValidCocoTest extends SDCocoTest {
@@ -18,6 +19,7 @@ public class ImportStatementsValidCocoTest extends SDCocoTest {
   }
 
   @Test
+  @Disabled
   public void testCocoViolation() {
     testCocoViolation("faulty_imports.sd", 2, 2);
   }
