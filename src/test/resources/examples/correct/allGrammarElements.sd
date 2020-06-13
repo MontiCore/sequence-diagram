@@ -12,7 +12,7 @@ sequencediagram allGrammarElements {
 
   // Offer -> Production
   o -> c : trigger sendConfirmation();
-  o <-- c : return;
+  o <- c : return;
   o -> o : orderParts();
   //<o: [state == Production]>
 
@@ -24,12 +24,12 @@ sequencediagram allGrammarElements {
   // Shipping -> Payment
   //java: {sendAllItems()}
   o -> c : sendInvoice(sum);
-  o <-- c : return;
+  o <- c : return;
   //<o: [state == payment]>
 
   // Payment -> Complete
   //java: {pay()}
   //<o: [state == complete]>
-  o -> (m : Mail) : new Mail();
+  //o -> (m : Mail) : new Mail();
 
 }

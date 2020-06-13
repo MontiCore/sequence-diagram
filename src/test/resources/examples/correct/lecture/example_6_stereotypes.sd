@@ -5,14 +5,14 @@ package examples.correct.lecture;
 sequencediagram example_6_stereotypes {
 
   // Interacting objects
-  :AuctionTest;
+  //:AuctionTest;
   kupfer912: Auction;
   bidPol: BiddingPolicy;
 
   // Interaction sequence
-  AuctionTest -> kupfer912 : trigger handleBid(bid);
+  // AuctionTest -> kupfer912 : trigger handleBid(bid);
   kupfer912 -> bidPol : validateBid(bid);
-  kupfer912 <-- bidPol : return BiddingPolicy.OK;
-  AuctionTest <-- kupfer912:;
+  kupfer912 <- bidPol : return BiddingPolicy.OK;
+  // AuctionTest <- kupfer912:;
 
 }

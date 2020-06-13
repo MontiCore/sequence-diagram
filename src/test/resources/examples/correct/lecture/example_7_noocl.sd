@@ -14,7 +14,7 @@ sequencediagram example_7_noocl {
   kupfer912 -> bidPol : validateBid(bid);
 
   kupfer912 -> timePol: newCurrentClosingTime(kupfer912, bid);
-  kupfer912 <-- timePol: return t;
+  kupfer912 <- timePol: return t;
 
 //  <timePol: [] >
 

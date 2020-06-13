@@ -16,16 +16,16 @@ sequencediagram example_2_interactions {
   a -> b : methodenname(...);
 
   // Returns
-  a <-- b : return Ergebnis;
-  a <-- b : return ...;
-  a <-- b : return;
-  a <-- b :;
+  a <- b : return Ergebnis;
+  a <- b : return ...;
+  a <- b : return;
+  a <- b :;
 
   // Exceptions
-  a <-- b : throw ExceptionTyp();
-  a <-- b : throw ExceptionTyp(arg);
-  a <-- b : throw ExceptionTyp(arg1, arg2);
-  a <-- b : throw ExceptionTyp;
-  a <-- b : throw ExceptionTyp(...);
+  a <- b : throw ExceptionTyp();
+  a <- b : throw ExceptionTyp(arg);
+  a <- b : throw ExceptionTyp(arg1, arg2);
+  a <- b : throw ExceptionTyp;
+  a <- b : throw ExceptionTyp(...);
 
 }
