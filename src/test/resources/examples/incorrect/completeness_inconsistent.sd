@@ -2,7 +2,7 @@
 
 package examples.incorrect;
 
-sequencediagram (C) example_completeness_and_stereotypes {
+(c) sequencediagram example_completeness_and_stereotypes {
 
   // Free
   a : A;
