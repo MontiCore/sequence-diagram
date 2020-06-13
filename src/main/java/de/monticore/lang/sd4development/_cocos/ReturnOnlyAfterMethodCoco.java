@@ -1,23 +1,20 @@
 package de.monticore.lang.sd4development._cocos;
 
-import de.monticore.lang.sd4code._ast.ASTEndOfMethodInteraction;
-import de.monticore.lang.sd4code._ast.ASTMethodInvocationAction;
-import de.monticore.lang.sd4code._ast.ASTReturnAction;
-import de.monticore.lang.sd4code._visitor.SD4CodeDelegatorVisitor;
-import de.monticore.lang.sd4code._visitor.SD4CodeInheritanceVisitor;
-import de.monticore.lang.sd4code._visitor.SD4CodeVisitor;
-import de.monticore.lang.sdbase._ast.ASTOrdinaryInteraction;
-import de.monticore.lang.sdbase._visitor.SDBaseVisitor;
-import de.monticore.lang.sdbasis._ast.ASTInteraction;
-import de.monticore.lang.sdbasis._ast.ASTInteractionEntity;
+
+import de.monticore.lang.sd4development._ast.ASTSDEndCall;
+import de.monticore.lang.sd4development._ast.ASTSDReturn;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentInheritanceVisitor;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.monticore.lang.sdbasis._cocos.SDCoreASTSDArtifactCoCo;
+import de.monticore.lang.sdbasis._ast.ASTSDInteraction;
+import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
+import de.monticore.lang.sdbasis._cocos.SDBasisASTSDArtifactCoCo;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.HashSet;
 import java.util.Set;
 
-public class ReturnOnlyAfterMethodCoco implements SDCoreASTSDArtifactCoCo {
+public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
 
   static final String MESSAGE = ReturnOnlyAfterMethodCoco.class.getSimpleName() + ": " +
           "Return '%s' occurs without previous call from '%s' to '%s'.";
@@ -28,40 +25,40 @@ public class ReturnOnlyAfterMethodCoco implements SDCoreASTSDArtifactCoCo {
     node.accept(visitor);
   }
 
-  private static final class ReturnOnlyAfterMethodCocoVisitor implements SD4CodeInheritanceVisitor {
+  private static final class ReturnOnlyAfterMethodCocoVisitor implements SD4DevelopmentInheritanceVisitor {
 //    private final SDPrettyPrinter pp = new SDPrettyPrinter();
 
-    private final Set<ASTInteraction> openMethodCalls = new HashSet<>();
+    private final Set<ASTSDInteraction> openMethodCalls = new HashSet<>();
 
     private boolean isReturnInteraction = false;
 
-    private SD4CodeVisitor realThis = this;
+    private SD4DevelopmentVisitor realThis = this;
 
     @Override
-    public SD4CodeVisitor getRealThis() {
+    public SD4DevelopmentVisitor getRealThis() {
       return realThis;
     }
 
     @Override
-    public void setRealThis(SD4CodeVisitor realThis) {
+    public void setRealThis(SD4DevelopmentVisitor realThis) {
       this.realThis = realThis;
     }
 
     @Override
-    public void visit(ASTOrdinaryInteraction node) {
+    public void visit(ASTSDSendMessage node) {
       openMethodCalls.add(node);
     }
 
     @Override
-    public void visit(ASTReturnAction node) {
+    public void visit(ASTSDReturn node) {
       isReturnInteraction = true;
     }
 
     @Override
-    public void endVisit(ASTEndOfMethodInteraction node) {
+    public void endVisit(ASTSDEndCall node) {
       if (isReturnInteraction) {
         isReturnInteraction = false;
-        for (ASTInteraction interaction : openMethodCalls) {
+        for (ASTSDInteraction interaction : openMethodCalls) {
           if (doInteractionsMatch(node, interaction)) {
             openMethodCalls.remove(interaction);
             return;
@@ -69,23 +66,23 @@ public class ReturnOnlyAfterMethodCoco implements SDCoreASTSDArtifactCoCo {
         }
         //TODO replace toString by prettyPrinter
         String nodeAsString = node.toString();
-        String targetAsString = node.isPresentTarget() ? node.getTarget().toString() : "";
-        String sourceAsString = node.isPresentSource() ? node.getSource().toString() : "";
+        String targetAsString = node.isPresentSDTarget() ? node.getSDTarget().toString() : "";
+        String sourceAsString = node.isPresentSDSource() ? node.getSDSource().toString() : "";
         Log.warn(String.format(MESSAGE, nodeAsString, targetAsString, sourceAsString),//pp.prettyPrint(node), pp.prettyPrint(node.getTarget(), pp.prettyPrint(node.getSource()))),
                 node.get_SourcePositionStart());
       }
     }
 
-    private boolean doInteractionsMatch(ASTInteraction e1, ASTInteraction e2) {
-      if (e1.isPresentSource() != e2.isPresentTarget() || e1.isPresentTarget() != e2.isPresentSource()) {
+    private boolean doInteractionsMatch(ASTSDInteraction e1, ASTSDInteraction e2) {
+      if (e1.isPresentSDSource() != e2.isPresentSDTarget() || e1.isPresentSDTarget() != e2.isPresentSDSource()) {
         return false;
       }
       boolean result = true;
-      if (e1.isPresentSource() && e2.isPresentTarget()) {
-        result = e1.getSource().deepEquals(e2.getTarget());
+      if (e1.isPresentSDSource() && e2.isPresentSDTarget()) {
+        result = e1.getSDSource().deepEquals(e2.getSDTarget());
       }
-      if (e1.isPresentTarget() && e2.isPresentSource()) {
-        result &= e1.getTarget().deepEquals(e2.getSource());
+      if (e1.isPresentSDTarget() && e2.isPresentSDSource()) {
+        result &= e1.getSDTarget().deepEquals(e2.getSDSource());
       }
       return result;
     }

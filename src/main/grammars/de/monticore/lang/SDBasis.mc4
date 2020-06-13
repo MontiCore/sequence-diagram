@@ -42,7 +42,7 @@ component grammar SDBasis extends
    * and contains the definition of exactly one SD.
    */
   SDArtifact =
-    ("package" MCQualifiedName& ";")?
+    ("package" packageDeclaration:MCQualifiedName& ";")?
     MCImportStatement*
     SequenceDiagram;
 

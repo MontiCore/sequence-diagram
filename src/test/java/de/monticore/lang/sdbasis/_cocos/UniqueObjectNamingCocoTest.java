@@ -2,10 +2,7 @@
 
 package de.monticore.lang.sdbasis._cocos;
 
-import static org.junit.Assert.assertEquals;
-
 import de.monticore.lang.SDCocoTest;
-import de.monticore.lang.sd4java._cocos.SD4JavaCoCoChecker;
 import org.junit.jupiter.api.Test;
 
 public class UniqueObjectNamingCocoTest extends SDCocoTest {

@@ -2,9 +2,6 @@
 
 package de.monticore.lang.sdbasis._cocos;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
-
 import de.monticore.lang.SDCocoTest;
 import org.junit.jupiter.api.Test;
 

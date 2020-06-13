@@ -2,38 +2,29 @@
 
 package de.monticore.lang.sd4development._cocos;
 
-
-import de.monticore.lang.sd4code._ast.ASTClassInteractionEntity;
-import de.monticore.lang.sd4code._ast.ASTMethodInvocationAction;
-import de.monticore.lang.sdbase._ast.ASTOrdinaryInteraction;
-import de.monticore.lang.sdbase._cocos.SDBaseASTOrdinaryInteractionCoCo;
-import de.monticore.lang.sdbasis._ast.ASTAction;
-import de.monticore.lang.sdbasis._ast.ASTInteractionEntity;
-import de.monticore.lang.sdbasis._ast.ASTObjectInteractionEntity;
+import de.monticore.lang.sd4development._ast.ASTSDCall;
+import de.monticore.lang.sd4development._ast.ASTSDClassTarget;
+import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
+import de.monticore.lang.sdbasis._cocos.SDBasisASTSDSendMessageCoCo;
 import de.se_rwth.commons.logging.Log;
 
-public class MethodActionRefersToCorrectTargetCoco implements SDBaseASTOrdinaryInteractionCoCo {
+public class MethodActionRefersToCorrectTargetCoco implements SDBasisASTSDSendMessageCoCo {
 
-    final static String MESSAGE_ERROR_REFERS_TO_OBJECT =  ReturnOnlyAfterMethodCoco.class.getSimpleName() + ": "
-            +"Method call must refer to an class";
-    final static String MESSAGE_ERROR_REFERS_TO_CLASS =  ReturnOnlyAfterMethodCoco.class.getSimpleName() + ": "
-            + "Method call must refer to an object";
-    @Override
-    public void check(ASTOrdinaryInteraction interaction) {
-        if(!interaction.isPresentTarget()) {
-            return;
-        }
-        ASTInteractionEntity target = interaction.getTarget();
-        ASTAction action = interaction.getAction();
-        if(!(action instanceof ASTMethodInvocationAction)) {
-            return;
-        }
-        ASTMethodInvocationAction methodInvocationAction = (ASTMethodInvocationAction) action;
-        if(methodInvocationAction.isStatic() && target instanceof ASTObjectInteractionEntity) {
-            Log.error(MESSAGE_ERROR_REFERS_TO_OBJECT);
-        }
-        else if((!methodInvocationAction.isStatic()) && target instanceof ASTClassInteractionEntity) {
-            Log.error(MESSAGE_ERROR_REFERS_TO_CLASS);
-        }
+  static final String MESSAGE_ERROR_REFERS_TO_ = MethodActionRefersToCorrectTargetCoco.class.getSimpleName() + ": "
+          + "Method call must refer to an %s";
+
+  @Override
+  public void check(ASTSDSendMessage node) {
+    if (!node.isPresentSDTarget()) {
+      return;
     }
+    if (!(node.getSDAction() instanceof ASTSDCall)) {
+      return;
+    }
+    ASTSDCall sdCall = (ASTSDCall) node.getSDAction();
+    if (sdCall.isStatic() != node.getSDTarget() instanceof ASTSDClassTarget) {
+      String refersTo = sdCall.isStatic() ? "object" : "class";
+      Log.error(String.format(MESSAGE_ERROR_REFERS_TO_, refersTo), node.get_SourcePositionStart());
+    }
+  }
 }

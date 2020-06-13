@@ -4,7 +4,7 @@ import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.utils.Names;
 import de.se_rwth.commons.logging.Log;
 
-public class PackageNameIsFolderNameCoco implements SDCoreASTSDArtifactCoCo {
+public class PackageNameIsFolderNameCoco implements SDBasisASTSDArtifactCoCo {
 
   static final String MESSAGE = PackageNameIsFolderNameCoco.class.getSimpleName() + ": " +
           "Package name '%s' does not correspond to the file path '%s'.";

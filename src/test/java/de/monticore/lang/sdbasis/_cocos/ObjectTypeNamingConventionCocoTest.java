@@ -5,18 +5,16 @@ package de.monticore.lang.sdbasis._cocos;
 import de.monticore.lang.SDCocoTest;
 import org.junit.jupiter.api.Test;
 
-import static org.junit.Assert.assertEquals;
-
 public class ObjectTypeNamingConventionCocoTest extends SDCocoTest {
 
   @Override
   protected void initCoCoChecker() {
-    checker.addCoCo(new ObjectNameNamingConventionCoco());
+    checker.addCoCo(new ObjectTypeNamingConventionCoco());
   }
 
   @Override
   protected Class<?> getCoCoUnderTest() {
-    return ObjectNameNamingConventionCoco.class;
+    return ObjectTypeNamingConventionCoco.class;
   }
 
   @Test

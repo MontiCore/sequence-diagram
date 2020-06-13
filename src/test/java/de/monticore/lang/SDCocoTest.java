@@ -2,7 +2,7 @@
 
 package de.monticore.lang;
 
-import de.monticore.lang.sd4java._cocos.SD4JavaCoCoChecker;
+import de.monticore.lang.sd4development._cocos.SD4DevelopmentCoCoChecker;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.se_rwth.commons.logging.Log;
@@ -25,7 +25,7 @@ public abstract class SDCocoTest {
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
-  protected SD4JavaCoCoChecker checker;
+  protected SD4DevelopmentCoCoChecker checker;
 
   public SDCocoTest() {
     Log.enableFailQuick(false);
@@ -33,7 +33,7 @@ public abstract class SDCocoTest {
 
   @BeforeEach
   public void setup() {
-    this.checker = new SD4JavaCoCoChecker();
+    this.checker = new SD4DevelopmentCoCoChecker();
     initCoCoChecker();
   }
 

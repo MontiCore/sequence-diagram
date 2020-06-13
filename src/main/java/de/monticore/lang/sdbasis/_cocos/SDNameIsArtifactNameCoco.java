@@ -6,7 +6,7 @@ import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.io.FilenameUtils;
 
-public class SDNameIsArtifactNameCoco implements SDCoreASTSDArtifactCoCo {
+public class SDNameIsArtifactNameCoco implements SDBasisASTSDArtifactCoCo {
 
   static final String MESSAGE = SDNameIsArtifactNameCoco.class.getSimpleName() + ": " +
         "The sequence diagram name %s does not match the artifact name %s";

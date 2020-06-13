@@ -59,7 +59,7 @@ grammar SD4Development extends
    * and is open to the tool developer.
    */
   SDNew implements SDAction =
-    "new" MCQualifiedName Arguments?;
+    "new" MCObjectType Arguments?;
 
   /*
    * Actions for returns.
