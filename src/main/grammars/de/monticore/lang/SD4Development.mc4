@@ -1,0 +1,128 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore.lang;
+
+/* This is a MontiCore stable grammar.
+ * Adaptations -- if any -- are conservative. */
+
+/*
+ * This grammar defines a textual representation of UML/P sequence
+ * diagrams (SDs). UML/P SDs are especially suited for the modeling
+ * of tests.
+ *
+ * UML/P sequence diagrams are defined in detail in the following books:
+ *
+ * [Rum16] B. Rumpe: Modeling with UML:
+ * Language, Concepts, Methods. Springer International, July 2016.
+ *
+ * [Rum17] B. Rumpe: Agile Modeling with UML:
+ * Code Generation, Testing, Refactoring. Springer International, May 2017.
+ *
+ * see also: http://mbse.se-rwth.de/
+ *
+ * This grammar extends the grammar SDBasis with advanced concepts used in
+ * object-oriented programming and embends OCL for defining local variables
+ * and stating conditions.
+ * This grammar defines the syntax for
+ *  * actions representing method calls,
+ *  * actions representing constructor calls,
+ *  * actions representing returns,
+ *  * actions representing the throw of an exception,
+ *  * interactions representing the end of method calls,
+ *  * classes as targets of interactions to model static method calls,
+ *  * ocl conditions, and
+ *  * local variable declarations.
+ *
+ * This grammar extends the grammar
+ *  * SDBasis to reuse the basic constituents of SDs,
+ *  * MCCommonLiterals to be able to common literals in expressions.
+ *  * OCLExpressions for embedding OCL expressions as conditions and to
+ *  * be able to use expressions for the definition of local variables.
+ */
+grammar SD4Development extends 
+                  de.monticore.lang.SDBasis,
+                  de.monticore.literals.MCCommonLiterals,
+                  de.monticore.expressions.OCLExpressions {
+
+  start SDArtifact;
+
+  /*
+   * Actions for a triggering message.
+   * Triggers are used e.g. in tests to start the test execution
+   * (as opposed to normal interactions that are observations)
+   */
+  SDCall implements SDAction =
+    [key("trigger")]? ["static"]? Name Arguments?;
+
+  /*
+   * Actions for creation of a new object.
+   * This may also hint towards a Builder/Factory call in the implementation:
+   * and is open to the tool developer.
+   */
+  SDNew implements SDAction =
+    "new" MCQualifiedName Arguments?;
+
+  /*
+   * Actions for returns.
+   * This allows "return", "return 5", and "return ..." for an 
+   * unspecified value
+   */
+  SDReturn implements SDAction =
+    ("return" Expression?)?;
+
+  /*
+   * Actions for exceptions,
+   * which in this context can be interpreted as special 
+   * form of "return"
+   */
+  SDThrow implements SDAction =
+    "throw" MCQualifiedName Arguments?;
+
+  /*
+   * Interactions ending calls:
+   * i.d. the arrow shows that a return comes (the return statement can
+   * but need not be given explicitly)
+   */
+  SDEndCall implements SDInteraction =
+    SDTarget? SDEndCallArrow
+    SDSource?
+    ":" SDAction ";";
+
+  SDEndCallArrow = {noSpace(2)}? "<" "-";
+
+  /**
+   * SDIncompleteExpression is introduced to enable modeling of
+   * incomplete specifications of arguments, for example, used in
+   * method invocations, exceptions, returns, etc.
+   */
+  SDIncompleteExpression implements Expression = "...";
+
+  /**
+   * SDClassTarget enables using classes as the targets of interactions.
+   * This enables modeling the invocation of static methods.
+   */
+  SDClassTarget implements SDTarget =
+    "class" MCObjectType;
+
+  /*
+   * Required extensions for OCL externals
+   * These externals must be overriden because otherwise this grammar
+   * had to be a component grammar.
+   * EDeclarations define Variable symbols.
+   */
+  EDeclaration implements Variable = MCType Name "=" assignment:Expression;
+  ExtType = MCObjectType;
+
+  /*
+   * Conditions that can be stated between interactions in SDs.
+   * With this grammar, OCL expressions are possible.
+   */
+  SDCondition implements SDElement =
+    key("assert") Expression ";";
+
+  /*
+   * Declarations of variables between interactions in SDs.
+   * Variable declarations define variable symbols.
+   */
+  SDVariableDeclaration implements SDElement, Variable =
+    key("let") MCType Name "=" assignment:Expression ";";
+}

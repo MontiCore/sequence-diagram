@@ -1,0 +1,162 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore.lang;
+
+/* This is a MontiCore stable grammar.
+ * Adaptations -- if any -- are conservative. */
+
+/*
+ * This grammar contains the basic constituents to define textual
+ * representations of UML/P sequence diagrams (SDs).
+ * UML/P SDs are especially suited for the modeling of tests.
+ *
+ * UML/P sequence diagrams are defined in detail in the following books:
+ *
+ * [Rum16] B. Rumpe: Modeling with UML:
+ * Language, Concepts, Methods. Springer International, July 2016.
+ *
+ * [Rum17] B. Rumpe: Agile Modeling with UML:
+ * Code Generation, Testing, Refactoring. Springer International, May 2017.
+ *
+ * see also: http://mbse.se-rwth.de/
+ *
+ * This grammar defines the syntax for SD artifacts, SDs, SD match modifiers,
+ * objects, and interactions for sending messages.
+ *
+ * This grammar extends the grammar
+ *  * MCBasicTypes for adding the possibility to define objects typed
+ *    as MCObjectTypes.
+ *  * BasicTypeSymbols to be able to use symbols of kind Variable.
+ *    Objects and local variables are added as variable symbols to the
+ *    symbol table.
+ *  * UMLStereotype for adding UMLStereotypes as possible extension points
+ *    to the grammar.
+ */
+component grammar SDBasis extends 
+                  de.monticore.types.MCBasicTypes,
+                  de.monticore.types.BasicTypeSymbols,
+                  de.monticore.UMLStereotype {
+
+  /*
+   * Sequence diagram artifacts.
+   * Each sequence diagram artifact has a package, may import other artifacts,
+   * and contains the definition of exactly one SD.
+   */
+  SDArtifact =
+    ("package" MCQualifiedName& ";")?
+    MCImportStatement*
+    SequenceDiagram;
+
+  /*
+   * SDs can be tagged with stereotypes and SDModifiers. Every SD has a name
+   * and defines a scope as well as a symbol. SDs define objects and contain
+   * a body.
+   */
+  symbol scope SequenceDiagram =
+    Stereotype? SDModifier* "sequencediagram" Name "{"
+      SDObject*
+      SDBody
+    "}";
+
+  /*
+   *  SDBody opens a scope for local variables and objects defined in the SD.
+   *
+   * SDBody is only used once per SD, because the visibility of local
+   * variables in the SD is a flat namespace
+   */
+  scope SDBody = SDElement*;
+
+  /*
+   * Match modifiers for sequence diagrams and objects.
+   *
+   * They are used to improve the possible use of sequence diagrams.
+   * See [Rum17] B. Rumpe: Agile Modeling with UML: 
+   * Code Generation, Testing, Refactoring. Springer International, May 2017. 
+   * or also: http://mbse.se-rwth.de/
+   */
+   interface SDModifier;
+
+   /*
+    *  The complete match modifier.
+    */
+   SDCompleteModifier implements SDModifier =
+     {noSpace(2,3)}? "(" key("c") ")" | key("complete");
+
+   /*
+    *  The free match modifier.
+    */
+   SDFreeModifier implements SDModifier =
+     "..." | key("free");
+
+   /*
+    *  The initial match modifier.
+    */
+   SDInitialModifier implements SDModifier =
+     key("initial");
+
+   /*
+    *  The visible match modifier.
+    */
+   SDVisibleModifier implements SDModifier =
+     key("visible");
+
+  /**
+   * Object definition introducing a new object in form of
+   * a VariableSymbol (by implementing Variable).
+   *
+   * Sequence diagrams in graphical notation allow to introduce
+   * anonymous objects. Unfortunately in a textual notation object
+   * names are needed to refer to the object as source or target
+   * of an interaction. The use of anonymous objects is therefore
+   * not possible with this grammar.
+   */
+  SDObject implements Variable =
+    Stereotype? SDModifier* Name (":" MCObjectType)? ";";
+
+  /**
+   * Extension point for construct defined in a sequence diagram,
+   * including invariants and interactions
+   */
+  interface SDElement;
+
+  /*
+   * Extension point for Interactions.
+   * To enable a uniform handling of interactions, the nonterminals
+   * "source" defining the source of the interaction, 
+   * "target" defining its target, and 
+   * "action" for the action are defined here 
+   * (without concrete syntactic order).
+   */
+  interface SDInteraction extends SDElement =
+    SDSource? SDTarget? SDAction;
+
+  /*
+   * Possible sources of interactions.
+   */
+  interface SDSource;
+  SDObjectSource implements SDSource = Name@Variable;
+
+  /*
+   * Possible targets of interactions.
+   */
+  interface SDTarget;
+  SDObjectTarget implements SDTarget = Name@Variable;
+
+  /**
+   * Extension point: form of actions.
+   * this contains the action part of an interaction, but 
+   * not sender and receiver.
+   */
+  interface SDAction;
+
+  /*
+   * Sending messages: the most common interaction.
+   * Including the curly brackets starts an activity bar on the
+   * lifeline of the target object. The activity bar ends with the
+   * closing curly bracket.
+   * 
+   * The brackets do not open a new scope.
+   */
+  SDSendMessage implements SDInteraction =
+    SDSource? "->" SDTarget? ":" SDAction (";" | "{" SDElement* "}");
+    
+}
