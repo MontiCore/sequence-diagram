@@ -3,7 +3,7 @@
 package de.monticore.lang;
 
 import de.monticore.lang.sd4java._cocos.SD4JavaCoCoChecker;
-import de.monticore.lang.sd4java._parser.SD4JavaParser;
+import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.AfterEach;
@@ -23,7 +23,7 @@ public abstract class SDCocoTest {
   private final static String CORRECT_PATH = "src/test/resources/examples/correct/";
   protected final static String INCORRECT_PATH = "src/test/resources/examples/incorrect/";
 
-  private final SD4JavaParser parser = new SD4JavaParser();
+  private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
   protected SD4JavaCoCoChecker checker;
 
