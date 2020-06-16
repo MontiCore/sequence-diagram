@@ -3,7 +3,7 @@
 package de.monticore.lang.sd4development._cocos;
 
 import de.monticore.lang.sd4development._ast.ASTSDCall;
-import de.monticore.lang.sd4development._ast.ASTSDClassTarget;
+import de.monticore.lang.sd4development._ast.ASTSDClass;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDSendMessageCoCo;
 import de.se_rwth.commons.logging.Log;
@@ -22,7 +22,7 @@ public class MethodActionRefersToCorrectTargetCoco implements SDBasisASTSDSendMe
       return;
     }
     ASTSDCall sdCall = (ASTSDCall) node.getSDAction();
-    if (sdCall.isStatic() != node.getSDTarget() instanceof ASTSDClassTarget) {
+    if (sdCall.isStatic() != node.getSDTarget() instanceof ASTSDClass) {
       String refersTo = sdCall.isStatic() ? "object" : "class";
       Log.error(String.format(MESSAGE_ERROR_REFERS_TO_, refersTo), node.get_SourcePositionStart());
     }
