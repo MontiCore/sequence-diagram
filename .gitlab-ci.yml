@@ -12,8 +12,8 @@ cache:
   key: ${CI_COMMIT_REF_SLUG}
 
 before_script:
+  - chmod +x gradlew
   - export GRADLE_USER_HOME=`pwd`/.gradle
-
 
 stages:
   - build
@@ -22,24 +22,19 @@ stages:
 
 build:
   stage: build
-  script: gradle --build-cache assemble
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: push
+  script:
+    - "./gradlew assemble --refresh-dependencies $GRADLE_OPT $ARGS1"
+  artifacts:
     paths:
-      - build
-      - .gradle
-
+      - "."
+    expire_in: 1 week
 
 test:
   stage: test
-  script: gradle check
-  cache:
-    key: "$CI_COMMIT_REF_NAME"
-    policy: pull
-    paths:
-      - build
-      - .gradle
+  dependencies:
+    - build
+  script:
+    - "./gradlew check $GRADLE_OPT $ARGS2"
 
 #deploy:
 #  stage: deploy

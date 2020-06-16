@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-pluginManagement {
+/* pluginManagement {
     repositories {
         mavenLocal()
         maven {
@@ -9,6 +9,6 @@ pluginManagement {
         }
         gradlePluginPortal()
     }
-}
+} */
 
 rootProject.name = 'sd-language'
