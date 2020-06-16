@@ -63,8 +63,8 @@ grammar SD4Development extends
    */
   SDNew implements SDInteraction, Variable =
     SDSource? "->"
-    MCObjectType Name "="
-    "new" MCObjectType Arguments (";" | SDActivityBar);
+    declarationType:MCObjectType Name "="
+    "new" initializationType:MCObjectType Arguments (";" | SDActivityBar);
 
   /*
    * Actions for returns.
