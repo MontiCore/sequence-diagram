@@ -3,8 +3,6 @@
 package de.monticore.lang.sd4development._cocos;
 
 import de.monticore.lang.sd4development._ast.ASTSDNew;
-import de.monticore.lang.sdbasis._ast.ASTSDObjectTarget;
-import de.monticore.lang.sdbasis._cocos.SDBasisASTSDSendMessageCoCo;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
