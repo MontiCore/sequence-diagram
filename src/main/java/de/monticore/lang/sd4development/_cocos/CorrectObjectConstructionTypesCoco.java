@@ -7,14 +7,14 @@ import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
-public class CorrectObjectConstructionCoco implements SD4DevelopmentASTSDNewCoCo {
+public class CorrectObjectConstructionTypesCoco implements SD4DevelopmentASTSDNewCoCo {
 
-  static final String MESSAGE_ERROR_INCOMPATIBLE_TYPES = CorrectObjectConstructionCoco.class.getSimpleName() + ": " +
+  static final String MESSAGE_ERROR_INCOMPATIBLE_TYPES = CorrectObjectConstructionTypesCoco.class.getSimpleName() + ": " +
           "Incompatible types. Required %s but found %s.";
 
   private final MCBasicTypesPrettyPrinter prettyPrinter;
 
-  public CorrectObjectConstructionCoco() {
+  public CorrectObjectConstructionTypesCoco() {
     this.prettyPrinter = new MCBasicTypesPrettyPrinter(new IndentPrinter());
   }
 
