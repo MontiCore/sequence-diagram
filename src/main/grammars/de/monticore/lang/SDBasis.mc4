@@ -120,14 +120,8 @@ component grammar SDBasis extends
 
   /*
    * Extension point for Interactions.
-   * To enable a uniform handling of interactions, the nonterminals
-   * "source" defining the source of the interaction, 
-   * "target" defining its target, and 
-   * "action" for the action are defined here 
-   * (without concrete syntactic order).
    */
-  interface SDInteraction extends SDElement =
-    SDSource? SDTarget? SDAction;
+  interface SDInteraction extends SDElement;
 
   /*
    * Possible sources of interactions.
@@ -150,13 +144,16 @@ component grammar SDBasis extends
 
   /*
    * Sending messages: the most common interaction.
-   * Including the curly brackets starts an activity bar on the
-   * lifeline of the target object. The activity bar ends with the
-   * closing curly bracket.
-   * 
-   * The brackets do not open a new scope.
+   * Including SDActivityBar starts an activity bar on the
+   * lifeline of the target object.
    */
   SDSendMessage implements SDInteraction =
-    SDSource? "->" SDTarget? ":" SDAction (";" | "{" SDElement* "}");
-    
+    SDSource? "->" SDTarget? ":" SDAction (";" | SDActivityBar);
+
+  /*
+   * Activity bars.
+   * The activity bar ends at the closing curly bracket.
+   * The brackets do not open a new scope.
+   */
+  SDActivityBar = "{" SDElement* "}";
 }

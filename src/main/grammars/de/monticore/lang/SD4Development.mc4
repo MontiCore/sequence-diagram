@@ -54,12 +54,17 @@ grammar SD4Development extends
     [key("trigger")]? ["static"]? Name Arguments?;
 
   /*
-   * Actions for creation of a new object.
+   * Creation of a new object.
    * This may also hint towards a Builder/Factory call in the implementation:
    * and is open to the tool developer.
+   *
+   * Including SDActivityBar starts an activity bar on the
+   * lifeline of the instantiated object.
    */
-  SDNew implements SDAction =
-    "new" MCQualifiedName Arguments?;
+  SDNew implements SDInteraction, Variable =
+    SDSource? "->"
+    MCObjectType Name "="
+    "new" MCObjectType Arguments (";" | "{" SDElement* "}");
 
   /*
    * Actions for returns.
@@ -79,7 +84,7 @@ grammar SD4Development extends
 
   /*
    * Interactions ending calls:
-   * i.d. the arrow shows that a return comes (the return statement can
+   * i.e. the arrow shows that a return comes (the return statement can
    * but need not be given explicitly)
    */
   SDEndCall implements SDInteraction =
