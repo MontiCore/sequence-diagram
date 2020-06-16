@@ -64,7 +64,7 @@ grammar SD4Development extends
   SDNew implements SDInteraction, Variable =
     SDSource? "->"
     MCObjectType Name "="
-    "new" MCObjectType Arguments (";" | "{" SDElement* "}");
+    "new" MCObjectType Arguments (";" | SDActivityBar);
 
   /*
    * Actions for returns.
@@ -80,7 +80,7 @@ grammar SD4Development extends
    * form of "return"
    */
   SDThrow implements SDAction =
-    "throw" MCQualifiedName Arguments?;
+    "throw" MCObjectType Arguments?;
 
   /*
    * Interactions ending calls:
@@ -105,7 +105,7 @@ grammar SD4Development extends
    * SDClassTarget enables using classes as the targets of interactions.
    * This enables modeling the invocation of static methods.
    */
-  SDClassTarget implements SDTarget =
+  SDClass implements SDSource, SDTarget =
     "class" MCObjectType;
 
   /*
