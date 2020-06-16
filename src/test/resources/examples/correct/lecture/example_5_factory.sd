@@ -11,7 +11,7 @@ sequencediagram example_5_factory {
 
   // Factory call
   kupfer912 -> f : getNewBidMessage(...);
-  f -> bm : new BidMessage(...);
+  f -> BidMessage bm = new BidMessage(...);
   kupfer912 <- f : return bm;
 
 

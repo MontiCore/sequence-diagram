@@ -13,7 +13,7 @@ sequencediagram violated_naming_conventions {
   Object;
 
   //Constructor call
-  kupfer912 -> bm1 : new BidMessage(...);
+  kupfer912 -> BidMessage bm1 = new BidMessage(...);
 //  kupfer912 -> (bm2:BidMessage) : new BidMessage(...);
 //  kupfer912 -> (Bm3:BidMessage) : new BidMessage(...);
 //  kupfer912 -> (bm4:bidMessage) : new BidMessage(...);
