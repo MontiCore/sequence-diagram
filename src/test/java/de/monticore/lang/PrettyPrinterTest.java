@@ -48,8 +48,7 @@ public class PrettyPrinterTest  {
             String printed = pp.prettyprint(parsed);
             String expected = readFile(CORRECT_PATH, model);
             String actual = pp.getResult();
-            System.out.println(printed);
-            //assertEquals(expected, actual);
+            assertEquals(expected, printed);
         }
     }
     private ASTSDArtifact testParseModel(String path, String model) {

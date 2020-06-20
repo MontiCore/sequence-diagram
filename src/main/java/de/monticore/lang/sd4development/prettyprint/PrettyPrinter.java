@@ -3,21 +3,20 @@ package de.monticore.lang.sd4development.prettyprint;
 import de.monticore.MCCommonLiteralsPrettyPrinter;
 import de.monticore.expressions.expressionsbasis._ast.ASTArguments;
 import de.monticore.expressions.expressionsbasis._ast.ASTNameExpression;
-import de.monticore.lang.sd4development._ast.ASTSDCall;
-import de.monticore.lang.sd4development._ast.ASTSDClass;
-import de.monticore.lang.sd4development._ast.ASTSDEndCall;
+import de.monticore.lang.sd4development._ast.*;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
 import de.monticore.lang.sdbasis._ast.*;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCObjectType;
+import de.monticore.types.mcbasictypes._visitor.MCBasicTypesVisitor;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.monticore.umlstereotype._ast.ASTStereotype;
 
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4DevelopmentVisitor {
+public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4DevelopmentVisitor, MCBasicTypesVisitor {
 
     private SD4DevelopmentVisitor realThis = this;
     private String result = "";
@@ -48,20 +47,32 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
     public void visit(ASTSDArtifact node) {
         getPrinter().println("package " + node.getPackageDeclaration().getQName() + ";");
     }
+
+    @Override
+    public void endVisit(ASTSequenceDiagram node) {
+        getPrinter().unindent();
+        getPrinter().println("}");
+    }
     @Override
     public void visit(ASTMCImportStatement node) {
+    }
+    //TODO: das hier funktioniert leider nicht ....hab ich jetzt anders gelöst...
+    @Override
+    public void visit(ASTMCObjectType node) {
+
     }
     @Override
     public void visit(ASTSequenceDiagram node) {
         getPrinter().println(printSterotypeIP(node) + " " + printModifierIP(node) + " sequencediagram " + node.getName() + " {");
-        getPrinter().indent();
+       // getPrinter().indent();
     }
     @Override
     public void visit(ASTSDObject node) {
         getPrinter().println(printSterotypeIP(node) + " "
                 + printModifierIP(node) + " "
                 + node.getName()
-                + printTypeOfObjectIP(node));
+                + printTypeOfObjectIP(node)
+                + ";");
     }
 
     @Override
@@ -76,6 +87,30 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
         getPrinter().print(" : ");
         if (null != node.getSDAction()) {
             node.getSDAction().accept(getRealThis());
+        }
+        if (node.isPresentSDActivityBar()) {
+            node.getSDActivityBar().accept(getRealThis());
+        } else {
+            getPrinter().print(";");
+        }
+        getPrinter().println();
+    }
+    @Override
+    public void traverse(ASTSDNew node) {
+        if (node.isPresentSDSource()) {
+            node.getSDSource().accept(getRealThis());
+        }
+        getPrinter().print(" -> ");
+        if (null != node.getDeclarationType()) {
+            node.getDeclarationType().accept(getRealThis());
+        }
+        getPrinter().print(getMCObjectTypeName(node.getDeclarationType()) + " " + node.getName());
+        if (null != node.getInitializationType()) {
+            node.getInitializationType().accept(getRealThis());
+        }
+        getPrinter().print(" = new " + getMCObjectTypeName(node.getInitializationType()));
+        if (null != node.getArguments()) {
+            node.getArguments().accept(getRealThis());
         }
         if (node.isPresentSDActivityBar()) {
             node.getSDActivityBar().accept(getRealThis());
@@ -123,6 +158,10 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
     @Override
     public void visit(ASTNameExpression node) {
         getPrinter().print(node.getName());
+    }
+    @Override
+    public void visit(ASTSDIncompleteExpression node) {
+        getPrinter().print("...");
     }
 
     public void visit(ASTSDObjectSource node) {
