@@ -1,7 +1,12 @@
 package de.monticore.lang.sd4development.prettyprint;
 
+import de.monticore.MCCommonLiteralsPrettyPrinter;
+import de.monticore.expressions.expressionsbasis._ast.ASTArguments;
+import de.monticore.expressions.expressionsbasis._ast.ASTNameExpression;
+import de.monticore.lang.sd4development._ast.ASTSD4DevelopmentNode;
+import de.monticore.lang.sd4development._ast.ASTSDCall;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
 import de.monticore.lang.sdbasis._ast.*;
-import de.monticore.lang.sdbasis._visitor.SDBasisVisitor;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCObjectType;
@@ -11,20 +16,28 @@ import de.monticore.umlstereotype._ast.ASTStereotype;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class PrettyPrinter implements SDBasisVisitor {
+public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4DevelopmentVisitor {
+
+    private SD4DevelopmentVisitor realThis = this;
     private String result = "";
 
-    private int indention = 0;
-
-    private String indent = "";
-
+    IndentPrinter indentPrinter;
 
     private final MCBasicTypesPrettyPrinter prettyPrinter;
 
-    public PrettyPrinter() {
+    public PrettyPrinter(IndentPrinter printer) {
+        super(printer);
         this.prettyPrinter = new MCBasicTypesPrettyPrinter(new IndentPrinter());
     }
+    @Override
+    public void setRealThis(SD4DevelopmentVisitor realThis) {
+        this.realThis = realThis;
+    }
 
+    @Override
+    public SD4DevelopmentVisitor getRealThis() {
+        return realThis;
+    }
 
     public String getResult() {
         return this.result;
@@ -32,34 +45,89 @@ public class PrettyPrinter implements SDBasisVisitor {
 
     @Override
     public void visit(ASTSDArtifact node) {
-        println("package " + node.getPackageDeclaration().getQName() + ";");
+        getPrinter().println("package " + node.getPackageDeclaration().getQName() + ";");
     }
     @Override
     public void visit(ASTMCImportStatement node) {
     }
     @Override
     public void visit(ASTSequenceDiagram node) {
-        println(printSterotypeIP(node) + " " + printModifierIP(node) + " sequencediagram " + node.getName() + " {");
-        indent();
+        getPrinter().println(printSterotypeIP(node) + " " + printModifierIP(node) + " sequencediagram " + node.getName() + " {");
+        getPrinter().indent();
     }
     @Override
     public void visit(ASTSDObject node) {
-        println(printSterotypeIP(node) + " "
+        getPrinter().println(printSterotypeIP(node) + " "
                 + printModifierIP(node) + " "
                 + node.getName()
                 + printTypeOfObjectIP(node));
+    }
+
+
+
+
+    @Override
+    public void visit(ASTSDSendMessage node) {
+        getPrinter().print(printSDSourceIP(node) + " -> " + printSDTargetIP(node) + " : ");
+    }
+
+    @Override
+    public void visit(ASTSDActivityBar node) {
+        getPrinter().println(" {");
+        getPrinter().indent();
+    }
+
+    @Override
+    public void endVisit(ASTSDActivityBar node) {
+        getPrinter().println();
+        getPrinter().unindent();
+        getPrinter().println(" }");
+    }
+
+    @Override
+    public void visit(ASTSDCall node) {
+        String sdCallPrint = "";
+        sdCallPrint += node.isTrigger() ? "trigger " : "";
+        sdCallPrint += node.isStatic() ? "static " : "";
+        sdCallPrint += node.getName();
+        getPrinter().print(sdCallPrint);
+
+    }
+
+    @Override
+    public void endVisit(ASTSDCall node) {
+        getPrinter().println();
+    }
+
+    @Override
+    public void visit(ASTArguments node) {
+        getPrinter().print("(");
+    }
+    public String prettyprint(ASTSDArtifact a) {
+        a.accept(getRealThis());
+        return printer.getContent();
+    }
+
+    @Override
+    public void endVisit(ASTArguments node) {
+        getPrinter().print(")");
+    }
+
+    @Override
+    public void visit(ASTNameExpression node) {
+        getPrinter().print(node.getName());
+    }
+    private String printSDSourceIP(ASTSDSendMessage node) {
+        return emptyPrint();
+    }
+    private String printSDTargetIP(ASTSDSendMessage node) {
+        return emptyPrint();
     }
     private String printTypeOfObjectIP(ASTSDObject node) {
        if(node.isPresentMCObjectType()) {
           return ": " + getMCObjectTypeName(node.getMCObjectType());
        }
        return blankPrint();
-    }
-    private String blankPrint() {
-        return " ";
-    }
-    private String emptyPrint() {
-        return "";
     }
     private String getMCObjectTypeName(ASTMCObjectType node) {
         return node.printType(prettyPrinter);
@@ -70,7 +138,6 @@ public class PrettyPrinter implements SDBasisVisitor {
         }
         return emptyPrint();
     }
-
     private String printSterotypeIP(ASTSDObject node) {
         if(node.isPresentStereotype()) {
             return getSterotypeName(node.getStereotype());
@@ -95,26 +162,12 @@ public class PrettyPrinter implements SDBasisVisitor {
         return String.join(" ", names);
     }
 
-
-    private void println(String s) {
-        result += (indent + s + "\n");
-        indent = "";
-        calcIndention();
+    private String blankPrint() {
+        return " ";
     }
-    private void calcIndention() {
-        indent = "";
-        for (int i = 0; i < indention; i++) {
-            indent += "  ";
-        }
+    private String emptyPrint() {
+        return "";
     }
 
-    private void indent() {
-        indention++;
-        calcIndention();
-    }
 
-    private void unindent() {
-        indention--;
-        calcIndention();
-    }
 }

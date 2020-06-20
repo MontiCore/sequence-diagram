@@ -3,6 +3,7 @@ package de.monticore.lang;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development.prettyprint.PrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.prettyprint.IndentPrinter;
 import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -41,13 +42,13 @@ public class PrettyPrinterTest  {
            "example_pretty.sd"
     })
     void testCorrectExamples(String model) {
-        ASTSDArtifact astsdArtifact = testParseModel(CORRECT_PATH, model);
-        if(astsdArtifact != null) {
-            PrettyPrinter pp = new PrettyPrinter();
-            pp.handle(astsdArtifact);
+        ASTSDArtifact parsed = testParseModel(CORRECT_PATH, model);
+        if(parsed != null) {
+            PrettyPrinter pp = new PrettyPrinter(new IndentPrinter());
+            String printed = pp.prettyprint(parsed);
             String expected = readFile(CORRECT_PATH, model);
             String actual = pp.getResult();
-            System.out.println(actual);
+            System.out.println(printed);
             //assertEquals(expected, actual);
         }
     }

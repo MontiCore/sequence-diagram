@@ -8,4 +8,10 @@ sequencediagram example_pretty {
   bidPol: BiddingPolicy;
   timePol: TimingPolicy;
 
+  a -> b : methodenname(arg);
+
+  a -> b : test() {
+    a -> b : test();
+  }
+
 }
