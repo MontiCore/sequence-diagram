@@ -9,7 +9,7 @@ sequencediagram example_pretty {
   timePol: TimingPolicy;
 
   a -> b : methodenname(arg);
-  class a -> b : test();
+  class A -> b : test();
   a -> b : test() {
     a -> b : test();
     b <- a : test();
