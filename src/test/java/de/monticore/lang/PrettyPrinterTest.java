@@ -47,7 +47,7 @@ public class PrettyPrinterTest  {
             PrettyPrinter pp = new PrettyPrinter(new IndentPrinter());
             String printed = pp.prettyprint(parsed);
             String expected = readFile(CORRECT_PATH, model);
-            String actual = pp.getResult();
+            expected = expected.replaceAll("\r", "");
             assertEquals(expected, printed);
         }
     }

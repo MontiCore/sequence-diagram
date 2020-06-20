@@ -6,6 +6,7 @@ import de.monticore.expressions.expressionsbasis._ast.ASTNameExpression;
 import de.monticore.lang.sd4development._ast.*;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
 import de.monticore.lang.sdbasis._ast.*;
+import de.monticore.literals.mccommonliterals._ast.ASTStringLiteral;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCObjectType;
@@ -13,6 +14,7 @@ import de.monticore.types.mcbasictypes._visitor.MCBasicTypesVisitor;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.monticore.umlstereotype._ast.ASTStereotype;
 
+import java.util.Iterator;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -48,11 +50,7 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
         getPrinter().println("package " + node.getPackageDeclaration().getQName() + ";");
     }
 
-    @Override
-    public void endVisit(ASTSequenceDiagram node) {
-        getPrinter().unindent();
-        getPrinter().println("}");
-    }
+
     @Override
     public void visit(ASTMCImportStatement node) {
     }
@@ -62,19 +60,48 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
 
     }
     @Override
-    public void visit(ASTSequenceDiagram node) {
-        getPrinter().println(printSterotypeIP(node) + " " + printModifierIP(node) + " sequencediagram " + node.getName() + " {");
-       // getPrinter().indent();
+    public void traverse(ASTSequenceDiagram node) {
+        if (node.isPresentStereotype()) {
+            node.getStereotype().accept(getRealThis());
+        }
+        {
+            Iterator<ASTSDModifier> iter_sDModifiers = node.getSDModifierList().iterator();
+            while (iter_sDModifiers.hasNext()) {
+                iter_sDModifiers.next().accept(getRealThis());
+            }
+        }
+        getPrinter().println("sequencediagram " + node.getName() + " {");
+        getPrinter().indent();
+        {
+            Iterator<de.monticore.lang.sdbasis._ast.ASTSDObject> iter_sDObjects = node.getSDObjectList().iterator();
+            while (iter_sDObjects.hasNext()) {
+                iter_sDObjects.next().accept(getRealThis());
+            }
+        }
+        if (null != node.getSDBody()) {
+            node.getSDBody().accept(getRealThis());
+        }
+
+        // although we generally assume that the symbol table is always available,
+        // there are cases, where this is not true (for example construction of the
+        // symbol table itself. Thus, the null-check is necessary.
+        if (node.getSpannedScope() != null) {
+            node.getSpannedScope().accept(getRealThis());
+        }
+
+
     }
     @Override
-    public void visit(ASTSDObject node) {
-        getPrinter().println(printSterotypeIP(node) + " "
-                + printModifierIP(node) + " "
-                + node.getName()
+    public void endVisit(ASTSequenceDiagram node) {
+        getPrinter().unindent();
+        getPrinter().println("}");
+    }
+    @Override
+    public void endVisit(ASTSDObject node) {
+        getPrinter().println(node.getName()
                 + printTypeOfObjectIP(node)
                 + ";");
     }
-
     @Override
     public void traverse(ASTSDSendMessage node) {
         if (node.isPresentSDSource()) {
@@ -119,7 +146,22 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
         }
         getPrinter().println();
     }
-
+    @Override
+    public void visit(ASTSDCompleteModifier node) {
+       getPrinter().print("complete ");
+    }
+    @Override
+    public void visit(ASTSDFreeModifier node) {
+        getPrinter().print("free ");
+    }
+    @Override
+    public void visit(ASTSDInitialModifier node) {
+        getPrinter().print("initial ");
+    }
+    @Override
+    public void visit(ASTSDVisibleModifier node) {
+        getPrinter().print("visible ");
+    }
     @Override
     public void visit(ASTSDActivityBar node) {
         getPrinter().println(" {");
@@ -128,7 +170,7 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
 
     @Override
     public void endVisit(ASTSDActivityBar node) {
-        getPrinter().print(" }");
+        getPrinter().print("}");
         getPrinter().unindent();
     }
 
@@ -182,27 +224,9 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
     private String getMCObjectTypeName(ASTMCObjectType node) {
         return node.printType(prettyPrinter);
     }
-    private String printSterotypeIP(ASTSequenceDiagram node) {
-        if(node.isPresentStereotype()) {
-             return getSterotypeName(node.getStereotype());
-        }
-        return emptyPrint();
-    }
-    //TODO: Richtige Sterotype ausgabe fehlt - print ..
-    private String printSterotypeIP(ASTSDObject node) {
-        if(node.isPresentStereotype()) {
-            return getSterotypeName(node.getStereotype());
-        }
-        return emptyPrint();
-    }
-    private String getSterotypeName(ASTStereotype node) {
-        return node.toString();
-    }
-    //TODO: Richtige Modifier ausgabe fehlt - print ..
-    private String printModifierIP(ASTSDObject node) {
-        List<String> modNames = getModifierNames(node.getSDModifierList());
-        return printListAsString(modNames);
-    }
+
+
+
 
     @Override
     public void traverse(ASTSDEndCall node) {
@@ -224,24 +248,8 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
         getPrinter().println(";");
 
     }
-
-    private String printModifierIP(ASTSequenceDiagram node) {
-        List<String> modNames = getModifierNames(node.getSDModifierList());
-        return printListAsString(modNames);
-    }
-    private List<String> getModifierNames(List<ASTSDModifier> modifiers) {
-        return modifiers.stream().map(Object::toString).collect(Collectors.toList());
-    }
-    private String printListAsString(List<String> names) {
-        return String.join(" ", names);
-    }
-
     private String blankPrint() {
         return " ";
     }
-    private String emptyPrint() {
-        return "";
-    }
-
 
 }

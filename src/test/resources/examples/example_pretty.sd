@@ -1,6 +1,6 @@
 package examples.correct.lecture;
-sequencediagram example_pretty {
-  kupfer912: Auction;
+complete sequencediagram example_pretty {
+  complete kupfer912: Auction;
   bidPol: BiddingPolicy;
   timePol: TimingPolicy;
   a -> b : methodenname(arg);
