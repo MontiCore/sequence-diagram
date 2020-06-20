@@ -3,8 +3,9 @@ package de.monticore.lang.sd4development.prettyprint;
 import de.monticore.MCCommonLiteralsPrettyPrinter;
 import de.monticore.expressions.expressionsbasis._ast.ASTArguments;
 import de.monticore.expressions.expressionsbasis._ast.ASTNameExpression;
-import de.monticore.lang.sd4development._ast.ASTSD4DevelopmentNode;
 import de.monticore.lang.sd4development._ast.ASTSDCall;
+import de.monticore.lang.sd4development._ast.ASTSDClass;
+import de.monticore.lang.sd4development._ast.ASTSDEndCall;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
 import de.monticore.lang.sdbasis._ast.*;
 import de.monticore.prettyprint.IndentPrinter;
@@ -63,12 +64,25 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
                 + printTypeOfObjectIP(node));
     }
 
-
-
-
     @Override
-    public void visit(ASTSDSendMessage node) {
-        getPrinter().print(printSDSourceIP(node) + " -> " + printSDTargetIP(node) + " : ");
+    public void traverse(ASTSDSendMessage node) {
+        if (node.isPresentSDSource()) {
+            node.getSDSource().accept(getRealThis());
+        }
+        getPrinter().print(" -> ");
+        if (node.isPresentSDTarget()) {
+            node.getSDTarget().accept(getRealThis());
+        }
+        getPrinter().print(" : ");
+        if (null != node.getSDAction()) {
+            node.getSDAction().accept(getRealThis());
+        }
+        if (node.isPresentSDActivityBar()) {
+            node.getSDActivityBar().accept(getRealThis());
+        } else {
+            getPrinter().print(";");
+        }
+        getPrinter().println();
     }
 
     @Override
@@ -79,9 +93,8 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
 
     @Override
     public void endVisit(ASTSDActivityBar node) {
-        getPrinter().println();
+        getPrinter().print(" }");
         getPrinter().unindent();
-        getPrinter().println(" }");
     }
 
     @Override
@@ -91,12 +104,6 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
         sdCallPrint += node.isStatic() ? "static " : "";
         sdCallPrint += node.getName();
         getPrinter().print(sdCallPrint);
-
-    }
-
-    @Override
-    public void endVisit(ASTSDCall node) {
-        getPrinter().println();
     }
 
     @Override
@@ -117,11 +124,15 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
     public void visit(ASTNameExpression node) {
         getPrinter().print(node.getName());
     }
-    private String printSDSourceIP(ASTSDSendMessage node) {
-        return emptyPrint();
+
+    public void visit(ASTSDObjectSource node) {
+        getPrinter().print(node.getName());
     }
-    private String printSDTargetIP(ASTSDSendMessage node) {
-        return emptyPrint();
+    public void visit(ASTSDObjectTarget node) {
+        getPrinter().print(node.getName());
+    }
+    public void visit(ASTSDClass node) {
+        getPrinter().print("class " + getMCObjectTypeName(node.getMCObjectType()));
     }
     private String printTypeOfObjectIP(ASTSDObject node) {
        if(node.isPresentMCObjectType()) {
@@ -138,6 +149,7 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
         }
         return emptyPrint();
     }
+    //TODO: Richtige Sterotype ausgabe fehlt - print ..
     private String printSterotypeIP(ASTSDObject node) {
         if(node.isPresentStereotype()) {
             return getSterotypeName(node.getStereotype());
@@ -147,10 +159,33 @@ public class PrettyPrinter extends MCCommonLiteralsPrettyPrinter  implements SD4
     private String getSterotypeName(ASTStereotype node) {
         return node.toString();
     }
+    //TODO: Richtige Modifier ausgabe fehlt - print ..
     private String printModifierIP(ASTSDObject node) {
         List<String> modNames = getModifierNames(node.getSDModifierList());
         return printListAsString(modNames);
     }
+
+    @Override
+    public void traverse(ASTSDEndCall node) {
+        if (node.isPresentSDTarget()) {
+            node.getSDTarget().accept(getRealThis());
+        }
+        if (null != node.getSDEndCallArrow()) {
+            node.getSDEndCallArrow().accept(getRealThis());
+        }
+        getPrinter().print(" <- ");
+
+        if (node.isPresentSDSource()) {
+            node.getSDSource().accept(getRealThis());
+        }
+        getPrinter().print(" : ");
+        if (null != node.getSDAction()) {
+            node.getSDAction().accept(getRealThis());
+        }
+        getPrinter().println(";");
+
+    }
+
     private String printModifierIP(ASTSequenceDiagram node) {
         List<String> modNames = getModifierNames(node.getSDModifierList());
         return printListAsString(modNames);
