@@ -1,13 +1,12 @@
 package de.monticore.lang.sdbasis.prettyprint;
 
 import de.monticore.lang.sdbasis._ast.*;
+import de.monticore.lang.sdbasis._visitor.SDBasisInheritanceVisitor;
 import de.monticore.lang.sdbasis._visitor.SDBasisVisitor;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 
-import java.util.Iterator;
-
-public class SDBasisPrettyPrinter implements SDBasisVisitor {
+public class SDBasisPrettyPrinter implements SDBasisInheritanceVisitor {
 
   private SDBasisVisitor realThis;
 
@@ -50,23 +49,15 @@ public class SDBasisPrettyPrinter implements SDBasisVisitor {
     if (node.isPresentStereotype()) {
       node.getStereotype().accept(getRealThis());
     }
-    {
-      Iterator<de.monticore.lang.sdbasis._ast.ASTSDModifier> iter_sDModifiers = node.getSDModifierList().iterator();
-      while (iter_sDModifiers.hasNext()) {
-        iter_sDModifiers.next().accept(getRealThis());
-      }
+    for (ASTSDModifier modifier : node.getSDModifierList()) {
+      modifier.accept(getRealThis());
     }
     getPrinter().println("sequencediagram " + node.getName() + " {");
     getPrinter().indent();
-    {
-      Iterator<de.monticore.lang.sdbasis._ast.ASTSDObject> iter_sDObjects = node.getSDObjectList().iterator();
-      while (iter_sDObjects.hasNext()) {
-        iter_sDObjects.next().accept(getRealThis());
-      }
+    for (ASTSDObject object : node.getSDObjectList()) {
+      object.accept(getRealThis());
     }
-    if (null != node.getSDBody()) {
-      node.getSDBody().accept(getRealThis());
-    }
+    node.getSDBody().accept(getRealThis());
 
     // although we generally assume that the symbol table is always available,
     // there are cases, where this is not true (for example construction of the
@@ -80,21 +71,12 @@ public class SDBasisPrettyPrinter implements SDBasisVisitor {
   }
 
   @Override
-  public void endVisit(ASTSequenceDiagram node) {
-    getPrinter().unindent();
-    getPrinter().println("}");
-  }
-
-  @Override
   public void traverse(ASTSDObject node) {
     if (node.isPresentStereotype()) {
       node.getStereotype().accept(getRealThis());
     }
-    {
-      Iterator<de.monticore.lang.sdbasis._ast.ASTSDModifier> iter_sDModifiers = node.getSDModifierList().iterator();
-      while (iter_sDModifiers.hasNext()) {
-        iter_sDModifiers.next().accept(getRealThis());
-      }
+    for (ASTSDModifier modifier : node.getSDModifierList()) {
+      modifier.accept(getRealThis());
     }
     getPrinter().print(node.getName());
     if (node.isPresentMCObjectType()) {
@@ -143,8 +125,8 @@ public class SDBasisPrettyPrinter implements SDBasisVisitor {
 
   @Override
   public void endVisit(ASTSDActivityBar node) {
-    getPrinter().print("}");
     getPrinter().unindent();
+    getPrinter().print("}");
   }
 
   @Override
