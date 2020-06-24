@@ -45,6 +45,7 @@ dependencies {
     implementation "org.antlr:antlr4-runtime:4.7.1"
     implementation "de.monticore:monticore-runtime:$mc_version"
     implementation "de.monticore:monticore-grammar:$mc_version"
+    compile "de.monticore:monticore-runtime:$mc_version"
     compile "de.monticore:monticore-grammar:$mc_version"
     compile "de.monticore:monticore-grammar:$mc_version:$grammar_classifier"
     grammar "de.monticore:monticore-grammar:$mc_version:$grammar_classifier"

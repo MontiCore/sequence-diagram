@@ -5,7 +5,7 @@ package de.monticore.lang.sd4development._cocos;
 import de.monticore.lang.SDCocoTest;
 import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
-
+/**
 @Disabled
 public class ReturnOnlyAfterMethodCocoTest extends SDCocoTest {
 
@@ -25,3 +25,4 @@ public class ReturnOnlyAfterMethodCocoTest extends SDCocoTest {
   }
 
 }
+**/

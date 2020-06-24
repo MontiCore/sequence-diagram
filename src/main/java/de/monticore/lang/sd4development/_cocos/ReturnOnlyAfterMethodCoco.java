@@ -13,7 +13,7 @@ import de.se_rwth.commons.logging.Log;
 
 import java.util.HashSet;
 import java.util.Set;
-
+/**
 public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
 
   static final String MESSAGE = ReturnOnlyAfterMethodCoco.class.getSimpleName() + ": " +
@@ -88,3 +88,4 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
 //    }
   }
 }
+**/
