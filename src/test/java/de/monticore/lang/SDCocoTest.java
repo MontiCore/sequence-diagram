@@ -2,9 +2,14 @@
 
 package de.monticore.lang;
 
+import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd4development._cocos.SD4DevelopmentCoCoChecker;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
+import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.lang.sdbasis._symboltable.SDBasisGlobalScope;
+import de.monticore.lang.sdbasis._symboltable.SDBasisGlobalScopeBuilder;
+import de.monticore.lang.sdbasis._symboltable.SDBasisSymbolTableCreator;
 import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -12,6 +17,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.IOException;
+import java.nio.file.Paths;
 import java.util.NoSuchElementException;
 
 import static org.junit.Assert.assertEquals;
@@ -20,10 +26,15 @@ import static org.junit.Assert.fail;
 
 public abstract class SDCocoTest {
 
-  private final static String CORRECT_PATH = "src/test/resources/examples/correct/";
-  protected final static String INCORRECT_PATH = "src/test/resources/examples/incorrect/";
+  private static final String MODEL_PATH = "src/test/resources";
+
+  private final static String CORRECT_PATH = MODEL_PATH + "/examples/correct/";
+
+  private final static String INCORRECT_PATH = MODEL_PATH + "/examples/incorrect/";
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
+
+  private SD4DevelopmentGlobalScope globalScope;
 
   protected SD4DevelopmentCoCoChecker checker;
 
@@ -33,6 +44,10 @@ public abstract class SDCocoTest {
 
   @BeforeEach
   public void setup() {
+    this.globalScope = new SD4DevelopmentGlobalScopeBuilder()
+            .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
+            .setSD4DevelopmentLanguage(new SD4DevelopmentLanguage())
+            .build();
     this.checker = new SD4DevelopmentCoCoChecker();
     initCoCoChecker();
   }
@@ -78,14 +93,21 @@ public abstract class SDCocoTest {
             Log.getFindings().stream().filter(f -> f.buildMsg().contains(getCoCoUnderTest().getSimpleName())).count());
   }
 
-  protected ASTSDArtifact loadModel(String modelPath) {
+  private ASTSDArtifact loadModel(String modelPath) {
     try {
-      return parser.parse(modelPath).orElseThrow(NoSuchElementException::new);
+      ASTSDArtifact ast = parser.parse(modelPath).orElseThrow(NoSuchElementException::new);
+      createSymbolTableFromAST(ast);
+      return ast;
     } catch (IOException | NoSuchElementException e) {
       System.err.println("Loading model: " + modelPath + " failed: " + e.getMessage());
       fail();
     }
-    return null;
+    throw new IllegalStateException("Something went wrong..");
   }
+
+  private void createSymbolTableFromAST(ASTSDArtifact ast) {
+    new SD4DevelopmentSymbolTableCreatorDelegator(this.globalScope).createFromAST(ast);
+  }
+
 
 }

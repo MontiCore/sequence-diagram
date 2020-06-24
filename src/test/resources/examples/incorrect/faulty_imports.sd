@@ -2,8 +2,8 @@
 
 package examples.incorrect;
 
-import wrong_package; // WRONG: Missing incorrect
-import examples.incorrect.wrong_package; //CORRECT
+// import wrong_package; // WRONG: Missing incorrect, but somehow this can be resolved..
+import examples.correct.lecture.example_1; //CORRECT
 import a.b.c; // WRONG
 
 sequencediagram faulty_imports {

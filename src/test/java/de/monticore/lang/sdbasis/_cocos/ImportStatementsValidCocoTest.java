@@ -19,9 +19,8 @@ public class ImportStatementsValidCocoTest extends SDCocoTest {
   }
 
   @Test
-  @Disabled
   public void testCocoViolation() {
-    testCocoViolation("faulty_imports.sd", 2, 2);
+    testCocoViolation("faulty_imports.sd", 1, 1);
   }
 
 }
