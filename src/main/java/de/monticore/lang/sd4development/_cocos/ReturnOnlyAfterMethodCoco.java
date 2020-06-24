@@ -1,23 +1,22 @@
 package de.monticore.lang.sd4development._cocos;
 
-
 import de.monticore.lang.sd4development._ast.ASTSDEndCall;
 import de.monticore.lang.sd4development._ast.ASTSDReturn;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentInheritanceVisitor;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
+import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.monticore.lang.sdbasis._ast.ASTSDInteraction;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDArtifactCoCo;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.HashSet;
 import java.util.Set;
-/**
+
 public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
 
   static final String MESSAGE = ReturnOnlyAfterMethodCoco.class.getSimpleName() + ": " +
-          "Return '%s' occurs without previous call from '%s' to '%s'.";
+          "Return call '%s' occurs without previous call from '%s' to '%s'.";
 
   @Override
   public void check(ASTSDArtifact node) {
@@ -26,9 +25,9 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
   }
 
   private static final class ReturnOnlyAfterMethodCocoVisitor implements SD4DevelopmentInheritanceVisitor {
-//    private final SDPrettyPrinter pp = new SDPrettyPrinter();
+    private final SD4DevelopmentDelegatorPrettyPrinter pp = new SD4DevelopmentDelegatorPrettyPrinter();
 
-    private final Set<ASTSDInteraction> openMethodCalls = new HashSet<>();
+    private final Set<ASTSDSendMessage> openMethodCalls = new HashSet<>();
 
     private boolean isReturnInteraction = false;
 
@@ -54,38 +53,37 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
       isReturnInteraction = true;
     }
 
-//    @Override
-//    public void endVisit(ASTSDEndCall node) {
-//      if (isReturnInteraction) {
-//        isReturnInteraction = false;
-//        for (ASTSDInteraction interaction : openMethodCalls) {
-//          if (doInteractionsMatch(node, interaction)) {
-//            openMethodCalls.remove(interaction);
-//            return;
-//          }
-//        }
-//        //TODO replace toString by prettyPrinter
-//        String nodeAsString = node.toString();
-//        String targetAsString = node.isPresentSDTarget() ? node.getSDTarget().toString() : "";
-//        String sourceAsString = node.isPresentSDSource() ? node.getSDSource().toString() : "";
-//        Log.warn(String.format(MESSAGE, nodeAsString, targetAsString, sourceAsString),//pp.prettyPrint(node), pp.prettyPrint(node.getTarget(), pp.prettyPrint(node.getSource()))),
-//                node.get_SourcePositionStart());
-//      }
-//    }
-//
-//    private boolean doInteractionsMatch(ASTSDInteraction e1, ASTSDInteraction e2) {
-//      if (e1.isPresentSDSource() != e2.isPresentSDTarget() || e1.isPresentSDTarget() != e2.isPresentSDSource()) {
-//        return false;
-//      }
-//      boolean result = true;
-//      if (e1.isPresentSDSource() && e2.isPresentSDTarget()) {
-//        result = e1.getSDSource().deepEquals(e2.getSDTarget());
-//      }
-//      if (e1.isPresentSDTarget() && e2.isPresentSDSource()) {
-//        result &= e1.getSDTarget().deepEquals(e2.getSDSource());
-//      }
-//      return result;
-//    }
+    @Override
+    public void endVisit(ASTSDEndCall endCall) {
+      if (isReturnInteraction) {
+        isReturnInteraction = false;
+        for (ASTSDSendMessage sendMessage : openMethodCalls) {
+          if (doInteractionsMatch(sendMessage, endCall)) {
+            openMethodCalls.remove(sendMessage);
+            return;
+          }
+        }
+        //TODO replace toString by prettyPrinter
+        String nodeAsString = pp.prettyPrint(endCall).trim();
+        String targetAsString = endCall.isPresentSDTarget() ? pp.prettyPrint(endCall.getSDTarget()) : "<empty>";
+        String sourceAsString = endCall.isPresentSDSource() ? pp.prettyPrint(endCall.getSDSource()) : "<empty>";
+        Log.warn(String.format(MESSAGE, nodeAsString, targetAsString, sourceAsString),
+                endCall.get_SourcePositionStart());
+      }
+    }
+
+    private boolean doInteractionsMatch(ASTSDSendMessage e1, ASTSDEndCall e2) {
+      if (e1.isPresentSDSource() != e2.isPresentSDTarget() || e1.isPresentSDTarget() != e2.isPresentSDSource()) {
+        return false;
+      }
+      boolean result = true;
+      if (e1.isPresentSDSource() && e2.isPresentSDTarget()) {
+        result = pp.prettyPrint(e1.getSDSource()).equals(pp.prettyPrint(e2.getSDTarget()));
+      }
+      if (e1.isPresentSDTarget() && e2.isPresentSDSource()) {
+        result &= pp.prettyPrint(e1.getSDTarget()).equals(pp.prettyPrint(e2.getSDSource()));
+      }
+      return result;
+    }
   }
 }
-**/
