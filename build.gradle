@@ -61,8 +61,8 @@ dependencies {
 repositories {
     mavenLocal()
     maven {
-        credentials.username mavenUser
-        credentials.password mavenPassword
+        credentials.username username
+        credentials.password password
         url repo
     }
 }
