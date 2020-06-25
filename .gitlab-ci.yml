@@ -36,9 +36,9 @@ test:
   script:
     - "./gradlew check $GRADLE_OPT $ARGS2"
 
-#deploy:
-#  stage: deploy
-#  dependencies:
-#    - build
-#  script:
-#    - "./gradlew publish $GRADLE_OPT $ARGS3 -PmavenPassword=$password -PmavenUser=$username"
+deploy:
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - "./gradlew publish $GRADLE_OPT $ARGS3 -PmavenPassword=$password -PmavenUser=$username"
