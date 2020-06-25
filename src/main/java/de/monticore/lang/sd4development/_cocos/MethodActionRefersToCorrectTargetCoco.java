@@ -22,7 +22,7 @@ public class MethodActionRefersToCorrectTargetCoco implements SDBasisASTSDSendMe
       return;
     }
     ASTSDCall sdCall = (ASTSDCall) node.getSDAction();
-    if (sdCall.isStatic() != node.getSDTarget() instanceof ASTSDClass) {
+    if (sdCall.isStatic() != (node.getSDTarget() instanceof ASTSDClass)) {
       String refersTo = sdCall.isStatic() ? "object" : "class";
       Log.error(String.format(MESSAGE_ERROR_REFERS_TO_, refersTo), node.get_SourcePositionStart());
     }

@@ -63,7 +63,6 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
             return;
           }
         }
-        //TODO replace toString by prettyPrinter
         String nodeAsString = pp.prettyPrint(endCall).trim();
         String targetAsString = endCall.isPresentSDTarget() ? pp.prettyPrint(endCall.getSDTarget()) : "<empty>";
         String sourceAsString = endCall.isPresentSDSource() ? pp.prettyPrint(endCall.getSDSource()) : "<empty>";
@@ -73,6 +72,7 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
     }
 
     private boolean doInteractionsMatch(ASTSDSendMessage e1, ASTSDEndCall e2) {
+      // TODO: replace pretty printer by something better
       if (e1.isPresentSDSource() != e2.isPresentSDTarget() || e1.isPresentSDTarget() != e2.isPresentSDSource()) {
         return false;
       }

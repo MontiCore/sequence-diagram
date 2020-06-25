@@ -16,12 +16,6 @@ public class TypeNamingConventionCoco implements MCBasicTypesASTMCQualifiedTypeC
           + "Object declaration introduces an object with name %s "
           + "which should be written upper case by convention.";
 
-  private final MCBasicTypesPrettyPrinter prettyPrinter;
-
-  public TypeNamingConventionCoco() {
-    this.prettyPrinter = new MCBasicTypesPrettyPrinter(new IndentPrinter());
-  }
-
   @Override
   public void check(ASTMCQualifiedType mcObjectType) {
       String objectTypeName = mcObjectType.getNameList().get(mcObjectType.getNameList().size() - 1);

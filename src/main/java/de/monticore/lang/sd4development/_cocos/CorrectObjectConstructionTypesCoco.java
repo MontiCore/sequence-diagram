@@ -19,7 +19,7 @@ public class CorrectObjectConstructionTypesCoco implements SD4DevelopmentASTSDNe
   }
 
   @Override
-  public void check(ASTSDNew node) {
+  public void check(ASTSDNew node) { //TODO
     if(!node.getDeclarationType().deepEquals(node.getInitializationType())) {
       String declarationType = node.getDeclarationType().printType(prettyPrinter);
       String initializationType = node.getInitializationType().printType(prettyPrinter);

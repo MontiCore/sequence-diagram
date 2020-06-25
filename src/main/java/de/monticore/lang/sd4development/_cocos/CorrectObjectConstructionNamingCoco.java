@@ -8,6 +8,7 @@ import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
+@Deprecated
 public class CorrectObjectConstructionNamingCoco implements SD4DevelopmentASTSDNewCoCo {
 
   static final String MESSAGE_WARNING_LOWER_CASE = CorrectObjectConstructionNamingCoco.class.getSimpleName() + ": "

@@ -8,6 +8,7 @@ import de.monticore.types.mcbasictypes._ast.ASTMCObjectType;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
+@Deprecated
 public class ObjectTypeNamingConventionCoco implements SDBasisASTSDObjectCoCo {
 
   static final String MESSAGE_WARNING_UPPER_CASE = ObjectTypeNamingConventionCoco.class.getSimpleName() + ": "
