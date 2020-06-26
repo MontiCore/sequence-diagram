@@ -170,8 +170,8 @@ publishing {
         }
     }
     repositories.maven {
-        credentials.mavenUser username
-        credentials.mavenPassword password
+        credentials.mavenUser mavenUser
+        credentials.mavenPassword mavenPassword
         def releasesRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-releases/"
         def snapshotsRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-snapshots/"
         url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
