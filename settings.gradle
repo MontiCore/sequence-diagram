@@ -1,14 +1,2 @@
 /* (c) https://github.com/MontiCore/monticore */
-pluginManagement {
-    repositories {
-        mavenLocal()
-        maven {
-            credentials.username "$username"
-            credentials.password "$password"
-            url repo
-        }
-        gradlePluginPortal()
-    }
-}
-
 rootProject.name = 'sd-language'
