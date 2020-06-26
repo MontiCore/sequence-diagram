@@ -61,9 +61,9 @@ dependencies {
 repositories {
     mavenLocal()
     maven {
-        credentials.username username
-        credentials.password password
-        url "https://nexus.se.rwth-aachen.de/content/groups/public"
+        credentials.username mavenUser
+        credentials.password mavenPassword
+        url repo
     }
 }
 
