@@ -2,8 +2,6 @@
 
 package correct;
 
-import correct.example;
-
 sequencediagram allGrammarElements {
 
   // Interacting objects

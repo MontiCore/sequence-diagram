@@ -37,7 +37,6 @@ public class SDDeSerTest {
     this.deSer = new SD4DevelopmentScopeDeSer();
   }
 
-  @Disabled
   @ParameterizedTest
   @CsvSource(
           "lecture/example_1.sd"

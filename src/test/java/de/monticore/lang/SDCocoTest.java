@@ -34,6 +34,8 @@ public abstract class SDCocoTest {
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
+  private final SD4DevelopmentLanguage language = new SD4DevelopmentLanguage();
+
   private SD4DevelopmentGlobalScope globalScope;
 
   protected SD4DevelopmentCoCoChecker checker;
@@ -46,7 +48,7 @@ public abstract class SDCocoTest {
   public void setup() {
     this.globalScope = new SD4DevelopmentGlobalScopeBuilder()
             .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
-            .setSD4DevelopmentLanguage(new SD4DevelopmentLanguage())
+            .setSD4DevelopmentLanguage(language)
             .build();
     this.checker = new SD4DevelopmentCoCoChecker();
     initCoCoChecker();
@@ -106,7 +108,7 @@ public abstract class SDCocoTest {
   }
 
   private void createSymbolTableFromAST(ASTSDArtifact ast) {
-    new SD4DevelopmentSymbolTableCreatorDelegator(this.globalScope).createFromAST(ast);
+    language.getSymbolTableCreator(this.globalScope).createFromAST(ast);
   }
 
 
