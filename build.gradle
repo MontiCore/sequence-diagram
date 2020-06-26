@@ -63,7 +63,7 @@ repositories {
     maven {
         credentials.username username
         credentials.password password
-        url repo
+        url "https://nexus.se.rwth-aachen.de/content/groups/public"
     }
 }
 
