@@ -3,8 +3,8 @@ pluginManagement {
     repositories {
         mavenLocal()
         maven {
-            credentials.mavenUser username
-            credentials.mavenPassword password
+            credentials.username "$username"
+            credentials.password "$password"
             url repo
         }
         gradlePluginPortal()
