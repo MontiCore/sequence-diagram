@@ -23,7 +23,7 @@ stages:
 build:
   stage: build
   script:
-    - "./gradlew assemble --refresh-dependencies $GRADLE_OPTS $ARGS1"
+    - "./gradlew assemble --refresh-dependencies $GRADLE_OPTS $ARGS1 --scan"
   artifacts:
     paths:
       - "."
