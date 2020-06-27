@@ -23,7 +23,7 @@ stages:
 build:
   stage: build
   script:
-    - "./gradlew assemble --refresh-dependencies $GRADLE_OPT $ARGS1 --stacktrace"
+    - "./gradlew assemble --refresh-dependencies $GRADLE_OPTS $ARGS1"
   artifacts:
     paths:
       - "."
@@ -34,11 +34,11 @@ test:
   dependencies:
     - build
   script:
-    - "./gradlew check $GRADLE_OPT $ARGS2"
+    - "./gradlew check $GRADLE_OPTS $ARGS2"
 
 deploy:
   stage: deploy
   dependencies:
     - build
   script:
-    - "./gradlew publish $GRADLE_OPT $ARGS3 -PmavenPassword=$password -PmavenUser=$username"
+    - "./gradlew publish $GRADLE_OPTS $ARGS3 -PmavenPassword=$password -PmavenUser=$username"
