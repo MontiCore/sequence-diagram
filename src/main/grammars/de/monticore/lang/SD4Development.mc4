@@ -92,7 +92,7 @@ grammar SD4Development extends
     SDSource?
     ":" SDAction ";";
 
-  SDEndCallArrow = "<-";
+  SDEndCallArrow = {noSpace(2)}? "<" "-";
 
   /**
    * SDIncompleteExpression is introduced to enable modeling of
