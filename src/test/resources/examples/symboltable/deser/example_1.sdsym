@@ -1,0 +1,39 @@
+{
+  "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope",
+  "name": "example_1",
+  "package": "examples.symboltable.deser",
+  "exportsSymbols": true,
+  "imports": [],
+  "sequenceDiagramSymbols": [
+    {
+      "kind": "de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol",
+      "name": "example_1"
+    }
+  ],
+  "subScopes": [
+    {
+      "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope",
+      "name": "example_1",
+      "isShadowingScope": false,
+      "exportsSymbols": true,
+      "spanningSymbol": {
+        "kind": "de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol",
+        "name": "example_1"
+      },
+      "variableSymbols": [
+        {
+          "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
+          "name": "kupfer912"
+        },
+        {
+          "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
+          "name": "bidPol"
+        },
+        {
+          "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
+          "name": "timePol"
+        }
+      ]
+    }
+  ]
+}
