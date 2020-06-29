@@ -60,8 +60,13 @@ public class SDParserTest {
           "return_before_method.sd",
           "static_method_refers_to_object.sd",
           "uncommon_file_extension.sy",
-          "violated_naming_conventions.sd",
-          "wrong_package.sd"
+          "violated_type_naming_conventions_constructor.sd",
+          "wrong_package.sd",
+          "end_call_no_target_source_specified.sd",
+          "send_message_no_target_source_specified.sd",
+          "violated_name_naming_conventions.sd",
+          "violated_name_naming_conventions_constructor.sd",
+          "violated_type_naming_conventions.sd"
   })
   void testInCorrectExamples(String model) {
     testParseModel(INCORRECT_PATH, model);

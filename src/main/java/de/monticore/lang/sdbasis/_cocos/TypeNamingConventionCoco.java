@@ -13,7 +13,7 @@ import de.se_rwth.commons.logging.Log;
 public class TypeNamingConventionCoco implements MCBasicTypesASTMCQualifiedTypeCoCo {
 
   static final String MESSAGE_WARNING_UPPER_CASE = TypeNamingConventionCoco.class.getSimpleName() + ": "
-          + "Object declaration introduces an object with name %s "
+          + "Object declaration introduces an object type name "
           + "which should be written upper case by convention.";
 
   @Override

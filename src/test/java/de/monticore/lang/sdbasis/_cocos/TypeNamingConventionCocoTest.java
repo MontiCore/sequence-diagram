@@ -19,7 +19,7 @@ public class TypeNamingConventionCocoTest extends SDCocoTest {
 
   @Test
   public void testCocoViolation() {
-    testCocoViolation("violated_naming_conventions.sd", 0, 2);
+    testCocoViolation("violated_type_naming_conventions.sd", 0, 2);
   }
 
 }
