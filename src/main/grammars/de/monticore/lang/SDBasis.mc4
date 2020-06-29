@@ -81,10 +81,12 @@ component grammar SDBasis extends
     *
     * TODO: quickfix: replaced key("c") with "c", undo ASAP
         quickfix: replaced key("complete") with "complete", undo ASAP
+        Also, since "c" is often used as a name for objects, but "(c)" rarely uses spaces in between, we temporarily merge
+            "(" "c" ")" to "(c)", to prevent that "c" is a keyword
         cf. https://git.rwth-aachen.de/monticore/monticore/-/issues/2546
     */
    SDCompleteModifier implements SDModifier =
-     {noSpace(2,3)}? "(" "c" ")" | "complete";
+     /*{noSpace(2,3)}?*/ "(c)" | "complete";
 
    /*
     *  The free match modifier.
