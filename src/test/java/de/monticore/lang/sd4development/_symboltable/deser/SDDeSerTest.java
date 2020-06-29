@@ -60,7 +60,6 @@ public class SDDeSerTest {
     assertTrue(serializedSD.length() > 0);
   }
 
-  @Disabled("This test currently fails, because the DeSer of SD4Development does not recognize that SDArtifact has seqeuenceDiagramSymbols")
   @Test
   void testDeserialization() {
     // given
