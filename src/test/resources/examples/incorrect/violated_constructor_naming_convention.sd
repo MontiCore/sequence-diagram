@@ -1,0 +1,15 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.incorrect;
+
+sequencediagram violated_naming_conventions {
+
+  kupfer912: Auction;
+  kupfer913: Auction;
+  kupfer914: auction;
+  kupfer915: auction;
+
+  kupfer912 -> bidMessage bm1 = new BidMessage(...);
+  kupfer912 -> BidMessage Bm1 = new BidMessage(...);
+  kupfer912 -> BidMessage Bm1 = new BidMessage(...);
+}

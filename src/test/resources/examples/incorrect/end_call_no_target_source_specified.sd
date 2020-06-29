@@ -9,6 +9,6 @@ sequencediagram violated_naming_conventions {
   timePol: TimingPolicy;
 
   kupfer912 -> timePol: currentClosingTime();
-  <- :   a <- b : return ...;;
+  <- : return ...;
 
 }
