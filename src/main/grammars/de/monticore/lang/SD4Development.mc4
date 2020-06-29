@@ -38,7 +38,7 @@ package de.monticore.lang;
  *  * OCLExpressions for embedding OCL expressions as conditions and to
  *  * be able to use expressions for the definition of local variables.
  */
-grammar SD4Development extends 
+grammar SD4Development extends
                   de.monticore.lang.SDBasis,
                   de.monticore.literals.MCCommonLiterals,
                   de.monticore.expressions.OCLExpressions {
@@ -68,7 +68,7 @@ grammar SD4Development extends
 
   /*
    * Actions for returns.
-   * This allows "return", "return 5", and "return ..." for an 
+   * This allows "return", "return 5", and "return ..." for an
    * unspecified value
    */
   SDReturn implements SDAction =
@@ -76,7 +76,7 @@ grammar SD4Development extends
 
   /*
    * Actions for exceptions,
-   * which in this context can be interpreted as special 
+   * which in this context can be interpreted as special
    * form of "return"
    */
   SDThrow implements SDAction =
