@@ -5,8 +5,6 @@ import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -32,7 +30,7 @@ public class SDDeSerTest {
   void setup() {
     this.globalScope = new SD4DevelopmentGlobalScopeBuilder()
             .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
-            .setSD4DevelopmentLanguage(new SD4DevelopmentLanguage())
+            .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION)
             .build();
     this.deSer = new SD4DevelopmentScopeDeSer();
   }

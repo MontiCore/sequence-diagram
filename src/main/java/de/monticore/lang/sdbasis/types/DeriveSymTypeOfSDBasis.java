@@ -40,24 +40,24 @@ public class DeriveSymTypeOfSDBasis extends SDBasisDelegatorVisitor implements I
 
   public Optional<SymTypeExpression> calculateType(ASTMCType type) {
     type.accept(getRealThis());
-    return Optional.of(getTypeCheckResult().getLast());
+    return Optional.of(getTypeCheckResult().getCurrentResult());
   }
 
   @Override
   public Optional<SymTypeExpression> calculateType(ASTExpression ex) {
     ex.accept(getRealThis());
-    return Optional.of(getTypeCheckResult().getLast());
+    return Optional.of(getTypeCheckResult().getCurrentResult());
   }
 
   @Override
   public Optional<SymTypeExpression> calculateType(ASTLiteral lit) {
     lit.accept(getRealThis());
-    return Optional.of(getTypeCheckResult().getLast());
+    return Optional.of(getTypeCheckResult().getCurrentResult());
   }
 
   @Override
   public Optional<SymTypeExpression> calculateType(ASTSignedLiteral lit) {
     lit.accept(getRealThis());
-    return Optional.of(getTypeCheckResult().getLast());
+    return Optional.of(getTypeCheckResult().getCurrentResult());
   }
 }

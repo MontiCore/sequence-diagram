@@ -7,9 +7,6 @@ import de.monticore.lang.sd4development._cocos.SD4DevelopmentCoCoChecker;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.monticore.lang.sdbasis._symboltable.SDBasisGlobalScope;
-import de.monticore.lang.sdbasis._symboltable.SDBasisGlobalScopeBuilder;
-import de.monticore.lang.sdbasis._symboltable.SDBasisSymbolTableCreator;
 import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -34,8 +31,6 @@ public abstract class SDCocoTest {
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
-  private final SD4DevelopmentLanguage language = new SD4DevelopmentLanguage();
-
   private SD4DevelopmentGlobalScope globalScope;
 
   protected SD4DevelopmentCoCoChecker checker;
@@ -48,7 +43,7 @@ public abstract class SDCocoTest {
   public void setup() {
     this.globalScope = new SD4DevelopmentGlobalScopeBuilder()
             .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
-            .setSD4DevelopmentLanguage(language)
+            .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION)
             .build();
     this.checker = new SD4DevelopmentCoCoChecker();
     initCoCoChecker();
@@ -108,7 +103,7 @@ public abstract class SDCocoTest {
   }
 
   private void createSymbolTableFromAST(ASTSDArtifact ast) {
-    language.getSymbolTableCreator(this.globalScope).createFromAST(ast);
+    new SD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(this.globalScope).build().createFromAST(ast);
   }
 
 

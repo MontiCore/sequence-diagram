@@ -78,27 +78,37 @@ component grammar SDBasis extends
 
    /*
     *  The complete match modifier.
+    *
+    * TODO: quickfix: replaced key("c") with "c", undo ASAP
+        quickfix: replaced key("complete") with "complete", undo ASAP
+        cf. https://git.rwth-aachen.de/monticore/monticore/-/issues/2546
     */
    SDCompleteModifier implements SDModifier =
-     {noSpace(2,3)}? "(" key("c") ")" | key("complete");
+     {noSpace(2,3)}? "(" "c" ")" | "complete";
 
    /*
     *  The free match modifier.
+    * TODO: quickfix: replaced key("free") with "free", undo ASAP
+        * cf. https://git.rwth-aachen.de/monticore/monticore/-/issues/2546
     */
    SDFreeModifier implements SDModifier =
-     "..." | key("free");
+     "..." | "free";
 
    /*
     *  The initial match modifier.
+    * TODO: quickfix: replaced key("initial") with "initial", undo ASAP
+        * cf. https://git.rwth-aachen.de/monticore/monticore/-/issues/2546
     */
    SDInitialModifier implements SDModifier =
-     key("initial");
+     "initial";
 
    /*
     *  The visible match modifier.
+    * TODO: quickfix: replaced key("visible") with "visible", undo ASAP
+        * cf. https://git.rwth-aachen.de/monticore/monticore/-/issues/2546
     */
    SDVisibleModifier implements SDModifier =
-     key("visible");
+     "visible";
 
   /**
    * Object definition introducing a new object in form of
