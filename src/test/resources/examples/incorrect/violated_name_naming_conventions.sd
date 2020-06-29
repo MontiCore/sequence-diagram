@@ -4,9 +4,9 @@ package examples.incorrect;
 
 sequencediagram violated_naming_conventions {
 
-  kupfer912: auction;
-  bidPol: biddingPolicy;
-  timePol: TimingPolicy;
+  kupfer912: Auction;
+  BidPol: BiddingPolicy;
+  TimePol: TimingPolicy;
 
   kupfer912 -> bidPol : validateBid(bid);
 

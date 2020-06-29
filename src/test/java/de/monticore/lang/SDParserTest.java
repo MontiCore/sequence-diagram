@@ -50,7 +50,7 @@ public class SDParserTest {
   @ParameterizedTest
   @CsvSource({
           "artifact_not_sd_name.sd",
-          "completeness_inconsistent.sd",
+          "complete_visible_modifier_contradiction.sd",
           "faulty_imports.sd",
           "incomplete_not_allowed.sd",
           "inline_objectdefinition_without_constructor.sd",
