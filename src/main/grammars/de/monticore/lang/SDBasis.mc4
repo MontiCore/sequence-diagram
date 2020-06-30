@@ -78,39 +78,27 @@ component grammar SDBasis extends
 
    /*
     *  The complete match modifier.
-    *
-    * TODO: quickfix: replaced key("c") with "c", undo ASAP
-        quickfix: replaced key("complete") with "complete", undo ASAP
-        Also, since "c" is often used as a name for objects, but "(c)" rarely uses spaces in between, we temporarily merge
-            "(" "c" ")" to "(c)", to prevent that "c" is a keyword
-        cf. https://git.rwth-aachen.de/monticore/monticore/-/issues/2546
     */
    SDCompleteModifier implements SDModifier =
-     /*{noSpace(2,3)}?*/ "(c)" | "complete";
+     {noSpace(2,3)}? "(" key("c") ")" | key("complete");
 
    /*
     *  The free match modifier.
-    * TODO: quickfix: replaced key("free") with "free", undo ASAP
-        * cf. https://git.rwth-aachen.de/monticore/monticore/-/issues/2546
     */
    SDFreeModifier implements SDModifier =
-     "..." | "free";
+     "..." | key("free");
 
    /*
     *  The initial match modifier.
-    * TODO: quickfix: replaced key("initial") with "initial", undo ASAP
-        * cf. https://git.rwth-aachen.de/monticore/monticore/-/issues/2546
     */
    SDInitialModifier implements SDModifier =
-     "initial";
+     key("initial");
 
    /*
     *  The visible match modifier.
-    * TODO: quickfix: replaced key("visible") with "visible", undo ASAP
-        * cf. https://git.rwth-aachen.de/monticore/monticore/-/issues/2546
     */
    SDVisibleModifier implements SDModifier =
-     "visible";
+     key("visible");
 
   /**
    * Object definition introducing a new object in form of

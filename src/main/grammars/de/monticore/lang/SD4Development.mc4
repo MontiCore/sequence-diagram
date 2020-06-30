@@ -49,12 +49,9 @@ grammar SD4Development extends
    * Actions for a triggering message.
    * Triggers are used e.g. in tests to start the test execution
    * (as opposed to normal interactions that are observations)
-   *
-   * TODO: quickfix: replaced key("trigger") with "trigger", undo ASAP
-       * cf. https://git.rwth-aachen.de/monticore/monticore/-/issues/2546
    */
   SDCall implements SDAction =
-    ["trigger"]? ["static"]? Name Arguments?;
+    [key("trigger")]? ["static"]? Name Arguments?;
 
   /*
    * Creation of a new object.
@@ -123,20 +120,14 @@ grammar SD4Development extends
   /*
    * Conditions that can be stated between interactions in SDs.
    * With this grammar, OCL expressions are possible.
-   *
-   * TODO: quickfix: replaced key("assert") with "assert", undo ASAP
-      * cf. https://git.rwth-aachen.de/monticore/monticore/-/issues/2546
    */
   SDCondition implements SDElement =
-    "assert" Expression ";";
+    key("assert") Expression ";";
 
   /*
    * Declarations of variables between interactions in SDs.
    * Variable declarations define variable symbols.
-   *
-   * TODO: quickfix: replaced key("let") with "let", undo ASAP
-       * cf. https://git.rwth-aachen.de/monticore/monticore/-/issues/2546
    */
   SDVariableDeclaration implements SDElement, Variable =
-    "let" MCType Name "=" assignment:Expression ";";
+    key("let") MCType Name "=" assignment:Expression ";";
 }
