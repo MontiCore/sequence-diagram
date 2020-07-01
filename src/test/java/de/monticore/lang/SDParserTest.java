@@ -53,7 +53,6 @@ public class SDParserTest {
           "complete_visible_modifier_contradiction.sd",
           "faulty_imports.sd",
           "incomplete_not_allowed.sd",
-          "inline_objectdefinition_without_constructor.sd",
           "no_unique_names.sd",
           "ocl_context_not_declared.sd",
           "reference_undeclared_objects.sd",
