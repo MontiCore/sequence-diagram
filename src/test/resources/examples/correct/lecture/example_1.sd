@@ -10,10 +10,10 @@ sequencediagram example_1 {
   timePol: TimingPolicy;
 
   // Interaction sequence
-  kupfer912 -> bidPol : validateBid(bid);
+  kupfer912 -> bidPol : validateBid(42);
   kupfer912 <- bidPol : return BiddingPolicy.OK;
 
-  kupfer912 -> timePol: newCurrentClosingTime(kupfer912, bid);
+  kupfer912 -> timePol: newCurrentClosingTime(42);
   kupfer912 <- timePol: return t;
 
 // TODO: Reenable once OCL is back

@@ -25,6 +25,14 @@ public class DeriveSymTypeOfSDBasis extends SDBasisDelegatorVisitor implements I
     deriveSymTypeOfLiterals.setTypeCheckResult(getTypeCheckResult());
     setMCLiteralsBasisVisitor(deriveSymTypeOfLiterals);
 
+    final DeriveSymTypeOfMCCommonLiterals deriveSymTypeOfMCCommonLiterals = new DeriveSymTypeOfMCCommonLiterals();
+    deriveSymTypeOfMCCommonLiterals.setTypeCheckResult(getTypeCheckResult());
+    setMCCommonLiteralsVisitor(deriveSymTypeOfMCCommonLiterals);
+
+    final DeriveSymTypeOfExpression deriveSymTypeOfExpression = new DeriveSymTypeOfExpression();
+    deriveSymTypeOfExpression.setTypeCheckResult(getTypeCheckResult());
+    setExpressionsBasisVisitor(deriveSymTypeOfExpression);
+
     final SynthesizeSymTypeFromMCBasicTypes synthesizeSymTypeFromMCBasicTypes = new SynthesizeSymTypeFromMCBasicTypes();
     synthesizeSymTypeFromMCBasicTypes.setTypeCheckResult(getTypeCheckResult());
     setMCBasicTypesVisitor(synthesizeSymTypeFromMCBasicTypes);
