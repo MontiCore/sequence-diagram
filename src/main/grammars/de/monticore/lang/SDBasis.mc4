@@ -34,7 +34,7 @@ package de.monticore.lang;
 component grammar SDBasis extends 
                   de.monticore.types.MCBasicTypes,
                   de.monticore.types.TypeSymbols,
-                  de.monticore.expressions.CommonExpressions,
+                  de.monticore.expressions.ExpressionsBasis,
                   de.monticore.UMLStereotype {
 
   /*
