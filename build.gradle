@@ -5,6 +5,7 @@ plugins {
     id "maven-publish"
     id "com.github.johnrengelman.shadow" version "4.0.4"
 //    id 'cz.malohlava.visteg' version '1.0.5'
+    id 'org.ec4j.editorconfig' version "0.0.3"
 }
 
 group = "de.monticore.lang"
