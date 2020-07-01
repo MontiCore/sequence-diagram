@@ -1,24 +1,24 @@
 {
   "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope",
-  "name": "example_1",
+  "name": "deser_test",
   "package": "examples.symboltable.deser",
   "exportsSymbols": true,
   "imports": [],
   "sequenceDiagramSymbols": [
     {
       "kind": "de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol",
-      "name": "example_1"
+      "name": "deser_test"
     }
   ],
   "subScopes": [
     {
       "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope",
-      "name": "example_1",
+      "name": "deser_test",
       "isShadowingScope": false,
       "exportsSymbols": true,
       "spanningSymbol": {
         "kind": "de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol",
-        "name": "example_1"
+        "name": "deser_test"
       },
       "variableSymbols": [
         {
@@ -32,6 +32,24 @@
         {
           "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
           "name": "timePol"
+        }
+      ],
+      "subScopes": [
+        {
+          "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope",
+          "name": "",
+          "isShadowingScope": false,
+          "exportsSymbols": true,
+          "variableSymbols": [
+            {
+              "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
+              "name": "bidPol2"
+            },
+            {
+              "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
+              "name": "i"
+            }
+          ]
         }
       ]
     }

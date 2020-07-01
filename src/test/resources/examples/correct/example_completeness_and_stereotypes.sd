@@ -20,7 +20,7 @@ sequencediagram example_completeness_and_stereotypes {
   initial    g : G;
 
   // Other stereotypes
-  // <<someRandomStereotype>> h : H
+  <<someRandomStereotype>> h : H;
 
 
 }

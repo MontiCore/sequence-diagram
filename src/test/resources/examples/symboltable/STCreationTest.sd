@@ -1,0 +1,23 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.symboltable;
+
+sequencediagram STCreationTest {
+
+  // Interacting objects
+  kupfer912: Auction;
+  bidPol: BiddingPolicy;
+  timePol: TimingPolicy;
+
+  // Interaction sequence
+  kupfer912 -> bidPol : validateBid(bid);
+  kupfer912 <- bidPol : return BiddingPolicy.OK;
+
+  kupfer912 -> timePol: newCurrentClosingTime(kupfer912, bid);
+  kupfer912 <- timePol: return t;
+
+  kupfer912 -> Policy bidPol2 = new BiddingPolicy();
+
+  let int i = 0;
+
+}

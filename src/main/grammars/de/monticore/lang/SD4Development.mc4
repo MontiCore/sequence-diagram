@@ -129,5 +129,5 @@ grammar SD4Development extends
    * Variable declarations define variable symbols.
    */
   SDVariableDeclaration implements SDElement, Variable =
-    key("let") MCType Name "=" assignment:Expression ";";
+    "let" MCType Name "=" assignment:Expression ";";
 }

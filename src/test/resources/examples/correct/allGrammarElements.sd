@@ -28,6 +28,6 @@ sequencediagram allGrammarElements {
   // Payment -> Complete
   //java: {pay()}
   //<o: [state == complete]>
-  //o -> (m : Mail) : new Mail();
+  o -> Mail m = new Mail();
 
 }

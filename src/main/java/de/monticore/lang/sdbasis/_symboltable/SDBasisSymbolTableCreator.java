@@ -1,11 +1,9 @@
 package de.monticore.lang.sdbasis._symboltable;
 
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
-import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.lang.sdbasis._ast.ASTSDBody;
 import de.monticore.lang.sdbasis._ast.ASTSDObject;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
 import de.monticore.prettyprint.IndentPrinter;
-import de.monticore.symboltable.ImportStatement;
 import de.monticore.types.basictypesymbols._symboltable.VariableSymbol;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
@@ -29,7 +27,7 @@ public class SDBasisSymbolTableCreator extends SDBasisSymbolTableCreatorTOP {
   }
 
   @Override
-  public  void visit(ASTSDObject node)  {
+  public void visit(ASTSDObject node) {
     VariableSymbol symbol = create_SDObject(node);
     symbol.setEnclosingScope(getCurrentScope().get());
     addToScopeAndLinkWithNode(symbol, node);
@@ -49,6 +47,11 @@ public class SDBasisSymbolTableCreator extends SDBasisSymbolTableCreatorTOP {
         symbol.setType(typeResult.get());
       }
     }
+  }
 
+  @Override
+  protected void initialize_SDBody(ISDBasisScope scope, ASTSDBody ast) {
+    // set the name to something
+    scope.setName("");
   }
 }

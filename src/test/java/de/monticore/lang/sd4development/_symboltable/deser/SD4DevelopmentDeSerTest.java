@@ -5,9 +5,9 @@ import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol;
+import de.se_rwth.commons.logging.Log;
+import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -21,7 +21,9 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
-public class SDDeSerTest {
+// TODO: serialization of symtype expression does not work atm
+//   test as soon as this is implemented in MC
+public class SD4DevelopmentDeSerTest {
 
   private static final String MODEL_PATH = "src/test/resources/";
 
@@ -35,6 +37,7 @@ public class SDDeSerTest {
 
   @BeforeEach
   void setup() {
+    Log.enableFailQuick(false);
     this.globalScope = new SD4DevelopmentGlobalScopeBuilder()
             .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
             .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION)
@@ -45,7 +48,7 @@ public class SDDeSerTest {
 
   @ParameterizedTest
   @CsvSource(
-          "example_1.sd"
+          "deser_test.sd"
   )
   void testSerialization(String model) {
     // given
@@ -60,10 +63,13 @@ public class SDDeSerTest {
     assertTrue(serializedSD.length() > 0);
   }
 
-  @Test
-  void testDeserialization() {
+  @ParameterizedTest
+  @CsvSource(
+          "deser_test.sdsym"
+  )
+  void testDeserialization(String serializedModel) {
     // given
-    String serializedSD = loadSerializedModel(Paths.get(PACKAGE_PATH, "example_1.sdsym"));
+    String serializedSD = loadSerializedModel(Paths.get(PACKAGE_PATH, serializedModel));
     assertNotNull(serializedSD);
 
     // when
@@ -73,9 +79,13 @@ public class SDDeSerTest {
     assertNotNull(deserializedSD);
     assertEquals(1, deserializedSD.getLocalSequenceDiagramSymbols().size());
     SequenceDiagramSymbol sdSymbol = deserializedSD.getLocalSequenceDiagramSymbols().get(0);
-    assertEquals("example_1", sdSymbol.getName());
+    assertEquals(FilenameUtils.removeExtension(serializedModel), sdSymbol.getName());
     assertEquals("examples.symboltable.deser", sdSymbol.getPackageName());
     assertEquals(1, deserializedSD.getSubScopes().size());
+    SD4DevelopmentScope sdScope = (SD4DevelopmentScope) deserializedSD.getSubScopes().get(0);
+    assertEquals(3, sdScope.getVariableSymbols().size());
+    assertEquals(1, sdScope.getSubScopes().size());
+    assertEquals(2, sdScope.getSubScopes().get(0).getVariableSymbols().size());
   }
 
   private ASTSDArtifact loadModel(String modelPath) {
