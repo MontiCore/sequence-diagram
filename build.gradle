@@ -9,7 +9,7 @@ plugins {
 }
 
 group = "de.monticore.lang"
-version = "0.0.3-SNAPSHOT-M5"
+version = "0.0.3-SNAPSHOT"
 description = "Sequence Diagram DSL"
 sourceCompatibility = "1.8"
 

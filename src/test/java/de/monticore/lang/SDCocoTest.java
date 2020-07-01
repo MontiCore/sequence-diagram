@@ -7,6 +7,7 @@ import de.monticore.lang.sd4development._cocos.SD4DevelopmentCoCoChecker;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.types.typesymbols._symboltable.OOTypeSymbol;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.AfterEach;
@@ -18,6 +19,7 @@ import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -43,13 +45,23 @@ public abstract class SDCocoTest {
 
   @BeforeEach
   public void setup() {
-    this.globalScope = new SD4DevelopmentGlobalScopeBuilder()
-            .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
-            .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION)
-            .build();
+    this.setupGlobalScope();
     this.checker = new SD4DevelopmentCoCoChecker();
     initCoCoChecker();
     Log.getFindings().clear();
+  }
+
+  private void setupGlobalScope() {
+    this.globalScope = new SD4DevelopmentGlobalScopeBuilder()
+      .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
+      .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION)
+      .build();
+    // add BidMessage and Mail objects to global scope
+    Stream.of("BidMessage", "NotASubType").map(OOTypeSymbol::new).forEach(e -> {
+        e.setEnclosingScope(globalScope);
+        globalScope.add(e);
+      }
+    );
   }
 
   protected abstract void initCoCoChecker();

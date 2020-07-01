@@ -29,19 +29,19 @@ public class SDParserTest {
 
   @ParameterizedTest
   @CsvSource({
-          "lecture/example_1.sd",
-          "lecture/example_2_interactions.sd",
-          "lecture/example_3_static.sd",
-          "lecture/example_4_constructor.sd",
-          "lecture/example_5_factory.sd",
-          "lecture/example_6_stereotypes.sd",
-          "lecture/example_7_noocl.sd",
-          // "lecture/example_8_ocl_let.sd",
-          "lecture/example_9_non_causal.sd",
-          // "example.sd,
-          "example_completeness_and_stereotypes.sd",
-          "allGrammarElements.sd",
-          "activities.sd"
+    "lecture/example_1.sd",
+    "lecture/example_2_interactions.sd",
+    "lecture/example_3_static.sd",
+    "lecture/example_4_constructor.sd",
+    "lecture/example_5_factory.sd",
+    "lecture/example_6_stereotypes.sd",
+    "lecture/example_7_noocl.sd",
+    // "lecture/example_8_ocl_let.sd",
+    "lecture/example_9_non_causal.sd",
+    // "example.sd,
+    "example_completeness_and_stereotypes.sd",
+    "allGrammarElements.sd",
+    "activities.sd"
   })
   void testCorrectExamples(String model) {
     testParseModel(CORRECT_PATH, model);
@@ -49,23 +49,24 @@ public class SDParserTest {
 
   @ParameterizedTest
   @CsvSource({
-          "artifact_not_sd_name.sd",
-          "complete_visible_modifier_contradiction.sd",
-          "faulty_imports.sd",
-          "incomplete_not_allowed.sd",
-          "no_unique_names.sd",
-          "ocl_context_not_declared.sd",
-          "reference_undeclared_objects.sd",
-          "return_before_method.sd",
-          "static_method_refers_to_object.sd",
-          "uncommon_file_extension.sy",
-          "violated_type_naming_conventions_constructor.sd",
-          "wrong_package.sd",
-          "end_call_no_target_source_specified.sd",
-          "send_message_no_target_source_specified.sd",
-          "violated_name_naming_conventions.sd",
-          "violated_name_naming_conventions_constructor.sd",
-          "violated_type_naming_conventions.sd"
+    "artifact_not_sd_name.sd",
+    "complete_visible_modifier_contradiction.sd",
+    "faulty_imports.sd",
+    "incomplete_not_allowed.sd",
+    "initialization_type_is_not_subtype_of_declaration_type.sd",
+    "no_unique_names.sd",
+    "ocl_context_not_declared.sd",
+    "reference_undeclared_objects.sd",
+    "return_before_method.sd",
+    "static_method_refers_to_object.sd",
+    "uncommon_file_extension.sy",
+    "violated_type_naming_conventions_constructor.sd",
+    "wrong_package.sd",
+    "end_call_no_target_source_specified.sd",
+    "send_message_no_target_source_specified.sd",
+    "violated_name_naming_conventions.sd",
+    "violated_name_naming_conventions_constructor.sd",
+    "violated_type_naming_conventions.sd"
   })
   void testInCorrectExamples(String model) {
     testParseModel(INCORRECT_PATH, model);
