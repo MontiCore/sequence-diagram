@@ -8,6 +8,7 @@ import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrett
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDArtifactCoCo;
+import de.monticore.lang.util.SourceAndTargetEquals;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.HashSet;
@@ -72,16 +73,17 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
     }
 
     private boolean doInteractionsMatch(ASTSDSendMessage e1, ASTSDEndCall e2) {
-      // TODO: replace pretty printer by something better
+      // source of SendMessage is present iff target of EndCall is present
       if (e1.isPresentSDSource() != e2.isPresentSDTarget() || e1.isPresentSDTarget() != e2.isPresentSDSource()) {
         return false;
       }
+      SourceAndTargetEquals equalizer = new SourceAndTargetEquals();
       boolean result = true;
-      if (e1.isPresentSDSource() && e2.isPresentSDTarget()) {
-        result = pp.prettyPrint(e1.getSDSource()).equals(pp.prettyPrint(e2.getSDTarget()));
+      if (e1.isPresentSDSource()) {
+        result = equalizer.equals(e1.getSDSource(), e2.getSDTarget());
       }
-      if (e1.isPresentSDTarget() && e2.isPresentSDSource()) {
-        result &= pp.prettyPrint(e1.getSDTarget()).equals(pp.prettyPrint(e2.getSDSource()));
+      if (e1.isPresentSDTarget()) {
+        result &= equalizer.equals(e2.getSDSource(), e1.getSDTarget());
       }
       return result;
     }

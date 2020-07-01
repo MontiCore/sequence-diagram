@@ -49,10 +49,6 @@ public abstract class SDCocoTest {
             .build();
     this.checker = new SD4DevelopmentCoCoChecker();
     initCoCoChecker();
-  }
-
-  @AfterEach
-  public void clearLog() {
     Log.getFindings().clear();
   }
 

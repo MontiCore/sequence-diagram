@@ -8,8 +8,10 @@ sequencediagram cocoviolation1 {
   a: A;
   b: B;
 
+    -> b : test();
   // Return without previous call
   a <- b : return ...;
+    <- b: return;
 
 
 
