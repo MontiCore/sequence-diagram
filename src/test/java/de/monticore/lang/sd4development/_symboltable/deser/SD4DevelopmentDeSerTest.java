@@ -8,6 +8,7 @@ import de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -23,6 +24,7 @@ import static org.junit.Assert.*;
 
 // TODO: serialization of symtype expression does not work atm
 //   test as soon as this is implemented in MC
+@Disabled("Doesn't work ATM")
 public class SD4DevelopmentDeSerTest {
 
   private static final String MODEL_PATH = "src/test/resources/";

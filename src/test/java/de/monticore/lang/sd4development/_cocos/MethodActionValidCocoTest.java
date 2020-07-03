@@ -1,6 +1,7 @@
 package de.monticore.lang.sd4development._cocos;
 
 import de.monticore.lang.SDCocoTest;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -23,5 +24,10 @@ public class MethodActionValidCocoTest extends SDCocoTest {
   )
   public void testCorrectExamples(String model) {
     super.testCorrectExamples(model);
+  }
+
+  @Test
+  void testCocoViolation() {
+    super.testCocoViolation("invalid_method_action.sd", 0, 1);
   }
 }

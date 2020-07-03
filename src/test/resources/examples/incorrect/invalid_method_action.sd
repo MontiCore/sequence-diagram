@@ -1,0 +1,13 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.correct.lecture;
+
+sequencediagram invalid_method_action {
+
+  kupfer912: Auction;
+  bidPol: BiddingPolicy;
+
+  // Interaction sequence
+  kupfer912 -> bidPol : method_which_does_not_exist(42);
+}
+

@@ -7,8 +7,11 @@ sequencediagram example_4_constructor {
   // Interacting objects
   kupfer912: Auction;
 
-  //Constructor call
+  // Constructor call
   kupfer912 -> BidMessage bm = new BidMessage(...);
+
+  // Constructed object should be accessible
+  kupfer912 -> bm : test();
 
 }
 

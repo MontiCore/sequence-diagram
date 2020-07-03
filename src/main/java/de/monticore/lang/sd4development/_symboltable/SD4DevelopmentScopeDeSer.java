@@ -8,7 +8,7 @@ public class SD4DevelopmentScopeDeSer extends SD4DevelopmentScopeDeSerTOP {
 
   private final SequenceDiagramSymbolDeSer sdDeSer = new SequenceDiagramSymbolDeSer();
 
-  private final VariableSymbolDeSer varDesSer = new VariableSymbolDeSer();
+  private final VariableSymbolDeSer varDeSer = new VariableSymbolDeSer();
 
   @Override
   protected void addSymbols(JsonObject json, ISD4DevelopmentScope scope) {
@@ -21,7 +21,7 @@ public class SD4DevelopmentScopeDeSer extends SD4DevelopmentScopeDeSerTOP {
 
     if (json.hasMember("variableSymbols")) {
       json.getMember("variableSymbols").getAsJsonArray().getValues().stream()
-              .map(e -> varDesSer.deserialize(e.toString(), scope))
+              .map(e -> varDeSer.deserialize(e.toString(), scope))
               .forEach(scope::add);
     }
   }
