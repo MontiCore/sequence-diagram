@@ -15,7 +15,7 @@ public class CompleteVisibleModifierContradiction implements SDBasisASTSequenceD
 
   @Override
   public void check(ASTSequenceDiagram node) {
-    if(containsGivenModifier(node.getSDModifierList())
+    if(containsCompleteModifier(node.getSDModifierList())
             && containsAnObjectAnVisibleModifier(node.getSDObjectList())) {
       Log.warn(MESSAGE, node.get_SourcePositionStart());
     }
@@ -23,7 +23,7 @@ public class CompleteVisibleModifierContradiction implements SDBasisASTSequenceD
   private boolean containsAnObjectAnVisibleModifier(List<ASTSDObject> node) {
     return node.stream().anyMatch(object -> containsVisibleModifier(object.getSDModifierList()));
   }
-  private boolean containsGivenModifier(List<ASTSDModifier> node) {
+  private boolean containsCompleteModifier(List<ASTSDModifier> node) {
     return node.stream().anyMatch(modifier -> modifier instanceof ASTSDCompleteModifier);
   }
   private boolean containsVisibleModifier(List<ASTSDModifier> node) {

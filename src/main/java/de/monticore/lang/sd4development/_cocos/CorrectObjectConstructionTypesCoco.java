@@ -21,7 +21,7 @@ public class CorrectObjectConstructionTypesCoco implements SD4DevelopmentASTSDNe
     "SymType of initialization type '%s' is missing.";
 
   static final String MESSAGE_ERROR_INCOMPATIBLE_TYPES = CorrectObjectConstructionTypesCoco.class.getSimpleName() + ": " +
-          "Incompatible types. Required %s but found %s.";
+    "Incompatible types. Required %s but found %s.";
 
   private final DeriveSymTypeOfSDBasis deriveSymTypeOfSDBasis;
 
@@ -50,7 +50,7 @@ public class CorrectObjectConstructionTypesCoco implements SD4DevelopmentASTSDNe
       return;
     }
 
-    if(!TypeCheck.compatible(initializationType.get(), declarationType.get())) {
+    if (!TypeCheck.compatible(initializationType.get(), declarationType.get())) {
       Log.error(String.format(MESSAGE_ERROR_INCOMPATIBLE_TYPES, declarationTypeStr, initializationTypeStr));
     }
   }
