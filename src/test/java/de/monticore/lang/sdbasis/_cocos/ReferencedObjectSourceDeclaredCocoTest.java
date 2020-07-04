@@ -19,7 +19,7 @@ public class ReferencedObjectSourceDeclaredCocoTest extends SDCocoTest {
 
   @Test
   public void testCocoViolation() {
-    testCocoViolation("reference_undeclared_objects.sd", 3, 3);
+    testCocoViolation("reference_undeclared_objects.sd", 4, 4);
   }
 
 }

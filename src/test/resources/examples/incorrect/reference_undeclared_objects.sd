@@ -20,5 +20,8 @@ sequencediagram example_2_interactions {
   a <- d : Exception();    //invalid
   d <- a : Exception();    //invalid
 
+  a -> f : methodenname(); // invalid
+  a <- f : return; // invalid
+  a -> F f = new F();
 
 }
