@@ -2,6 +2,7 @@ package de.monticore.lang.sd4development.prettyprint;
 
 import de.monticore.MCCommonLiteralsPrettyPrinter;
 import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
+import de.monticore.expressions.prettyprint.CommonExpressionsPrettyPrinter;
 import de.monticore.expressions.prettyprint.ExpressionsBasisPrettyPrinter;
 import de.monticore.expressions.prettyprint.OCLExpressionsPrettyPrinter;
 import de.monticore.lang.sd4development._ast.ASTSDEndCall;
@@ -26,10 +27,11 @@ public class SD4DevelopmentDelegatorPrettyPrinter extends SD4DevelopmentDelegato
     setSD4DevelopmentVisitor(new SD4DevelopmentPrettyPrinter(printer));
     setSDBasisVisitor(new SDBasisPrettyPrinter(printer));
     setMCCommonLiteralsVisitor(new MCCommonLiteralsPrettyPrinter(printer));
-    setOCLExpressionsVisitor(new OCLExpressionsPrettyPrinter(printer));
     setMCBasicTypesVisitor(new MCBasicTypesPrettyPrinter(printer));
     setUMLStereotypeVisitor(new UMLStereotypePrettyPrinter(printer));
     setExpressionsBasisVisitor(new ExpressionsBasisPrettyPrinter(printer));
+    setCommonExpressionsVisitor(new CommonExpressionsPrettyPrinter(printer));
+    setOCLExpressionsVisitor(new OCLExpressionsPrettyPrinter(printer));
   }
 
   public SD4DevelopmentDelegatorPrettyPrinter() {
