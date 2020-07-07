@@ -77,7 +77,6 @@ public abstract class SDCocoTest {
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
     scope.add(new FieldSymbolBuilder()
       .setName("value")
-      .setIsParameter(true)
       .setType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("int")).get()).get())
       .build());
     validateBid.setSpannedScope(scope);
@@ -97,12 +96,10 @@ public abstract class SDCocoTest {
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
 //    scope.add(new FieldSymbolBuilder()
 //      .setName("auction")
-//      .setIsParameter(true)
 //      .setType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("Auction")).get()).get())
 //      .build());
     scope.add(new FieldSymbolBuilder()
       .setName("value")
-      .setIsParameter(true)
       .setType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("int")).get()).get())
       .build());
     newCurrentClosingTime.setSpannedScope(scope);
