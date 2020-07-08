@@ -33,7 +33,8 @@ package de.monticore.lang;
  */
 component grammar SDBasis extends 
                   de.monticore.types.MCBasicTypes,
-                  de.monticore.types.BasicTypeSymbols,
+                  de.monticore.types.TypeSymbols,
+                  de.monticore.expressions.ExpressionsBasis,
                   de.monticore.UMLStereotype {
 
   /*
@@ -42,7 +43,7 @@ component grammar SDBasis extends
    * and contains the definition of exactly one SD.
    */
   SDArtifact =
-    ("package" MCQualifiedName& ";")?
+    ("package" packageDeclaration:MCQualifiedName& ";")?
     MCImportStatement*
     SequenceDiagram;
 

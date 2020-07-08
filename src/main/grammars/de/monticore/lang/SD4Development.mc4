@@ -38,9 +38,10 @@ package de.monticore.lang;
  *  * OCLExpressions for embedding OCL expressions as conditions and to
  *  * be able to use expressions for the definition of local variables.
  */
-grammar SD4Development extends 
+grammar SD4Development extends
                   de.monticore.lang.SDBasis,
                   de.monticore.literals.MCCommonLiterals,
+                  de.monticore.expressions.CommonExpressions,
                   de.monticore.expressions.OCLExpressions {
 
   start SDArtifact;
@@ -63,12 +64,12 @@ grammar SD4Development extends
    */
   SDNew implements SDInteraction, Variable =
     SDSource? "->"
-    MCObjectType Name "="
-    "new" MCObjectType Arguments (";" | SDActivityBar);
+    declarationType:MCObjectType Name "="
+    "new" initializationType:MCObjectType Arguments (";" | SDActivityBar);
 
   /*
    * Actions for returns.
-   * This allows "return", "return 5", and "return ..." for an 
+   * This allows "return", "return 5", and "return ..." for an
    * unspecified value
    */
   SDReturn implements SDAction =
@@ -76,7 +77,7 @@ grammar SD4Development extends
 
   /*
    * Actions for exceptions,
-   * which in this context can be interpreted as special 
+   * which in this context can be interpreted as special
    * form of "return"
    */
   SDThrow implements SDAction =
@@ -92,7 +93,7 @@ grammar SD4Development extends
     SDSource?
     ":" SDAction ";";
 
-  SDEndCallArrow = {noSpace(2)}? "<" "-";
+  SDEndCallArrow = "<" "-";
 
   /**
    * SDIncompleteExpression is introduced to enable modeling of
@@ -129,5 +130,5 @@ grammar SD4Development extends
    * Variable declarations define variable symbols.
    */
   SDVariableDeclaration implements SDElement, Variable =
-    key("let") MCType Name "=" assignment:Expression ";";
+    "let" MCType Name "=" assignment:Expression ";";
 }
