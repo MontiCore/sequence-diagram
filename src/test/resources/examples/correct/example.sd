@@ -2,8 +2,6 @@
 
 package examples.correct;
 
-import examples.correct.activities.sd;
-
 sequencediagram example {
 
   // Interacting objects
@@ -11,24 +9,24 @@ sequencediagram example {
   c: Customer;
 
   // Offer -> Production
-  o -> c : <<trigger>> sendConfirmation();
-  o <-- c : return;
+  o -> c : trigger sendConfirmation();
+  o <- c : return;
   o -> o : orderParts();
-  <[state == Production]>
+  assert state == Production;
 
   // Production -> Shipping
-  java: {produceAllItems();}
-  o -> o : <<trigger>> shipItems();
-  <[state == Shipping]>
+  // java: {produceAllItems()}
+  o -> o : trigger shipItems();
+  assert state == Shipping;
 
   // Shipping -> Payment
-  java: {sendAllItems();}
+  // java: {sendAllItems()}
   o -> c : sendInvoice(sum);
-  o <-- c : return;
-  <[state == payment]>
+  o <- c : return;
+  assert state == payment;
 
   // Payment -> Complete
-  java: {pay();}
-  <[state == complete]>
+  // java: {pay()}
+  assert state == complete;
 
 }

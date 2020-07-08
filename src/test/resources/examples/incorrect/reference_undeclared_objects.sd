@@ -1,5 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 
+package examples.incorrect;
+
 sequencediagram example_2_interactions {
 
   // Declarations
@@ -11,12 +13,15 @@ sequencediagram example_2_interactions {
   a -> b : methodenname();
   a -> d : methodenname();  //invalid
   e -> a : methodenname();  //invalid
-  a -> (e:E) : methodenname();
+  // a -> (e:E) : methodenname();
   a -> e : methodenname();  //valid!
-  d --> a : return ;      //invalid
-  d <-- a : return ;      //invalid
-  d --> a : Exception();    //invalid
-  a --> d : Exception();    //invalid
+  a <- d : return;       //invalid
+  d <- a : return;       //invalid
+  a <- d : Exception();    //invalid
+  d <- a : Exception();    //invalid
 
+  a -> f : methodenname(); // invalid
+  a <- f : return; // invalid
+  a -> F f = new F();
 
 }

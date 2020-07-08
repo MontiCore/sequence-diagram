@@ -1,5 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 
+package examples.correct.lecture;
+
 sequencediagram example_9_non_causal {
 
   // Interacting objects
@@ -9,7 +11,7 @@ sequencediagram example_9_non_causal {
 
   // Interactions
   a -> b : methode(...);
-  b <- c : methode2(...);
+  c -> b : methode2(...);
 
 
 }

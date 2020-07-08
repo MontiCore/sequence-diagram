@@ -1,0 +1,77 @@
+{
+  "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope",
+  "name": "deser_test",
+  "package": "examples.symboltable.deser",
+  "exportsSymbols": true,
+  "imports": [],
+  "sequenceDiagramSymbols": [
+    {
+      "kind": "de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol",
+      "name": "deser_test"
+    }
+  ],
+  "subScopes": [
+    {
+      "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope",
+      "name": "deser_test",
+      "isShadowingScope": false,
+      "exportsSymbols": true,
+      "spanningSymbol": {
+        "kind": "de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol",
+        "name": "deser_test"
+      },
+      "variableSymbols": [
+        {
+          "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
+          "name": "examples.symboltable.deser.deser_test.kupfer912",
+          "type": {
+            "kind": "de.monticore.types.check.SymTypeOfObject",
+            "objName": "Auction"
+          }
+        },
+        {
+          "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
+          "name": "examples.symboltable.deser.deser_test.bidPol",
+          "type": {
+            "kind": "de.monticore.types.check.SymTypeOfObject",
+            "objName": "BiddingPolicy"
+          }
+        },
+        {
+          "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
+          "name": "examples.symboltable.deser.deser_test.timePol",
+          "type": {
+            "kind": "de.monticore.types.check.SymTypeOfObject",
+            "objName": "TimingPolicy"
+          }
+        }
+      ],
+      "subScopes": [
+        {
+          "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope",
+          "name": "",
+          "isShadowingScope": false,
+          "exportsSymbols": true,
+          "variableSymbols": [
+            {
+              "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
+              "name": "examples.symboltable.deser.deser_test..bidPol2",
+              "type": {
+                "kind": "de.monticore.types.check.SymTypeOfObject",
+                "objName": "Policy"
+              }
+            },
+            {
+              "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
+              "name": "examples.symboltable.deser.deser_test..i",
+              "type": {
+                "kind": "de.monticore.types.check.SymTypeConstant",
+                "constName": "int"
+              }
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -1,21 +1,23 @@
 /* (c) https://github.com/MontiCore/monticore */
 
+package examples.correct;
+
 sequencediagram example_completeness_and_stereotypes {
 
   // Free
-          a : A;
-  ...       b : B;
-  <<match:free>>   c : C;
+         a : A;
+  ...    b : B;
+  free   c : C;
 
   // Complete
-  (C)         d : D;
-  <<match:complete>>   e : E;
+  (c)        d : D;
+  complete   e : E;
 
   // Visible
-  <<match:visible>>  f : F;
+  visible    f : F;
 
   // Initial
-  <<match:initial>>  g : G;
+  initial    g : G;
 
   // Other stereotypes
   <<someRandomStereotype>> h : H;

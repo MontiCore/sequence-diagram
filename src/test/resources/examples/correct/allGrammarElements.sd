@@ -2,34 +2,32 @@
 
 package correct;
 
-import correct.example.sd;
-
 sequencediagram allGrammarElements {
 
   // Interacting objects
-  <<someStereotype>> (C) o: Order;
+  (c) o: Order;
   c: Customer;
 
   // Offer -> Production
-  o -> c : <<trigger>> sendConfirmation();
-  o <-- c : return;
+  o -> c : trigger sendConfirmation();
+  o <- c : return;
   o -> o : orderParts();
-  <o: [state == Production]>
+  //<o: [state == Production]>
 
   // Production -> Shipping
-  java: {produceAllItems();}
-  o -> o : <<trigger>> shipItems();
-  <o : [state == Shipping]>
+  //java: {produceAllItems()}
+  o -> o : trigger shipItems();
+  //<o : [state == Shipping]>
 
   // Shipping -> Payment
-  java: {sendAllItems();}
+  //java: {sendAllItems()}
   o -> c : sendInvoice(sum);
-  c --> o : return;
-  <o: [state == payment]>
+  o <- c : return;
+  //<o: [state == payment]>
 
   // Payment -> Complete
-  java: {pay();}
-  <o: [state == complete]>
-  o -> (m : Mail) : new Mail();
+  //java: {pay()}
+  //<o: [state == complete]>
+  o -> Mail m = new Mail();
 
 }

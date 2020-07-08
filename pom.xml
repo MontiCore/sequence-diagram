@@ -14,13 +14,14 @@
   <properties>
 
     <!-- .. Libraries ..................................................... -->
-    <monticore.version>5.0.1.1</monticore.version>
-    <monticore.java.version>4.3.13</monticore.java.version>
+    <monticore.version>6.2.0-SNAPSHOT</monticore.version>
+    <monticore.java.version>4.3.17</monticore.java.version>
 
     <antlr.version>4.7.1</antlr.version>
     <guava.version>18.0</guava.version>
     <jsr305.version>3.0.0</jsr305.version>
-    <junit.version>4.12</junit.version>
+    <junit4.version>4.12</junit4.version>
+    <junit5.version>5.6.2</junit5.version>
     <logback.version>1.1.2</logback.version>
     <mc.grammars.assembly.version>0.0.10</mc.grammars.assembly.version>
     <se-commons.version>1.7.8</se-commons.version>
@@ -92,34 +93,34 @@
       <classifier>${grammars.classifier}</classifier>
       <scope>provided</scope>
     </dependency>
-    
+
     <dependency>
       <groupId>ch.qos.logback</groupId>
       <artifactId>logback-classic</artifactId>
       <version>${logback.version}</version>
       <scope>runtime</scope>
     </dependency>
-    
+
     <dependency>
-    <groupId>de.monticore.lang</groupId>
-    <artifactId>ocl</artifactId>
-    <version>${ocl.version}</version>
+      <groupId>de.monticore.lang</groupId>
+      <artifactId>ocl</artifactId>
+      <version>${ocl.version}</version>
     </dependency>
 
     <dependency>
-    <groupId>de.monticore.lang</groupId>
-    <artifactId>ocl</artifactId>
-    <version>${ocl.version}</version>
+      <groupId>de.monticore.lang</groupId>
+      <artifactId>ocl</artifactId>
+      <version>${ocl.version}</version>
       <classifier>${grammars.classifier}</classifier>
     </dependency>
-    
+
     <dependency>
       <groupId>de.monticore.lang</groupId>
       <artifactId>SIUnit</artifactId>
       <version>${SIUnit.version}</version>
       <classifier>${grammars.classifier}</classifier>
     </dependency>
-    
+
     <dependency>
       <groupId>de.monticore</groupId>
       <artifactId>javaDSL</artifactId>
@@ -137,7 +138,31 @@
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
-      <version>${junit.version}</version>
+      <version>${junit4.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-api</artifactId>
+      <version>${junit5.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-engine</artifactId>
+      <version>${junit5.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.jupiter</groupId>
+      <artifactId>junit-jupiter-params</artifactId>
+      <version>${junit5.version}</version>
+      <scope>test</scope>
+    </dependency>
+    <dependency>
+      <groupId>org.junit.vintage</groupId>
+      <artifactId>junit-vintage-engine</artifactId>
+      <version>${junit5.version}</version>
       <scope>test</scope>
     </dependency>
   </dependencies>
@@ -257,7 +282,14 @@
           </execution>
         </executions>
       </plugin>
-
+      <plugin>
+        <artifactId>maven-surefire-plugin</artifactId>
+        <version>2.22.2</version>
+      </plugin>
+      <plugin>
+        <artifactId>maven-failsafe-plugin</artifactId>
+        <version>2.22.2</version>
+      </plugin>
     </plugins>
   </build>
 

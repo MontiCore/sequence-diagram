@@ -1,5 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 
+package examples.correct.lecture;
+
 sequencediagram example_8_ocl_let {
 
   // Interacting objects
@@ -7,10 +9,10 @@ sequencediagram example_8_ocl_let {
   theo: Person;
 
   // Interaction sequence
-  <theo: [let int m = theo.message.size]>
+  let int m = theo.message.size;
   kupfer912 -> theo : sendMessage(bm);
-  kupfer912 <-- theo: ;
-  <theo: [theo.message.size == m+1]>
+  kupfer912 <- theo:;
+  assert theo.message.size == m+1;
 
 
 }

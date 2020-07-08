@@ -1,9 +1,8 @@
 /* (c) https://github.com/MontiCore/monticore */
 
-package incorrect;
+package examples.incorrect;
 
-import wrong_package.sd; // WRONG: Missing incorrect
-import incorrect.wrong_package.sd; //CORRECT
+// import wrong_package; // WRONG: Missing incorrect, but somehow this can be resolved..
 import a.b.c; // WRONG
 
 sequencediagram faulty_imports {
