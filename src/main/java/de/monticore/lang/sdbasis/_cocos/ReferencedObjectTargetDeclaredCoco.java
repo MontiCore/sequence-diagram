@@ -8,11 +8,11 @@ import java.util.Optional;
 
 public class ReferencedObjectTargetDeclaredCoco implements SDBasisASTSDObjectTargetCoCo {
 
-  static final String MESSAGE_NOT_DECLARED = ReferencedObjectTargetDeclaredCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE_NOT_DECLARED = "0xS0020: " +
           "Object '%s' is used, but not declared.";
 
-  static final String MESSAGE_NOT_DECLARED_BEFORE = ReferencedObjectTargetDeclaredCoco.class.getSimpleName() + ": " +
-    "Object '%s' is used before its declaration.";
+  private static final String MESSAGE_NOT_DECLARED_BEFORE = "0xS0027: " +
+    "Object '%s' is used before it is declared.";
 
   @Override
   public void check(ASTSDObjectTarget node) {

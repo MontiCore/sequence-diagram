@@ -3,8 +3,11 @@
 package de.monticore.lang.sd4development._cocos;
 
 import de.monticore.lang.SDCocoTest;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
 
 public class ReturnOnlyAfterMethodCocoTest extends SDCocoTest {
 
@@ -14,8 +17,8 @@ public class ReturnOnlyAfterMethodCocoTest extends SDCocoTest {
   }
 
   @Override
-  protected Class<?> getCoCoUnderTest() {
-    return ReturnOnlyAfterMethodCoco.class;
+  protected List<String> getErrorCodeOfCocoUnderTest() {
+    return Collections.singletonList("0xS0013");
   }
 
   @Test

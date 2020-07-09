@@ -16,6 +16,9 @@ public class SDBasisSymbolTableCreator extends SDBasisSymbolTableCreatorTOP {
 
   private final DeriveSymTypeOfSDBasis typeChecker = new DeriveSymTypeOfSDBasis();
 
+  /**
+   * prettyPrinter used for error reporting.
+   */
   private final MCBasicTypesPrettyPrinter prettyPrinter = new MCBasicTypesPrettyPrinter(new IndentPrinter());
 
   public SDBasisSymbolTableCreator(ISDBasisScope enclosingScope) {
@@ -29,7 +32,9 @@ public class SDBasisSymbolTableCreator extends SDBasisSymbolTableCreatorTOP {
   @Override
   public void visit(ASTSDObject node) {
     VariableSymbol symbol = create_SDObject(node);
-    symbol.setEnclosingScope(getCurrentScope().get());
+    if(getCurrentScope().isPresent()) {
+      symbol.setEnclosingScope(getCurrentScope().get());
+    }
     addToScopeAndLinkWithNode(symbol, node);
     initialize_SDObject(symbol, node);
   }
@@ -40,7 +45,7 @@ public class SDBasisSymbolTableCreator extends SDBasisSymbolTableCreatorTOP {
       ast.getMCObjectType().setEnclosingScope(ast.getEnclosingScope());
       final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(ast.getMCObjectType());
       if (!typeResult.isPresent()) {
-        Log.error(String.format("0xA0000: The type (%s) of the attribute (%s) could not be calculated",
+        Log.error(String.format("0xS0001: The type (%s) of the object (%s) could not be calculated",
                 prettyPrinter.prettyprint(ast.getMCObjectType()),
                 ast.getName()));
       } else {
@@ -51,7 +56,7 @@ public class SDBasisSymbolTableCreator extends SDBasisSymbolTableCreatorTOP {
 
   @Override
   protected void initialize_SDBody(ISDBasisScope scope, ASTSDBody ast) {
-    // set the name to something
+    // set the name to something TODO: DOES THIS NEED TO BE DONE?
     scope.setName("");
   }
 }

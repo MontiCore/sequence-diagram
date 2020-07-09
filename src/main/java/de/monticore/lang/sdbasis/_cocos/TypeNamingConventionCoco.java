@@ -8,8 +8,8 @@ import de.se_rwth.commons.logging.Log;
 
 public class TypeNamingConventionCoco implements MCBasicTypesASTMCQualifiedTypeCoCo {
 
-  static final String MESSAGE_WARNING_UPPER_CASE = TypeNamingConventionCoco.class.getSimpleName() + ": "
-          + "Object declaration introduces an object type name "
+  private static final String MESSAGE_WARNING_UPPER_CASE = "0xS0023: "
+          + "Object declaration introduces the object type %s "
           + "which should be written upper case by convention.";
 
   @Override

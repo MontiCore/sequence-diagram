@@ -89,6 +89,5 @@ public class SD4DevelopmentPrettyPrinter implements SD4DevelopmentInheritanceVis
     getPrinter().print(" : ");
     node.getSDAction().accept(getRealThis());
     getPrinter().println(";");
-
   }
 }

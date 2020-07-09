@@ -10,6 +10,7 @@ public class SD4DevelopmentParser extends SD4DevelopmentParserTOP {
 
   @Override
   public Optional<ASTSDArtifact> parse(String fileName) throws IOException {
+    // use parser as usual and save file path in artifact
     Optional<ASTSDArtifact> sd = parseSDArtifact(fileName);
     sd.ifPresent(e -> e.setFilePath(Paths.get(fileName)));
     return sd;

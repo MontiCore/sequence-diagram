@@ -5,6 +5,10 @@ package de.monticore.lang.sdbasis._cocos;
 import de.monticore.lang.SDCocoTest;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 public class CommonFileExtensionCocoTest extends SDCocoTest {
 
   @Override
@@ -13,8 +17,8 @@ public class CommonFileExtensionCocoTest extends SDCocoTest {
   }
 
   @Override
-  protected Class<?> getCoCoUnderTest() {
-    return CommonFileExtensionCoco.class;
+  protected List<String> getErrorCodeOfCocoUnderTest() {
+    return Collections.singletonList("0xS0014");
   }
 
   @Test

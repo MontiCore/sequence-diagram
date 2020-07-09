@@ -8,7 +8,7 @@ import org.apache.commons.io.FilenameUtils;
 
 public class SDNameIsArtifactNameCoco implements SDBasisASTSDArtifactCoCo {
 
-  static final String MESSAGE = SDNameIsArtifactNameCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE = "0xS0021: " +
         "The sequence diagram name %s does not match the artifact name %s";
 
   @Override

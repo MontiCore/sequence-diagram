@@ -11,7 +11,7 @@ import de.se_rwth.commons.logging.Log;
 
 public class SendMessageHasSourceOrTargetCoco implements SDBasisASTSDSendMessageCoCo {
 
-  static final String MESSAGE_ERROR = SendMessageHasSourceOrTargetCoco.class.getSimpleName() + ": "
+  private static final String MESSAGE_ERROR = "0xS0022: "
           + "The interaction has neither a source nor a target. At least one of them must be set.";
 
   @Override

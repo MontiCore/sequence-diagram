@@ -21,6 +21,7 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
 
   private final DeriveSymTypeOfSDBasis typeChecker = new DeriveSymTypeOfSDBasis();
 
+  // used when printing error messages
   private final MCBasicTypesPrettyPrinter prettyPrinter = new MCBasicTypesPrettyPrinter(new IndentPrinter());
 
   public SD4DevelopmentSymbolTableCreator(ISD4DevelopmentScope enclosingScope) {
@@ -44,9 +45,11 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
   }
 
   @Override
-  public  void visit(ASTSDNew node)  {
+  public void visit(ASTSDNew node)  {
     VariableSymbol symbol = create_SDNew(node);
-    symbol.setEnclosingScope(getCurrentScope().get());
+    if(getCurrentScope().isPresent()) {
+      symbol.setEnclosingScope(getCurrentScope().get());
+    }
     addToScopeAndLinkWithNode(symbol, node);
     initialize_SDNew(symbol, node);
   }
@@ -56,7 +59,7 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
     ast.getDeclarationType().setEnclosingScope(ast.getEnclosingScope());
     final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(ast.getDeclarationType());
     if (!typeResult.isPresent()) {
-      Log.error(String.format("0xA0000: The type (%s) of the attribute (%s) could not be calculated",
+      Log.error(String.format("0xS0002: The type (%s) of the object (%s) could not be calculated",
               prettyPrinter.prettyprint(ast.getDeclarationType()),
               ast.getName()));
     } else {
@@ -67,7 +70,9 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
   @Override
   public void visit(ASTEDeclaration node) {
     VariableSymbol symbol = create_EDeclaration(node);
-    symbol.setEnclosingScope(getCurrentScope().get());
+    if(getCurrentScope().isPresent()) {
+      symbol.setEnclosingScope(getCurrentScope().get());
+    }
     addToScopeAndLinkWithNode(symbol, node);
     initialize_EDeclaration(symbol, node);
   }
@@ -77,7 +82,7 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
     ast.getMCType().setEnclosingScope(ast.getEnclosingScope());
     final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(ast.getMCType());
     if (!typeResult.isPresent()) {
-      Log.error(String.format("0xA0000: The type (%s) of the attribute (%s) could not be calculated",
+      Log.error(String.format("0xS0003: The type (%s) of the variable (%s) could not be calculated",
               prettyPrinter.prettyprint(ast.getMCType()),
               ast.getName()));
     } else {
@@ -88,7 +93,9 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
   @Override
   public void visit(ASTSDVariableDeclaration node) {
     VariableSymbol symbol = create_SDVariableDeclaration(node);
-    symbol.setEnclosingScope(getCurrentScope().get());
+    if(getCurrentScope().isPresent()) {
+      symbol.setEnclosingScope(getCurrentScope().get());
+    }
     addToScopeAndLinkWithNode(symbol, node);
     initialize_SDVariableDeclaration(symbol, node);
   }
@@ -98,7 +105,7 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
     ast.getMCType().setEnclosingScope(ast.getEnclosingScope());
     final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(ast.getMCType());
     if (!typeResult.isPresent()) {
-      Log.error(String.format("0xA0000: The type (%s) of the attribute (%s) could not be calculated",
+      Log.error(String.format("0xS0004: The type (%s) of the variable (%s) could not be calculated",
               prettyPrinter.prettyprint(ast.getMCType()),
               ast.getName()));
     } else {

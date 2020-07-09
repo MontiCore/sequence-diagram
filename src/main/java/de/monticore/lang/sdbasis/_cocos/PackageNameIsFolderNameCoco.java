@@ -6,7 +6,7 @@ import de.se_rwth.commons.logging.Log;
 
 public class PackageNameIsFolderNameCoco implements SDBasisASTSDArtifactCoCo {
 
-  static final String MESSAGE = PackageNameIsFolderNameCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE = "0xS0018: " +
           "Package name '%s' does not correspond to the file path '%s'.";
 
   @Override

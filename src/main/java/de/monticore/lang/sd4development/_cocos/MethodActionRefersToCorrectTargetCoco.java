@@ -10,7 +10,7 @@ import de.se_rwth.commons.logging.Log;
 
 public class MethodActionRefersToCorrectTargetCoco implements SDBasisASTSDSendMessageCoCo {
 
-  static final String MESSAGE_ERROR_REFERS_TO_ = MethodActionRefersToCorrectTargetCoco.class.getSimpleName() + ": "
+  private static final String MESSAGE_ERROR_REFERS_TO_ = "0xS0011: "
           + "Method call must refer to an %s";
 
   @Override
