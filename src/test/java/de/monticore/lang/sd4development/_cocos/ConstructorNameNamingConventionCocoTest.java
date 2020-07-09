@@ -3,8 +3,10 @@
 package de.monticore.lang.sd4development._cocos;
 
 import de.monticore.lang.SDCocoTest;
-import de.monticore.lang.sdbasis._cocos.ObjectNameNamingConventionCoco;
 import org.junit.jupiter.api.Test;
+
+import java.util.Arrays;
+import java.util.List;
 
 public class ConstructorNameNamingConventionCocoTest extends SDCocoTest {
 
@@ -14,8 +16,8 @@ public class ConstructorNameNamingConventionCocoTest extends SDCocoTest {
   }
 
   @Override
-  protected Class<?> getCoCoUnderTest() {
-    return ConstructorObjectNameNamingConventionCoco.class;
+  protected List<String> getErrorCodeOfCocoUnderTest() {
+    return Arrays.asList("0xS0005", "0xS0006");
   }
 
   @Test

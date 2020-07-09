@@ -8,7 +8,7 @@ import static de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobal
 
 public class CommonFileExtensionCoco implements SDBasisASTSDArtifactCoCo {
 
-  static final String MESSAGE = CommonFileExtensionCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE = "0xS0014: " +
     "File extension is '%s', but should be " + FILE_EXTENSION;
 
   @Override

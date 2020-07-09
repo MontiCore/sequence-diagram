@@ -14,13 +14,13 @@ import java.util.Optional;
 
 public class CorrectObjectConstructionTypesCoco implements SD4DevelopmentASTSDNewCoCo {
 
-  static final String MESSAGE_ERROR_DECLARATION_TYPE_MISSING = CorrectObjectConstructionTypesCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE_ERROR_DECLARATION_TYPE_MISSING = "0xS0007: " +
     "SymType of declaration type '%s' is missing.";
 
-  static final String MESSAGE_ERROR_INITIALIZATION_TYPE_MISSING = CorrectObjectConstructionTypesCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE_ERROR_INITIALIZATION_TYPE_MISSING = "0xS0008: " +
     "SymType of initialization type '%s' is missing.";
 
-  static final String MESSAGE_ERROR_INCOMPATIBLE_TYPES = CorrectObjectConstructionTypesCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE_ERROR_INCOMPATIBLE_TYPES = "0xS0009: " +
     "Incompatible types. Required %s but found %s.";
 
   private final DeriveSymTypeOfSDBasis deriveSymTypeOfSDBasis;

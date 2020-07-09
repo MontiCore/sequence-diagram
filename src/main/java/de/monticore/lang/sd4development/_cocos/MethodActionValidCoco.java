@@ -16,7 +16,7 @@ import java.util.Optional;
 
 public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
 
-  static final String MESSAGE = MethodActionValidCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE = "0xS0012: " +
     "'%s' type does not contain method '%s'.";
 
   private final DeriveSymTypeOfSDBasis deriveSymTypeOfSDBasis;

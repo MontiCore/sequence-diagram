@@ -10,7 +10,7 @@ import java.util.List;
 
 public class CompleteVisibleModifierContradiction implements SDBasisASTSequenceDiagramCoCo {
 
-  static final String MESSAGE = CompleteVisibleModifierContradiction.class.getSimpleName() + ": " +
+  private static final String MESSAGE = "0xS0015: " +
         "The visible modifier of one of the objects is an direct contradiction to the complete modifier of the sd";
 
   @Override

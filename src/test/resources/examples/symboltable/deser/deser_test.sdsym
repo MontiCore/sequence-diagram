@@ -46,32 +46,7 @@
           }
         }
       ],
-      "subScopes": [
-        {
-          "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope",
-          "name": "",
-          "isShadowingScope": false,
-          "exportsSymbols": true,
-          "variableSymbols": [
-            {
-              "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
-              "name": "examples.symboltable.deser.deser_test..bidPol2",
-              "type": {
-                "kind": "de.monticore.types.check.SymTypeOfObject",
-                "objName": "Policy"
-              }
-            },
-            {
-              "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
-              "name": "examples.symboltable.deser.deser_test..i",
-              "type": {
-                "kind": "de.monticore.types.check.SymTypeConstant",
-                "constName": "int"
-              }
-            }
-          ]
-        }
-      ]
+      "subScopes": []
     }
   ]
 }

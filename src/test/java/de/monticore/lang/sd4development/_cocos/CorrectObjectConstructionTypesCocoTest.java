@@ -3,6 +3,9 @@ package de.monticore.lang.sd4development._cocos;
 import de.monticore.lang.SDCocoTest;
 import org.junit.jupiter.api.Test;
 
+import java.util.Arrays;
+import java.util.List;
+
 public class CorrectObjectConstructionTypesCocoTest extends SDCocoTest {
 
   @Override
@@ -11,8 +14,8 @@ public class CorrectObjectConstructionTypesCocoTest extends SDCocoTest {
   }
 
   @Override
-  protected Class<?> getCoCoUnderTest() {
-    return CorrectObjectConstructionTypesCoco.class;
+  protected List<String> getErrorCodeOfCocoUnderTest() {
+    return Arrays.asList("0xS0007", "0xS0008", "0xS0009");
   }
 
   @Test

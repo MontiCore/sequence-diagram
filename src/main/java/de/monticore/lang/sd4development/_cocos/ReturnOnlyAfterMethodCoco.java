@@ -16,7 +16,7 @@ import java.util.Set;
 
 public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
 
-  static final String MESSAGE = ReturnOnlyAfterMethodCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE = "0xS0013: " +
           "Return call '%s' occurs without previous call from '%s' to '%s'.";
 
   @Override

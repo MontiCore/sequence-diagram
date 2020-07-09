@@ -9,6 +9,10 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.util.Arrays;
+import java.util.Collections;
+import java.util.List;
+
 import static org.junit.Assert.assertEquals;
 
 public class TypeNamingConventionCocoTest extends SDCocoTest {
@@ -19,8 +23,8 @@ public class TypeNamingConventionCocoTest extends SDCocoTest {
   }
 
   @Override
-  protected Class<?> getCoCoUnderTest() {
-    return TypeNamingConventionCoco.class;
+  protected List<String> getErrorCodeOfCocoUnderTest() {
+    return Collections.singletonList("0xS0023");
   }
 
   @Test

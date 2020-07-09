@@ -9,7 +9,7 @@ import de.se_rwth.commons.logging.Log;
 
 public class EndCallHasSourceOrTargetCoco implements SD4DevelopmentASTSDEndCallCoCo {
 
-  static final String MESSAGE_ERROR = EndCallHasSourceOrTargetCoco.class.getSimpleName() + ": "
+  private static final String MESSAGE_ERROR = "0xS0010: "
           + "The interaction has neither a source nor a target. At least one of them must be set.";
   
   @Override
