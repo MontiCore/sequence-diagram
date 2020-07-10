@@ -3,11 +3,7 @@
 package de.monticore.lang.sd4development._cocos;
 
 import de.monticore.lang.SDCocoTest;
-import de.monticore.lang.sdbasis._cocos.SendMessageHasSourceOrTargetCoco;
-import de.monticore.lang.sdbasis._cocos.UniqueObjectNamingCoco;
 import org.junit.jupiter.api.Test;
-
-import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
 
