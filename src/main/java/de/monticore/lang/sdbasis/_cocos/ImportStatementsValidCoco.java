@@ -5,6 +5,10 @@ import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symboltable.ImportStatement;
 import de.se_rwth.commons.logging.Log;
 
+/**
+ * Checks if the imports of a sequence diagram are valid, i.e.,
+ * every import needs to be resolvable (as a variable or type)
+ */
 public class ImportStatementsValidCoco implements SDBasisASTSDArtifactCoCo {
 
   private static final String MESSAGE = "0xS0016: " +

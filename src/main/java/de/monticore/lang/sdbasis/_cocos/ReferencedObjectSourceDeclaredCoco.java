@@ -6,6 +6,9 @@ import de.se_rwth.commons.logging.Log;
 
 import java.util.Optional;
 
+/**
+ * Checks if referenced source objects are declared before they're referenced
+ */
 public class ReferencedObjectSourceDeclaredCoco implements SDBasisASTSDObjectSourceCoCo {
 
   private static final String MESSAGE_NOT_DECLARED = "0xS0019: " +

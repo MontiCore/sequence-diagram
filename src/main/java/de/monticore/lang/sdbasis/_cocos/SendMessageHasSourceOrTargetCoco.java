@@ -2,13 +2,12 @@
 
 package de.monticore.lang.sdbasis._cocos;
 
-import de.monticore.lang.sdbasis._ast.ASTSDObject;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
-import de.monticore.prettyprint.IndentPrinter;
-import de.monticore.types.mcbasictypes._ast.ASTMCObjectType;
-import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
+/**
+ * Checks if a SDSendMessage as at least a source or a target
+ */
 public class SendMessageHasSourceOrTargetCoco implements SDBasisASTSDSendMessageCoCo {
 
   private static final String MESSAGE_ERROR = "0xS0022: "

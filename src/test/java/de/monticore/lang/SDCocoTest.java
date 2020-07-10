@@ -124,7 +124,11 @@ public abstract class SDCocoTest {
     checker.checkAll(sd);
     assertEquals(errorCount, Log.getErrorCount());
     assertEquals(logFindingsCount,
-      Log.getFindings().stream().filter(f -> getErrorCodeOfCocoUnderTest().stream().anyMatch( e -> f.buildMsg().contains(e))).count());
+      Log.getFindings()
+         .stream()
+         .map(Finding::buildMsg)
+         .filter(f -> getErrorCodeOfCocoUnderTest().stream().anyMatch(f::contains))
+         .count());
   }
 
   @ParameterizedTest
@@ -149,7 +153,11 @@ public abstract class SDCocoTest {
     String msgs = Log.getFindings().stream().map(Finding::getMsg).collect(Collectors.joining(System.lineSeparator()));
     assertEquals(msgs, 0, Log.getErrorCount());
     assertEquals(msgs, 0,
-      Log.getFindings().stream().filter(f -> getErrorCodeOfCocoUnderTest().stream().anyMatch(e -> f.buildMsg().contains(e))).count());
+      Log.getFindings()
+         .stream()
+         .map(Finding::buildMsg)
+         .filter(f -> getErrorCodeOfCocoUnderTest().stream().anyMatch(f::contains))
+         .count());
   }
 
   private ASTSDArtifact loadModel(String modelPath) {

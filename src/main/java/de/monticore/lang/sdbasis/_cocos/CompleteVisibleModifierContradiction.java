@@ -8,6 +8,9 @@ import de.se_rwth.commons.logging.Log;
 
 import java.util.List;
 
+/**
+ * Checks if any visible object exists in the sequence diagram, if the sequence diagram is annotated as complete
+ */
 public class CompleteVisibleModifierContradiction implements SDBasisASTSequenceDiagramCoCo {
 
   private static final String MESSAGE = "0xS0015: " +
