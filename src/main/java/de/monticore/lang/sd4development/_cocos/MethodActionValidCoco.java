@@ -14,6 +14,12 @@ import de.se_rwth.commons.logging.Log;
 
 import java.util.Optional;
 
+/**
+ * Checks if the method invocation of a method action is valid, i.e.,
+ * whether a method with a corresponding signature exists in the target type.
+ * For a valid signature, the name of the method as well as the number and types of method parameters
+ * need to be equal.
+ */
 public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
 
   private static final String MESSAGE = "0xS0012: " +
@@ -47,6 +53,13 @@ public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
     return node.getSDAction() instanceof ASTSDCall && node.isPresentSDTarget() && node.getSDTarget() instanceof ASTSDObjectTarget;
   }
 
+  /**
+   * This method checks, if a method invocation, i.e., the call, matches with a given MethodSymbol, i.e., the declaration
+   *
+   * @param methodSymbol the method declaration
+   * @param call the invocation of a method
+   * @return true, if the signature of call corresponds with the signature of the given method symbol
+   */
   private boolean doMethodAndCallMatch(MethodSymbol methodSymbol, ASTSDCall call) {
     if (!isSameParameterSize(methodSymbol, call)) {
       return false;

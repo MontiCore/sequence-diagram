@@ -7,6 +7,9 @@ import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDSendMessageCoCo;
 import de.se_rwth.commons.logging.Log;
 
+/**
+ * Checks if an EndCall transition has at least a source or a target
+ */
 public class EndCallHasSourceOrTargetCoco implements SD4DevelopmentASTSDEndCallCoCo {
 
   private static final String MESSAGE_ERROR = "0xS0010: "

@@ -4,6 +4,10 @@ import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.utils.Names;
 import de.se_rwth.commons.logging.Log;
 
+/**
+ * Checks if the package name of the sequence diagram artifact corresponds with
+ * the actual location in the file system
+ */
 public class PackageNameIsFolderNameCoco implements SDBasisASTSDArtifactCoCo {
 
   private static final String MESSAGE = "0xS0018: " +
