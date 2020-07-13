@@ -9,5 +9,4 @@ sequencediagram violated_naming_conventions {
   timePol: TimingPolicy;
 
    -> : currentClosingTime();
-
 }

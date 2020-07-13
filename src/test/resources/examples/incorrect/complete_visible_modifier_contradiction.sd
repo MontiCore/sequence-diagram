@@ -11,5 +11,4 @@ package examples.incorrect;
   ... d : D;
   initial e : E;
   visible f : F;
-
 }

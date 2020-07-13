@@ -21,6 +21,4 @@ sequencediagram example_completeness_and_stereotypes {
 
   // Other stereotypes
   <<someRandomStereotype>> h : H;
-
-
 }

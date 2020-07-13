@@ -54,9 +54,4 @@ public class SDBasisSymbolTableCreator extends SDBasisSymbolTableCreatorTOP {
     }
   }
 
-  @Override
-  protected void initialize_SDBody(ISDBasisScope scope, ASTSDBody ast) {
-    // set the name to something TODO: DOES THIS NEED TO BE DONE?
-    scope.setName("");
-  }
 }

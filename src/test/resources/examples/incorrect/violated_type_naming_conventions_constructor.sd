@@ -12,5 +12,4 @@ sequencediagram violated_naming_conventions {
   kupfer912 -> bidMessage bm1 = new BidMessage(...);
   //InitializationTypeName: bidMessage instead of BidMessage
   kupfer912 -> BidMessage bm1 = new bidMessage(...);
-
 }

@@ -5,6 +5,4 @@ package examples.incorrect;
 // import wrong_package; // WRONG: Missing incorrect, but somehow this can be resolved..
 import a.b.c; // WRONG
 
-sequencediagram faulty_imports {
-
-}
+sequencediagram faulty_imports { }

@@ -23,5 +23,4 @@ sequencediagram example_2_interactions {
   a -> f : methodenname(); // invalid
   a <- f : return; // invalid
   a -> F f = new F();
-
 }

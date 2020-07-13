@@ -12,7 +12,4 @@ sequencediagram cocoviolation1 {
   // Return without previous call
   a <- b : return ...;
     <- b: return;
-
-
-
 }

@@ -14,5 +14,4 @@ sequencediagram example_6_stereotypes {
   kupfer912 -> bidPol : validateBid(bid);
   kupfer912 <- bidPol : return BiddingPolicy.OK;
   auctionTest <- kupfer912:;
-
 }
