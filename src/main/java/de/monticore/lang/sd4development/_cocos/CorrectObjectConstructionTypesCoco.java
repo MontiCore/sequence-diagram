@@ -12,16 +12,20 @@ import de.se_rwth.commons.logging.Log;
 
 import java.util.Optional;
 
+/**
+ * Checks if the declared types of a SDNew construct, i.e., the declaration and the initialization type,
+ * are compatible.
+ */
 public class CorrectObjectConstructionTypesCoco implements SD4DevelopmentASTSDNewCoCo {
 
-  static final String MESSAGE_ERROR_DECLARATION_TYPE_MISSING = CorrectObjectConstructionTypesCoco.class.getSimpleName() + ": " +
-    "SymType of declaration type '%s' is missing.";
+  private static final String MESSAGE_ERROR_DECLARATION_TYPE_MISSING = "0xS0007: " +
+    "SymType of declaration type '%s' is missing. Can't check whether types are compatible.";
 
-  static final String MESSAGE_ERROR_INITIALIZATION_TYPE_MISSING = CorrectObjectConstructionTypesCoco.class.getSimpleName() + ": " +
-    "SymType of initialization type '%s' is missing.";
+  private static final String MESSAGE_ERROR_INITIALIZATION_TYPE_MISSING = "0xS0008: " +
+    "SymType of initialization type '%s' is missing. Can't check whether types are compatible.";
 
-  static final String MESSAGE_ERROR_INCOMPATIBLE_TYPES = CorrectObjectConstructionTypesCoco.class.getSimpleName() + ": " +
-    "Incompatible types. Required %s but found %s.";
+  private static final String MESSAGE_ERROR_INCOMPATIBLE_TYPES = "0xS0009: " +
+    "%s and %s are incompatible types. Use the same type or a subtype of %s";
 
   private final DeriveSymTypeOfSDBasis deriveSymTypeOfSDBasis;
 
@@ -34,6 +38,7 @@ public class CorrectObjectConstructionTypesCoco implements SD4DevelopmentASTSDNe
 
   @Override
   public void check(ASTSDNew node) {
+    // used for potential error messages
     String declarationTypeStr = node.getDeclarationType().printType(prettyPrinter);
     String initializationTypeStr = node.getInitializationType().printType(prettyPrinter);
 
@@ -41,17 +46,17 @@ public class CorrectObjectConstructionTypesCoco implements SD4DevelopmentASTSDNe
     Optional<SymTypeExpression> initializationType = deriveSymTypeOfSDBasis.calculateType(node.getInitializationType());
 
     if (!declarationType.isPresent()) {
-      Log.error(String.format(MESSAGE_ERROR_DECLARATION_TYPE_MISSING, declarationTypeStr));
+      Log.warn(String.format(MESSAGE_ERROR_DECLARATION_TYPE_MISSING, declarationTypeStr));
       return;
     }
 
     if (!initializationType.isPresent()) {
-      Log.error(String.format(MESSAGE_ERROR_INITIALIZATION_TYPE_MISSING, initializationTypeStr));
+      Log.warn(String.format(MESSAGE_ERROR_INITIALIZATION_TYPE_MISSING, initializationTypeStr));
       return;
     }
 
     if (!TypeCheck.compatible(initializationType.get(), declarationType.get())) {
-      Log.error(String.format(MESSAGE_ERROR_INCOMPATIBLE_TYPES, declarationTypeStr, initializationTypeStr));
+      Log.error(String.format(MESSAGE_ERROR_INCOMPATIBLE_TYPES, declarationTypeStr, initializationTypeStr, declarationTypeStr));
     }
   }
 }

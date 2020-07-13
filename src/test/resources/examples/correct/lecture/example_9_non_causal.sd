@@ -12,6 +12,4 @@ sequencediagram example_9_non_causal {
   // Interactions
   a -> b : methode(...);
   c -> b : methode2(...);
-
-
 }

@@ -73,6 +73,25 @@ public class SD4DevelopmentPrettyPrinter implements SD4DevelopmentInheritanceVis
   }
 
   @Override
+  public void visit(ASTSDCondition node) {
+    getPrinter().print("assert ");
+  }
+
+  @Override
+  public void endVisit(ASTSDCondition node) {
+    getPrinter().println(";");
+  }
+
+  @Override
+  public void traverse(ASTSDVariableDeclaration node) {
+    getPrinter().print("let " );
+    node.getMCType().accept(getRealThis());
+    getPrinter().print(" " + node.getName() + " = ");
+    node.getAssignment().accept(getRealThis());
+    getPrinter().println(";");
+  }
+
+  @Override
   public void visit(ASTSDClass node) {
     getPrinter().print("class ");
   }
@@ -89,6 +108,7 @@ public class SD4DevelopmentPrettyPrinter implements SD4DevelopmentInheritanceVis
     getPrinter().print(" : ");
     node.getSDAction().accept(getRealThis());
     getPrinter().println(";");
-
   }
+
+
 }

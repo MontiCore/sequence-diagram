@@ -3,13 +3,9 @@
 package de.monticore.lang.sdbasis._cocos;
 
 import de.monticore.lang.SDCocoTest;
-import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.Test;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-
-import static org.junit.Assert.assertEquals;
+import java.util.Collections;
+import java.util.List;
 
 public class TypeNamingConventionCocoTest extends SDCocoTest {
 
@@ -19,8 +15,8 @@ public class TypeNamingConventionCocoTest extends SDCocoTest {
   }
 
   @Override
-  protected Class<?> getCoCoUnderTest() {
-    return TypeNamingConventionCoco.class;
+  protected List<String> getErrorCodeOfCocoUnderTest() {
+    return Collections.singletonList("0xS0023");
   }
 
   @Test

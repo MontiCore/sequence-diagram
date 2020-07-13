@@ -4,6 +4,8 @@ import de.monticore.lang.SDCocoTest;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+import java.util.Collections;
+import java.util.List;
 
 public class MethodActionValidCocoTest extends SDCocoTest {
 
@@ -13,8 +15,8 @@ public class MethodActionValidCocoTest extends SDCocoTest {
   }
 
   @Override
-  protected Class<?> getCoCoUnderTest() {
-    return MethodActionValidCoco.class;
+  protected List<String> getErrorCodeOfCocoUnderTest() {
+    return Collections.singletonList("0xS0012");
   }
 
   @Override

@@ -7,7 +7,6 @@ sequencediagram activities {
   a;
   b;
 
-
   a -> b : methode1(...)
   {
     b -> a : methode2(...)
@@ -17,6 +16,4 @@ sequencediagram activities {
       }
     }
   }
-
-
 }

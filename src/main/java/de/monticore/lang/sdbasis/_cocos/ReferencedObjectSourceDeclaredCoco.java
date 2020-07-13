@@ -6,12 +6,15 @@ import de.se_rwth.commons.logging.Log;
 
 import java.util.Optional;
 
+/**
+ * Checks if referenced source objects are declared before they're referenced
+ */
 public class ReferencedObjectSourceDeclaredCoco implements SDBasisASTSDObjectSourceCoCo {
 
-  static final String MESSAGE_NOT_DECLARED = ReferencedObjectSourceDeclaredCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE_NOT_DECLARED = "0xS0019: " +
     "Object '%s' is used, but not declared.";
 
-  static final String MESSAGE_NOT_DECLARED_BEFORE = ReferencedObjectSourceDeclaredCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE_NOT_DECLARED_BEFORE = "0xS0026: " +
     "Object '%s' is used before its declaration.";
 
   @Override

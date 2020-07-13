@@ -6,7 +6,6 @@ import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -36,9 +35,10 @@ public class SDParserTest {
     "lecture/example_5_factory.sd",
     "lecture/example_6_stereotypes.sd",
     "lecture/example_7_noocl.sd",
-    // "lecture/example_8_ocl_let.sd",
+    "lecture/example_7_ocl.sd",
+    "lecture/example_8_ocl_let.sd",
     "lecture/example_9_non_causal.sd",
-    // "example.sd,
+    "example.sd",
     "example_completeness_and_stereotypes.sd",
     "allGrammarElements.sd",
     "activities.sd"

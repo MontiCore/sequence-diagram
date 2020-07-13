@@ -8,9 +8,14 @@ import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDSendMessageCoCo;
 import de.se_rwth.commons.logging.Log;
 
+/**
+ * Checks if a method action refers to a correct target, i.e.,
+ * that static methods are only invoked on classes,
+ * and usual invocations on objects
+ */
 public class MethodActionRefersToCorrectTargetCoco implements SDBasisASTSDSendMessageCoCo {
 
-  static final String MESSAGE_ERROR_REFERS_TO_ = MethodActionRefersToCorrectTargetCoco.class.getSimpleName() + ": "
+  private static final String MESSAGE_ERROR_REFERS_TO_ = "0xS0011: "
           + "Method call must refer to an %s";
 
   @Override

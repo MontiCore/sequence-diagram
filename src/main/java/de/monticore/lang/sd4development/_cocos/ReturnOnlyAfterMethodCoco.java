@@ -14,9 +14,12 @@ import de.se_rwth.commons.logging.Log;
 import java.util.HashSet;
 import java.util.Set;
 
+/**
+ * Checks if a return call only appears after a method call has been invoked before
+ */
 public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
 
-  static final String MESSAGE = ReturnOnlyAfterMethodCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE = "0xS0013: " +
           "Return call '%s' occurs without previous call from '%s' to '%s'.";
 
   @Override
@@ -25,6 +28,11 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
     node.accept(visitor);
   }
 
+  /**
+   * This visitor traverses the AST of the sequence diagram, and collects any SendCall invocation.
+   * If there exists a return end call, it is checked if any open SendCall matches with the given EndCall.
+   * If there does not exists such a SendCall, an error will be produced.
+   */
   private static final class ReturnOnlyAfterMethodCocoVisitor implements SD4DevelopmentInheritanceVisitor {
     private final SD4DevelopmentDelegatorPrettyPrinter pp = new SD4DevelopmentDelegatorPrettyPrinter();
 

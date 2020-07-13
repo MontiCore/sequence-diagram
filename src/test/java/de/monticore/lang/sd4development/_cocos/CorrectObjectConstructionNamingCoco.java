@@ -6,6 +6,9 @@ import de.monticore.lang.SDCocoTest;
 import de.monticore.lang.sdbasis._cocos.TypeNamingConventionCoco;
 import org.junit.jupiter.api.Test;
 
+import java.util.Collections;
+import java.util.List;
+
 public class CorrectObjectConstructionNamingCoco extends SDCocoTest {
 
   @Override
@@ -14,8 +17,8 @@ public class CorrectObjectConstructionNamingCoco extends SDCocoTest {
   }
 
   @Override
-  protected Class<?> getCoCoUnderTest() {
-    return TypeNamingConventionCoco.class;
+  protected List<String> getErrorCodeOfCocoUnderTest() {
+    return Collections.singletonList("0xS0023");
   }
 
   @Test

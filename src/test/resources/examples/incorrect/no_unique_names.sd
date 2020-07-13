@@ -14,5 +14,4 @@ sequencediagram sd_test {
   // Inline definitions
   // o -> (c:C) : new C(...);        // Violation
   // o -> (:SomeClass) : new SomeClass(...);  // Violation
-
 }

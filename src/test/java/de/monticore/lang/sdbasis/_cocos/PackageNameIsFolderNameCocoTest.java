@@ -4,6 +4,8 @@ package de.monticore.lang.sdbasis._cocos;
 
 import de.monticore.lang.SDCocoTest;
 import org.junit.jupiter.api.Test;
+import java.util.Collections;
+import java.util.List;
 
 public class PackageNameIsFolderNameCocoTest extends SDCocoTest {
 
@@ -13,8 +15,8 @@ public class PackageNameIsFolderNameCocoTest extends SDCocoTest {
   }
 
   @Override
-  protected Class<?> getCoCoUnderTest() {
-    return PackageNameIsFolderNameCoco.class;
+  protected List<String> getErrorCodeOfCocoUnderTest() {
+    return Collections.singletonList("0xS0018");
   }
 
   @Test

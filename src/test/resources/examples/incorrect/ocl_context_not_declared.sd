@@ -12,23 +12,7 @@ sequencediagram ocl_context_not_declared {
 
   // Interaction sequence
   kupfer912 -> bidPol : validateBid(bid);
-
   kupfer912 -> timePol: newCurrentClosingTime(kupfer912, bid);
   kupfer912 <- timePol: return t;
-
-  //TODO: Reenable once OCL is back
-  //<timePol: ["t.timeSec == bid.time.timeSec + extensionTime"]>
-  // <timePol: []>
-
-  //TODO: Reenable once OCL is back
-  //<undeclaredName: ["t.timeSec == bid.time.timeSec + extensionTime"]>
-  //<undeclaredName: []>
-
   kupfer912 -> theo : sendMessage(bm);
-
-  //TODO: Reenable once OCL is back
-  //<["kupfer912.currentClosingTime==t && theo.message.last==bm"]>
-  //<[]>
-
-
 }

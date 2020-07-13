@@ -6,9 +6,12 @@ import org.apache.commons.io.FilenameUtils;
 
 import static de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobalScope.FILE_EXTENSION;
 
+/**
+ * Checks if the file of the model has the common file ending for sequence diagrams, i.e., .sd
+ */
 public class CommonFileExtensionCoco implements SDBasisASTSDArtifactCoCo {
 
-  static final String MESSAGE = CommonFileExtensionCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE = "0xS0014: " +
     "File extension is '%s', but should be " + FILE_EXTENSION;
 
   @Override
