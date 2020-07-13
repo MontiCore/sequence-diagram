@@ -6,7 +6,7 @@
     {
       "kind": "de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol",
       "name": "examples.symboltable.deser.deser_test",
-      "subScopes": {
+      "spannedScope": {
         "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope",
         "name": "deser_test",
         "isShadowingScope": false,

@@ -19,7 +19,4 @@ sequencediagram deser_test {
   kupfer912 -> Policy bidPol2 = new BiddingPolicy();
 
   let int i = 0;
-
-
-
 }
