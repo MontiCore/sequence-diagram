@@ -22,7 +22,6 @@ import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
-// TODO: serialization/deserialization does not work atm, undo disable this test asap
 public class SD4DevelopmentDeSerTest {
 
   private static final String MODEL_PATH = "src/test/resources/";
@@ -61,6 +60,7 @@ public class SD4DevelopmentDeSerTest {
     // then
     System.out.println(serializedSD);
     assertTrue(serializedSD.length() > 0);
+    deSer.deserialize(serializedSD); // test if JSON is valid
   }
 
   @ParameterizedTest
@@ -81,11 +81,7 @@ public class SD4DevelopmentDeSerTest {
     SequenceDiagramSymbol sdSymbol = deserializedSD.getLocalSequenceDiagramSymbols().get(0);
     assertEquals(FilenameUtils.removeExtension(serializedModel), sdSymbol.getName());
     assertEquals("examples.symboltable.deser", sdSymbol.getPackageName());
-    assertEquals(1, deserializedSD.getSubScopes().size());
-    SD4DevelopmentScope sdScope = (SD4DevelopmentScope) deserializedSD.getSubScopes().get(0);
-    assertEquals(3, sdScope.getVariableSymbols().size());
-    assertEquals(1, sdScope.getSubScopes().size());
-    assertEquals(2, sdScope.getSubScopes().get(0).getVariableSymbols().size());
+    assertEquals(0, deserializedSD.getSubScopes().size());
   }
 
   private ASTSDArtifact loadModel(String modelPath) {
