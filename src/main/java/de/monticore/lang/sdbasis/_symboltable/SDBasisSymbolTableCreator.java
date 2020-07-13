@@ -53,5 +53,4 @@ public class SDBasisSymbolTableCreator extends SDBasisSymbolTableCreatorTOP {
       }
     }
   }
-
 }
