@@ -98,10 +98,6 @@ public abstract class SDCocoTest {
       .setName("newCurrentClosingTime")
       .build();
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
-//    scope.add(new FieldSymbolBuilder()
-//      .setName("auction")
-//      .setType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("Auction")).get()).get())
-//      .build());
     scope.add(new FieldSymbolBuilder()
       .setName("value")
       .setType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("int")).get()).get())
@@ -140,6 +136,7 @@ public abstract class SDCocoTest {
     "lecture/example_5_factory.sd",
     "lecture/example_6_stereotypes.sd",
     "lecture/example_7_noocl.sd",
+    "lecture/example_7_ocl.sd",
     "lecture/example_8_ocl_let.sd",
     "lecture/example_9_non_causal.sd",
     "example.sd",
@@ -175,6 +172,4 @@ public abstract class SDCocoTest {
   private void createSymbolTableFromAST(ASTSDArtifact ast) {
     new SD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(this.globalScope).build().createFromAST(ast);
   }
-
-
 }

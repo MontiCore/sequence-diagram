@@ -28,6 +28,4 @@ sequencediagram incomplete_not_allowed {
   d ->  Object a = new Object(...);  // OK
   d <- a : Exception(...);  // OK
   d <- a : return ...;    // OK
-
-
 }

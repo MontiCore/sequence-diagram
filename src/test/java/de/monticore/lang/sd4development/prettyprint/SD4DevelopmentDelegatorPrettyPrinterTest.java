@@ -40,9 +40,9 @@ public class SD4DevelopmentDelegatorPrettyPrinterTest {
           "lecture/example_5_factory.sd",
           "lecture/example_6_stereotypes.sd",
           "lecture/example_7_noocl.sd",
-          // "lecture/example_8_ocl_let.sd",
+          "lecture/example_8_ocl_let.sd",
           "lecture/example_9_non_causal.sd",
-          // "example.sd,
+          "example.sd",
           "example_completeness_and_stereotypes.sd",
           "allGrammarElements.sd",
           "activities.sd"

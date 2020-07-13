@@ -16,9 +16,5 @@ sequencediagram example_1 {
   kupfer912 -> timePol: newCurrentClosingTime(42);
   kupfer912 <- timePol: return t;
 
-// TODO: Reenable once OCL is back
-//  <timePol: []>
-//   <timePol: ["t.timeSec == bid.time.timeSec + extensionTime"]>
-
-
+  assert t.timeSec == bid.time.timeSec + extensionTime;
 }

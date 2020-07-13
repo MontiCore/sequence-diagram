@@ -35,6 +35,7 @@ public class SDParserTest {
     "lecture/example_5_factory.sd",
     "lecture/example_6_stereotypes.sd",
     "lecture/example_7_noocl.sd",
+    "lecture/example_7_ocl.sd",
     "lecture/example_8_ocl_let.sd",
     "lecture/example_9_non_causal.sd",
     "example.sd",

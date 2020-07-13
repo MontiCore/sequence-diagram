@@ -12,15 +12,7 @@ sequencediagram example_7_noocl {
 
   // Interaction sequence
   kupfer912 -> bidPol : validateBid(bid);
-
   kupfer912 -> timePol: newCurrentClosingTime(kupfer912, bid);
   kupfer912 <- timePol: return t;
-
-//  <timePol: [] >
-
   kupfer912 -> theo : sendMessage(bm);
-
-//  <[]>
-
-
 }

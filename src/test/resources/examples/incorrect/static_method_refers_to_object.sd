@@ -15,5 +15,4 @@ sequencediagram example_3_static {
 
   // Non static, forbidden calls
   a -> class StaticClass: writeToProtocol("This is wrong");
-
 }
