@@ -56,6 +56,7 @@ public class SDParserTest {
     "no_unique_names.sd",
     "ocl_context_not_declared.sd",
     "reference_undeclared_objects.sd",
+    "reference_undeclared_objects_with_import.sd",
     "return_before_method.sd",
     "static_method_refers_to_object.sd",
     "uncommon_file_extension.sy",

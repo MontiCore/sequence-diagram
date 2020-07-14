@@ -22,8 +22,9 @@ public class ReferencedObjectTargetDeclaredCoco implements SDBasisASTSDObjectTar
     Optional<VariableSymbol> varOpt = node.getEnclosingScope().resolveVariable(node.getName());
     if (!varOpt.isPresent()) {
       Log.error(String.format(MESSAGE_NOT_DECLARED, node.getName()), node.get_SourcePositionStart());
+      return;
     }
-    else if (varOpt.get().getAstNode().get_SourcePositionEnd().compareTo(node.get_SourcePositionStart()) > 0) {
+    if (varOpt.get().isPresentAstNode() && varOpt.get().getAstNode().get_SourcePositionEnd().compareTo(node.get_SourcePositionStart()) > 0) {
       Log.error(String.format(MESSAGE_NOT_DECLARED_BEFORE, node.getName()), node.get_SourcePositionStart());
     }
   }
