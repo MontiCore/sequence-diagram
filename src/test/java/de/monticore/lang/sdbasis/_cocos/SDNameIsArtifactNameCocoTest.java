@@ -16,7 +16,7 @@ public class SDNameIsArtifactNameCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Collections.singletonList("0xS0021");
+    return Collections.singletonList("0xB0021");
   }
 
   @Test

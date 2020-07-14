@@ -16,7 +16,7 @@ public class EndCallHasSourceOrTargetCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Collections.singletonList("0xS0010");
+    return Collections.singletonList("0xB0010");
   }
 
   @Test

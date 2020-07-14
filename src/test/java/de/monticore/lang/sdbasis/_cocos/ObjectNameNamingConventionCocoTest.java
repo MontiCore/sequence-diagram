@@ -16,7 +16,7 @@ public class ObjectNameNamingConventionCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Arrays.asList("0xS0017", "0xS0025");
+    return Arrays.asList("0xB0017", "0xB0025");
   }
 
   @Test

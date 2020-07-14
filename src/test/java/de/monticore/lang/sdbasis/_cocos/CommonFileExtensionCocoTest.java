@@ -16,7 +16,7 @@ public class CommonFileExtensionCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Collections.singletonList("0xS0014");
+    return Collections.singletonList("0xB0014");
   }
 
   @Test

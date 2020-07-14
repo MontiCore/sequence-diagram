@@ -11,7 +11,7 @@ import org.apache.commons.io.FilenameUtils;
  */
 public class SDNameIsArtifactNameCoco implements SDBasisASTSDArtifactCoCo {
 
-  private static final String MESSAGE = "0xS0021: " +
+  private static final String MESSAGE = "0xB0021: " +
         "The sequence diagram name %s does not match the artifact name %s";
 
   @Override

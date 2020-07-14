@@ -45,7 +45,7 @@ public class SDBasisSymbolTableCreator extends SDBasisSymbolTableCreatorTOP {
       ast.getMCObjectType().setEnclosingScope(ast.getEnclosingScope());
       final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(ast.getMCObjectType());
       if (!typeResult.isPresent()) {
-        Log.error(String.format("0xS0001: The type (%s) of the object (%s) could not be calculated",
+        Log.error(String.format("0xB0001: The type (%s) of the object (%s) could not be calculated",
                 prettyPrinter.prettyprint(ast.getMCObjectType()),
                 ast.getName()));
       } else {

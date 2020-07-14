@@ -17,7 +17,7 @@ import java.util.stream.Collectors;
  */
 public class UniqueObjectNamingCoco implements SDBasisASTSequenceDiagramCoCo {
 
-  private static final String MESSAGE_ERROR_IDENTIFIER_AMBIGUOUS = "0xS0024: "
+  private static final String MESSAGE_ERROR_IDENTIFIER_AMBIGUOUS = "0xB0024: "
           + "Identifier %s is ambiguous.";
 
   @Override

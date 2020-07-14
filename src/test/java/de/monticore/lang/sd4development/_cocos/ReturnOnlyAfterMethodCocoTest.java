@@ -18,7 +18,7 @@ public class ReturnOnlyAfterMethodCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Collections.singletonList("0xS0013");
+    return Collections.singletonList("0xB0013");
   }
 
   @Test

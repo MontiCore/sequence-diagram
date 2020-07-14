@@ -35,6 +35,7 @@ package de.monticore.lang;
  * This grammar extends the grammar
  *  * SDBasis to reuse the basic constituents of SDs,
  *  * MCCommonLiterals to be able to common literals in expressions.
+ *  * CommonExpressions to be able to use simple expressions, e.g. a == b
  *  * OCLExpressions for embedding OCL expressions as conditions and to
  *  * be able to use expressions for the definition of local variables.
  */

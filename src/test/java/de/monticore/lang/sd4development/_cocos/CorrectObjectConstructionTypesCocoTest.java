@@ -14,7 +14,7 @@ public class CorrectObjectConstructionTypesCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Arrays.asList("0xS0007", "0xS0008", "0xS0009");
+    return Arrays.asList("0xB0007", "0xB0008", "0xB0009");
   }
 
   @Test

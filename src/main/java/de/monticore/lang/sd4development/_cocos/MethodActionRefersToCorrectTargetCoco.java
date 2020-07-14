@@ -15,7 +15,7 @@ import de.se_rwth.commons.logging.Log;
  */
 public class MethodActionRefersToCorrectTargetCoco implements SDBasisASTSDSendMessageCoCo {
 
-  private static final String MESSAGE_ERROR_REFERS_TO_ = "0xS0011: "
+  private static final String MESSAGE_ERROR_REFERS_TO_ = "0xB0011: "
           + "Method call must refer to an %s";
 
   @Override

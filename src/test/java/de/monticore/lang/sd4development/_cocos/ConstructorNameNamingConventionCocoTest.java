@@ -17,7 +17,7 @@ public class ConstructorNameNamingConventionCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Arrays.asList("0xS0005", "0xS0006");
+    return Arrays.asList("0xB0005", "0xB0006");
   }
 
   @Test

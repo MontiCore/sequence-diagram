@@ -16,7 +16,7 @@ public class MethodActionRefersToCorrectTargetCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Collections.singletonList("0xS0011");
+    return Collections.singletonList("0xB0011");
   }
 
   @Test

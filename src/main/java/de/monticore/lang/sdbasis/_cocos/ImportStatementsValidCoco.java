@@ -11,7 +11,7 @@ import de.se_rwth.commons.logging.Log;
  */
 public class ImportStatementsValidCoco implements SDBasisASTSDArtifactCoCo {
 
-  private static final String MESSAGE = "0xS0016: " +
+  private static final String MESSAGE = "0xB0016: " +
           "Cannot resolve import '%s'.";
 
   @Override

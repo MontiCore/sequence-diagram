@@ -59,7 +59,7 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
     ast.getDeclarationType().setEnclosingScope(ast.getEnclosingScope());
     final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(ast.getDeclarationType());
     if (!typeResult.isPresent()) {
-      Log.error(String.format("0xS0002: The type (%s) of the object (%s) could not be calculated",
+      Log.error(String.format("0xB0002: The type (%s) of the object (%s) could not be calculated",
               prettyPrinter.prettyprint(ast.getDeclarationType()),
               ast.getName()));
     } else {
@@ -82,7 +82,7 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
     ast.getMCType().setEnclosingScope(ast.getEnclosingScope());
     final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(ast.getMCType());
     if (!typeResult.isPresent()) {
-      Log.error(String.format("0xS0003: The type (%s) of the variable (%s) could not be calculated",
+      Log.error(String.format("0xB0003: The type (%s) of the variable (%s) could not be calculated",
               prettyPrinter.prettyprint(ast.getMCType()),
               ast.getName()));
     } else {
@@ -105,7 +105,7 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
     ast.getMCType().setEnclosingScope(ast.getEnclosingScope());
     final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(ast.getMCType());
     if (!typeResult.isPresent()) {
-      Log.error(String.format("0xS0004: The type (%s) of the variable (%s) could not be calculated",
+      Log.error(String.format("0xB0004: The type (%s) of the variable (%s) could not be calculated",
               prettyPrinter.prettyprint(ast.getMCType()),
               ast.getName()));
     } else {

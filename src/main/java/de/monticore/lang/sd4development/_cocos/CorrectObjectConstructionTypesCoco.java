@@ -13,18 +13,18 @@ import de.se_rwth.commons.logging.Log;
 import java.util.Optional;
 
 /**
- * Checks if the declared types of a SDNew construct, i.e., the declaration and the initialization type,
- * are compatible.
+ * Checks if the declared types of a SDNew construct, i.e., the declaration and the
+ * initialization type are compatible.
  */
 public class CorrectObjectConstructionTypesCoco implements SD4DevelopmentASTSDNewCoCo {
 
-  private static final String MESSAGE_ERROR_DECLARATION_TYPE_MISSING = "0xS0007: " +
+  private static final String MESSAGE_ERROR_DECLARATION_TYPE_MISSING = "0xB0007: " +
     "SymType of declaration type '%s' is missing. Can't check whether types are compatible.";
 
-  private static final String MESSAGE_ERROR_INITIALIZATION_TYPE_MISSING = "0xS0008: " +
+  private static final String MESSAGE_ERROR_INITIALIZATION_TYPE_MISSING = "0xB0008: " +
     "SymType of initialization type '%s' is missing. Can't check whether types are compatible.";
 
-  private static final String MESSAGE_ERROR_INCOMPATIBLE_TYPES = "0xS0009: " +
+  private static final String MESSAGE_ERROR_INCOMPATIBLE_TYPES = "0xB0009: " +
     "%s and %s are incompatible types. Use the same type or a subtype of %s";
 
   private final DeriveSymTypeOfSDBasis deriveSymTypeOfSDBasis;

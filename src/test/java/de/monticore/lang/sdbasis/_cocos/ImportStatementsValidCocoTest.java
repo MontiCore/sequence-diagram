@@ -16,7 +16,7 @@ public class ImportStatementsValidCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Collections.singletonList("0xS0016");
+    return Collections.singletonList("0xB0016");
   }
 
   @Test
