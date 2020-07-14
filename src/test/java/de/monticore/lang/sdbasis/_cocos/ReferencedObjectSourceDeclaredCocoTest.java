@@ -24,4 +24,9 @@ public class ReferencedObjectSourceDeclaredCocoTest extends SDCocoTest {
     testCocoViolation("reference_undeclared_objects.sd", 4, 4);
   }
 
+  @Test
+  public void testNoCocoViolation() {
+    testCocoViolation("reference_undeclared_objects_with_import.sd", 0, 0);
+  }
+
 }

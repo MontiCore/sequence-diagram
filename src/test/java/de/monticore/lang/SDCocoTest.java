@@ -52,63 +52,19 @@ public abstract class SDCocoTest {
   }
 
   @BeforeEach
-  public void setup() throws IOException {
+  public void setup() {
     this.setupGlobalScope();
     this.checker = new SD4DevelopmentCoCoChecker();
     initCoCoChecker();
     Log.getFindings().clear();
   }
 
-  private void setupGlobalScope() throws IOException {
+  private void setupGlobalScope() {
     this.globalScope = new SD4DevelopmentGlobalScopeBuilder()
       .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
       .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION)
       .build();
-    // add BidMessage and Mail objects to global scope
-    Stream.of("BidMessage", "Auction", "NotASubType").map(OOTypeSymbol::new).forEach(e -> {
-      e.setEnclosingScope(globalScope);
-      globalScope.add(e);
-    });
-    addBiddingPolicyOOSymbol();
-    addTimingPolicyOOSymbol();
-  }
-
-  private void addBiddingPolicyOOSymbol() throws IOException {
-    MethodSymbol validateBid = new MethodSymbolBuilder()
-      .setName("validateBid")
-      .setReturnType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("int")).get()).get())
-      .build();
-    SD4DevelopmentScope scope = new SD4DevelopmentScope();
-    scope.add(new FieldSymbolBuilder()
-      .setName("value")
-      .setType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("int")).get()).get())
-      .build());
-    validateBid.setSpannedScope(scope);
-    Stream.of("BiddingPolicy").map(OOTypeSymbol::new).forEach(e -> {
-      e.setSpannedScope(new SD4DevelopmentScope());
-      e.addMethodSymbol(validateBid);
-      e.setEnclosingScope(globalScope);
-      globalScope.add(e);
-    });
-  }
-
-  private void addTimingPolicyOOSymbol() throws IOException {
-    MethodSymbol newCurrentClosingTime = new MethodSymbolBuilder()
-      .setReturnType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("int")).get()).get())
-      .setName("newCurrentClosingTime")
-      .build();
-    SD4DevelopmentScope scope = new SD4DevelopmentScope();
-    scope.add(new FieldSymbolBuilder()
-      .setName("value")
-      .setType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("int")).get()).get())
-      .build());
-    newCurrentClosingTime.setSpannedScope(scope);
-    Stream.of("TimingPolicy").map(OOTypeSymbol::new).forEach(e -> {
-      e.setSpannedScope(new SD4DevelopmentScope());
-      e.addMethodSymbol(newCurrentClosingTime);
-      e.setEnclosingScope(globalScope);
-      globalScope.add(e);
-    });
+    TestUtils.setupGlobalScope(globalScope);
   }
 
   protected abstract void initCoCoChecker();

@@ -19,7 +19,7 @@ public class ReferencedTypeExistsCoco implements MCBasicTypesASTMCTypeCoCo {
     if (node.getEnclosingScope() instanceof SD4DevelopmentScope) {
       SD4DevelopmentScope scope = (SD4DevelopmentScope) node.getEnclosingScope();
       String type = node.printType(pp);
-      if (!scope.resolveType(type).isPresent()) {
+      if (!scope.resolveType(type).isPresent() && !scope.resolveOOType(type).isPresent()) {
         Log.error(String.format(MESSAGE, type));
       }
     }

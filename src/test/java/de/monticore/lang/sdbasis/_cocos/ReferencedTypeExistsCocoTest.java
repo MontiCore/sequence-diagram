@@ -20,6 +20,6 @@ public class ReferencedTypeExistsCocoTest extends SDCocoTest {
 
   @Test
   public void testCocoViolation() {
-//    testCocoViolation("", 0, 0);
+    testCocoViolation("used_type_undefined.sd", 1, 1);
   }
 }
