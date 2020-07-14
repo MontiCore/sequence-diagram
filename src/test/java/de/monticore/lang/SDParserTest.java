@@ -51,7 +51,6 @@ public class SDParserTest {
   @CsvSource({
     "artifact_not_sd_name.sd",
     "complete_visible_modifier_contradiction.sd",
-    "faulty_imports.sd",
     "incomplete_not_allowed.sd",
     "initialization_type_is_not_subtype_of_declaration_type.sd",
     "no_unique_names.sd",

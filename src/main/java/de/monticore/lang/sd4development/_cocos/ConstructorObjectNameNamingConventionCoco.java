@@ -6,16 +6,17 @@ import de.monticore.lang.sd4development._ast.ASTSDNew;
 import de.se_rwth.commons.logging.Log;
 
 /**
- * Checks if naming conventions of SDNew constructs are fulfilled, i.e.,
- * the name is not empty and starts with a lower case
+ * Checks if naming conventions for objects constructed with SDNew
+ * are satisfied, i.e., the name is not empty and starts
+ * with a lower case letter.
  */
 public class ConstructorObjectNameNamingConventionCoco implements SD4DevelopmentASTSDNewCoCo {
 
-  private static final String MESSAGE_WARNING_LOWER_CASE = "0xS0005: "
+  private static final String MESSAGE_WARNING_LOWER_CASE = "0xB0005: "
           + "Object declaration introduces an object with name %s"
           + " which should be written lower case by convention.";
 
-  private static final String MESSAGE_WARNING_NOT_EMPTY = "0xS0006: "
+  private static final String MESSAGE_WARNING_NOT_EMPTY = "0xB0006: "
           + "Object declaration introduces an object with an empty name"
           + " which should not be empty.";
 

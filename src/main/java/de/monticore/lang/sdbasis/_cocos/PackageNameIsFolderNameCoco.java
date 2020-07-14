@@ -5,12 +5,12 @@ import de.monticore.utils.Names;
 import de.se_rwth.commons.logging.Log;
 
 /**
- * Checks if the package name of the sequence diagram artifact corresponds with
- * the actual location in the file system
+ * Checks if the package name of the sequence diagram artifact corresponds to
+ * the actual location in the file system.
  */
 public class PackageNameIsFolderNameCoco implements SDBasisASTSDArtifactCoCo {
 
-  private static final String MESSAGE = "0xS0018: " +
+  private static final String MESSAGE = "0xB0018: " +
           "Package name '%s' does not correspond to the file path '%s'.";
 
   @Override

@@ -16,7 +16,7 @@ public class ReferencedObjectSourceDeclaredCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Arrays.asList("0xS0019", "0xS0026");
+    return Arrays.asList("0xB0019", "0xB0026");
   }
 
   @Test

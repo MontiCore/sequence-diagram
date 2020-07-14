@@ -15,11 +15,11 @@ import java.util.HashSet;
 import java.util.Set;
 
 /**
- * Checks if a return call only appears after a method call has been invoked before
+ * Checks if a return action only appears after a corresponding method call.
  */
 public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
 
-  private static final String MESSAGE = "0xS0013: " +
+  private static final String MESSAGE = "0xB0013: " +
           "Return call '%s' occurs without previous call from '%s' to '%s'.";
 
   @Override

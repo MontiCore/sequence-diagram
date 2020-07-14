@@ -6,16 +6,13 @@ import de.monticore.lang.sd4development._ast.ASTSDVariableDeclaration;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
 import de.monticore.prettyprint.IndentPrinter;
-import de.monticore.symboltable.ImportStatement;
 import de.monticore.types.basictypesymbols._symboltable.VariableSymbol;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.Deque;
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableCreatorTOP {
 
@@ -36,12 +33,7 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
   public SD4DevelopmentArtifactScope createFromAST(ASTSDArtifact rootNode) {
     SD4DevelopmentArtifactScope artifactScope = super.createFromAST(rootNode);
     artifactScope.setPackageName(rootNode.getPackageDeclaration().getQName());
-    artifactScope.setImportList(getImports(rootNode));
     return artifactScope;
-  }
-
-  private List<ImportStatement> getImports(ASTSDArtifact ast) {
-    return ast.getMCImportStatementList().stream().map(e -> new ImportStatement(e.getQName(), e.isStar())).collect(Collectors.toList());
   }
 
   @Override
@@ -59,7 +51,7 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
     ast.getDeclarationType().setEnclosingScope(ast.getEnclosingScope());
     final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(ast.getDeclarationType());
     if (!typeResult.isPresent()) {
-      Log.error(String.format("0xS0002: The type (%s) of the object (%s) could not be calculated",
+      Log.error(String.format("0xB0002: The type (%s) of the object (%s) could not be calculated",
               prettyPrinter.prettyprint(ast.getDeclarationType()),
               ast.getName()));
     } else {
@@ -82,7 +74,7 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
     ast.getMCType().setEnclosingScope(ast.getEnclosingScope());
     final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(ast.getMCType());
     if (!typeResult.isPresent()) {
-      Log.error(String.format("0xS0003: The type (%s) of the variable (%s) could not be calculated",
+      Log.error(String.format("0xB0003: The type (%s) of the variable (%s) could not be calculated",
               prettyPrinter.prettyprint(ast.getMCType()),
               ast.getName()));
     } else {
@@ -105,7 +97,7 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
     ast.getMCType().setEnclosingScope(ast.getEnclosingScope());
     final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(ast.getMCType());
     if (!typeResult.isPresent()) {
-      Log.error(String.format("0xS0004: The type (%s) of the variable (%s) could not be calculated",
+      Log.error(String.format("0xB0004: The type (%s) of the variable (%s) could not be calculated",
               prettyPrinter.prettyprint(ast.getMCType()),
               ast.getName()));
     } else {

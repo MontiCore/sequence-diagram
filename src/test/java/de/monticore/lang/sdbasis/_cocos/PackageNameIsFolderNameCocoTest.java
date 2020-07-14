@@ -16,7 +16,7 @@ public class PackageNameIsFolderNameCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Collections.singletonList("0xS0018");
+    return Collections.singletonList("0xB0018");
   }
 
   @Test

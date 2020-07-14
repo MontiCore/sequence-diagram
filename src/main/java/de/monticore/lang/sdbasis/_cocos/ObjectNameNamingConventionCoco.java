@@ -7,15 +7,15 @@ import de.se_rwth.commons.logging.Log;
 
 /**
  * Checks the naming convention for objects in a sequence diagram, i.e.,
- * every object name is not empty and starts with a lower case
+ * every object name is not empty and starts with a lower case letter.
  */
 public class ObjectNameNamingConventionCoco implements SDBasisASTSDObjectCoCo {
 
-  private static final String MESSAGE_WARNING_LOWER_CASE = "0xS0017: "
+  private static final String MESSAGE_WARNING_LOWER_CASE = "0xB0017: "
           + "Object declaration introduces an object with name %s"
           + " which should be written lower case by convention";
 
-  private static final String MESSAGE_WARNING_NOT_EMPTY = "0xS0025: "
+  private static final String MESSAGE_WARNING_NOT_EMPTY = "0xB0025: "
           + "Object declaration introduces an object with an empty name"
           + " which should not be empty";
 

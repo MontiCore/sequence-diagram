@@ -16,7 +16,7 @@ public class SendMessageHasSourceOrTargetCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Collections.singletonList("0xS0022");
+    return Collections.singletonList("0xB0022");
   }
 
   @Test

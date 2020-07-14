@@ -16,7 +16,7 @@ public class MethodActionValidCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Collections.singletonList("0xS0012");
+    return Collections.singletonList("0xB0012");
   }
 
   @Override

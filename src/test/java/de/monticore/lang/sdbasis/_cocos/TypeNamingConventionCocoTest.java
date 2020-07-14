@@ -16,7 +16,7 @@ public class TypeNamingConventionCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Collections.singletonList("0xS0023");
+    return Collections.singletonList("0xB0023");
   }
 
   @Test

@@ -16,7 +16,7 @@ public class UniqueObjectNamingCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Collections.singletonList("0xS0024");
+    return Collections.singletonList("0xB0024");
   }
 
   @Test

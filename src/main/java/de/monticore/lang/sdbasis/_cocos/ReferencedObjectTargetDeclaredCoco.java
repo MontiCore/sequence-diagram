@@ -7,14 +7,14 @@ import de.se_rwth.commons.logging.Log;
 import java.util.Optional;
 
 /**
- * Checks if referenced target objects are declared before they're referenced
+ * Checks if used target objects are declared before they are used.
  */
 public class ReferencedObjectTargetDeclaredCoco implements SDBasisASTSDObjectTargetCoCo {
 
-  private static final String MESSAGE_NOT_DECLARED = "0xS0020: " +
+  private static final String MESSAGE_NOT_DECLARED = "0xB0020: " +
           "Object '%s' is used, but not declared.";
 
-  private static final String MESSAGE_NOT_DECLARED_BEFORE = "0xS0027: " +
+  private static final String MESSAGE_NOT_DECLARED_BEFORE = "0xB0027: " +
     "Object '%s' is used before it is declared.";
 
   @Override

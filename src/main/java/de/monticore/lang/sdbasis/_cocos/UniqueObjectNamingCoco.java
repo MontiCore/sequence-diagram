@@ -13,11 +13,11 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Checks if every object as a unique name
+ * Checks if every object as a unique name.
  */
 public class UniqueObjectNamingCoco implements SDBasisASTSequenceDiagramCoCo {
 
-  private static final String MESSAGE_ERROR_IDENTIFIER_AMBIGUOUS = "0xS0024: "
+  private static final String MESSAGE_ERROR_IDENTIFIER_AMBIGUOUS = "0xB0024: "
           + "Identifier %s is ambiguous.";
 
   @Override

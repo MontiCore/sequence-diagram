@@ -10,12 +10,12 @@ import de.se_rwth.commons.logging.Log;
 
 /**
  * Checks if a method action refers to a correct target, i.e.,
- * that static methods are only invoked on classes,
- * and usual invocations on objects
+ * that static methods are only called on classes and that all
+ * other methods are called on objects.
  */
 public class MethodActionRefersToCorrectTargetCoco implements SDBasisASTSDSendMessageCoCo {
 
-  private static final String MESSAGE_ERROR_REFERS_TO_ = "0xS0011: "
+  private static final String MESSAGE_ERROR_REFERS_TO_ = "0xB0011: "
           + "Method call must refer to an %s";
 
   @Override

@@ -6,11 +6,11 @@ import de.monticore.lang.sd4development._ast.ASTSDEndCall;
 import de.se_rwth.commons.logging.Log;
 
 /**
- * Checks if an EndCall transition has at least a source or a target
+ * Checks if an EndCall transition a source or a target.
  */
 public class EndCallHasSourceOrTargetCoco implements SD4DevelopmentASTSDEndCallCoCo {
 
-  private static final String MESSAGE_ERROR = "0xS0010: "
+  private static final String MESSAGE_ERROR = "0xB0010: "
           + "The interaction has neither a source nor a target. At least one of them must be set.";
   
   @Override
