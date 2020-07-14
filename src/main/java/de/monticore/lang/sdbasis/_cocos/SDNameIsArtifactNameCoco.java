@@ -7,7 +7,7 @@ import de.se_rwth.commons.logging.Log;
 import org.apache.commons.io.FilenameUtils;
 
 /**
- * Checks if the name of the sequence diagram is equal to the artifact's file name
+ * Checks if the name of the sequence diagram is equal to the artifact's file name.
  */
 public class SDNameIsArtifactNameCoco implements SDBasisASTSDArtifactCoCo {
 

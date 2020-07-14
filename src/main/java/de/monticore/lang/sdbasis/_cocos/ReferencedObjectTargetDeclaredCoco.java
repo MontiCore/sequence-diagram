@@ -7,7 +7,7 @@ import de.se_rwth.commons.logging.Log;
 import java.util.Optional;
 
 /**
- * Checks if referenced target objects are declared before they're referenced
+ * Checks if used target objects are declared before they are used.
  */
 public class ReferencedObjectTargetDeclaredCoco implements SDBasisASTSDObjectTargetCoCo {
 

@@ -10,8 +10,8 @@ import de.se_rwth.commons.logging.Log;
 
 /**
  * Checks if a method action refers to a correct target, i.e.,
- * that static methods are only invoked on classes,
- * and usual invocations on objects
+ * that static methods are only called on classes and that all
+ * other methods are called on objects.
  */
 public class MethodActionRefersToCorrectTargetCoco implements SDBasisASTSDSendMessageCoCo {
 

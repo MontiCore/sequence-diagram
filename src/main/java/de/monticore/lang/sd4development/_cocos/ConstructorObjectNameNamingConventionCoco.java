@@ -7,7 +7,7 @@ import de.se_rwth.commons.logging.Log;
 
 /**
  * Checks if naming conventions for objects constructed with SDNew
- * constructs are satisfied, i.e., the name is not empty and starts
+ * are satisfied, i.e., the name is not empty and starts
  * with a lower case letter.
  */
 public class ConstructorObjectNameNamingConventionCoco implements SD4DevelopmentASTSDNewCoCo {

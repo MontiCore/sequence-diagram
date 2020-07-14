@@ -7,7 +7,7 @@ import de.se_rwth.commons.logging.Log;
 
 /**
  * Checks the naming convention for objects in a sequence diagram, i.e.,
- * every object name is not empty and starts with a lower case
+ * every object name is not empty and starts with a lower case letter.
  */
 public class ObjectNameNamingConventionCoco implements SDBasisASTSDObjectCoCo {
 

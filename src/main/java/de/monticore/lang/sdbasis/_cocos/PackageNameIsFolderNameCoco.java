@@ -5,8 +5,8 @@ import de.monticore.utils.Names;
 import de.se_rwth.commons.logging.Log;
 
 /**
- * Checks if the package name of the sequence diagram artifact corresponds with
- * the actual location in the file system
+ * Checks if the package name of the sequence diagram artifact corresponds to
+ * the actual location in the file system.
  */
 public class PackageNameIsFolderNameCoco implements SDBasisASTSDArtifactCoCo {
 

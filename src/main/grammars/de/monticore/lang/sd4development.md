@@ -39,7 +39,7 @@ The grammar SDBasis defines the syntax for
 * objects, and 
 * interactions for sending messages.   
                             
-The grammar SDBasis extends the grammar
+The grammar SDBasis extends the grammars
 * MCBasicTypes for adding the possibility to define objects typed as 
   MCObjectTypes.
 * TypeSymbols to be able to use symbols of kind Variable and to enable 
@@ -64,12 +64,12 @@ The grammar SD4Development defines the syntax for
 * ocl conditions, and
 * local variable declarations.
 
-The grammar SD4Development extends the grammar
+The grammar SD4Development extends the grammars
 * SDBasis to reuse the basic constituents of SDs,
 * MCCommonLiterals to be able to common literals in expressions.
 * CommonExpressions to be able to use simple expressions, e.g. a == b
-* OCLExpressions for embedding OCL expressions as conditions and to
-* be able to use expressions for the definition of local variables.
+* OCLExpressions for embedding OCL expressions as conditions and to be 
+  able to use expressions for the definition of local variables.
 
 ## Context Conditions
 This section lists the context conditions for the SDBasis grammar and the 
