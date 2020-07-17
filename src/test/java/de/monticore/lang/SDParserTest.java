@@ -41,7 +41,9 @@ public class SDParserTest {
     "example.sd",
     "example_completeness_and_stereotypes.sd",
     "allGrammarElements.sd",
-    "activities.sd"
+    "activities.sd",
+    "bid.sd",
+    "size.sd"
   })
   void testCorrectExamples(String model) {
     testParseModel(CORRECT_PATH, model);

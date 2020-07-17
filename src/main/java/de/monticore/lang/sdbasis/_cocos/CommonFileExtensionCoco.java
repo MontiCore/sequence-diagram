@@ -7,7 +7,7 @@ import org.apache.commons.io.FilenameUtils;
 import static de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobalScope.FILE_EXTENSION;
 
 /**
- * Checks if the file of the model has the common file ending ".sd" of
+ * Checks if an artifact containing an SD model has the common file ending ".sd" of
  * sequence diagram artifacts.
  */
 public class CommonFileExtensionCoco implements SDBasisASTSDArtifactCoCo {

@@ -6,7 +6,7 @@ import de.monticore.lang.sd4development._ast.ASTSDEndCall;
 import de.se_rwth.commons.logging.Log;
 
 /**
- * Checks if an EndCall transition a source or a target.
+ * Checks if EndCall interactions have a source or a target.
  */
 public class EndCallHasSourceOrTargetCoco implements SD4DevelopmentASTSDEndCallCoCo {
 
