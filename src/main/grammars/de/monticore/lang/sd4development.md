@@ -2,8 +2,8 @@
 <!-- Beta-version: This is intended to become a MontiCore stable explanation. -->
 
 # Sequence Diagrams (UML/P SD)
-The module descriped in this document defines a MontiCore language for 
-UML/P SDs. UML/P SDs are a SD variant that is especially suited for the 
+The module described in this document defines a MontiCore language for 
+UML/P SDs. UML/P SDs are an SD variant that is especially suited for the 
 modeling of tests. UML/P SDs are defined in detail in 
 the following books:
                       
@@ -22,7 +22,12 @@ This module contains
   creating symbol tables and (de-)serializing symbol tables, and
 * Pretty-printers. 
 
-The following outline overviews the sections of this document.
+In the next section, this document presents an [example model](#example-model). 
+Afterwards, the [main class](#main-class-sd4developmenttool) that can be used for processing SD models 
+is described. Then, the constituents of the [SD grammars](#grammars) are introduced.
+The following section lists the [context conditions](#context-conditions) of the SD language.
+Finally, the last section highlights the [symbol table infrastructure](#symbol-table) for the 
+SD language.
 
 ## Example Model
 
