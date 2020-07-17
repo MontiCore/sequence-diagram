@@ -17,7 +17,7 @@ public class PackageNameIsFolderNameCoco implements SDBasisASTSDArtifactCoCo {
   public void check(ASTSDArtifact node) {
     if (node.isPresentPackageDeclaration()) {
       String packageName = node.getPackageDeclaration().getQName();
-      if (!node.getFilePath().getParent().endsWith(Names.getPathFromPackage(packageName))) {
+      if (node.getFilePath() != null && !node.getFilePath().getParent().endsWith(Names.getPathFromPackage(packageName))) {
         Log.error(String.format(MESSAGE, packageName, node.getFilePath().toString()));
       }
     }
