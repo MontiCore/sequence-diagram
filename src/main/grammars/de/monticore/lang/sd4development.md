@@ -217,7 +217,7 @@ SD. The scope spanned by ```SDBody``` contains a ```VariableSymbol``` for
 each object that is dynamically instantiated via ```SDNew``` and for each 
 variable that is instantiated via ```SDVariableDeclaration```.  
 
-<img width="400" src="../../../../../../doc/pics/SDSymtabExample.png" alt="The SD defines two objects and dynamically instantiated an object as well as a variable." style="float: left; margin-right: 10px;">
+<img width="500" src="../../../../../../doc/pics/SDSymtabExample.png" alt="The SD defines two objects and dynamically instantiated an object as well as a variable." style="float: left; margin-right: 10px;">
 <br><b>Figure 3:</b> The SD defines two objects and dynamically instantiated an object as well as a variable.
 
 &nbsp;  
@@ -251,7 +251,7 @@ Figure 4 abstracts from the ```SD4DevelopmentGlobalScope``` and
  symbols of the other ```SD4DevelopmentScope```, which is introduced by
  ```SDBody```.    
 
-<img width="400" src="../../../../../../doc/pics/STInstanceExample.png" alt="Symbol table instance of the SD depicted in Figure 3" style="float: left; margin-right: 10px;">
+<img width="500" src="../../../../../../doc/pics/STInstanceExample.png" alt="Symbol table instance of the SD depicted in Figure 3" style="float: left; margin-right: 10px;">
 <br><b>Figure 4:</b> Symbol table instance of the SD depicted in Figure 3.
 
 &nbsp;  
