@@ -26,9 +26,10 @@ The following outline overviews the sections of this document.
 
 ## Example Model
 
-<img width="800" src="../../../../../../doc/pics/SDOverviewExample.png" style="float: left; margin-right: 10px;">
-<br><b>Figure 1:</b> 
-The graphical syntax of an example SD.
+<img src="../../../../../../doc/pics/SDOverviewExample.png" alt="The graphical syntax of an example SD" style="float: left; margin-right: 10px;">
+<br><b>Figure 1:</b> The graphical syntax of an example SD.
+
+&nbsp;  
 
 Figure 1 depicts the SD ```bid``` in graphical syntax. In textual syntax, 
 the SD is defined as follows:
@@ -197,11 +198,10 @@ defined, SDs may import ```TypeSymbols``` and
 
 ### Symbol Table Data Structure
 
-<div align="center">
-<img width="800" src="../../../../../../doc/pics/STDataStructure.png">
-<br><b>Figure 2:</b> 
-The data structure of the symbol table of the SD language.
-</div><br>
+<img src="../../../../../../doc/pics/STDataStructure.png" alt="The data structure of the symbol table of the SD language" style="float: left; margin-right: 10px;">
+<br><b>Figure 2:</b> The data structure of the symbol table of the SD language.
+
+&nbsp;  
 
 Figure 2 depicts the symbol table data structure of the ```SD4Development```
 grammar. The ```SD4DevelopmentGlobalScope``` an 
@@ -217,12 +217,10 @@ SD. The scope spanned by ```SDBody``` contains a ```VariableSymbol``` for
 each object that is dynamically instantiated via ```SDNew``` and for each 
 variable that is instantiated via ```SDVariableDeclaration```.  
 
-<div align="center">
-<img width="800" src="../../../../../../doc/pics/STSymtabExample.png">
-<br><b>Figure 3:</b> 
-The SD defines two objects and dynamically instantiated an object as well 
-as a variable.
-</div><br>
+<img src="../../../../../../doc/pics/SDSymtabExample.png" alt="The SD defines two objects and dynamically instantiated an object as well as a variable." style="float: left; margin-right: 10px;">
+<br><b>Figure 3:</b> The SD defines two objects and dynamically instantiated an object as well as a variable.
+
+&nbsp;  
 
 Figure 3 depicts the simple example SD ```Size```. The SD defines 
 the two objects ```kupfer912:Auction``` and ```theo:Person```. Additionally,
@@ -253,11 +251,10 @@ Figure 4 abstracts from the ```SD4DevelopmentGlobalScope``` and
  symbols of the other ```SD4DevelopmentScope```, which is introduced by
  ```SDBody```.    
 
-<div align="center">
-<img width="800" src="../../../../../../doc/pics/STInstanceExample.png.png">
-<br><b>Figure 4:</b> 
-Symbol table instance of the SD depicted in Figure 3.
-</div><br> 
+<img src="../../../../../../doc/pics/STInstanceExample.png" alt="Symbol table instance of the SD depicted in Figure 3" style="float: left; margin-right: 10px;">
+<br><b>Figure 4:</b> Symbol table instance of the SD depicted in Figure 3.
+
+&nbsp;  
 
 The handwritten extensions of the symbol table creator of the ```SDBasis```
 grammar can be found in the class ```SDBasisSymbolTableCreator```. The handwritten
@@ -274,7 +271,7 @@ introduced via ```SDVariableDeclaration```  by using statements are not exported
 Therefore, the corresponding variable symbols are not serialized, i.e., they
 are not part of the corresponding symbol file. For example, the following 
 depicts the symbol file obtained from serializing the symbol table instance 
-depicted in Figure 4.   
+depicted in Figure 4:
 
 ```json
 {
