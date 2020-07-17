@@ -17,9 +17,11 @@ public class CommonFileExtensionCoco implements SDBasisASTSDArtifactCoCo {
 
   @Override
   public void check(ASTSDArtifact node) {
-    String fileExtension = FilenameUtils.getExtension(node.getFilePath().toString());
-    if (!FILE_EXTENSION.equals(fileExtension)) {
-      Log.warn(String.format(MESSAGE, fileExtension));
+    if(node.getFilePath() != null) {
+      String fileExtension = FilenameUtils.getExtension(node.getFilePath().toString());
+      if (!FILE_EXTENSION.equals(fileExtension)) {
+        Log.warn(String.format(MESSAGE, fileExtension));
+      }
     }
   }
 }

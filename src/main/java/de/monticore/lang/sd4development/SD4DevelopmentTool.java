@@ -2,6 +2,7 @@ package de.monticore.lang.sd4development;
 
 import de.monticore.io.FileReaderWriter;
 import de.monticore.io.paths.ModelPath;
+import de.monticore.lang.sd4development._cocos.*;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobalScope;
@@ -9,6 +10,7 @@ import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScopeDeSer;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCreatorDelegator;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.lang.sdbasis._cocos.*;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -62,7 +64,7 @@ public class SD4DevelopmentTool {
    * Derives the symbol table of ast while considering models contained in model path.
    * The models contained in model path are relevant for the imports of ast.
    *
-   * @param ast The ast of the SD.
+   * @param ast       The ast of the SD.
    * @param modelPath Considered model path.
    * @return The Symbol table for ast.
    */
@@ -74,7 +76,7 @@ public class SD4DevelopmentTool {
   /**
    * Derives symbols for ast and adds them to the globalScope.
    *
-   * @param ast The ast of the SD.
+   * @param ast         The ast of the SD.
    * @param globalScope Global scope to which the symbols are added.
    * @return The symbol table for ast while considering globalScope.
    */
@@ -88,7 +90,7 @@ public class SD4DevelopmentTool {
    * The models paths are passed as their full qualified names.
    * The models contained in model path are relevant for the imports of ast.
    *
-   * @param ast The ast of the SD.
+   * @param ast        The ast of the SD.
    * @param modelPaths Full qualified names of the considered model paths.
    * @return The symbol table for ast.
    */
@@ -98,11 +100,64 @@ public class SD4DevelopmentTool {
   }
 
   /**
+   * Checks whether ast satisfies the intra-model CoCos with respect to the given global scope.
+   *
+   * @param ast         The ast of the SD.
+   * @param globalScope The given global scope.
+   */
+  public static void checkIntraModelCoCos(ASTSDArtifact ast, SD4DevelopmentGlobalScope globalScope) {
+    deriveSymbols(ast, globalScope);
+    SD4DevelopmentCoCoChecker checker = new SD4DevelopmentCoCoChecker();
+    checker.addCoCo(new CommonFileExtensionCoco());
+    checker.addCoCo(new ObjectNameNamingConventionCoco());
+    checker.addCoCo(new PackageNameIsFolderNameCoco());
+    checker.addCoCo(new SDNameIsArtifactNameCoco());
+    checker.addCoCo(new SendMessageHasSourceOrTargetCoco());
+    checker.addCoCo(new TypeNamingConventionCoco());
+    checker.addCoCo(new UniqueObjectNamingCoco());
+    checker.addCoCo(new ConstructorObjectNameNamingConventionCoco());
+    checker.addCoCo(new EndCallHasSourceOrTargetCoco());
+    checker.addCoCo(new MethodActionRefersToCorrectTargetCoco());
+    checker.addCoCo(new ReturnOnlyAfterMethodCoco());
+    checker.checkAll(ast);
+  }
+
+  /**
+   * Checks whether ast satisfies the CoCos not targeting type correctness with respect to the given global scope.
+   * This method checks all CoCos except the CoCos, which check that used types (for objects and variables) are defined.
+   *
+   * @param ast         The ast of the SD.
+   * @param globalScope The given global scope.
+   */
+  public static void checkAllExceptTypeCoCos(ASTSDArtifact ast, SD4DevelopmentGlobalScope globalScope) {
+    checkIntraModelCoCos(ast, globalScope);
+    SD4DevelopmentCoCoChecker checker = new SD4DevelopmentCoCoChecker();
+    checker.addCoCo(new ReferencedObjectSourceDeclaredCoco());
+    checker.addCoCo(new ReferencedObjectTargetDeclaredCoco());
+    checker.checkAll(ast);
+  }
+
+  /**
+   * Checks whether ast satisfies all CoCos with respect to the given global scope.
+   *
+   * @param ast         The ast of the SD.
+   * @param globalScope The given global scope.
+   */
+  public static void checkAllCoCos(ASTSDArtifact ast, SD4DevelopmentGlobalScope globalScope) {
+    checkAllExceptTypeCoCos(ast, globalScope);
+    SD4DevelopmentCoCoChecker checker = new SD4DevelopmentCoCoChecker();
+    checker.addCoCo(new ReferencedTypeExistsCoco());
+    checker.addCoCo(new CorrectObjectConstructionTypesCoco());
+    checker.addCoCo(new MethodActionValidCoco());
+    checker.checkAll(ast);
+  }
+
+  /**
    * Stores the symbols for ast in the symbol file filename.
    * For example, if filename = "target/symbolfiles/file.sdsym", then the symbol file corresponding to
    * ast is stored in the file "target/symbolfiles/file.sdsym".
    *
-   * @param ast The ast of the SD.
+   * @param ast      The ast of the SD.
    * @param filename The name of the produced symbol file.
    */
   public static void storeSymbols(ASTSDArtifact ast, String filename) {
@@ -116,7 +171,7 @@ public class SD4DevelopmentTool {
    * For example, an SD defined in the artifact "Bid.sd" is stored in the file "Bid.sdsym".
    * If path = "target/symbols", then the full qualified name of the symbol file is "target/symbols/Bid.sdsym".
    *
-   * @param ast The ast of the SD for which the symbols should be stored.
+   * @param ast  The ast of the SD for which the symbols should be stored.
    * @param path The path where the symbol file should be stored.
    */
   public static void storeSymbols(ASTSDArtifact ast, Path path) {
