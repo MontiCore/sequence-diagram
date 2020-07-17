@@ -6,7 +6,7 @@ import de.monticore.lang.sd4development._ast.ASTSDNew;
 import de.se_rwth.commons.logging.Log;
 
 /**
- * Checks if naming conventions for objects constructed with SDNew
+ * Checks if naming conventions for objects constructed with SDNew interactions
  * are satisfied, i.e., the name is not empty and starts
  * with a lower case letter.
  */

@@ -13,7 +13,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
- * Checks if every object as a unique name.
+ * Checks if every object has a unique name.
  */
 public class UniqueObjectNamingCoco implements SDBasisASTSequenceDiagramCoCo {
 

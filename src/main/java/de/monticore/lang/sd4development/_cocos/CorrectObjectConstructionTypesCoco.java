@@ -13,7 +13,7 @@ import de.se_rwth.commons.logging.Log;
 import java.util.Optional;
 
 /**
- * Checks if the type declared for an object instantiated with SDNew and the
+ * Checks if the type declared for an object instantiated with an SDNew interaction and the
  * object's initialization type are compatible.
  */
 public class CorrectObjectConstructionTypesCoco implements SD4DevelopmentASTSDNewCoCo {

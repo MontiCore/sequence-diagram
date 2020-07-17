@@ -7,10 +7,13 @@ import de.monticore.types.mcbasictypes._cocos.MCBasicTypesASTMCTypeCoCo;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
+/**
+ * Checks if used types are defined.
+ */
 public class ReferencedTypeExistsCoco implements MCBasicTypesASTMCTypeCoCo {
 
   private static final String MESSAGE = "0xB0028: " +
-    "Type '%s' used but not defined.";
+    "Type '%s' is used but not defined.";
 
   private final MCBasicTypesPrettyPrinter pp = new MCBasicTypesPrettyPrinter(new IndentPrinter());
 

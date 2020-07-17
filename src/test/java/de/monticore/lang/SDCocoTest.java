@@ -7,14 +7,8 @@ import de.monticore.lang.sd4development._cocos.SD4DevelopmentCoCoChecker;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobalScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobalScopeBuilder;
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCreatorDelegatorBuilder;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
-import de.monticore.types.typesymbols._symboltable.FieldSymbolBuilder;
-import de.monticore.types.typesymbols._symboltable.MethodSymbol;
-import de.monticore.types.typesymbols._symboltable.MethodSymbolBuilder;
-import de.monticore.types.typesymbols._symboltable.OOTypeSymbol;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.BeforeEach;
@@ -22,12 +16,10 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -98,7 +90,9 @@ public abstract class SDCocoTest {
     "example.sd",
     "example_completeness_and_stereotypes.sd",
     "allGrammarElements.sd",
-    "activities.sd"
+    "activities.sd",
+    "bid.sd",
+    "size.sd"
   })
   public void testCorrectExamples(String model) {
     ASTSDArtifact sd = loadModel(CORRECT_PATH + model);
