@@ -65,7 +65,7 @@ sequencediagram Bid {
 ## Main Class ```SD4DevelopmentTool```
 
 The class [```SD4DevelopmentTool```](../../../../java/de/monticore/lang/sd4development/SD4DevelopmentTool.java) provides typical functionality used when
-processing models. To this effect, the class provides the following methods
+processing models. To this effect, the class provides methods
 for parsing, pretty-printing, creating symbol tables, storing symbols, and 
 loading symbols. Detailed information about the methods can be found in the Javadoc documentation
 of the class [```SD4DevelopmentTool```](../../../../java/de/monticore/lang/sd4development/SD4DevelopmentTool.java). 
@@ -99,7 +99,7 @@ The grammar [SDBasis](../../../../grammars/de/monticore/lang/SDBasis.mc4) extend
 The grammar [SD4Development](../../../../grammars/de/monticore/lang/SD4Development.mc4) extends the grammar SDBasis with advanced concepts 
 used in object-oriented programming and embends OCL for defining local 
 variables and stating conditions. A detailed documentation of the grammar can 
-be found in the artifact defining the grammar. 
+be found in the [artifact defining the grammar](../../../../grammars/de/monticore/lang/SD4Development.mc4). 
 
 The grammar [SD4Development](../../../../grammars/de/monticore/lang/SD4Development.mc4) defines the syntax for
 * actions representing method calls,
@@ -108,12 +108,12 @@ The grammar [SD4Development](../../../../grammars/de/monticore/lang/SD4Developme
 * actions representing the throw of an exception,
 * interactions representing the end of method calls,
 * classes as targets of interactions to model static method calls,
-* ocl conditions, and
+* conditions, and
 * local variable declarations.
 
 The grammar [SD4Development](../../../../grammars/de/monticore/lang/SD4Development.mc4) extends the grammars
 * [SDBasis](../../../../grammars/de/monticore/lang/SDBasis.mc4) to reuse the basic constituents of SDs,
-* [MCCommonLiterals](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/literals/MCCommonLiterals.mc4) to be able to common literals in expressions.
+* [MCCommonLiterals](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/literals/MCCommonLiterals.mc4) to be able to use common literals in expressions.
 * [CommonExpressions](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/expressions/CommonExpressions.mc4) to be able to use simple expressions, e.g. a == b.
 * [OCLExpressions](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/expressions/OCLExpressions.mc4) for embedding OCL expressions as conditions and to be 
   able to use OCL expressions for the definition of local variables.
@@ -130,7 +130,7 @@ located [here](../../../../java/de/monticore/lang/sdbasis/_cocos).
 containing an SD model has the common file ending ".sd" of SD artifacts.
 
 * The context condition [```ObjectNameNamingConventionCoco```](../../../../java/de/monticore/lang/sdbasis/_cocos/ObjectNameNamingConventionCoco.java) checks the 
-naming convention for objects in a SD, i.e., every object
+naming convention for objects in an SD, i.e., every object
 name is not empty and starts with a lower case letter.
 
 * The context condition [```PackageNameIsFolderNameCoco```](../../../../java/de/monticore/lang/sdbasis/_cocos/PackageNameIsFolderNameCoco.java) checks if the 
@@ -184,11 +184,11 @@ are called on objects.
 * The context condition [```MethodActionValidCoco```](../../../../java/de/monticore/lang/sd4development/_cocos/MethodActionValidCoco.java) checks if a 
 method action is valid, i.e., whether a method with a corresponding 
 signature is defined for the type of the target of the interaction. 
-The name of the method as well as the number and types of method 
+The name of the method as well as the number and types of the method 
 parameters must be equal.
 
 * The context condition [```ReturnOnlyAfterMethodCoco```](../../../../java/de/monticore/lang/sd4development/_cocos/ReturnOnlyAfterMethodCoco.java) checks if 
-a return action only appears after a corresponding method call.
+return actions only appear after corresponding method calls.
 
 ## Symbol Table
 The SD language introduces the [```SequenceDiagramSymbol```](../../../../grammars/de/monticore/lang/SDBasis.mc4)
@@ -215,7 +215,7 @@ and [```OOTypeSymbols```](https://github.com/MontiCore/monticore/blob/dev/montic
 &nbsp;  
 
 Figure 2 depicts the symbol table data structure of the [```SD4Development```](../../../../grammars/de/monticore/lang/SD4Development.mc4)
-grammar. The ```SD4DevelopmentGlobalScope``` an 
+grammar. The ```SD4DevelopmentGlobalScope``` is associated to an
 ```SD4DevelopmentArtifactScope``` for each artifact defining an SD. In each
 of these artifacts, at most one SD can be defined and each SD introduces 
 an [```SequenceDiagramSymbol```](../../../../grammars/de/monticore/lang/SDBasis.mc4). Therefore, each 
