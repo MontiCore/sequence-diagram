@@ -1,8 +1,8 @@
 package de.monticore.lang.sd4development._symboltable;
 
 import de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbolDeSer;
+import de.monticore.symbols.basicsymbols._symboltable.VariableSymbolDeSer;
 import de.monticore.symboltable.serialization.json.JsonObject;
-import de.monticore.types.basictypesymbols._symboltable.VariableSymbolDeSer;
 
 public class SD4DevelopmentScopeDeSer extends SD4DevelopmentScopeDeSerTOP {
 

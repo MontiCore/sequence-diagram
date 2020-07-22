@@ -7,9 +7,9 @@ import de.monticore.lang.sdbasis._ast.ASTSDObjectTarget;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDSendMessageCoCo;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
+import de.monticore.symbols.oosymbols._symboltable.MethodSymbol;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.TypeCheck;
-import de.monticore.types.typesymbols._symboltable.MethodSymbol;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.Optional;
@@ -53,7 +53,7 @@ public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
     }
     for (int i = 0; i < methodSymbol.getParameterList().size(); i++) {
       SymTypeExpression methodParameterType = methodSymbol.getParameterList().get(i).getType();
-      ASTExpression callArgument = call.getArguments().getExpression(i);
+      ASTExpression callArgument = call.getArguments().getExpressions(i);
       Optional<SymTypeExpression> callArgumentType = deriveSymTypeOfSDBasis.calculateType(callArgument);
 
       if (!callArgumentType.isPresent()) {
@@ -70,6 +70,6 @@ public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
   }
 
   private boolean isSameParameterSize(MethodSymbol methodSymbol, ASTSDCall call) {
-    return methodSymbol.getParameterList().size() == call.getArguments().getExpressionList().size();
+    return methodSymbol.getParameterList().size() == call.getArguments().getExpressionsList().size();
   }
 }

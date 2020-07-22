@@ -2,7 +2,6 @@ package de.monticore.lang.sddiff;
 
 import lombok.Builder;
 import lombok.Data;
-import lombok.EqualsAndHashCode;
 
 @Data
 @Builder(builderClassName = "Builder")

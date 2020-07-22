@@ -51,7 +51,7 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:1.1.7"
 
     // libraries for sd diff
-    implementation name: "automata-library-1.0-SNAPSHOT"
+    implementation "de.se_rwth:automata-library:1.0-SNAPSHOT"
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
 

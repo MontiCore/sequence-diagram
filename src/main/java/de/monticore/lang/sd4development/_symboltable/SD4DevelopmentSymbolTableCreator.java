@@ -6,8 +6,8 @@ import de.monticore.lang.sd4development._ast.ASTSDVariableDeclaration;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
 import de.monticore.prettyprint.IndentPrinter;
+import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.symboltable.ImportStatement;
-import de.monticore.types.basictypesymbols._symboltable.VariableSymbol;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
@@ -35,12 +35,12 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
   public SD4DevelopmentArtifactScope createFromAST(ASTSDArtifact rootNode) {
     SD4DevelopmentArtifactScope artifactScope = super.createFromAST(rootNode);
     artifactScope.setPackageName(rootNode.getPackageDeclaration().getQName());
-    artifactScope.setImportList(getImports(rootNode));
+    artifactScope.setImportsList(getImports(rootNode));
     return artifactScope;
   }
 
   private List<ImportStatement> getImports(ASTSDArtifact ast) {
-    return ast.getMCImportStatementList().stream().map(e -> new ImportStatement(e.getQName(), e.isStar())).collect(Collectors.toList());
+    return ast.getMCImportStatementsList().stream().map(e -> new ImportStatement(e.getQName(), e.isStar())).collect(Collectors.toList());
   }
 
   @Override

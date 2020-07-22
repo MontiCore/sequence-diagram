@@ -15,7 +15,7 @@ public class ImportStatementsValidCoco implements SDBasisASTSDArtifactCoCo {
     // Assume that enclosing scope is the artifact scope
     if (node.getEnclosingScope() instanceof SD4DevelopmentArtifactScope) {
       SD4DevelopmentArtifactScope scope = (SD4DevelopmentArtifactScope) node.getEnclosingScope();
-      for (ImportStatement importStatement : scope.getImportList()) {
+      for (ImportStatement importStatement : scope.getImportsList()) {
         if (!importStatement.isStar() &&
                 !scope.resolveVariable(importStatement.getStatement()).isPresent() &&
                 !scope.resolveType(importStatement.getStatement()).isPresent()) {

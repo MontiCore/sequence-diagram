@@ -38,7 +38,7 @@ public class SDBasisPrettyPrinter implements SDBasisInheritanceVisitor {
       node.getPackageDeclaration().accept(getRealThis());
       getPrinter().println(";");
     }
-    for (ASTMCImportStatement i : node.getMCImportStatementList()) {
+    for (ASTMCImportStatement i : node.getMCImportStatementsList()) {
       i.accept(getRealThis());
     }
     node.getSequenceDiagram().accept(getRealThis());
@@ -49,12 +49,12 @@ public class SDBasisPrettyPrinter implements SDBasisInheritanceVisitor {
     if (node.isPresentStereotype()) {
       node.getStereotype().accept(getRealThis());
     }
-    for (ASTSDModifier modifier : node.getSDModifierList()) {
+    for (ASTSDModifier modifier : node.getSDModifiersList()) {
       modifier.accept(getRealThis());
     }
     getPrinter().println("sequencediagram " + node.getName() + " {");
     getPrinter().indent();
-    for (ASTSDObject object : node.getSDObjectList()) {
+    for (ASTSDObject object : node.getSDObjectsList()) {
       object.accept(getRealThis());
     }
     node.getSDBody().accept(getRealThis());
@@ -75,7 +75,7 @@ public class SDBasisPrettyPrinter implements SDBasisInheritanceVisitor {
     if (node.isPresentStereotype()) {
       node.getStereotype().accept(getRealThis());
     }
-    for (ASTSDModifier modifier : node.getSDModifierList()) {
+    for (ASTSDModifier modifier : node.getSDModifiersList()) {
       modifier.accept(getRealThis());
     }
     getPrinter().print(node.getName());
