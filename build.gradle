@@ -51,7 +51,9 @@ dependencies {
     implementation "ch.qos.logback:logback-classic:1.1.7"
 
     // libraries for sd diff
-    implementation "de.se_rwth:automata-library:1.0-SNAPSHOT"
+    implementation("de.se_rwth:automata-library:1.0-SNAPSHOT") {
+      exclude group: "com.google.guava", module: "guava"
+    }
     compileOnly 'org.projectlombok:lombok:1.18.12'
     annotationProcessor 'org.projectlombok:lombok:1.18.12'
 
