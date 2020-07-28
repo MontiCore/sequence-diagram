@@ -31,16 +31,24 @@ public class SDSemDiffTest {
   void testSemDiff_rob1_rob3() {
     Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob1(), rob3());
     assertTrue(witnessOpt.isPresent());
-    SDSemDiffWitness witness = witnessOpt.get();
-    assertTrue(7 < witness.getWitness().size()); // may be less, but is non-deterministic
+  }
+
+  @Test
+  void testSemDiff_rob1_rob4() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob1(), rob4());
+    assertTrue(witnessOpt.isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob1_rob5() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob1(), rob5());
+    assertTrue(witnessOpt.isPresent());
   }
 
   @Test
   void testSemDiff_rob2_rob1() {
     Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob2(), rob1());
     assertTrue(witnessOpt.isPresent());
-    SDSemDiffWitness witness = witnessOpt.get();
-    assertTrue(4 < witness.getWitness().size()); // may be less, but is non-deterministic
   }
 
   @Test
@@ -52,16 +60,24 @@ public class SDSemDiffTest {
   void testSemDiff_rob2_rob3() {
     Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob2(), rob3());
     assertTrue(witnessOpt.isPresent());
-    SDSemDiffWitness witness = witnessOpt.get();
-    assertTrue(5 < witness.getWitness().size()); // may be less, but is non-deterministic
+  }
+
+  @Test
+  void testSemDiff_rob2_rob4() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob2(), rob4());
+    assertTrue(witnessOpt.isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob2_rob5() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob2(), rob5());
+    assertTrue(witnessOpt.isPresent());
   }
 
   @Test
   void testSemDiff_rob3_rob1() {
     Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob3(), rob1());
     assertTrue(witnessOpt.isPresent());
-    SDSemDiffWitness witness = witnessOpt.get();
-    assertTrue(4 < witness.getWitness().size()); // may be less, but is non-deterministic
   }
 
   @Test
@@ -72,5 +88,75 @@ public class SDSemDiffTest {
   @Test
   void testSemDiff_rob3_rob3() {
     assertFalse(sdSemDiff.semDiff(rob3(), rob3()).isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob3_rob4() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob3(), rob4());
+    assertTrue(witnessOpt.isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob3_rob5() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob3(), rob5());
+    assertTrue(witnessOpt.isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob4_rob1() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob4(), rob1());
+    assertTrue(witnessOpt.isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob4_rob2() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob4(), rob2());
+    assertTrue(witnessOpt.isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob4_rob3() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob4(), rob3());
+    assertTrue(witnessOpt.isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob4_rob4() {
+    assertFalse(sdSemDiff.semDiff(rob4(), rob4()).isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob4_rob5() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob4(), rob5());
+    assertTrue(witnessOpt.isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob5_rob1() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob5(), rob1());
+    assertTrue(witnessOpt.isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob5_rob2() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob5(), rob2());
+    assertTrue(witnessOpt.isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob5_rob3() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob5(), rob3());
+    assertTrue(witnessOpt.isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob5_rob4() {
+    Optional<SDSemDiffWitness> witnessOpt = sdSemDiff.semDiff(rob5(), rob4());
+    assertTrue(witnessOpt.isPresent());
+  }
+
+  @Test
+  void testSemDiff_rob5_rob5() {
+    assertFalse(sdSemDiff.semDiff(rob5(), rob5()).isPresent());
   }
 }

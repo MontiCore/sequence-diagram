@@ -1,5 +1,6 @@
 package de.monticore.lang.sddiff;
 
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentInheritanceVisitor;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.*;
@@ -12,7 +13,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-final class AST2SDTrafo implements SD4DevelopmentVisitor {
+final class AST2SDTrafo implements SD4DevelopmentInheritanceVisitor {
 
   private final SD4DevelopmentDelegatorPrettyPrinter pp = new SD4DevelopmentDelegatorPrettyPrinter();
 
@@ -35,6 +36,10 @@ final class AST2SDTrafo implements SD4DevelopmentVisitor {
   private SDObject.Builder currentObject;
 
   private SDInteraction.Builder currentInteraction;
+
+  SequenceDiagram toSD(ASTSDArtifact ast) {
+    return toSD(ast.getSequenceDiagram());
+  }
 
   SequenceDiagram toSD(ASTSequenceDiagram ast) {
     objects = new HashSet<>();
