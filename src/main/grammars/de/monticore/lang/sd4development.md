@@ -8,25 +8,18 @@ modeling of tests and (in combination e.g. with OCL)
 for desired and unwanted behavior interactions. 
 UML/P SDs are defined in [Rum16], [Rum17].
                        
-    see also: http://mbse.se-rwth.de/
 
 This module contains 
 * two grammars, 
 * context conditions, 
 * a symbol table infrastructure including functionality for 
   creating symbol tables and (de-)serializing symbol tables, and
-* Pretty-printers. 
+* pretty-printers. 
 
-In the next section, this document presents an [example model](#example-model). 
-Afterwards, the [main class](#main-class-sd4developmenttool) that can be used for processing SD models 
-is described. Then, the constituents of the [SD grammars](#grammars) are introduced.
-The following section lists the [context conditions](#context-conditions) of the SD language.
-Finally, the last section highlights the [symbol table infrastructure](#symbol-table) for the 
-SD language.
 
-## Example Model
+## An Example Model
 
-<img width="800" src="../../../../../../doc/pics/SDOverviewExample.png" alt="The graphical syntax of an example SD" style="float: left; margin-right: 10px;">
+<img width="400" src="../../../../../../doc/pics/SDOverviewExample.png" alt="The graphical syntax of an example SD" style="float: left; margin-right: 10px;">
 <br><b>Figure 1:</b> The graphical syntax of an example SD.
 
 &nbsp;  
@@ -57,6 +50,9 @@ sequencediagram Bid {
 }
 ```
 
+This was for us the most intuitive textual representation of SDs, which was not 
+easy to define, because SDs are inherently two dimensional (objects and time).
+
 ## Main Class ```SD4DevelopmentTool```
 
 The class [```SD4DevelopmentTool```](../../../../java/de/monticore/lang/sd4development/SD4DevelopmentTool.java) provides typical functionality used when
@@ -66,6 +62,7 @@ loading symbols. Detailed information about the methods can be found in the Java
 of the class [```SD4DevelopmentTool```](../../../../java/de/monticore/lang/sd4development/SD4DevelopmentTool.java). 
 
 ## Grammars
+
 This module contains the two grammars [SDBasis](../../../../grammars/de/monticore/lang/SDBasis.mc4) 
 and [SD4Development](../../../../grammars/de/monticore/lang/SD4Development.mc4). 
 
