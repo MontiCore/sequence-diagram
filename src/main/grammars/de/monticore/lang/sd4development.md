@@ -3,15 +3,10 @@
 
 # Sequence Diagrams (UML/P SD)
 The module described in this document defines a MontiCore language for 
-UML/P SDs. UML/P SDs are an SD variant that is especially suited for the 
-modeling of tests. UML/P SDs are defined in detail in 
-the following books:
-                      
-    [Rum16] B. Rumpe: Modeling with UML:
-    Language, Concepts, Methods. Springer International, July 2016.
-                       
-    [Rum17] B. Rumpe: Agile Modeling with UML:
-    Code Generation, Testing, Refactoring. Springer International, May 2017.
+UML/P SDs. UML/P SDs are an SD variant that is suited e.g. for the 
+modeling of tests and (in combination e.g. with OCL) 
+for desired and unwanted behavior interactions. 
+UML/P SDs are defined in [Rum16], [Rum17].
                        
     see also: http://mbse.se-rwth.de/
 
@@ -329,4 +324,10 @@ depicted in Figure 4:
 }
 ```
 
+## Further Information
+
+* [Project root: MontiCore @github](https://github.com/MontiCore/monticore)
+* [**List of languages**](https://git.rwth-aachen.de/monticore/monticore/-/blob/dev/docs/Languages.md).
+* [MontiCore documentation](http://www.monticore.de/)
+* [Publications about MBSE](https://www.se-rwth.de/publications/)
 
