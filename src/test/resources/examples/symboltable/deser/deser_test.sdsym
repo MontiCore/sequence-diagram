@@ -1,18 +1,18 @@
 {
-  "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope",
+  "kind": "de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope",
   "name": "deser_test",
   "package": "examples.symboltable.deser",
-  "sequenceDiagramSymbols": [
+  "diagramSymbols": [
     {
-      "kind": "de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol",
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol",
       "name": "examples.symboltable.deser.deser_test",
       "spannedScope": {
-        "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope",
+        "kind": "de.monticore.lang.sd4development._symboltable.ISD4DevelopmentScope",
         "name": "deser_test",
         "isShadowingScope": false,
         "variableSymbols": [
           {
-            "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
             "name": "examples.symboltable.deser.deser_test.kupfer912",
             "type": {
               "kind": "de.monticore.types.check.SymTypeOfObject",
@@ -21,7 +21,7 @@
             "isReadOnly": false
           },
           {
-            "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
             "name": "examples.symboltable.deser.deser_test.bidPol",
             "type": {
               "kind": "de.monticore.types.check.SymTypeOfObject",
@@ -30,7 +30,105 @@
             "isReadOnly": false
           },
           {
-            "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+            "name": "examples.symboltable.deser.deser_test.timePol",
+            "type": {
+              "kind": "de.monticore.types.check.SymTypeOfObject",
+              "objName": "TimingPolicy"
+            },
+            "isReadOnly": false
+          }
+        ],
+        "variableSymbols": [
+          {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+            "name": "examples.symboltable.deser.deser_test.kupfer912",
+            "type": {
+              "kind": "de.monticore.types.check.SymTypeOfObject",
+              "objName": "Auction"
+            },
+            "isReadOnly": false
+          },
+          {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+            "name": "examples.symboltable.deser.deser_test.bidPol",
+            "type": {
+              "kind": "de.monticore.types.check.SymTypeOfObject",
+              "objName": "BiddingPolicy"
+            },
+            "isReadOnly": false
+          },
+          {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+            "name": "examples.symboltable.deser.deser_test.timePol",
+            "type": {
+              "kind": "de.monticore.types.check.SymTypeOfObject",
+              "objName": "TimingPolicy"
+            },
+            "isReadOnly": false
+          }
+        ]
+      }
+    }
+  ],
+  "diagramSymbols": [
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol",
+      "name": "examples.symboltable.deser.deser_test",
+      "spannedScope": {
+        "kind": "de.monticore.lang.sd4development._symboltable.ISD4DevelopmentScope",
+        "name": "deser_test",
+        "isShadowingScope": false,
+        "variableSymbols": [
+          {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+            "name": "examples.symboltable.deser.deser_test.kupfer912",
+            "type": {
+              "kind": "de.monticore.types.check.SymTypeOfObject",
+              "objName": "Auction"
+            },
+            "isReadOnly": false
+          },
+          {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+            "name": "examples.symboltable.deser.deser_test.bidPol",
+            "type": {
+              "kind": "de.monticore.types.check.SymTypeOfObject",
+              "objName": "BiddingPolicy"
+            },
+            "isReadOnly": false
+          },
+          {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+            "name": "examples.symboltable.deser.deser_test.timePol",
+            "type": {
+              "kind": "de.monticore.types.check.SymTypeOfObject",
+              "objName": "TimingPolicy"
+            },
+            "isReadOnly": false
+          }
+        ],
+        "variableSymbols": [
+          {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+            "name": "examples.symboltable.deser.deser_test.kupfer912",
+            "type": {
+              "kind": "de.monticore.types.check.SymTypeOfObject",
+              "objName": "Auction"
+            },
+            "isReadOnly": false
+          },
+          {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+            "name": "examples.symboltable.deser.deser_test.bidPol",
+            "type": {
+              "kind": "de.monticore.types.check.SymTypeOfObject",
+              "objName": "BiddingPolicy"
+            },
+            "isReadOnly": false
+          },
+          {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
             "name": "examples.symboltable.deser.deser_test.timePol",
             "type": {
               "kind": "de.monticore.types.check.SymTypeOfObject",

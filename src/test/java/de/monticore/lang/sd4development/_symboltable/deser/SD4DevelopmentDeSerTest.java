@@ -5,12 +5,11 @@ import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -73,14 +72,14 @@ public class SD4DevelopmentDeSerTest {
 
     // then
     assertNotNull(deserializedSD);
-    assertEquals(1, deserializedSD.getLocalSequenceDiagramSymbols().size());
-    SequenceDiagramSymbol sdSymbol = deserializedSD.getLocalSequenceDiagramSymbols().get(0);
-    assertEquals("deser_test", sdSymbol.getName());
-    assertEquals(FilenameUtils.removeExtension(serializedModel), sdSymbol.getName());
-    assertEquals("examples.symboltable.deser", sdSymbol.getPackageName());
+    assertEquals(1, deserializedSD.getLocalDiagramSymbols().size());
+    DiagramSymbol diagSymbol = deserializedSD.getLocalDiagramSymbols().get(0);
+    assertEquals("deser_test", diagSymbol.getName());
+    assertEquals(FilenameUtils.removeExtension(serializedModel), diagSymbol.getName());
+    assertEquals("examples.symboltable.deser", diagSymbol.getPackageName());
     assertEquals(1, deserializedSD.getSubScopes().size());
-    assertEquals(3, sdSymbol.getSpannedScope().getSymbolsSize());
-    LinkedListMultimap<String, VariableSymbol> variableSymbols = sdSymbol.getSpannedScope().getVariableSymbols();
+    assertEquals(3, diagSymbol.getSpannedScope().getSymbolsSize());
+    LinkedListMultimap<String, VariableSymbol> variableSymbols = diagSymbol.getSpannedScope().getVariableSymbols();
     assertEquals(3, variableSymbols.size());
 
     assertTrue(variableSymbols.containsKey("kupfer912"));
@@ -98,7 +97,7 @@ public class SD4DevelopmentDeSerTest {
     assertEquals(1, timePolVal.size());
     assertEquals("TimingPolicy", timePolVal.get(0).getType().print());
 
-    assertEquals(0, sdSymbol.getSpannedScope().getSubScopes().size());
+    assertEquals(0, diagSymbol.getSpannedScope().getSubScopes().size());
   }
 
   private ASTSDArtifact loadModel(String modelPath) {
