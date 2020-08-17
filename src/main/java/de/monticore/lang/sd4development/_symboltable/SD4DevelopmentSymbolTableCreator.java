@@ -6,7 +6,7 @@ import de.monticore.lang.sd4development._ast.ASTSDVariableDeclaration;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
 import de.monticore.prettyprint.IndentPrinter;
-import de.monticore.types.basictypesymbols._symboltable.VariableSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
@@ -30,8 +30,8 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
   }
 
   @Override
-  public SD4DevelopmentArtifactScope createFromAST(ASTSDArtifact rootNode) {
-    SD4DevelopmentArtifactScope artifactScope = super.createFromAST(rootNode);
+  public ISD4DevelopmentArtifactScope createFromAST(ASTSDArtifact rootNode) {
+    ISD4DevelopmentArtifactScope artifactScope = super.createFromAST(rootNode);
     artifactScope.setPackageName(rootNode.getPackageDeclaration().getQName());
     return artifactScope;
   }

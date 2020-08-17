@@ -5,6 +5,7 @@ package de.monticore.lang;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd4development._cocos.SD4DevelopmentCoCoChecker;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentGlobalScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobalScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobalScopeBuilder;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCreatorDelegatorBuilder;
@@ -35,7 +36,7 @@ public abstract class SDCocoTest {
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
-  private SD4DevelopmentGlobalScope globalScope;
+  private ISD4DevelopmentGlobalScope globalScope;
 
   protected SD4DevelopmentCoCoChecker checker;
 

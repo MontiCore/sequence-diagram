@@ -4,10 +4,7 @@ import de.monticore.io.FileReaderWriter;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd4development._cocos.*;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobalScope;
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScopeDeSer;
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCreatorDelegator;
+import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
@@ -68,8 +65,8 @@ public class SD4DevelopmentTool {
    * @param modelPath Considered model path.
    * @return The Symbol table for ast.
    */
-  public static SD4DevelopmentArtifactScope deriveSymbols(ASTSDArtifact ast, ModelPath modelPath) {
-    SD4DevelopmentGlobalScope globalScope = SD4DevelopmentMill.sD4DevelopmentGlobalScopeBuilder().setModelPath(modelPath).setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION).build();
+  public static ISD4DevelopmentArtifactScope deriveSymbols(ASTSDArtifact ast, ModelPath modelPath) {
+    ISD4DevelopmentGlobalScope globalScope = SD4DevelopmentMill.sD4DevelopmentGlobalScopeBuilder().setModelPath(modelPath).setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION).build();
     return deriveSymbols(ast, globalScope);
   }
 
@@ -80,7 +77,7 @@ public class SD4DevelopmentTool {
    * @param globalScope Global scope to which the symbols are added.
    * @return The symbol table for ast while considering globalScope.
    */
-  public static SD4DevelopmentArtifactScope deriveSymbols(ASTSDArtifact ast, SD4DevelopmentGlobalScope globalScope) {
+  public static ISD4DevelopmentArtifactScope deriveSymbols(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
     SD4DevelopmentSymbolTableCreatorDelegator stCreator = SD4DevelopmentMill.sD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(globalScope).build();
     return stCreator.createFromAST(ast);
   }
@@ -94,7 +91,7 @@ public class SD4DevelopmentTool {
    * @param modelPaths Full qualified names of the considered model paths.
    * @return The symbol table for ast.
    */
-  public static SD4DevelopmentArtifactScope deriveSymbols(ASTSDArtifact ast, String... modelPaths) {
+  public static ISD4DevelopmentArtifactScope deriveSymbols(ASTSDArtifact ast, String... modelPaths) {
     ModelPath modelPath = new ModelPath(Arrays.stream(modelPaths).map(x -> Paths.get(x)).collect(Collectors.toList()));
     return deriveSymbols(ast, modelPath);
   }
@@ -105,7 +102,7 @@ public class SD4DevelopmentTool {
    * @param ast         The ast of the SD.
    * @param globalScope The given global scope.
    */
-  public static void checkIntraModelCoCos(ASTSDArtifact ast, SD4DevelopmentGlobalScope globalScope) {
+  public static void checkIntraModelCoCos(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
     deriveSymbols(ast, globalScope);
     SD4DevelopmentCoCoChecker checker = new SD4DevelopmentCoCoChecker();
     checker.addCoCo(new CommonFileExtensionCoco());
@@ -129,7 +126,7 @@ public class SD4DevelopmentTool {
    * @param ast         The ast of the SD.
    * @param globalScope The given global scope.
    */
-  public static void checkAllExceptTypeCoCos(ASTSDArtifact ast, SD4DevelopmentGlobalScope globalScope) {
+  public static void checkAllExceptTypeCoCos(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
     checkIntraModelCoCos(ast, globalScope);
     SD4DevelopmentCoCoChecker checker = new SD4DevelopmentCoCoChecker();
     checker.addCoCo(new ReferencedObjectSourceDeclaredCoco());
@@ -183,7 +180,7 @@ public class SD4DevelopmentTool {
    *
    * @param filename Name of the symbol file to load.
    */
-  public static SD4DevelopmentArtifactScope loadSymbols(String filename) {
+  public static ISD4DevelopmentArtifactScope loadSymbols(String filename) {
     return deSer.load(filename);
   }
 }

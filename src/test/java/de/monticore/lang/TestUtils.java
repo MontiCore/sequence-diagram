@@ -1,15 +1,15 @@
 package de.monticore.lang;
 
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobalScope;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentGlobalScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
+import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
+import de.monticore.symbols.oosymbols._symboltable.FieldSymbolBuilder;
+import de.monticore.symbols.oosymbols._symboltable.MethodSymbol;
+import de.monticore.symbols.oosymbols._symboltable.MethodSymbolBuilder;
+import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.types.MCTypeFacade;
-import de.monticore.types.basictypesymbols._symboltable.TypeSymbol;
-import de.monticore.types.basictypesymbols._symboltable.VariableSymbol;
-import de.monticore.types.typesymbols._symboltable.FieldSymbolBuilder;
-import de.monticore.types.typesymbols._symboltable.MethodSymbol;
-import de.monticore.types.typesymbols._symboltable.MethodSymbolBuilder;
-import de.monticore.types.typesymbols._symboltable.OOTypeSymbol;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -19,13 +19,13 @@ final class TestUtils {
 
   private static final MCTypeFacade typeFacade = MCTypeFacade.getInstance();
 
-  static void setupGlobalScope(SD4DevelopmentGlobalScope globalScope) {
+  static void setupGlobalScope(ISD4DevelopmentGlobalScope globalScope) {
     addPrimitiveTypeSymbols(globalScope);
     addOOTypeSymbols(globalScope);
     addVariableSymbols(globalScope);
   }
 
-  private static void addPrimitiveTypeSymbols(SD4DevelopmentGlobalScope globalScope) {
+  private static void addPrimitiveTypeSymbols(ISD4DevelopmentGlobalScope globalScope) {
     Stream.of(
       new TypeSymbol("int")
     ).forEach(t -> {
@@ -34,7 +34,7 @@ final class TestUtils {
     });
   }
 
-  private static void addOOTypeSymbols(SD4DevelopmentGlobalScope globalScope) {
+  private static void addOOTypeSymbols(ISD4DevelopmentGlobalScope globalScope) {
     List<OOTypeSymbol> ooTypes = Stream.of(
       "BidMessage", "Auction", "NotASubType",
       "Protocol", "Factory", "AuctionTest", "Person", "Order", "Customer", "Mail",
@@ -87,7 +87,7 @@ final class TestUtils {
     return timingPolicy;
   }
 
-  private static void addVariableSymbols(SD4DevelopmentGlobalScope globalScope) {
+  private static void addVariableSymbols(ISD4DevelopmentGlobalScope globalScope) {
     VariableSymbol kupfer912 = createKupfer912VariableSymbol();
     kupfer912.setEnclosingScope(globalScope);
     globalScope.add(kupfer912);

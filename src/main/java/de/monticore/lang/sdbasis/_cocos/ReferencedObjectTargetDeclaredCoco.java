@@ -1,7 +1,7 @@
 package de.monticore.lang.sdbasis._cocos;
 
 import de.monticore.lang.sdbasis._ast.ASTSDObjectTarget;
-import de.monticore.types.basictypesymbols._symboltable.VariableSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.Optional;

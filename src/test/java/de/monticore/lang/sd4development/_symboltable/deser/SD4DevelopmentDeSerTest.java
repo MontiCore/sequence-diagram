@@ -6,7 +6,7 @@ import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol;
-import de.monticore.types.basictypesymbols._symboltable.VariableSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -33,7 +33,7 @@ public class SD4DevelopmentDeSerTest {
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
-  private SD4DevelopmentGlobalScope globalScope;
+  private ISD4DevelopmentGlobalScope globalScope;
 
   private SD4DevelopmentScopeDeSer deSer;
 

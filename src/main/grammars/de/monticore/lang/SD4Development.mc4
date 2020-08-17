@@ -43,7 +43,8 @@ grammar SD4Development extends
                   de.monticore.lang.SDBasis,
                   de.monticore.literals.MCCommonLiterals,
                   de.monticore.expressions.CommonExpressions,
-                  de.monticore.expressions.OCLExpressions {
+                  de.monticore.expressions.OCLExpressions,
+                  de.monticore.symbols.OOSymbols {
 
   start SDArtifact;
 

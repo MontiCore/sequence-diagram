@@ -24,7 +24,7 @@ public class SD4DevelopmentSymbolTableCreatorTest {
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
-  private SD4DevelopmentGlobalScope globalScope;
+  private ISD4DevelopmentGlobalScope globalScope;
 
   @BeforeEach
   void setup() {
