@@ -7,6 +7,7 @@ import de.monticore.expressions.prettyprint.ExpressionsBasisPrettyPrinter;
 import de.monticore.expressions.prettyprint.OCLExpressionsPrettyPrinter;
 import de.monticore.lang.sd4development._ast.ASTSDEndCall;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
+import de.monticore.lang.sdbasis._ast.ASTSDAction;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDSource;
 import de.monticore.lang.sdbasis._ast.ASTSDTarget;
@@ -62,6 +63,12 @@ public class SD4DevelopmentDelegatorPrettyPrinter extends SD4DevelopmentDelegato
   }
 
   public String prettyPrint(ASTSDTarget a) {
+    printer.clearBuffer();
+    a.accept(getRealThis());
+    return printer.getContent();
+  }
+
+  public String prettyPrint(ASTSDAction a) {
     printer.clearBuffer();
     a.accept(getRealThis());
     return printer.getContent();
