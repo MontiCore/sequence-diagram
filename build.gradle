@@ -65,9 +65,6 @@ dependencies {
 }
 
 repositories {
-    flatDir {
-      dirs 'libs'
-    }
     maven {
         credentials.username mavenUser
         credentials.password mavenPassword
