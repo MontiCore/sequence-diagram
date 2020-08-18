@@ -5,25 +5,22 @@ package de.monticore.lang;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd4development._cocos.SD4DevelopmentCoCoChecker;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
-import de.monticore.lang.sd4development._symboltable.*;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentGlobalScope;
+import de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobalScope;
+import de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobalScopeBuilder;
+import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCreatorDelegatorBuilder;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
-import de.monticore.types.check.SymTypeExpression;
-import de.monticore.types.check.TypeCheck;
-import de.monticore.types.typesymbols._symboltable.*;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.IOException;
-import java.io.StringReader;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
@@ -39,7 +36,7 @@ public abstract class SDCocoTest {
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
-  private SD4DevelopmentGlobalScope globalScope;
+  private ISD4DevelopmentGlobalScope globalScope;
 
   protected SD4DevelopmentCoCoChecker checker;
 
@@ -48,79 +45,35 @@ public abstract class SDCocoTest {
   }
 
   @BeforeEach
-  public void setup() throws IOException {
+  public void setup() {
     this.setupGlobalScope();
     this.checker = new SD4DevelopmentCoCoChecker();
     initCoCoChecker();
     Log.getFindings().clear();
   }
 
-  private void setupGlobalScope() throws IOException {
+  private void setupGlobalScope() {
     this.globalScope = new SD4DevelopmentGlobalScopeBuilder()
       .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
       .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION)
       .build();
-    // add BidMessage and Mail objects to global scope
-    Stream.of("BidMessage", "Auction", "NotASubType").map(OOTypeSymbol::new).forEach(e -> {
-      e.setEnclosingScope(globalScope);
-      globalScope.add(e);
-    });
-    addBiddingPolicyOOSymbol();
-    addTimingPolicyOOSymbol();
-  }
-
-  private void addBiddingPolicyOOSymbol() throws IOException {
-    MethodSymbol validateBid = new MethodSymbolBuilder()
-      .setName("validateBid")
-      .setReturnType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("int")).get()).get())
-      .build();
-    SD4DevelopmentScope scope = new SD4DevelopmentScope();
-    scope.add(new FieldSymbolBuilder()
-      .setName("value")
-      .setType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("int")).get()).get())
-      .build());
-    validateBid.setSpannedScope(scope);
-    Stream.of("BiddingPolicy").map(OOTypeSymbol::new).forEach(e -> {
-      e.setSpannedScope(new SD4DevelopmentScope());
-      e.addMethodSymbol(validateBid);
-      e.setEnclosingScope(globalScope);
-      globalScope.add(e);
-    });
-  }
-
-  private void addTimingPolicyOOSymbol() throws IOException {
-    MethodSymbol newCurrentClosingTime = new MethodSymbolBuilder()
-      .setReturnType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("int")).get()).get())
-      .setName("newCurrentClosingTime")
-      .build();
-    SD4DevelopmentScope scope = new SD4DevelopmentScope();
-//    scope.add(new FieldSymbolBuilder()
-//      .setName("auction")
-//      .setType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("Auction")).get()).get())
-//      .build());
-    scope.add(new FieldSymbolBuilder()
-      .setName("value")
-      .setType(new DeriveSymTypeOfSDBasis().calculateType(parser.parseMCType(new StringReader("int")).get()).get())
-      .build());
-    newCurrentClosingTime.setSpannedScope(scope);
-    Stream.of("TimingPolicy").map(OOTypeSymbol::new).forEach(e -> {
-      e.setSpannedScope(new SD4DevelopmentScope());
-      e.addMethodSymbol(newCurrentClosingTime);
-      e.setEnclosingScope(globalScope);
-      globalScope.add(e);
-    });
+    TestUtils.setupGlobalScope(globalScope);
   }
 
   protected abstract void initCoCoChecker();
 
-  protected abstract Class<?> getCoCoUnderTest();
+  protected abstract List<String> getErrorCodeOfCocoUnderTest();
 
   protected void testCocoViolation(String modelName, int errorCount, int logFindingsCount) {
     ASTSDArtifact sd = loadModel(INCORRECT_PATH + "/" + modelName);
     checker.checkAll(sd);
     assertEquals(errorCount, Log.getErrorCount());
     assertEquals(logFindingsCount,
-      Log.getFindings().stream().filter(f -> f.buildMsg().contains(getCoCoUnderTest().getSimpleName())).count());
+      Log.getFindings()
+         .stream()
+         .map(Finding::buildMsg)
+         .filter(f -> getErrorCodeOfCocoUnderTest().stream().anyMatch(f::contains))
+         .count());
   }
 
   @ParameterizedTest
@@ -132,12 +85,15 @@ public abstract class SDCocoTest {
     "lecture/example_5_factory.sd",
     "lecture/example_6_stereotypes.sd",
     "lecture/example_7_noocl.sd",
+    "lecture/example_7_ocl.sd",
     "lecture/example_8_ocl_let.sd",
     "lecture/example_9_non_causal.sd",
     "example.sd",
     "example_completeness_and_stereotypes.sd",
     "allGrammarElements.sd",
-    "activities.sd"
+    "activities.sd",
+    "bid.sd",
+    "size.sd"
   })
   public void testCorrectExamples(String model) {
     ASTSDArtifact sd = loadModel(CORRECT_PATH + model);
@@ -145,7 +101,11 @@ public abstract class SDCocoTest {
     String msgs = Log.getFindings().stream().map(Finding::getMsg).collect(Collectors.joining(System.lineSeparator()));
     assertEquals(msgs, 0, Log.getErrorCount());
     assertEquals(msgs, 0,
-      Log.getFindings().stream().filter(f -> f.buildMsg().contains(getCoCoUnderTest().getSimpleName())).count());
+      Log.getFindings()
+         .stream()
+         .map(Finding::buildMsg)
+         .filter(f -> getErrorCodeOfCocoUnderTest().stream().anyMatch(f::contains))
+         .count());
   }
 
   private ASTSDArtifact loadModel(String modelPath) {
@@ -163,6 +123,4 @@ public abstract class SDCocoTest {
   private void createSymbolTableFromAST(ASTSDArtifact ast) {
     new SD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(this.globalScope).build().createFromAST(ast);
   }
-
-
 }

@@ -13,6 +13,4 @@ sequencediagram example_8_ocl_let {
   kupfer912 -> theo : sendMessage(bm);
   kupfer912 <- theo:;
   assert theo.message.size == m+1;
-
-
 }

@@ -9,5 +9,4 @@ sequencediagram example_3_static {
 
   kupfer912 -> class Protocol: static writeToProtocol("Auction 912 started");
   kupfer912 <- class Protocol: return;
-
 }

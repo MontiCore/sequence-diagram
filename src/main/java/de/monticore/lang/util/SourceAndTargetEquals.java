@@ -5,6 +5,11 @@ import de.monticore.lang.sdbasis._ast.*;
 
 import java.util.Optional;
 
+/**
+ * Dispatcher for checking whether the source and target objects of two interactions
+ * are equal to each other. The use of the dispatcher is necessary to avoid
+ * instanceof checks.
+ */
 public final class SourceAndTargetEquals implements InteractionEntityDispatcher {
 
   private boolean isProcessingSource = false;

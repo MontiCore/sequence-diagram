@@ -18,5 +18,4 @@ sequencediagram example_2_interactions {
   // Exceptions
   a --> b : ExceptionTyp();
   a <-- b : ExceptionTyp(arg);
-
 }

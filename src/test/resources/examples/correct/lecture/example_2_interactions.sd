@@ -27,5 +27,4 @@ sequencediagram example_2_interactions {
   a <- b : throw ExceptionTyp(arg1, arg2);
   a <- b : throw ExceptionTyp;
   a <- b : throw ExceptionTyp(...);
-
 }

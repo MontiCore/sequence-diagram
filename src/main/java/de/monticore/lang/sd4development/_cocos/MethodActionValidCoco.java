@@ -7,16 +7,22 @@ import de.monticore.lang.sdbasis._ast.ASTSDObjectTarget;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDSendMessageCoCo;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
+import de.monticore.symbols.oosymbols._symboltable.MethodSymbol;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.TypeCheck;
-import de.monticore.types.typesymbols._symboltable.MethodSymbol;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.Optional;
 
+/**
+ * Checks if a method action is valid, i.e., whether a method with a
+ * corresponding signature is defined for the type of the target of
+ * the interaction. The name of the method as well as the number
+ * and types of method parameters must be equal.
+ */
 public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
 
-  static final String MESSAGE = MethodActionValidCoco.class.getSimpleName() + ": " +
+  private static final String MESSAGE = "0xB0012: " +
     "'%s' type does not contain method '%s'.";
 
   private final DeriveSymTypeOfSDBasis deriveSymTypeOfSDBasis;
@@ -35,7 +41,7 @@ public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
       SymTypeExpression targetType = ((ASTSDObjectTarget) node.getSDTarget()).getNameSymbol().getType();
 
       for (MethodSymbol methodSymbol : targetType.getMethodList(call.getName())) {
-        if (doMethodAndCallMatch(methodSymbol, call)) {
+        if (methodAndCallMatch(methodSymbol, call)) {
           return;
         }
       }
@@ -47,13 +53,20 @@ public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
     return node.getSDAction() instanceof ASTSDCall && node.isPresentSDTarget() && node.getSDTarget() instanceof ASTSDObjectTarget;
   }
 
-  private boolean doMethodAndCallMatch(MethodSymbol methodSymbol, ASTSDCall call) {
+  /**
+   * This method checks, if a method invocation, i.e., the call, matches with a given MethodSymbol, i.e., the declaration
+   *
+   * @param methodSymbol the method declaration
+   * @param call the invocation of a method
+   * @return true, if the signature of call corresponds with the signature of the given method symbol
+   */
+  private boolean methodAndCallMatch(MethodSymbol methodSymbol, ASTSDCall call) {
     if (!isSameParameterSize(methodSymbol, call)) {
       return false;
     }
     for (int i = 0; i < methodSymbol.getParameterList().size(); i++) {
       SymTypeExpression methodParameterType = methodSymbol.getParameterList().get(i).getType();
-      ASTExpression callArgument = call.getArguments().getExpression(i);
+      ASTExpression callArgument = call.getArguments().getExpressions(i);
       Optional<SymTypeExpression> callArgumentType = deriveSymTypeOfSDBasis.calculateType(callArgument);
 
       if (!callArgumentType.isPresent()) {
@@ -70,6 +83,6 @@ public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
   }
 
   private boolean isSameParameterSize(MethodSymbol methodSymbol, ASTSDCall call) {
-    return methodSymbol.getParameterList().size() == call.getArguments().getExpressionList().size();
+    return methodSymbol.getParameterList().size() == call.getArguments().getExpressionsList().size();
   }
 }

@@ -9,6 +9,9 @@ import de.monticore.types.mcbasictypes._ast.ASTMCType;
 
 import java.util.Optional;
 
+/**
+ * Visitor for typechecking types and expressions used in SDs.
+ */
 public class DeriveSymTypeOfSDBasis extends SDBasisDelegatorVisitor implements ITypesCalculator {
 
   private TypeCheckResult typeCheckResult;
@@ -21,6 +24,7 @@ public class DeriveSymTypeOfSDBasis extends SDBasisDelegatorVisitor implements I
 
   @Override
   public void init() {
+    // initializes visitors used for typechecking
     final DeriveSymTypeOfLiterals deriveSymTypeOfLiterals = new DeriveSymTypeOfLiterals();
     deriveSymTypeOfLiterals.setTypeCheckResult(getTypeCheckResult());
     setMCLiteralsBasisVisitor(deriveSymTypeOfLiterals);

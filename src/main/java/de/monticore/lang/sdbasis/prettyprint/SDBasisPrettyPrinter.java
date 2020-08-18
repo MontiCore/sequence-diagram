@@ -38,7 +38,7 @@ public class SDBasisPrettyPrinter implements SDBasisInheritanceVisitor {
       node.getPackageDeclaration().accept(getRealThis());
       getPrinter().println(";");
     }
-    for (ASTMCImportStatement i : node.getMCImportStatementList()) {
+    for (ASTMCImportStatement i : node.getMCImportStatementsList()) {
       i.accept(getRealThis());
     }
     node.getSequenceDiagram().accept(getRealThis());
@@ -49,22 +49,15 @@ public class SDBasisPrettyPrinter implements SDBasisInheritanceVisitor {
     if (node.isPresentStereotype()) {
       node.getStereotype().accept(getRealThis());
     }
-    for (ASTSDModifier modifier : node.getSDModifierList()) {
+    for (ASTSDModifier modifier : node.getSDModifiersList()) {
       modifier.accept(getRealThis());
     }
     getPrinter().println("sequencediagram " + node.getName() + " {");
     getPrinter().indent();
-    for (ASTSDObject object : node.getSDObjectList()) {
+    for (ASTSDObject object : node.getSDObjectsList()) {
       object.accept(getRealThis());
     }
     node.getSDBody().accept(getRealThis());
-
-    // although we generally assume that the symbol table is always available,
-    // there are cases, where this is not true (for example construction of the
-    // symbol table itself. Thus, the null-check is necessary.
-    if (node.getSpannedScope() != null) {
-      node.getSpannedScope().accept(getRealThis());
-    }
 
     getPrinter().unindent();
     getPrinter().println("}");
@@ -75,7 +68,7 @@ public class SDBasisPrettyPrinter implements SDBasisInheritanceVisitor {
     if (node.isPresentStereotype()) {
       node.getStereotype().accept(getRealThis());
     }
-    for (ASTSDModifier modifier : node.getSDModifierList()) {
+    for (ASTSDModifier modifier : node.getSDModifiersList()) {
       modifier.accept(getRealThis());
     }
     getPrinter().print(node.getName());

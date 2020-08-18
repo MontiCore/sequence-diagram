@@ -3,7 +3,7 @@ package de.monticore.lang.sd4development._symboltable;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,7 +24,7 @@ public class SD4DevelopmentSymbolTableCreatorTest {
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
-  private SD4DevelopmentGlobalScope globalScope;
+  private ISD4DevelopmentGlobalScope globalScope;
 
   @BeforeEach
   void setup() {
@@ -47,12 +47,12 @@ public class SD4DevelopmentSymbolTableCreatorTest {
     createSymbolTableFromAST(ast);
 
     // then
-    Optional<SequenceDiagramSymbol> sdOpt = globalScope.resolveSequenceDiagram("examples.symboltable." + FilenameUtils.removeExtension(model));
+    Optional<DiagramSymbol> sdOpt = globalScope.resolveDiagram("examples.symboltable." + FilenameUtils.removeExtension(model));
     assertTrue(sdOpt.isPresent());
-    SequenceDiagramSymbol sd = sdOpt.get();
-    assertEquals(3, sd.getSpannedScope().getVariableSymbols().size());
-    assertEquals(1, sd.getSpannedScope().getSubScopes().size());
-    assertEquals(2, sd.getSpannedScope().getSubScopes().get(0).getVariableSymbols().size());
+    DiagramSymbol diag = sdOpt.get();
+    assertEquals(3, diag.getSpannedScope().getVariableSymbols().size());
+    assertEquals(1, diag.getSpannedScope().getSubScopes().size());
+    assertEquals(2, diag.getSpannedScope().getSubScopes().get(0).getVariableSymbols().size());
   }
 
   private ASTSDArtifact loadModel(String modelPath) {
