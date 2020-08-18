@@ -1,0 +1,18 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+/*
+ * Example in documentation.
+ */
+package examples.correct;
+
+sequencediagram size {
+
+  kupfer912:Auction;
+  theo:Person;
+
+  kupfer912 -> BidMessage bm = new BidMessage(...);
+  let int m = theo.messages.size;
+  kupfer912 -> theo : sendMessage(bm);
+  theo -> kupfer912 : return;
+  assert m + 1 == theo.messages.size;
+}

@@ -10,5 +10,4 @@ sequencediagram violated_naming_conventions {
 
    kupfer912 -> BidMessage Bm1 = new BidMessage(...);
    kupfer912 -> BidMessage bm2 = new bidMessage(...);
-
 }

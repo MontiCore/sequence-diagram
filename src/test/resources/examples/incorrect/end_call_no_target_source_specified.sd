@@ -10,5 +10,4 @@ sequencediagram violated_naming_conventions {
 
   kupfer912 -> timePol: currentClosingTime();
   <- : return ...;
-
 }

@@ -6,7 +6,6 @@ import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
-
 import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -36,12 +35,15 @@ public class SDParserTest {
     "lecture/example_5_factory.sd",
     "lecture/example_6_stereotypes.sd",
     "lecture/example_7_noocl.sd",
-    // "lecture/example_8_ocl_let.sd",
+    "lecture/example_7_ocl.sd",
+    "lecture/example_8_ocl_let.sd",
     "lecture/example_9_non_causal.sd",
-    // "example.sd,
+    "example.sd",
     "example_completeness_and_stereotypes.sd",
     "allGrammarElements.sd",
-    "activities.sd"
+    "activities.sd",
+    "bid.sd",
+    "size.sd"
   })
   void testCorrectExamples(String model) {
     testParseModel(CORRECT_PATH, model);
@@ -51,12 +53,12 @@ public class SDParserTest {
   @CsvSource({
     "artifact_not_sd_name.sd",
     "complete_visible_modifier_contradiction.sd",
-    "faulty_imports.sd",
     "incomplete_not_allowed.sd",
     "initialization_type_is_not_subtype_of_declaration_type.sd",
     "no_unique_names.sd",
     "ocl_context_not_declared.sd",
     "reference_undeclared_objects.sd",
+    "reference_undeclared_objects_with_import.sd",
     "return_before_method.sd",
     "static_method_refers_to_object.sd",
     "uncommon_file_extension.sy",

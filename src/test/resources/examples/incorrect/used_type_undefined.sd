@@ -1,0 +1,5 @@
+package examples.incorrect;
+
+sequencediagram used_type_undefined {
+    kuper912 : THIS_TYPE_IS_NOT_DEFINED;
+}

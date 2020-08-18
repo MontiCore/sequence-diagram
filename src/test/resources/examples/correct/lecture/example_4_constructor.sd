@@ -12,6 +12,5 @@ sequencediagram example_4_constructor {
 
   // Constructed object should be accessible
   kupfer912 -> bm : test();
-
 }
 

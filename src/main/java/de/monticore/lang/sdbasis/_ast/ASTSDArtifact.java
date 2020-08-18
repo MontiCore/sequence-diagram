@@ -6,11 +6,12 @@ import java.nio.file.Path;
 
 public class ASTSDArtifact extends ASTSDArtifactTOP {
 
+  /**
+   * Path to the file containing this artifact.
+   * Used in CoCos, e.g., for checking whether the package name equals the
+   * name of the full qualified name of the folder containing the artifact.
+   */
   private Path filePath;
-
-  public ASTSDArtifact() {
-    super();
-  }
 
   public Path getFilePath() {
     return filePath;

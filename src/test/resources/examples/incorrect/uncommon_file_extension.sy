@@ -2,6 +2,4 @@
 
 package examples.incorrect;
 
-sequencediagram uncommon_file_extension {
-
-}
+sequencediagram uncommon_file_extension { }

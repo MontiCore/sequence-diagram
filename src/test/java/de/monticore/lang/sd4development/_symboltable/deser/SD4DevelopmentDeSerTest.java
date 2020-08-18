@@ -1,14 +1,15 @@
 package de.monticore.lang.sd4development._symboltable.deser;
 
+import com.google.common.collect.LinkedListMultimap;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -16,14 +17,13 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import static org.junit.Assert.*;
 
-// TODO: serialization/deserialization does not work atm, undo disable this test asap
-@Disabled
 public class SD4DevelopmentDeSerTest {
 
   private static final String MODEL_PATH = "src/test/resources/";
@@ -32,25 +32,20 @@ public class SD4DevelopmentDeSerTest {
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
-  private SD4DevelopmentGlobalScope globalScope;
+  private ISD4DevelopmentGlobalScope globalScope;
 
   private SD4DevelopmentScopeDeSer deSer;
 
   @BeforeEach
   void setup() {
     Log.enableFailQuick(false);
-    this.globalScope = new SD4DevelopmentGlobalScopeBuilder()
-            .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
-            .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION)
-            .build();
+    this.globalScope = new SD4DevelopmentGlobalScopeBuilder().setModelPath(new ModelPath(Paths.get(MODEL_PATH))).setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION).build();
     this.deSer = new SD4DevelopmentScopeDeSer();
     this.deSer.setSymbolFileExtension("sdsym");
   }
 
   @ParameterizedTest
-  @CsvSource(
-          "deser_test.sd"
-  )
+  @CsvSource("deser_test.sd")
   void testSerialization(String model) {
     // given
     ASTSDArtifact ast = loadModel(PACKAGE_PATH + model);
@@ -62,12 +57,11 @@ public class SD4DevelopmentDeSerTest {
     // then
     System.out.println(serializedSD);
     assertTrue(serializedSD.length() > 0);
+    deSer.deserialize(serializedSD); // test if JSON is valid
   }
 
   @ParameterizedTest
-  @CsvSource(
-          "deser_test.sdsym"
-  )
+  @CsvSource("deser_test.sdsym")
   void testDeserialization(String serializedModel) {
     // given
     String serializedSD = loadSerializedModel(Paths.get(PACKAGE_PATH, serializedModel));
@@ -78,15 +72,32 @@ public class SD4DevelopmentDeSerTest {
 
     // then
     assertNotNull(deserializedSD);
-    assertEquals(1, deserializedSD.getLocalSequenceDiagramSymbols().size());
-    SequenceDiagramSymbol sdSymbol = deserializedSD.getLocalSequenceDiagramSymbols().get(0);
-    assertEquals(FilenameUtils.removeExtension(serializedModel), sdSymbol.getName());
-    assertEquals("examples.symboltable.deser", sdSymbol.getPackageName());
+    assertEquals(1, deserializedSD.getLocalDiagramSymbols().size());
+    DiagramSymbol diagSymbol = deserializedSD.getLocalDiagramSymbols().get(0);
+    assertEquals("deser_test", diagSymbol.getName());
+    assertEquals(FilenameUtils.removeExtension(serializedModel), diagSymbol.getName());
+    assertEquals("examples.symboltable.deser", diagSymbol.getPackageName());
     assertEquals(1, deserializedSD.getSubScopes().size());
-    SD4DevelopmentScope sdScope = (SD4DevelopmentScope) deserializedSD.getSubScopes().get(0);
-    assertEquals(3, sdScope.getVariableSymbols().size());
-    assertEquals(1, sdScope.getSubScopes().size());
-    assertEquals(2, sdScope.getSubScopes().get(0).getVariableSymbols().size());
+    assertEquals(3, diagSymbol.getSpannedScope().getSymbolsSize());
+    LinkedListMultimap<String, VariableSymbol> variableSymbols = diagSymbol.getSpannedScope().getVariableSymbols();
+    assertEquals(3, variableSymbols.size());
+
+    assertTrue(variableSymbols.containsKey("kupfer912"));
+    List<VariableSymbol> kupferVal = variableSymbols.get("kupfer912");
+    assertEquals(1, kupferVal.size());
+    assertEquals("Auction", kupferVal.get(0).getType().print());
+
+    assertTrue(variableSymbols.containsKey("bidPol"));
+    List<VariableSymbol> bidPolVal = variableSymbols.get("bidPol");
+    assertEquals(1, bidPolVal.size());
+    assertEquals("BiddingPolicy", bidPolVal.get(0).getType().print());
+
+    assertTrue(variableSymbols.containsKey("timePol"));
+    List<VariableSymbol> timePolVal = variableSymbols.get("timePol");
+    assertEquals(1, timePolVal.size());
+    assertEquals("TimingPolicy", timePolVal.get(0).getType().print());
+
+    assertEquals(0, diagSymbol.getSpannedScope().getSubScopes().size());
   }
 
   private ASTSDArtifact loadModel(String modelPath) {
@@ -94,7 +105,8 @@ public class SD4DevelopmentDeSerTest {
       ASTSDArtifact ast = parser.parse(modelPath).orElseThrow(NoSuchElementException::new);
       createSymbolTableFromAST(ast);
       return ast;
-    } catch (IOException | NoSuchElementException e) {
+    }
+    catch (IOException | NoSuchElementException e) {
       System.err.println("Loading model: " + modelPath + " failed: " + e.getMessage());
       fail();
     }
@@ -104,7 +116,8 @@ public class SD4DevelopmentDeSerTest {
   private String loadSerializedModel(Path serializedPath) {
     try (Stream<String> lines = Files.lines(serializedPath)) {
       return lines.collect(Collectors.joining(System.lineSeparator()));
-    } catch (IOException e) {
+    }
+    catch (IOException e) {
       System.err.println("Loading serialized model: " + serializedPath + " failed: " + e.getMessage());
       fail();
     }

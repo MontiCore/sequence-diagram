@@ -25,15 +25,16 @@ package de.monticore.lang;
  * This grammar extends the grammar
  *  * MCBasicTypes for adding the possibility to define objects typed
  *    as MCObjectTypes.
- *  * BasicTypeSymbols to be able to use symbols of kind Variable.
+ *  * TypeSymbols to be able to use symbols of kind Variable.
  *    Objects and local variables are added as variable symbols to the
  *    symbol table.
+ *  * ExpressionsBasis to be able to reuse visitors for typechecking.
  *  * UMLStereotype for adding UMLStereotypes as possible extension points
  *    to the grammar.
  */
 component grammar SDBasis extends 
                   de.monticore.types.MCBasicTypes,
-                  de.monticore.symbols.OOSymbols,
+                  de.monticore.symbols.BasicSymbols,
                   de.monticore.expressions.ExpressionsBasis,
                   de.monticore.UMLStereotype {
 
@@ -52,7 +53,7 @@ component grammar SDBasis extends
    * and defines a scope as well as a symbol. SDs define objects and contain
    * a body.
    */
-  symbol scope SequenceDiagram =
+  scope SequenceDiagram implements Diagram =
     Stereotype? SDModifier* "sequencediagram" Name "{"
       SDObject*
       SDBody
