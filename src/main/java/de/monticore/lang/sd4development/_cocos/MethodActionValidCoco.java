@@ -66,7 +66,7 @@ public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
     }
     for (int i = 0; i < methodSymbol.getParameterList().size(); i++) {
       SymTypeExpression methodParameterType = methodSymbol.getParameterList().get(i).getType();
-      ASTExpression callArgument = call.getArguments().getExpressions(i);
+      ASTExpression callArgument = call.getArguments().getExpression(i);
       Optional<SymTypeExpression> callArgumentType = deriveSymTypeOfSDBasis.calculateType(callArgument);
 
       if (!callArgumentType.isPresent()) {
@@ -83,6 +83,6 @@ public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
   }
 
   private boolean isSameParameterSize(MethodSymbol methodSymbol, ASTSDCall call) {
-    return methodSymbol.getParameterList().size() == call.getArguments().getExpressionsList().size();
+    return methodSymbol.getParameterList().size() == call.getArguments().getExpressionList().size();
   }
 }

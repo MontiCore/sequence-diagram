@@ -22,7 +22,7 @@ public class UniqueObjectNamingCoco implements SDBasisASTSequenceDiagramCoCo {
 
   @Override
   public void check(ASTSequenceDiagram sd) {
-    List<ASTSDObject> objects = sd.getSDObjectsList();
+    List<ASTSDObject> objects = sd.getSDObjectList();
     if (hasDuplicatedObjectNames(objects)) {
       List<String> duplicates = getDuplicatedObjectNames(objects);
       duplicates.forEach(
