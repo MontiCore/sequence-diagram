@@ -7,11 +7,13 @@ import de.monticore.lang.sdbasis._ast.ASTSDObjectTarget;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDSendMessageCoCo;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
-import de.monticore.symbols.oosymbols._symboltable.MethodSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.TypeCheck;
 import de.se_rwth.commons.logging.Log;
 
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -38,14 +40,16 @@ public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
   public void check(ASTSDSendMessage node) {
     if (isSDCallAndObjectTargetPresent(node)) {
       ASTSDCall call = (ASTSDCall) node.getSDAction();
-      SymTypeExpression targetType = ((ASTSDObjectTarget) node.getSDTarget()).getNameSymbol().getType();
+      TypeSymbol targetType = ((ASTSDObjectTarget) node.getSDTarget()).getNameSymbol().getType().getTypeInfo();
 
-      for (MethodSymbol methodSymbol : targetType.getMethodList(call.getName())) {
+      List<FunctionSymbol> functionSymbols = targetType.getSpannedScope().getLocalFunctionSymbols();
+
+      for (FunctionSymbol methodSymbol : functionSymbols) {
         if (methodAndCallMatch(methodSymbol, call)) {
           return;
         }
       }
-      Log.warn(String.format(MESSAGE, targetType.getTypeInfo().getName(), call.getName()));
+      Log.warn(String.format(MESSAGE, targetType.getName(), call.getName()));
     }
   }
 
@@ -60,10 +64,14 @@ public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
    * @param call the invocation of a method
    * @return true, if the signature of call corresponds with the signature of the given method symbol
    */
-  private boolean methodAndCallMatch(MethodSymbol methodSymbol, ASTSDCall call) {
+  private boolean methodAndCallMatch(FunctionSymbol methodSymbol, ASTSDCall call) {
     if (!isSameParameterSize(methodSymbol, call)) {
       return false;
     }
+    if(!methodNameMatchesFunctionSymbolName(methodSymbol, call)) {
+      return false;
+    }
+
     for (int i = 0; i < methodSymbol.getParameterList().size(); i++) {
       SymTypeExpression methodParameterType = methodSymbol.getParameterList().get(i).getType();
       ASTExpression callArgument = call.getArguments().getExpression(i);
@@ -82,7 +90,12 @@ public class MethodActionValidCoco implements SDBasisASTSDSendMessageCoCo {
     return true;
   }
 
-  private boolean isSameParameterSize(MethodSymbol methodSymbol, ASTSDCall call) {
+  private boolean methodNameMatchesFunctionSymbolName(FunctionSymbol methodSymbol, ASTSDCall call) {
+    String usedMethodName = call.getName();
+    return usedMethodName.equals(methodSymbol.getName());
+  }
+
+  private boolean isSameParameterSize(FunctionSymbol methodSymbol, ASTSDCall call) {
     return methodSymbol.getParameterList().size() == call.getArguments().getExpressionList().size();
   }
 }
