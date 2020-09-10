@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.util;
 
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;

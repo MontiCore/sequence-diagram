@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development._cocos;
 
 import de.monticore.lang.sd4development._ast.ASTSDEndCall;

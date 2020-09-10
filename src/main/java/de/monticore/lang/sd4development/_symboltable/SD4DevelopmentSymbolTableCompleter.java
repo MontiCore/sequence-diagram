@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development._symboltable;
 
 import com.google.common.collect.Iterables;

@@ -1,6 +1,6 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development._symboltable;
 
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScopeTOP;
 import de.monticore.symboltable.ImportStatement;
 
 import java.util.List;

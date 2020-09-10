@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sddiff;
 
 import de.se_rwth.automata.Automaton;

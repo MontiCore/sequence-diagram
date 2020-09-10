@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sdbasis.prettyprint;
 
 import de.monticore.lang.sdbasis._ast.*;

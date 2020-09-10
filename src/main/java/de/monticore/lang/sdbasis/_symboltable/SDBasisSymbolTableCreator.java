@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sdbasis._symboltable;
 
 import de.monticore.lang.sdbasis._ast.ASTSDBody;

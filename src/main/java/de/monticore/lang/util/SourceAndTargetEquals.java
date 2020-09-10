@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.util;
 
 import de.monticore.lang.sd4development._ast.ASTSDClass;
