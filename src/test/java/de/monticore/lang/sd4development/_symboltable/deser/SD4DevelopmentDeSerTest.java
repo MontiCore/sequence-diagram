@@ -73,13 +73,12 @@ public class SD4DevelopmentDeSerTest {
     // then
     assertNotNull(deserializedSD);
     assertEquals(1, deserializedSD.getLocalDiagramSymbols().size());
-    DiagramSymbol diagSymbol = deserializedSD.getLocalDiagramSymbols().get(0);
-    assertEquals("deser_test", diagSymbol.getName());
-    assertEquals(FilenameUtils.removeExtension(serializedModel), diagSymbol.getName());
-    assertEquals("examples.symboltable.deser", diagSymbol.getPackageName());
-    assertEquals(1, deserializedSD.getSubScopes().size());
-    assertEquals(3, diagSymbol.getSpannedScope().getSymbolsSize());
-    LinkedListMultimap<String, VariableSymbol> variableSymbols = diagSymbol.getSpannedScope().getVariableSymbols();
+    DiagramSymbol diagramSymbol = deserializedSD.getLocalDiagramSymbols().get(0);
+    assertEquals("deser_test", diagramSymbol.getName());
+    assertEquals(FilenameUtils.removeExtension(serializedModel), diagramSymbol.getName());
+    assertEquals("examples.symboltable.deser", diagramSymbol.getPackageName());
+    assertEquals(4, deserializedSD.getSymbolsSize());
+    LinkedListMultimap<String, VariableSymbol> variableSymbols = deserializedSD.getVariableSymbols();
     assertEquals(3, variableSymbols.size());
 
     assertTrue(variableSymbols.containsKey("kupfer912"));
@@ -97,7 +96,7 @@ public class SD4DevelopmentDeSerTest {
     assertEquals(1, timePolVal.size());
     assertEquals("TimingPolicy", timePolVal.get(0).getType().print());
 
-    assertEquals(0, diagSymbol.getSpannedScope().getSubScopes().size());
+    assertEquals(0, deserializedSD.getSubScopes().size());
   }
 
   private ASTSDArtifact loadModel(String modelPath) {

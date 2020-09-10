@@ -11,16 +11,14 @@ sequencediagram example_2_interactions {
 
   // References
   a -> b : methodenname();
-  a -> d : methodenname();  //invalid
-  e -> a : methodenname();  //invalid
-  // a -> (e:E) : methodenname();
-  a -> e : methodenname();  //valid!
-  a <- d : return;       //invalid
-  d <- a : return;       //invalid
-  a <- d : Exception();    //invalid
-  d <- a : Exception();    //invalid
-
-  a -> f : methodenname(); // invalid
-  a <- f : return; // invalid
+  a -> d : methodenname();  // target invalid
+  e -> a : methodenname();  // source invalid
+  a -> e : methodenname();  // target invalid
+  a <- d : return;          // source invalid
+  d <- a : return;          // target invalid
+  a <- d : Exception();     // source invalid
+  d <- a : Exception();     // target invalid
+  a -> f : methodenname();  // target invalid
+  a <- f : return;          // source invalid
   a -> F f = new F();
 }

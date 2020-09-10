@@ -4,6 +4,7 @@ import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
+import de.monticore.symboltable.IArtifactScope;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -49,10 +50,11 @@ public class SD4DevelopmentSymbolTableCreatorTest {
     // then
     Optional<DiagramSymbol> sdOpt = globalScope.resolveDiagram("examples.symboltable." + FilenameUtils.removeExtension(model));
     assertTrue(sdOpt.isPresent());
-    DiagramSymbol diag = sdOpt.get();
-    assertEquals(3, diag.getSpannedScope().getVariableSymbols().size());
-    assertEquals(1, diag.getSpannedScope().getSubScopes().size());
-    assertEquals(2, diag.getSpannedScope().getSubScopes().get(0).getVariableSymbols().size());
+    assertEquals(1, globalScope.getSubScopes().size());
+    ISD4DevelopmentScope artifactScope = globalScope.getSubScopes().get(0);
+    assertEquals(3, artifactScope.getVariableSymbols().size());
+    assertEquals(1, artifactScope.getSubScopes().size());
+    assertEquals(2, artifactScope.getSubScopes().get(0).getVariableSymbols().size());
   }
 
   private ASTSDArtifact loadModel(String modelPath) {

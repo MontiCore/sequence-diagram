@@ -1,5 +1,4 @@
 {
-  "name": "deser_test",
   "package": "examples.symboltable.deser",
   "kindHierarchy": [
     [
@@ -21,40 +20,35 @@
   ],
   "symbols": [
     {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+      "name": "kupfer912",
+      "type": {
+        "kind": "de.monticore.types.check.SymTypeOfObject",
+        "objName": "Auction"
+      },
+      "isReadOnly": false
+    },
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+      "name": "bidPol",
+      "type": {
+        "kind": "de.monticore.types.check.SymTypeOfObject",
+        "objName": "BiddingPolicy"
+      },
+      "isReadOnly": false
+    },
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+      "name": "timePol",
+      "type": {
+        "kind": "de.monticore.types.check.SymTypeOfObject",
+        "objName": "TimingPolicy"
+      },
+      "isReadOnly": false
+    },
+    {
       "kind": "de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol",
-      "name": "deser_test",
-      "spannedScope": {
-        "isShadowingScope": false,
-        "symbols": [
-          {
-            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-            "name": "kupfer912",
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "Auction"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-            "name": "bidPol",
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "BiddingPolicy"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-            "name": "timePol",
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "TimingPolicy"
-            },
-            "isReadOnly": false
-          }
-        ]
-      }
+      "name": "deser_test"
     }
   ]
 }
