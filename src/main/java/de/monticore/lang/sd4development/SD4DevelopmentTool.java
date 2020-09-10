@@ -5,6 +5,7 @@ import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd4development._cocos.*;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
@@ -65,9 +66,9 @@ public class SD4DevelopmentTool {
    * @param modelPath Considered model path.
    * @return The Symbol table for ast.
    */
-  public static ISD4DevelopmentArtifactScope deriveSymbols(ASTSDArtifact ast, ModelPath modelPath) {
+  public static ISD4DevelopmentArtifactScope deriveSymbolSkeleton(ASTSDArtifact ast, ModelPath modelPath) {
     ISD4DevelopmentGlobalScope globalScope = SD4DevelopmentMill.sD4DevelopmentGlobalScopeBuilder().setModelPath(modelPath).setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION).build();
-    return deriveSymbols(ast, globalScope);
+    return deriveSymbolSkeleton(ast, globalScope);
   }
 
   /**
@@ -77,7 +78,7 @@ public class SD4DevelopmentTool {
    * @param globalScope Global scope to which the symbols are added.
    * @return The symbol table for ast while considering globalScope.
    */
-  public static ISD4DevelopmentArtifactScope deriveSymbols(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
+  public static ISD4DevelopmentArtifactScope deriveSymbolSkeleton(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
     SD4DevelopmentSymbolTableCreatorDelegator stCreator = SD4DevelopmentMill.sD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(globalScope).build();
     return stCreator.createFromAST(ast);
   }
@@ -91,9 +92,9 @@ public class SD4DevelopmentTool {
    * @param modelPaths Full qualified names of the considered model paths.
    * @return The symbol table for ast.
    */
-  public static ISD4DevelopmentArtifactScope deriveSymbols(ASTSDArtifact ast, String... modelPaths) {
+  public static ISD4DevelopmentArtifactScope deriveSymbolSkeleton(ASTSDArtifact ast, String... modelPaths) {
     ModelPath modelPath = new ModelPath(Arrays.stream(modelPaths).map(x -> Paths.get(x)).collect(Collectors.toList()));
-    return deriveSymbols(ast, modelPath);
+    return deriveSymbolSkeleton(ast, modelPath);
   }
 
   /**
@@ -103,7 +104,7 @@ public class SD4DevelopmentTool {
    * @param globalScope The given global scope.
    */
   public static void checkIntraModelCoCos(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
-    deriveSymbols(ast, globalScope);
+    deriveSymbolSkeleton(ast, globalScope);
     SD4DevelopmentCoCoChecker checker = new SD4DevelopmentCoCoChecker();
     checker.addCoCo(new CommonFileExtensionCoco());
     checker.addCoCo(new ObjectNameNamingConventionCoco());
@@ -142,8 +143,9 @@ public class SD4DevelopmentTool {
    */
   public static void checkAllCoCos(ASTSDArtifact ast, SD4DevelopmentGlobalScope globalScope) {
     checkAllExceptTypeCoCos(ast, globalScope);
+    SD4DevelopmentDelegatorVisitor stCompleter = SD4DevelopmentMill.sD4DevelopmentDelegatorVisitorBuilder().setSD4DevelopmentVisitor(new SD4DevelopmentSymbolTableCompleter()).build();
+    globalScope.accept(stCompleter);
     SD4DevelopmentCoCoChecker checker = new SD4DevelopmentCoCoChecker();
-    checker.addCoCo(new ReferencedTypeExistsCoco());
     checker.addCoCo(new CorrectObjectConstructionTypesCoco());
     checker.addCoCo(new MethodActionValidCoco());
     checker.checkAll(ast);

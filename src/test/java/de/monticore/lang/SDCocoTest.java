@@ -28,15 +28,15 @@ import static org.junit.Assert.fail;
 
 public abstract class SDCocoTest {
 
-  private static final String MODEL_PATH = "src/test/resources";
+  protected static final String MODEL_PATH = "src/test/resources";
 
-  private final static String CORRECT_PATH = MODEL_PATH + "/examples/correct/";
+  protected final static String CORRECT_PATH = MODEL_PATH + "/examples/correct/";
 
-  private final static String INCORRECT_PATH = MODEL_PATH + "/examples/incorrect/";
+  protected final static String INCORRECT_PATH = MODEL_PATH + "/examples/incorrect/";
 
-  private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
+  protected final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
-  private ISD4DevelopmentGlobalScope globalScope;
+  protected ISD4DevelopmentGlobalScope globalScope;
 
   protected SD4DevelopmentCoCoChecker checker;
 
@@ -108,7 +108,7 @@ public abstract class SDCocoTest {
          .count());
   }
 
-  private ASTSDArtifact loadModel(String modelPath) {
+  public ASTSDArtifact loadModel(String modelPath) {
     try {
       ASTSDArtifact ast = parser.parse(modelPath).orElseThrow(NoSuchElementException::new);
       createSymbolTableFromAST(ast);

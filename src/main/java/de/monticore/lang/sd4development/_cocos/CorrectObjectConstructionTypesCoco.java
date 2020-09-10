@@ -11,7 +11,6 @@ import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.SymTypeExpressionFactory;
-import de.monticore.types.check.SynthesizeSymTypeFromMCBasicTypes;
 import de.monticore.types.check.TypeCheck;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCObjectType;
@@ -53,8 +52,6 @@ public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactC
 
   @Override
   public void visit(ASTSDNew node) {
-    SynthesizeSymTypeFromMCBasicTypes syn = new SynthesizeSymTypeFromMCBasicTypes();
-    TypeCheck tc = new TypeCheck(syn);
 
     ASTMCObjectType declType = node.getDeclarationType();
     ASTMCObjectType initType = node.getInitializationType();

@@ -102,8 +102,6 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo, SD4Devel
       return false;
     }
 
-
-
     for (int i = 0; i < methodSymbol.getParameterList().size(); i++) {
       SymTypeExpression methodParameterType = methodSymbol.getParameterList().get(i).getType();
       ASTExpression callArgument = call.getArguments().getExpression(i);
