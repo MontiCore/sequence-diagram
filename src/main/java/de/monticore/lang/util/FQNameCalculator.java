@@ -23,7 +23,7 @@ public class FQNameCalculator {
         // star import imports everything one level below the qualified model element
         fqNameCandidates.add(anImport.getQName() + "." + simpleName);
       }
-      else if (Names.getSimpleName(anImport.toString()).equals(simpleName)) {
+      else if (Names.getSimpleName(anImport.getQName()).equals(simpleName)) {
         // top level symbol that has the same name as the node, e.g. diagram symbol
         fqNameCandidates.add(anImport.getQName());
       }

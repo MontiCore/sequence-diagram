@@ -26,12 +26,43 @@ public class ReferencedTypeExistsCocoTest extends SDCocoTest {
   }
 
   @Test
-  public void testCocoViolation() {
+  public void testCocoViolation1() {
     ASTSDArtifact sd = loadModel("src/test/resources/examples/incorrect/used_type_undefined.sd");
     ISD4DevelopmentArtifactScope st = new SD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(super.globalScope).build().createFromAST(sd);
-    st.accept(new SD4DevelopmentSymbolTableCompleter());
+    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), sd.getPackageDeclaration());
+    st.accept(stCompleter);
     assertEquals(1, Log.getErrorCount());
     assertEquals(1,
+      Log.getFindings()
+        .stream()
+        .map(Finding::buildMsg)
+        .filter(f -> getErrorCodeOfCocoUnderTest().stream().anyMatch(f::contains))
+        .count());
+  }
+
+  @Test
+  public void testCocoViolation2() {
+    ASTSDArtifact sd = loadModel("src/test/resources/examples/incorrect/deepTypeUsageIncorrect.sd");
+    ISD4DevelopmentArtifactScope st = new SD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(super.globalScope).build().createFromAST(sd);
+    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), sd.getPackageDeclaration());
+    st.accept(stCompleter);
+    assertEquals(1, Log.getErrorCount());
+    assertEquals(1,
+      Log.getFindings()
+        .stream()
+        .map(Finding::buildMsg)
+        .filter(f -> getErrorCodeOfCocoUnderTest().stream().anyMatch(f::contains))
+        .count());
+  }
+
+  @Test
+  public void testCorrectDeepTypeUsage() {
+    ASTSDArtifact sd = loadModel("src/test/resources/examples/correct/deepTypeUsage.sd");
+    ISD4DevelopmentArtifactScope st = new SD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(super.globalScope).build().createFromAST(sd);
+    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), sd.getPackageDeclaration());
+    st.accept(stCompleter);
+    assertEquals(0, Log.getErrorCount());
+    assertEquals(0,
       Log.getFindings()
         .stream()
         .map(Finding::buildMsg)

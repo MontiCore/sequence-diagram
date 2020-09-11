@@ -11,6 +11,7 @@ import de.monticore.types.check.SymTypeExpressionFactory;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
 import de.se_rwth.commons.logging.Log;
+import org.checkerframework.checker.nullness.qual.Nullable;
 
 import java.util.ArrayList;
 import java.util.HashSet;
@@ -24,10 +25,10 @@ public class SD4DevelopmentSymbolTableCompleter implements SD4DevelopmentVisitor
   private static final String USED_BUT_UNDEFINED = "0xB0028: Type '%s' is used but not defined.";
   private static final String DEFINED_MUTLIPLE_TIMES = "0xB0031: Type '%s' is defined more than once.";
 
-  private List<ASTMCImportStatement> imports = new ArrayList<>();
+  private List<ASTMCImportStatement> imports;
   private ASTMCQualifiedName packageDeclaration;
 
-  public void complete(List<ASTMCImportStatement> imports, ASTMCQualifiedName packageDeclaration) {
+  public SD4DevelopmentSymbolTableCompleter(List<ASTMCImportStatement> imports, ASTMCQualifiedName packageDeclaration) {
     this.imports = imports;
     this.packageDeclaration = packageDeclaration;
   }
@@ -48,7 +49,9 @@ public class SD4DevelopmentSymbolTableCompleter implements SD4DevelopmentVisitor
       Log.error(String.format(DEFINED_MUTLIPLE_TIMES, typeName), var.getAstNode().get_SourcePositionStart());
     }
     else {
-      var.setType(SymTypeExpressionFactory.createTypeExpression(Iterables.getFirst(typeSymbols, null)));
+      TypeSymbol typeSymbol = Iterables.getFirst(typeSymbols, null);
+      typeSymbol.setName(typeSymbol.getFullName());
+      var.setType(SymTypeExpressionFactory.createTypeExpression(typeSymbol));
     }
   }
 

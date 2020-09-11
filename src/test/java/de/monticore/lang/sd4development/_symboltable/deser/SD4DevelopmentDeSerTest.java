@@ -3,8 +3,10 @@ package de.monticore.lang.sd4development._symboltable.deser;
 
 import com.google.common.collect.LinkedListMultimap;
 import de.monticore.io.paths.ModelPath;
+import de.monticore.lang.TestUtils;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
@@ -22,6 +24,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import de.monticore.lang.TestUtils;
 
 import static org.junit.Assert.*;
 
@@ -41,13 +44,30 @@ public class SD4DevelopmentDeSerTest {
   void setup() {
     Log.enableFailQuick(false);
     this.globalScope = new SD4DevelopmentGlobalScopeBuilder().setModelPath(new ModelPath(Paths.get(MODEL_PATH))).setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION).build();
+    TestUtils.setupGlobalScope(globalScope);
     this.deSer = new SD4DevelopmentScopeDeSer();
     this.deSer.setSymbolFileExtension("sdsym");
   }
 
   @ParameterizedTest
   @CsvSource("deser_test.sd")
-  void testSerialization(String model) {
+  void testSerializationDeserTest(String model) {
+    // given
+    ASTSDArtifact ast = loadModel(PACKAGE_PATH + model);
+    assertNotNull(ast);
+
+    // when
+    String serializedSD = deSer.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
+
+    // then
+    System.out.println(serializedSD);
+    assertTrue(serializedSD.length() > 0);
+    deSer.deserialize(serializedSD); // test if JSON is valid
+  }
+
+  @ParameterizedTest
+  @CsvSource("deepTypeUsage.sd")
+  void testSerializationDeepUsage(String model) {
     // given
     ASTSDArtifact ast = loadModel(PACKAGE_PATH + model);
     assertNotNull(ast);
@@ -104,6 +124,9 @@ public class SD4DevelopmentDeSerTest {
     try {
       ASTSDArtifact ast = parser.parse(modelPath).orElseThrow(NoSuchElementException::new);
       createSymbolTableFromAST(ast);
+      SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
+      this.globalScope.accept(stCompleter);
+
       return ast;
     }
     catch (IOException | NoSuchElementException e) {

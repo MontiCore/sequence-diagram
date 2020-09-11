@@ -144,8 +144,9 @@ public class SD4DevelopmentTool {
    */
   public static void checkAllCoCos(ASTSDArtifact ast, SD4DevelopmentGlobalScope globalScope) {
     checkAllExceptTypeCoCos(ast, globalScope);
-    SD4DevelopmentDelegatorVisitor stCompleter = SD4DevelopmentMill.sD4DevelopmentDelegatorVisitorBuilder().setSD4DevelopmentVisitor(new SD4DevelopmentSymbolTableCompleter()).build();
-    globalScope.accept(stCompleter);
+    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
+    SD4DevelopmentDelegatorVisitor stCompleterVisitor = SD4DevelopmentMill.sD4DevelopmentDelegatorVisitorBuilder().setSD4DevelopmentVisitor(stCompleter).build();
+    globalScope.accept(stCompleterVisitor);
     SD4DevelopmentCoCoChecker checker = new SD4DevelopmentCoCoChecker();
     checker.addCoCo(new CorrectObjectConstructionTypesCoco());
     checker.addCoCo(new MethodActionValidCoco());

@@ -93,7 +93,8 @@ public abstract class SDCocoTest {
     "allGrammarElements.sd",
     "activities.sd",
     "bid.sd",
-    "size.sd"
+    "size.sd",
+    "deepTypeUsage.sd"
   })
   public void testCorrectExamples(String model) {
     ASTSDArtifact sd = loadModel(CORRECT_PATH + model);
