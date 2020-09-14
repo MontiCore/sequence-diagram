@@ -34,6 +34,14 @@ public class SD4DevelopmentSymbolTableCompleter implements SD4DevelopmentVisitor
   }
 
   @Override
+  public void traverse(ISD4DevelopmentScope node) {
+    SD4DevelopmentVisitor.super.traverse(node);
+    for(ISD4DevelopmentScope subscope : node.getSubScopes()) {
+      subscope.accept(this);
+    }
+  }
+
+  @Override
   public void visit(VariableSymbol var) {
     String typeName = var.getType().getTypeInfo().getName();
     Set<TypeSymbol> typeSymbols = new HashSet<>();
@@ -50,7 +58,6 @@ public class SD4DevelopmentSymbolTableCompleter implements SD4DevelopmentVisitor
     }
     else {
       TypeSymbol typeSymbol = Iterables.getFirst(typeSymbols, null);
-      typeSymbol.setName(typeSymbol.getFullName());
       var.setType(SymTypeExpressionFactory.createTypeExpression(typeSymbol));
     }
   }

@@ -21,4 +21,9 @@ public class SD4DevelopmentArtifactScope extends SD4DevelopmentArtifactScopeTOP 
     // every SD contains exactly one diagram symbol
     return getLocalDiagramSymbols().get(0).getName();
   }
+
+  @Override
+  public boolean isPresentName() {
+    return true;
+  }
 }

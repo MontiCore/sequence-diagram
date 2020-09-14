@@ -1,4 +1,5 @@
 {
+  "name": "deser_test",
   "package": "examples.symboltable.deser",
   "kindHierarchy": [
     [

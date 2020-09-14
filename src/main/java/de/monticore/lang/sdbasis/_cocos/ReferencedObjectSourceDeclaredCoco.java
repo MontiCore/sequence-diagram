@@ -2,26 +2,25 @@
 package de.monticore.lang.sdbasis._cocos;
 
 import com.google.common.collect.Iterables;
+import de.monticore.ast.ASTNode;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDObjectSource;
+import de.monticore.lang.sdbasis._visitor.SDBasisVisitor;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
 import de.se_rwth.commons.logging.Log;
 import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static de.monticore.lang.util.FQNameCalculator.calcFQNameCandidates;
 
 /**
  * Checks if used source objects are declared before they are used.
  */
-public class ReferencedObjectSourceDeclaredCoco implements SDBasisASTSDArtifactCoCo, SD4DevelopmentVisitor {
+public class ReferencedObjectSourceDeclaredCoco implements SDBasisASTSDArtifactCoCo {
 
   private static final String NOT_DECLARED = "0xB0019: " + "Object '%s' is used, but not declared.";
 
@@ -36,11 +35,19 @@ public class ReferencedObjectSourceDeclaredCoco implements SDBasisASTSDArtifactC
   public void check(ASTSDArtifact node) {
     this.imports.addAll(node.getMCImportStatementList());
     this.packageDeclaration = node.getPackageDeclaration();
-    node.accept(this);
+
+    Deque<ASTNode> toProcess = new ArrayDeque<>();
+    toProcess.addAll(node.get_Children());
+    while(!toProcess.isEmpty()) {
+      ASTNode current = toProcess.pop();
+      if(current instanceof ASTSDObjectSource) {
+        check((ASTSDObjectSource) current);
+      }
+      toProcess.addAll(current.get_Children());
+    }
   }
 
-  @Override
-  public void visit(ASTSDObjectSource node) {
+  public void check(ASTSDObjectSource node) {
     Set<VariableSymbol> varSymbols = new HashSet<>();
 
     for (String fqNameCandidate : calcFQNameCandidates(imports, packageDeclaration, node.getName())) {

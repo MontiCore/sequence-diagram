@@ -1,4 +1,5 @@
 {
+  "name": "deepTypeUsage",
   "package": "examples.symboltable.deser",
   "kindHierarchy": [
     [

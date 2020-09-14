@@ -2,6 +2,7 @@
 package de.monticore.lang.sddiff;
 
 import com.google.common.collect.Sets;
+import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.se_rwth.automata.*;
 import de.se_rwth.automata.exceptions.AlphabetsNotEqualException;
 import org.slf4j.Logger;
@@ -15,6 +16,13 @@ import java.util.stream.IntStream;
 public class SDSemDiff {
 
   private static final Logger log = LoggerFactory.getLogger(SDSemDiff.class);
+  private static final AST2SDTrafo trafo = new AST2SDTrafo();
+
+  public Optional<SDSemDiffWitness> semDiff(ASTSDArtifact ast1, ASTSDArtifact ast2) {
+    SequenceDiagram sd1 = trafo.toSD(ast1);
+    SequenceDiagram sd2 = trafo.toSD(ast2);
+    return semDiff(sd1, sd2);
+  }
 
   public Optional<SDSemDiffWitness> semDiff(SequenceDiagram sd1, SequenceDiagram sd2) {
     log.debug("Started Semantic Difference of Sequence Diagrams");

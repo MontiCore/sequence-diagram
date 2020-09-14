@@ -10,9 +10,11 @@ import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
+import de.monticore.symboltable.serialization.JsonPrinter;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -44,39 +46,36 @@ public class SD4DevelopmentDeSerTest {
   void setup() {
     Log.enableFailQuick(false);
     this.globalScope = new SD4DevelopmentGlobalScopeBuilder().setModelPath(new ModelPath(Paths.get(MODEL_PATH))).setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION).build();
+    JsonPrinter.enableIndentation();
     TestUtils.setupGlobalScope(globalScope);
     this.deSer = new SD4DevelopmentScopeDeSer();
     this.deSer.setSymbolFileExtension("sdsym");
   }
 
-  @ParameterizedTest
-  @CsvSource("deser_test.sd")
-  void testSerializationDeserTest(String model) {
+  @Test
+  public void testSerializationDeserTest() {
     // given
-    ASTSDArtifact ast = loadModel(PACKAGE_PATH + model);
+    ASTSDArtifact ast = loadModel(PACKAGE_PATH + "deser_test.sd");
     assertNotNull(ast);
 
     // when
     String serializedSD = deSer.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
 
     // then
-    System.out.println(serializedSD);
     assertTrue(serializedSD.length() > 0);
     deSer.deserialize(serializedSD); // test if JSON is valid
   }
 
-  @ParameterizedTest
-  @CsvSource("deepTypeUsage.sd")
-  void testSerializationDeepUsage(String model) {
+  @Test
+  public void testSerializationDeepUsage() {
     // given
-    ASTSDArtifact ast = loadModel(PACKAGE_PATH + model);
+    ASTSDArtifact ast = loadModel(PACKAGE_PATH + "deepTypeUsage.sd");
     assertNotNull(ast);
 
     // when
     String serializedSD = deSer.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
 
     // then
-    System.out.println(serializedSD);
     assertTrue(serializedSD.length() > 0);
     deSer.deserialize(serializedSD); // test if JSON is valid
   }

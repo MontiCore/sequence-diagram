@@ -2,6 +2,7 @@
 package de.monticore.lang.sdbasis._cocos;
 
 import com.google.common.collect.Iterables;
+import de.monticore.ast.ASTNode;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDObjectSource;
@@ -19,7 +20,7 @@ import static de.monticore.lang.util.FQNameCalculator.calcFQNameCandidates;
 /**
  * Checks if used target objects are declared before they are used.
  */
-public class ReferencedObjectTargetDeclaredCoco implements SDBasisASTSDArtifactCoCo, SD4DevelopmentVisitor {
+public class ReferencedObjectTargetDeclaredCoco implements SDBasisASTSDArtifactCoCo {
 
   private static final String NOT_DECLARED = "0xB0020: " + "Object '%s' is used, but not declared.";
 
@@ -34,11 +35,19 @@ public class ReferencedObjectTargetDeclaredCoco implements SDBasisASTSDArtifactC
   public void check(ASTSDArtifact node) {
     this.imports.addAll(node.getMCImportStatementList());
     this.packageDeclaration = node.getPackageDeclaration();
-    node.accept(this);
+
+    Deque<ASTNode> toProcess = new ArrayDeque<>();
+    toProcess.addAll(node.get_Children());
+    while(!toProcess.isEmpty()) {
+      ASTNode current = toProcess.pop();
+      if(current instanceof ASTSDObjectTarget) {
+        check((ASTSDObjectTarget) current);
+      }
+      toProcess.addAll(current.get_Children());
+    }
   }
 
-  @Override
-  public void visit(ASTSDObjectTarget node) {
+  public void check(ASTSDObjectTarget node) {
     Set<VariableSymbol> varSymbols = new HashSet<>();
 
     for (String fqNameCandidate : calcFQNameCandidates(imports, packageDeclaration, node.getName())) {

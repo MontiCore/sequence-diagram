@@ -2,6 +2,7 @@
 package de.monticore.lang.sd4development._cocos;
 
 import com.google.common.collect.Iterables;
+import de.monticore.ast.ASTNode;
 import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
 import de.monticore.lang.sd4development._ast.ASTSDCall;
 import de.monticore.lang.sd4development._ast.ASTSDNew;
@@ -12,11 +13,13 @@ import de.monticore.lang.sdbasis._ast.ASTSDObjectTarget;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDArtifactCoCo;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDSendMessageCoCo;
+import de.monticore.lang.sdbasis._visitor.SDBasisVisitor;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
 import de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.types.check.SymTypeExpression;
+import de.monticore.types.check.SymTypeExpressionFactory;
 import de.monticore.types.check.TypeCheck;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
@@ -32,7 +35,7 @@ import static de.monticore.lang.util.FQNameCalculator.calcFQNameCandidates;
  * the interaction. The name of the method as well as the number
  * and types of method parameters must be equal.
  */
-public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo, SD4DevelopmentVisitor {
+public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
 
   private static final String MESSAGE = "0xB0012: '%s' type does not contain method '%s'.";
   private static final String TYPE_DEFINED_MUTLIPLE_TIMES = "0xB0033: Type '%s' is defined more than once.";
@@ -52,11 +55,19 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo, SD4Devel
   public void check(ASTSDArtifact node) {
     this.imports.addAll(node.getMCImportStatementList());
     this.packageDeclaration = node.getPackageDeclaration();
-    node.accept(this);
+
+    Deque<ASTNode> toProcess = new ArrayDeque<>();
+    toProcess.addAll(node.get_Children());
+    while (!toProcess.isEmpty()) {
+      ASTNode current = toProcess.pop();
+      if (current instanceof ASTSDSendMessage) {
+        check((ASTSDSendMessage) current);
+      }
+      toProcess.addAll(current.get_Children());
+    }
   }
 
-  @Override
-  public void visit(ASTSDSendMessage node) {
+  public void check(ASTSDSendMessage node) {
     if (isSDCallAndObjectTargetPresent(node)) {
       ASTSDCall call = (ASTSDCall) node.getSDAction();
 
@@ -71,9 +82,25 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo, SD4Devel
         VariableSymbol targetObjectVarSymbol = Iterables.getFirst(varSymbols, null);
         String targetTypeName = targetObjectVarSymbol.getType().getTypeInfo().getName();
 
+        // compute and store all functions defined by the type and its super types
         TypeSymbol targetTypeSymbol = resolveTypeSymbol(node, targetTypeName);
-        List<FunctionSymbol> functionSymbols = targetTypeSymbol.getFunctionList();
+        List<FunctionSymbol> functionSymbols = new ArrayList<>();
+        Deque<TypeSymbol> superTypesToProcess = new ArrayDeque<>();
+        superTypesToProcess.add(targetTypeSymbol);
+        Set<TypeSymbol> processed = new HashSet<>();
+        while (!superTypesToProcess.isEmpty()) {
+          TypeSymbol cur = superTypesToProcess.pop();
+          processed.add(cur);
+          functionSymbols.addAll(cur.getFunctionList());
+          for(SymTypeExpression superType : cur.getSuperTypesList()) {
+            TypeSymbol superTypeInfo = superType.getTypeInfo();
+            if(!processed.contains(superTypeInfo)) {
+              superTypesToProcess.add(superTypeInfo);
+            }
+          }
+        }
 
+        // check if used function is defined in the type or its supertypes
         for (FunctionSymbol methodSymbol : functionSymbols) {
           if (methodAndCallMatch(methodSymbol, call)) {
             return;

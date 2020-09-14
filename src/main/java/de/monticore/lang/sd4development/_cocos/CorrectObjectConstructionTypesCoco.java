@@ -3,9 +3,11 @@
 package de.monticore.lang.sd4development._cocos;
 
 import com.google.common.collect.Iterables;
+import de.monticore.ast.ASTNode;
 import de.monticore.lang.sd4development._ast.ASTSDNew;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.lang.sdbasis._ast.ASTSDObjectSource;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDArtifactCoCo;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
@@ -18,10 +20,7 @@ import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 import static de.monticore.lang.util.FQNameCalculator.calcFQNameCandidates;
 
@@ -29,7 +28,7 @@ import static de.monticore.lang.util.FQNameCalculator.calcFQNameCandidates;
  * Checks if the type declared for an object instantiated with an SDNew interaction and the
  * object's initialization type are compatible.
  */
-public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactCoCo, SD4DevelopmentVisitor {
+public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactCoCo {
 
   private static final String INCOMPATIBLE_TYPES = "0xB0009: " + "%s and %s are incompatible types. Use the same type or a subtype of %s as the initialization type";
   private static final String TYPE_DEFINED_MUTLIPLE_TIMES = "0xB0032: Type '%s' is defined more than once.";
@@ -47,11 +46,19 @@ public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactC
   public void check(ASTSDArtifact node) {
     this.imports.addAll(node.getMCImportStatementList());
     this.packageDeclaration = node.getPackageDeclaration();
-    node.accept(this);
+
+    Deque<ASTNode> toProcess = new ArrayDeque<>();
+    toProcess.addAll(node.get_Children());
+    while(!toProcess.isEmpty()) {
+      ASTNode current = toProcess.pop();
+      if(current instanceof ASTSDNew) {
+        check((ASTSDNew) current);
+      }
+      toProcess.addAll(current.get_Children());
+    }
   }
 
-  @Override
-  public void visit(ASTSDNew node) {
+  public void check(ASTSDNew node) {
 
     ASTMCObjectType declType = node.getDeclarationType();
     ASTMCObjectType initType = node.getInitializationType();
