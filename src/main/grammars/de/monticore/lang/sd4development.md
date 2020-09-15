@@ -199,7 +199,7 @@ and [```OOTypeSymbols```](https://github.com/MontiCore/monticore/blob/dev/montic
 
 ### Symbol Table Data Structure
 
-<img width="400" src="../../../../../../doc/pics/STDataStructure.png" alt="The data structure of the symbol table of the SD language" style="float: left; margin-right: 10px;">
+<img width="600" src="../../../../../../doc/pics/STDataStructure.png" alt="The data structure of the symbol table of the SD language" style="float: left; margin-right: 10px;">
 <br><b>Figure 2:</b> The data structure of the symbol table of the SD language.
 
 &nbsp;  
