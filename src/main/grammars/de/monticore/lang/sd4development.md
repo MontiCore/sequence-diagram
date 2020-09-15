@@ -277,13 +277,11 @@ TODO analogy to CD4A
 ... seems to be VariableSymbol (only)? 
 
 ## Symbol kinds defined the SD language (exported):
-- TODO:? none (nonterminal `SDVariableDeclaration` build a sub-nonterminal of
-    Variable, which is the source for object definitions)      
-
-### `SDVariableDeclaration` ... TODO
-
+None.      
 ## Symbols imported by SD models:
-TODO
+SD models import VariableSymbols. The objects represented by imported VariableSymbols
+can be used as sources or targets of interactions. TODO ...
+
 ## Symbols exported by SD models:
 TODO
 
