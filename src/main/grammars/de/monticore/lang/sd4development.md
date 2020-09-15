@@ -279,11 +279,16 @@ TODO analogy to CD4A
 ## Symbol kinds defined the SD language (exported):
 None.      
 ## Symbols imported by SD models:
-SD models import VariableSymbols. The objects represented by imported VariableSymbols
-can be used as sources or targets of interactions. TODO ...
+* SDs import [```VariableSymbols```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4). 
+The objects represented by imported [```VariableSymbols```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4)
+can be used as sources or targets of interactions.
+* SDs import [TypeSymbols](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/TypeSymbols.mc4). The imported types can be used as types for objects and 
+variables introduced via inline declarations. 
 
 ## Symbols exported by SD models:
-TODO
+* SD models export [```VariableSymbols```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4). 
+For each object defined in an SD, the SD exports a corresponding [```VariableSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4). 
+* Each SD exports exactly one [```DiagramSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/symbols/BasicSymbols.mc4) corresponding to the SDArtifact.
 
 ## Serialization and De-serialization of Symbol Tables
 
@@ -299,38 +304,66 @@ depicted in Figure 4:
 
 ```json
 {
-  "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope",
-  "name": "size",
+  "name": "bid",
   "package": "examples.correct",
-  "sequenceDiagramSymbols": [
+  "kindHierarchy": [
+    [
+      "de.monticore.lang.sd4development._symboltable.FieldSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol"
+    ],
+    [
+      "de.monticore.lang.sd4development._symboltable.TypeVarSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+    ],
+    [
+      "de.monticore.lang.sd4development._symboltable.MethodSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol"
+    ],
+    [
+      "de.monticore.lang.sd4development._symboltable.OOTypeSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+    ]
+  ],
+  "symbols": [
     {
-      "kind": "de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol",
-      "name": "examples.correct.size",
-      "spannedScope": {
-        "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope",
-        "name": "size",
-        "isShadowingScope": false,
-        "variableSymbols": [
-          {
-            "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
-            "name": "examples.correct.size.kupfer912",
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "Auction"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
-            "name": "examples.correct.size.theo",
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "Person"
-            },
-            "isReadOnly": false
-          }
-        ]
-      }
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+      "name": "kupfer912",
+      "type": {
+        "kind": "de.monticore.types.check.SymTypeOfObject",
+        "objName": "Auction"
+      },
+      "isReadOnly": false
+    },
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+      "name": "bidPol",
+      "type": {
+        "kind": "de.monticore.types.check.SymTypeOfObject",
+        "objName": "BiddingPolicy"
+      },
+      "isReadOnly": false
+    },
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+      "name": "timePol",
+      "type": {
+        "kind": "de.monticore.types.check.SymTypeOfObject",
+        "objName": "TimingPolicy"
+      },
+      "isReadOnly": false
+    },
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+      "name": "theo",
+      "type": {
+        "kind": "de.monticore.types.check.SymTypeOfObject",
+        "objName": "Person"
+      },
+      "isReadOnly": false
+    },
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol",
+      "name": "bid"
     }
   ]
 }
