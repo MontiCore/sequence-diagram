@@ -221,7 +221,7 @@ SD. The scope spanned by [```SDBody```](../../../../grammars/de/monticore/lang/S
 each object that is dynamically instantiated via [```SDNew```](../../../../grammars/de/monticore/lang/SD4Development.mc4) and for each 
 variable that is instantiated via [```SDVariableDeclaration```](../../../../grammars/de/monticore/lang/SD4Development.mc4).  
 
-<img width="500" src="../../../../../../doc/pics/SDSymtabExample.png" alt="The SD defines two objects and dynamically instantiated an object as well as a variable." style="float: left; margin-right: 10px;">
+<img width="600" src="../../../../../../doc/pics/SDSymtabExample.png" alt="The SD defines two objects and dynamically instantiated an object as well as a variable." style="float: left; margin-right: 10px;">
 <br><b>Figure 3:</b> The SD defines two objects and dynamically instantiated an object as well as a variable.
 
 &nbsp;  
@@ -255,7 +255,7 @@ The two objects ```kupfer912:Auction``` and ```theo:Person``` correspond to the
  [```VariableSymbols```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4) of the other ```SD4DevelopmentScope```, which is introduced by
  [```SDBody```](../../../../grammars/de/monticore/lang/SDBasis.mc4).    
 
-<img width="500" src="../../../../../../doc/pics/STInstanceExample.png" alt="Symbol table instance of the SD depicted in Figure 3" style="float: left; margin-right: 10px;">
+<img width="600" src="../../../../../../doc/pics/STInstanceExample.png" alt="Symbol table instance of the SD depicted in Figure 3" style="float: left; margin-right: 10px;">
 <br><b>Figure 4:</b> Symbol table instance of the SD depicted in Figure 3.
 
 &nbsp;  
