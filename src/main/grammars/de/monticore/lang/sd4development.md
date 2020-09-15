@@ -340,24 +340,6 @@ depicted in Figure 4:
     },
     {
       "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-      "name": "bidPol",
-      "type": {
-        "kind": "de.monticore.types.check.SymTypeOfObject",
-        "objName": "BiddingPolicy"
-      },
-      "isReadOnly": false
-    },
-    {
-      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-      "name": "timePol",
-      "type": {
-        "kind": "de.monticore.types.check.SymTypeOfObject",
-        "objName": "TimingPolicy"
-      },
-      "isReadOnly": false
-    },
-    {
-      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
       "name": "theo",
       "type": {
         "kind": "de.monticore.types.check.SymTypeOfObject",
