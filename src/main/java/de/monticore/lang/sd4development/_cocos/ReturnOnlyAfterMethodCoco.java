@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development._cocos;
 
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDEndCall;
 import de.monticore.lang.sd4development._ast.ASTSDReturn;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentInheritanceVisitor;
@@ -25,7 +26,10 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
 
   @Override
   public void check(ASTSDArtifact node) {
-    ReturnOnlyAfterMethodCocoVisitor visitor = new ReturnOnlyAfterMethodCocoVisitor();
+    SD4DevelopmentInheritanceVisitor visitor = SD4DevelopmentMill.
+      sD4DevelopmentDelegatorVisitorBuilder().
+      setSD4DevelopmentVisitor(new ReturnOnlyAfterMethodCocoVisitor()).
+      build();
     node.accept(visitor);
   }
 

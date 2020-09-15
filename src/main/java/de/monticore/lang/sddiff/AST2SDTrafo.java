@@ -48,7 +48,7 @@ final class AST2SDTrafo implements SD4DevelopmentInheritanceVisitor {
     visibleObjects = new HashSet<>();
     initialObjects = new HashSet<>();
     interactions = new LinkedList<>();
-    ast.accept(this);
+    ast.accept(this.getRealThis());
     return SequenceDiagram.builder()
                           .objects(objects)
                           .completeObjects(completeObjects)

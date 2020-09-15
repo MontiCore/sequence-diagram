@@ -3,17 +3,13 @@ package de.monticore.lang.sd4development._symboltable;
 
 import com.google.common.collect.Iterables;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
-import de.monticore.lang.sdbasis._visitor.SDBasisDelegatorVisitor;
-import de.monticore.lang.sdbasis._visitor.SDBasisVisitor;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.types.check.SymTypeExpressionFactory;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
 import de.se_rwth.commons.logging.Log;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -37,7 +33,7 @@ public class SD4DevelopmentSymbolTableCompleter implements SD4DevelopmentVisitor
   public void traverse(ISD4DevelopmentScope node) {
     SD4DevelopmentVisitor.super.traverse(node);
     for(ISD4DevelopmentScope subscope : node.getSubScopes()) {
-      subscope.accept(this);
+      subscope.accept(this.getRealThis());
     }
   }
 
