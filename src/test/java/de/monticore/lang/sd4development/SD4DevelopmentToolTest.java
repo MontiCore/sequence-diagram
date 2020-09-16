@@ -210,31 +210,4 @@ public class SD4DevelopmentToolTest {
     assertEquals(0, Log.getErrorCount());
   }
 
-//  @Test
-//  public void toolDeSerTest() throws IOException {
-//
-//    this.setupGlobalScope();
-//    Log.getFindings().clear();
-//
-//    Optional<ASTSDArtifact> ast = SD4DevelopmentTool.parseSDArtifact(CORRECT_PATH + "lecture/example_9_non_causal.sd");
-//    assertTrue(ast.isPresent());
-//    String symbolFileName = SYMBOLS_OUT + ast.get().getSequenceDiagram().getName() +".sdsym";
-//    SD4DevelopmentTool.deriveSymbolSkeleton(ast.get(), this.globalScope);
-//    SD4DevelopmentArtifactScope artifactScope = (SD4DevelopmentArtifactScope) ast.get().getEnclosingScope();
-//
-//    SD4DevelopmentTool.storeSymbols(ast.get(), symbolFileName);
-//    ISD4DevelopmentArtifactScope loadedST = SD4DevelopmentTool.loadSymbols(symbolFileName);
-//
-//    assertEquals(0, loadedST.getSubScopes().size());
-//    assertEquals(1, loadedST.getLocalDiagramSymbols().size());
-//    assertEquals(1, artifactScope.getLocalDiagramSymbols().size());
-//    assertEquals(artifactScope.getLocalDiagramSymbols().get(0).getName(), loadedST.getLocalDiagramSymbols().get(0).getName());
-//    for(VariableSymbol var : artifactScope.getLocalVariableSymbols()) {
-//      loadedST.getLocalVariableSymbols().stream().anyMatch(x -> x.getFullName().equals(var.getFullName()));
-//    }
-//    for(VariableSymbol var : loadedST.getLocalVariableSymbols()) {
-//      artifactScope.getLocalVariableSymbols().stream().anyMatch(x -> x.getFullName().equals(var.getFullName()));
-//    }
-//    assertEquals(0, Log.getErrorCount());
-//  }
 }
