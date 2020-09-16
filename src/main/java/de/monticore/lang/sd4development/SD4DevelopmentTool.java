@@ -10,6 +10,8 @@ import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
+import de.monticore.lang.sddiff.SDSemDiff;
+import de.monticore.lang.sddiff.SDSemDiffWitness;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -26,6 +28,7 @@ public class SD4DevelopmentTool {
   private static final SD4DevelopmentParser parser = new SD4DevelopmentParser();
   private static final SD4DevelopmentScopeDeSer deSer = SD4DevelopmentMill.sD4DevelopmentScopeDeSerBuilder().build();
   private static final SD4DevelopmentDelegatorPrettyPrinter prettyPrinter = new SD4DevelopmentDelegatorPrettyPrinter();
+  private static final SDSemDiff sdSemDifferencer = new SDSemDiff();
 
   /**
    * Parses SD artifacts (*.sd files).
@@ -169,11 +172,25 @@ public class SD4DevelopmentTool {
   }
 
   /**
-   * Loads the symbols from thesymbol file filename and returns the symbol table.
+   * Loads the symbols from the symbol file filename and returns the symbol table.
    *
    * @param filename Name of the symbol file to load.
    */
   public static ISD4DevelopmentArtifactScope loadSymbols(String filename) {
     return deSer.load(filename);
+  }
+
+  /**
+   * Checks whether the SD "from" is a refinement of the SD "to".
+   * Returns Optional.empty if "from" is a refinement of "to".
+   * Returns an element in the semantics of "from" that is no element in the semantics of "to" if
+   * "from" is no refinement of "to".
+   *
+   * @param from SD for which it checked whether it refines the SD "to"
+   * @param to SD for which it is checked whether "from" refines it
+   * @return Diff witness contained in the semantic difference from "from" to "to"
+   */
+  public static Optional<SDSemDiffWitness> semDiff(ASTSDArtifact from, ASTSDArtifact to) {
+    return sdSemDifferencer.semDiff(from, to);
   }
 }

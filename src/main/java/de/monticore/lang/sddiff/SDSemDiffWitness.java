@@ -9,6 +9,5 @@ import java.util.List;
 @Data
 @Builder(builderClassName = "Builder")
 public class SDSemDiffWitness {
-
   private final List<SDInteraction> witness;
 }
