@@ -80,7 +80,9 @@ public class SD4DevelopmentTool {
    * @return The symbol table for ast while considering globalScope.
    */
   public static ISD4DevelopmentArtifactScope deriveSymbolSkeleton(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
-    SD4DevelopmentSymbolTableCreatorDelegator stCreator = SD4DevelopmentMill.sD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(globalScope).build();
+    SD4DevelopmentSymbolTableCreatorDelegatorBuilder stCreatorBuilder = SD4DevelopmentMill.sD4DevelopmentSymbolTableCreatorDelegatorBuilder();
+    stCreatorBuilder = stCreatorBuilder.setGlobalScope(globalScope);
+    SD4DevelopmentSymbolTableCreatorDelegator stCreator = stCreatorBuilder.build();
     return stCreator.createFromAST(ast);
   }
 
@@ -142,7 +144,7 @@ public class SD4DevelopmentTool {
    * @param ast         The ast of the SD.
    * @param globalScope The given global scope.
    */
-  public static void checkAllCoCos(ASTSDArtifact ast, SD4DevelopmentGlobalScope globalScope) {
+  public static void checkAllCoCos(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
     checkAllExceptTypeCoCos(ast, globalScope);
     SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
     SD4DevelopmentDelegatorVisitor stCompleterVisitor = SD4DevelopmentMill.sD4DevelopmentDelegatorVisitorBuilder().setSD4DevelopmentVisitor(stCompleter).build();
@@ -164,19 +166,6 @@ public class SD4DevelopmentTool {
   public static void storeSymbols(ASTSDArtifact ast, String filename) {
     String serialized = deSer.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
     FileReaderWriter.storeInFile(Paths.get(filename), serialized);
-  }
-
-  /**
-   * Stores the symbol file for ast at the passed path. The name of the file is calculated by the DeSer, i.e.,
-   * the file name has the usual file name of symbol files.
-   * For example, an SD defined in the artifact "Bid.sd" is stored in the file "Bid.sdsym".
-   * If path = "target/symbols", then the full qualified name of the symbol file is "target/symbols/Bid.sdsym".
-   *
-   * @param ast  The ast of the SD for which the symbols should be stored.
-   * @param path The path where the symbol file should be stored.
-   */
-  public static void storeSymbols(ASTSDArtifact ast, Path path) {
-    deSer.store((SD4DevelopmentArtifactScope) ast.getEnclosingScope(), path);
   }
 
   /**

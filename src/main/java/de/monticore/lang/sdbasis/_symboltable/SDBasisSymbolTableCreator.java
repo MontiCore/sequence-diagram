@@ -6,7 +6,9 @@ import de.monticore.lang.sdbasis._ast.ASTSDObject;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
+import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.types.check.SymTypeExpression;
+import de.monticore.types.check.SymTypeExpressionFactory;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
@@ -33,7 +35,7 @@ public class SDBasisSymbolTableCreator extends SDBasisSymbolTableCreatorTOP {
   @Override
   public void visit(ASTSDObject node) {
     VariableSymbol symbol = create_SDObject(node);
-    if(getCurrentScope().isPresent()) {
+    if (getCurrentScope().isPresent()) {
       symbol.setEnclosingScope(getCurrentScope().get());
     }
     addToScopeAndLinkWithNode(symbol, node);
@@ -46,12 +48,15 @@ public class SDBasisSymbolTableCreator extends SDBasisSymbolTableCreatorTOP {
       ast.getMCObjectType().setEnclosingScope(ast.getEnclosingScope());
       final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(ast.getMCObjectType());
       if (!typeResult.isPresent()) {
-        Log.error(String.format("0xB0001: The type (%s) of the object (%s) could not be calculated",
-                prettyPrinter.prettyprint(ast.getMCObjectType()),
-                ast.getName()));
-      } else {
+        Log.error(String.format("0xB0001: The type (%s) of the object (%s) could not be calculated", prettyPrinter.prettyprint(ast.getMCObjectType()), ast.getName()));
+      }
+      else {
         symbol.setType(typeResult.get());
       }
+    }
+    else {
+      OOTypeSymbol objectType = new OOTypeSymbol("Object");
+      symbol.setType(SymTypeExpressionFactory.createTypeExpression(objectType));
     }
   }
 }

@@ -47,8 +47,7 @@ public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactC
     this.imports.addAll(node.getMCImportStatementList());
     this.packageDeclaration = node.getPackageDeclaration();
 
-    Deque<ASTNode> toProcess = new ArrayDeque<>();
-    toProcess.addAll(node.get_Children());
+    Deque<ASTNode> toProcess = new ArrayDeque<>(node.get_Children());
     while(!toProcess.isEmpty()) {
       ASTNode current = toProcess.pop();
       if(current instanceof ASTSDNew) {
@@ -66,15 +65,15 @@ public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactC
     String declTypeName = declType.printType(prettyPrinter);
     String initTypeName = initType.printType(prettyPrinter);
 
-    TypeSymbol declTypeSymbol = resolveTypeSymbol(node, declTypeName);
-    TypeSymbol initTypeSymbol = resolveTypeSymbol(node, initTypeName);
+      TypeSymbol declTypeSymbol = resolveTypeSymbol(node, declTypeName);
+      TypeSymbol initTypeSymbol = resolveTypeSymbol(node, initTypeName);
 
-    SymTypeExpression declTypeExpression = SymTypeExpressionFactory.createTypeExpression(declTypeSymbol);
-    SymTypeExpression initTypeExpression = SymTypeExpressionFactory.createTypeExpression(initTypeSymbol);
+      SymTypeExpression declTypeExpression = SymTypeExpressionFactory.createTypeExpression(declTypeSymbol);
+      SymTypeExpression initTypeExpression = SymTypeExpressionFactory.createTypeExpression(initTypeSymbol);
 
-    if (!TypeCheck.compatible(initTypeExpression, declTypeExpression)) {
-      Log.error(String.format(INCOMPATIBLE_TYPES, declTypeName, initTypeName, declTypeName));
-    }
+      if (!TypeCheck.compatible(initTypeExpression, declTypeExpression)) {
+        Log.error(String.format(INCOMPATIBLE_TYPES, declTypeName, initTypeName, declTypeName));
+      }
   }
 
   private TypeSymbol resolveTypeSymbol(ASTSDNew node, String typeName) {

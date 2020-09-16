@@ -3,6 +3,7 @@ package de.monticore.lang.sd4development._symboltable;
 
 import com.google.common.collect.Iterables;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
+import de.monticore.lang.sdbasis._visitor.SDBasisVisitor;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.types.check.SymTypeExpressionFactory;
@@ -23,6 +24,7 @@ public class SD4DevelopmentSymbolTableCompleter implements SD4DevelopmentVisitor
 
   private List<ASTMCImportStatement> imports;
   private ASTMCQualifiedName packageDeclaration;
+  private SDBasisVisitor realThis;
 
   public SD4DevelopmentSymbolTableCompleter(List<ASTMCImportStatement> imports, ASTMCQualifiedName packageDeclaration) {
     this.imports = imports;
@@ -30,9 +32,19 @@ public class SD4DevelopmentSymbolTableCompleter implements SD4DevelopmentVisitor
   }
 
   @Override
+  public void setRealThis(SD4DevelopmentVisitor realThis) {
+    this.realThis = realThis;
+  }
+
+  @Override
+  public void setRealThis(SDBasisVisitor realThis) {
+    this.realThis = realThis;
+  }
+
+  @Override
   public void traverse(ISD4DevelopmentScope node) {
     SD4DevelopmentVisitor.super.traverse(node);
-    for(ISD4DevelopmentScope subscope : node.getSubScopes()) {
+    for (ISD4DevelopmentScope subscope : node.getSubScopes()) {
       subscope.accept(this.getRealThis());
     }
   }

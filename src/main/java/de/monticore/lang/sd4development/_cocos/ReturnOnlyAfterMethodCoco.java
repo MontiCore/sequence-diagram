@@ -4,12 +4,14 @@ package de.monticore.lang.sd4development._cocos;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDEndCall;
 import de.monticore.lang.sd4development._ast.ASTSDReturn;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentInheritanceVisitor;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDArtifactCoCo;
+import de.monticore.lang.sdbasis._visitor.SDBasisVisitor;
 import de.monticore.lang.util.SourceAndTargetEquals;
 import de.se_rwth.commons.logging.Log;
 
@@ -26,11 +28,13 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
 
   @Override
   public void check(ASTSDArtifact node) {
-    SD4DevelopmentInheritanceVisitor visitor = SD4DevelopmentMill.
+    ReturnOnlyAfterMethodCocoVisitor visitor = new ReturnOnlyAfterMethodCocoVisitor();
+    SD4DevelopmentDelegatorVisitor delegator = SD4DevelopmentMill.
       sD4DevelopmentDelegatorVisitorBuilder().
-      setSD4DevelopmentVisitor(new ReturnOnlyAfterMethodCocoVisitor()).
+      setSD4DevelopmentVisitor(visitor).
+      setSDBasisVisitor(visitor).
       build();
-    node.accept(visitor);
+    node.accept(delegator);
   }
 
   /**
@@ -38,22 +42,22 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
    * If there exists a return end call, it is checked if any open SendCall matches with the given EndCall.
    * If there does not exists such a SendCall, an error will be produced.
    */
-  private static final class ReturnOnlyAfterMethodCocoVisitor implements SD4DevelopmentInheritanceVisitor {
+  private static final class ReturnOnlyAfterMethodCocoVisitor implements SD4DevelopmentVisitor {
     private final SD4DevelopmentDelegatorPrettyPrinter pp = new SD4DevelopmentDelegatorPrettyPrinter();
 
     private final Set<ASTSDSendMessage> openMethodCalls = new HashSet<>();
 
     private boolean isReturnInteraction = false;
 
-    private SD4DevelopmentVisitor realThis = this;
+    private SDBasisVisitor realThis = this;
 
     @Override
-    public SD4DevelopmentVisitor getRealThis() {
-      return realThis;
+    public void setRealThis (SDBasisVisitor realThis)  {
+      this.realThis = realThis;
     }
 
     @Override
-    public void setRealThis(SD4DevelopmentVisitor realThis) {
+    public void setRealThis (SD4DevelopmentVisitor realThis)  {
       this.realThis = realThis;
     }
 

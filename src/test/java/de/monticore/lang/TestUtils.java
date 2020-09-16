@@ -6,12 +6,10 @@ import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentGlobalScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
-import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
-import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbolBuilder;
-import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
-import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.*;
 import de.monticore.symbols.oosymbols._symboltable.*;
 import de.monticore.types.MCTypeFacade;
+import de.monticore.types.check.SymTypeExpressionFactory;
 
 import java.util.List;
 import java.util.Optional;
@@ -132,7 +130,8 @@ public final class TestUtils {
   private static VariableSymbol createKupfer912VariableSymbol() {
     VariableSymbol kupfer912 = new VariableSymbol("kupfer912");
     kupfer912.setPackageName("foo.bar.auctiontypes");
-    kupfer912.setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createQualifiedType("Auction")).get());
+    OOTypeSymbol auctionType = new OOTypeSymbol("Auction");
+    kupfer912.setType(SymTypeExpressionFactory.createTypeExpression(auctionType));
     return kupfer912;
   }
 }
