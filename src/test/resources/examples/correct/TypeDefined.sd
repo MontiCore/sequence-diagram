@@ -1,0 +1,11 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.correct;
+
+import foo.A;
+import bar.B;
+
+sequencediagram size {
+   a:Type1; // full-qualified name of Type1: foo.A.Type1
+   b:Type2; // full-qualified name of Type1: bar.B.Type2
+ }

@@ -1,3 +1,5 @@
+/* (c) https://github.com/MontiCore/monticore */
+
 package examples.incorrect;
 
 sequencediagram used_type_undefined {

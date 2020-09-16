@@ -4,6 +4,7 @@ package de.monticore.lang.sdbasis._cocos;
 
 import de.monticore.lang.SDCocoTest;
 import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
 import java.util.List;
 
@@ -16,7 +17,7 @@ public class ReferencedObjectSourceDeclaredCocoTest extends SDCocoTest {
 
   @Override
   protected List<String> getErrorCodeOfCocoUnderTest() {
-    return Arrays.asList("0xB0019", "0xB0026");
+    return Arrays.asList("0xB0019", "0xB0026", "0xB0030");
   }
 
   @Test

@@ -50,10 +50,10 @@ component grammar SDBasis extends
 
   /*
    * SDs can be tagged with stereotypes and SDModifiers. Every SD has a name
-   * and defines a scope as well as a symbol. SDs define objects and contain
+   * and defines a diagram symbol. SDs define objects and contain
    * a body.
    */
-  scope SequenceDiagram implements Diagram =
+  SequenceDiagram implements Diagram =
     Stereotype? SDModifier* "sequencediagram" Name "{"
       SDObject*
       SDBody

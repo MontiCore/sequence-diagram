@@ -1,9 +1,11 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development._symboltable;
 
 import de.monticore.lang.sd4development._ast.ASTEDeclaration;
 import de.monticore.lang.sd4development._ast.ASTSDNew;
 import de.monticore.lang.sd4development._ast.ASTSDVariableDeclaration;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.lang.sdbasis._ast.ASTSDObject;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;

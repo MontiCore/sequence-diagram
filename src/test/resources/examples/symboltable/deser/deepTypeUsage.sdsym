@@ -1,5 +1,5 @@
 {
-  "name": "deser_test",
+  "name": "deepTypeUsage",
   "package": "examples.symboltable.deser",
   "kindHierarchy": [
     [
@@ -22,34 +22,16 @@
   "symbols": [
     {
       "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-      "name": "kupfer912",
+      "name": "d",
       "type": {
         "kind": "de.monticore.types.check.SymTypeOfObject",
-        "objName": "Auction"
-      },
-      "isReadOnly": false
-    },
-    {
-      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-      "name": "bidPol",
-      "type": {
-        "kind": "de.monticore.types.check.SymTypeOfObject",
-        "objName": "BiddingPolicy"
-      },
-      "isReadOnly": false
-    },
-    {
-      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-      "name": "timePol",
-      "type": {
-        "kind": "de.monticore.types.check.SymTypeOfObject",
-        "objName": "TimingPolicy"
+        "objName": "very.very.deep.DeepType"
       },
       "isReadOnly": false
     },
     {
       "kind": "de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol",
-      "name": "deser_test"
+      "name": "deepTypeUsage"
     }
   ]
 }

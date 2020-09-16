@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang;
 
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;

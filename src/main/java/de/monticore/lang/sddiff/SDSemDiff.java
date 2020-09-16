@@ -1,10 +1,13 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sddiff;
 
 import com.google.common.collect.Sets;
-import de.se_rwth.automata.*;
+import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.se_rwth.automata.Automaton;
+import de.se_rwth.automata.Operations;
+import de.se_rwth.automata.State;
+import de.se_rwth.automata.Transition;
 import de.se_rwth.automata.exceptions.AlphabetsNotEqualException;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import java.util.*;
 import java.util.function.Function;
@@ -13,16 +16,20 @@ import java.util.stream.IntStream;
 
 public class SDSemDiff {
 
-  private static final Logger log = LoggerFactory.getLogger(SDSemDiff.class);
+  private static final AST2SDTrafo trafo = new AST2SDTrafo();
+
+  public Optional<SDSemDiffWitness> semDiff(ASTSDArtifact ast1, ASTSDArtifact ast2) {
+    SequenceDiagram sd1 = trafo.toSD(ast1);
+    SequenceDiagram sd2 = trafo.toSD(ast2);
+    return semDiff(sd1, sd2);
+  }
 
   public Optional<SDSemDiffWitness> semDiff(SequenceDiagram sd1, SequenceDiagram sd2) {
-    log.debug("Started Semantic Difference of Sequence Diagrams");
     Set<SDInteraction> alphabet = getAlphabet(sd1, sd2);
 
     Automaton<SDInteraction, Integer> m1 = getNFA(alphabet, sd1);
     Automaton<SDInteraction, Integer> m2 = getNFA(alphabet, sd2);
 
-    log.debug("Finished translation from Sequence Diagrams to NFAs. Checking language inclusion.");
     try {
       Optional<List<SDInteraction>> witness = Operations.languageIncludedOrWord(m1, m2);
       if (witness.isPresent()) {

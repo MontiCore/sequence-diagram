@@ -1,15 +1,20 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development._symboltable.deser;
 
 import com.google.common.collect.LinkedListMultimap;
 import de.monticore.io.paths.ModelPath;
+import de.monticore.lang.TestUtils;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
+import de.monticore.symboltable.serialization.JsonPrinter;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -21,6 +26,7 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
+import de.monticore.lang.TestUtils;
 
 import static org.junit.Assert.*;
 
@@ -40,22 +46,36 @@ public class SD4DevelopmentDeSerTest {
   void setup() {
     Log.enableFailQuick(false);
     this.globalScope = new SD4DevelopmentGlobalScopeBuilder().setModelPath(new ModelPath(Paths.get(MODEL_PATH))).setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION).build();
+    JsonPrinter.enableIndentation();
+    TestUtils.setupGlobalScope(globalScope);
     this.deSer = new SD4DevelopmentScopeDeSer();
     this.deSer.setSymbolFileExtension("sdsym");
   }
 
-  @ParameterizedTest
-  @CsvSource("deser_test.sd")
-  void testSerialization(String model) {
+  @Test
+  public void testSerializationDeserTest() {
     // given
-    ASTSDArtifact ast = loadModel(PACKAGE_PATH + model);
+    ASTSDArtifact ast = loadModel(PACKAGE_PATH + "deser_test.sd");
     assertNotNull(ast);
 
     // when
     String serializedSD = deSer.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
 
     // then
-    System.out.println(serializedSD);
+    assertTrue(serializedSD.length() > 0);
+    deSer.deserialize(serializedSD); // test if JSON is valid
+  }
+
+  @Test
+  public void testSerializationDeepUsage() {
+    // given
+    ASTSDArtifact ast = loadModel(PACKAGE_PATH + "deepTypeUsage.sd");
+    assertNotNull(ast);
+
+    // when
+    String serializedSD = deSer.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
+
+    // then
     assertTrue(serializedSD.length() > 0);
     deSer.deserialize(serializedSD); // test if JSON is valid
   }
@@ -73,13 +93,12 @@ public class SD4DevelopmentDeSerTest {
     // then
     assertNotNull(deserializedSD);
     assertEquals(1, deserializedSD.getLocalDiagramSymbols().size());
-    DiagramSymbol diagSymbol = deserializedSD.getLocalDiagramSymbols().get(0);
-    assertEquals("deser_test", diagSymbol.getName());
-    assertEquals(FilenameUtils.removeExtension(serializedModel), diagSymbol.getName());
-    assertEquals("examples.symboltable.deser", diagSymbol.getPackageName());
-    assertEquals(1, deserializedSD.getSubScopes().size());
-    assertEquals(3, diagSymbol.getSpannedScope().getSymbolsSize());
-    LinkedListMultimap<String, VariableSymbol> variableSymbols = diagSymbol.getSpannedScope().getVariableSymbols();
+    DiagramSymbol diagramSymbol = deserializedSD.getLocalDiagramSymbols().get(0);
+    assertEquals("deser_test", diagramSymbol.getName());
+    assertEquals(FilenameUtils.removeExtension(serializedModel), diagramSymbol.getName());
+    assertEquals("examples.symboltable.deser", diagramSymbol.getPackageName());
+    assertEquals(4, deserializedSD.getSymbolsSize());
+    LinkedListMultimap<String, VariableSymbol> variableSymbols = deserializedSD.getVariableSymbols();
     assertEquals(3, variableSymbols.size());
 
     assertTrue(variableSymbols.containsKey("kupfer912"));
@@ -97,13 +116,16 @@ public class SD4DevelopmentDeSerTest {
     assertEquals(1, timePolVal.size());
     assertEquals("TimingPolicy", timePolVal.get(0).getType().print());
 
-    assertEquals(0, diagSymbol.getSpannedScope().getSubScopes().size());
+    assertEquals(0, deserializedSD.getSubScopes().size());
   }
 
   private ASTSDArtifact loadModel(String modelPath) {
     try {
       ASTSDArtifact ast = parser.parse(modelPath).orElseThrow(NoSuchElementException::new);
       createSymbolTableFromAST(ast);
+      SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
+      this.globalScope.accept(stCompleter);
+
       return ast;
     }
     catch (IOException | NoSuchElementException e) {

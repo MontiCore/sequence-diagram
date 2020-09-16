@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development;
 
 import de.monticore.io.FileReaderWriter;
@@ -5,9 +6,12 @@ import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd4development._cocos.*;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
+import de.monticore.lang.sddiff.SDSemDiff;
+import de.monticore.lang.sddiff.SDSemDiffWitness;
 
 import java.io.IOException;
 import java.nio.file.Path;
@@ -24,6 +28,7 @@ public class SD4DevelopmentTool {
   private static final SD4DevelopmentParser parser = new SD4DevelopmentParser();
   private static final SD4DevelopmentScopeDeSer deSer = SD4DevelopmentMill.sD4DevelopmentScopeDeSerBuilder().build();
   private static final SD4DevelopmentDelegatorPrettyPrinter prettyPrinter = new SD4DevelopmentDelegatorPrettyPrinter();
+  private static final SDSemDiff sdSemDifferencer = new SDSemDiff();
 
   /**
    * Parses SD artifacts (*.sd files).
@@ -65,9 +70,9 @@ public class SD4DevelopmentTool {
    * @param modelPath Considered model path.
    * @return The Symbol table for ast.
    */
-  public static ISD4DevelopmentArtifactScope deriveSymbols(ASTSDArtifact ast, ModelPath modelPath) {
+  public static ISD4DevelopmentArtifactScope deriveSymbolSkeleton(ASTSDArtifact ast, ModelPath modelPath) {
     ISD4DevelopmentGlobalScope globalScope = SD4DevelopmentMill.sD4DevelopmentGlobalScopeBuilder().setModelPath(modelPath).setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION).build();
-    return deriveSymbols(ast, globalScope);
+    return deriveSymbolSkeleton(ast, globalScope);
   }
 
   /**
@@ -77,8 +82,10 @@ public class SD4DevelopmentTool {
    * @param globalScope Global scope to which the symbols are added.
    * @return The symbol table for ast while considering globalScope.
    */
-  public static ISD4DevelopmentArtifactScope deriveSymbols(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
-    SD4DevelopmentSymbolTableCreatorDelegator stCreator = SD4DevelopmentMill.sD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(globalScope).build();
+  public static ISD4DevelopmentArtifactScope deriveSymbolSkeleton(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
+    SD4DevelopmentSymbolTableCreatorDelegatorBuilder stCreatorBuilder = SD4DevelopmentMill.sD4DevelopmentSymbolTableCreatorDelegatorBuilder();
+    stCreatorBuilder = stCreatorBuilder.setGlobalScope(globalScope);
+    SD4DevelopmentSymbolTableCreatorDelegator stCreator = stCreatorBuilder.build();
     return stCreator.createFromAST(ast);
   }
 
@@ -91,9 +98,9 @@ public class SD4DevelopmentTool {
    * @param modelPaths Full qualified names of the considered model paths.
    * @return The symbol table for ast.
    */
-  public static ISD4DevelopmentArtifactScope deriveSymbols(ASTSDArtifact ast, String... modelPaths) {
+  public static ISD4DevelopmentArtifactScope deriveSymbolSkeleton(ASTSDArtifact ast, String... modelPaths) {
     ModelPath modelPath = new ModelPath(Arrays.stream(modelPaths).map(x -> Paths.get(x)).collect(Collectors.toList()));
-    return deriveSymbols(ast, modelPath);
+    return deriveSymbolSkeleton(ast, modelPath);
   }
 
   /**
@@ -103,7 +110,7 @@ public class SD4DevelopmentTool {
    * @param globalScope The given global scope.
    */
   public static void checkIntraModelCoCos(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
-    deriveSymbols(ast, globalScope);
+    deriveSymbolSkeleton(ast, globalScope);
     SD4DevelopmentCoCoChecker checker = new SD4DevelopmentCoCoChecker();
     checker.addCoCo(new CommonFileExtensionCoco());
     checker.addCoCo(new ObjectNameNamingConventionCoco());
@@ -140,10 +147,12 @@ public class SD4DevelopmentTool {
    * @param ast         The ast of the SD.
    * @param globalScope The given global scope.
    */
-  public static void checkAllCoCos(ASTSDArtifact ast, SD4DevelopmentGlobalScope globalScope) {
+  public static void checkAllCoCos(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
     checkAllExceptTypeCoCos(ast, globalScope);
+    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
+    SD4DevelopmentDelegatorVisitor stCompleterVisitor = SD4DevelopmentMill.sD4DevelopmentDelegatorVisitorBuilder().setSD4DevelopmentVisitor(stCompleter).build();
+    globalScope.accept(stCompleterVisitor);
     SD4DevelopmentCoCoChecker checker = new SD4DevelopmentCoCoChecker();
-    checker.addCoCo(new ReferencedTypeExistsCoco());
     checker.addCoCo(new CorrectObjectConstructionTypesCoco());
     checker.addCoCo(new MethodActionValidCoco());
     checker.checkAll(ast);
@@ -163,24 +172,25 @@ public class SD4DevelopmentTool {
   }
 
   /**
-   * Stores the symbol file for ast at the passed path. The name of the file is calculated by the DeSer, i.e.,
-   * the file name has the usual file name of symbol files.
-   * For example, an SD defined in the artifact "Bid.sd" is stored in the file "Bid.sdsym".
-   * If path = "target/symbols", then the full qualified name of the symbol file is "target/symbols/Bid.sdsym".
-   *
-   * @param ast  The ast of the SD for which the symbols should be stored.
-   * @param path The path where the symbol file should be stored.
-   */
-  public static void storeSymbols(ASTSDArtifact ast, Path path) {
-    deSer.store((SD4DevelopmentArtifactScope) ast.getEnclosingScope(), path);
-  }
-
-  /**
-   * Loads the symbols from thesymbol file filename and returns the symbol table.
+   * Loads the symbols from the symbol file filename and returns the symbol table.
    *
    * @param filename Name of the symbol file to load.
    */
   public static ISD4DevelopmentArtifactScope loadSymbols(String filename) {
     return deSer.load(filename);
+  }
+
+  /**
+   * Checks whether the SD "from" is a refinement of the SD "to".
+   * Returns Optional.empty if "from" is a refinement of "to".
+   * Returns an element in the semantics of "from" that is no element in the semantics of "to" if
+   * "from" is no refinement of "to".
+   *
+   * @param from SD for which it checked whether it refines the SD "to"
+   * @param to SD for which it is checked whether "from" refines it
+   * @return Diff witness contained in the semantic difference from "from" to "to"
+   */
+  public static Optional<SDSemDiffWitness> semDiff(ASTSDArtifact from, ASTSDArtifact to) {
+    return sdSemDifferencer.semDiff(from, to);
   }
 }

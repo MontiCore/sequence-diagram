@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sddiff;
 
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentInheritanceVisitor;
@@ -47,7 +48,7 @@ final class AST2SDTrafo implements SD4DevelopmentInheritanceVisitor {
     visibleObjects = new HashSet<>();
     initialObjects = new HashSet<>();
     interactions = new LinkedList<>();
-    ast.accept(this);
+    ast.accept(this.getRealThis());
     return SequenceDiagram.builder()
                           .objects(objects)
                           .completeObjects(completeObjects)

@@ -79,12 +79,11 @@ The grammar [SDBasis](../../../../grammars/de/monticore/lang/SDBasis.mc4) define
 * interactions for sending messages
 * including (optional) activity bars.   
                             
-The grammar [SDBasis](../../../../grammars/de/monticore/lang/SDBasis.mc4) includes the grammars
+The grammar [SDBasis](../../../../grammars/de/monticore/lang/SDBasis.mc4) extends the grammars
 * [MCBasicTypes](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/MCBasicTypes.mc4) for adding the possibility to define objects typed as 
-  MCObjectTypes.
-* [TypeSymbols](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/TypeSymbols.mc4) to be able to use symbols of kind Variable and to enable 
-  typechecking. Objects and local variables are added as variable symbols 
-  to the symbol table.
+  MCObjectTypes, to be able to use symbols of kind Variable, and to enable typechecking. 
+  Objects and local variables are added as variable symbols to the symbol table.
+* [BasicSymbols](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/symbols/BasicSymbols.mc4) for using symbols of kind Diagram und Variable.
 * [ExpressionsBasis](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/expressions/ExpressionsBasis.mc4) to be able to reuse visitors for typechecking.
 * [UMLStereotype](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/UMLStereotype.mc4) for adding UMLStereotypes as possible extension points to the grammar. 
 
@@ -110,6 +109,7 @@ The grammar [SD4Development](../../../../grammars/de/monticore/lang/SD4Developme
 * [CommonExpressions](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/expressions/CommonExpressions.mc4) to be able to use simple expressions, e.g. a == b.
 * [OCLExpressions](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/expressions/OCLExpressions.mc4) for embedding OCL expressions as conditions and to be 
   able to use OCL expressions for the definition of local variables.
+* [OOSymbols](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/symbols/OOSymbols.mc4) to be able to import OOType Symbols.
 
 ## Context Conditions
 This section lists the context conditions for the [SDBasis](../../../../grammars/de/monticore/lang/SDBasis.mc4) grammar and the 
@@ -135,9 +135,6 @@ if used source objects are declared before they are used.
 
 * The context condition [```ReferencedObjectTargetDeclaredCoco```](../../../../java/de/monticore/lang/sdbasis/_cocos/ReferencedObjectTargetDeclaredCoco.java) checks 
 if used target objects are declared before they are used.
-
-* The context condition [```ReferencedTypeExistsCoco```](../../../../java/de/monticore/lang/sdbasis/_cocos/ReferencedTypeExistsCoco.java) checks if used 
-types are defined.
 
 * The context condition [```SDNameIsArtifactNameCoco```](../../../../java/de/monticore/lang/sdbasis/_cocos/SDNameIsArtifactNameCoco.java) checks if the 
 names of SDs are equal to the file names of the artifacts
@@ -185,10 +182,10 @@ return actions only appear after corresponding method calls.
 
 ## Symbol Table
 
-The SD language introduces the [```SequenceDiagramSymbol```](../../../../grammars/de/monticore/lang/SDBasis.mc4)
-symbol type. Additionally, the SD language uses the build-in
-symbol type [```VariableSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4) 
-and [type symbol types](https://github.com/MontiCore/monticore/tree/dev/monticore-grammar/src/main/grammars/de/monticore/types) of MontiCore. 
+The SD language uses the build-in
+symbol types [```VariableSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4)
+and [```DiagramSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/symbols/BasicSymbols.mc4)
+as well as the [type symbol types](https://github.com/MontiCore/monticore/tree/dev/monticore-grammar/src/main/grammars/de/monticore/types) of MontiCore. 
 
 Each SD may define objects. Therefore, SDs may 
 export [```VariableSymbols```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4) 
@@ -203,7 +200,7 @@ and [```OOTypeSymbols```](https://github.com/MontiCore/monticore/blob/dev/montic
 
 ### Symbol Table Data Structure
 
-<img width="400" src="../../../../../../doc/pics/STDataStructure.png" alt="The data structure of the symbol table of the SD language" style="float: left; margin-right: 10px;">
+<img width="600" src="../../../../../../doc/pics/STDataStructure.png" alt="The data structure of the symbol table of the SD language" style="float: left; margin-right: 10px;">
 <br><b>Figure 2:</b> The data structure of the symbol table of the SD language.
 
 &nbsp;  
@@ -212,20 +209,19 @@ Figure 2 depicts the symbol table data structure of the [```SD4Development```](.
 grammar. The ```SD4DevelopmentGlobalScope``` is associated to an
 ```SD4DevelopmentArtifactScope``` for each artifact defining an SD. In each
 of these artifacts, at most one SD can be defined and each SD introduces 
-an [```SequenceDiagramSymbol```](../../../../grammars/de/monticore/lang/SDBasis.mc4). Therefore, each 
-```SD4DevelopmentArtifactScope``` is associated to exactly one 
-[```SequenceDiagramSymbol```](../../../../grammars/de/monticore/lang/SDBasis.mc4). 
-Each [```SequenceDiagramSymbol```](../../../../grammars/de/monticore/lang/SDBasis.mc4) spans an 
-```SD4DevelopmentScope```. This scope contains exactly one subscope, which 
+a [```DiagramSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/symbols/BasicSymbols.mc4). 
+Therefore, each ```SD4DevelopmentArtifactScope``` is associated to exactly one 
+[```DiagramSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/symbols/BasicSymbols.mc4). 
+The ```SD4DevelopmentArtifactScope``` scope contains exactly one subscope, which 
 is spanned by [```SDBody```](../../../../grammars/de/monticore/lang/SDBasis.mc4). 
-The scope associated to the [```SequenceDiagramSymbol```](../../../../grammars/de/monticore/lang/SDBasis.mc4)
+The ```SD4DevelopmentArtifactScope```
 contains a [```VariableSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4) for each object that is defined inside the 
 SD. The scope spanned by [```SDBody```](../../../../grammars/de/monticore/lang/SDBasis.mc4) contains a 
 [```VariableSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4) for 
 each object that is dynamically instantiated via [```SDNew```](../../../../grammars/de/monticore/lang/SD4Development.mc4) and for each 
 variable that is instantiated via [```SDVariableDeclaration```](../../../../grammars/de/monticore/lang/SD4Development.mc4).  
 
-<img width="500" src="../../../../../../doc/pics/SDSymtabExample.png" alt="The SD defines two objects and dynamically instantiated an object as well as a variable." style="float: left; margin-right: 10px;">
+<img width="600" src="../../../../../../doc/pics/SDSymtabExample.png" alt="The SD defines two objects and dynamically instantiated an object as well as a variable." style="float: left; margin-right: 10px;">
 <br><b>Figure 3:</b> The SD defines two objects and dynamically instantiated an object as well as a variable.
 
 &nbsp;  
@@ -250,17 +246,18 @@ sequencediagram Size {
 ```  
 
 Figure 4 depicts the symbol table instance for the SD ```Size```. 
-Figure 4 abstracts from the ```SD4DevelopmentGlobalScope``` and
- ```SD4DevelopmentArtifactScope``` instances. The two objects 
- ```kupfer912:Auction``` and ```theo:Person``` correspond to the 
+Figure 4 abstracts from the ```SD4DevelopmentGlobalScope``` instance. 
+The two objects ```kupfer912:Auction``` and ```theo:Person``` correspond to the 
  [```VariableSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4)
- instances linked to the ```SD4DevelopmentScope``` with the ```name``` attribute
- containing the value ```"Size"```. The dynamically instantiated object 
+ instances linked to the ```SD4DevelopmentArtifactScope```. 
+ The object ```:DiagramSymbol``` is linked to the ```SD4DevelopmentArtifactScope``` and has the 
+ same name as the SD defining the symbol.
+ The dynamically instantiated object 
  ```bm:BidMessage``` and the variable ```int m``` correspond to the 
- [```VariableSymbols```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4) of the other ```SD4DevelopmentScope```, which is introduced by
+ [```VariableSymbols```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4) of the ```SD4DevelopmentScope```, which is introduced by
  [```SDBody```](../../../../grammars/de/monticore/lang/SDBasis.mc4).    
 
-<img width="500" src="../../../../../../doc/pics/STInstanceExample.png" alt="Symbol table instance of the SD depicted in Figure 3" style="float: left; margin-right: 10px;">
+<img width="600" src="../../../../../../doc/pics/STInstanceExample.png" alt="Symbol table instance of the SD depicted in Figure 3" style="float: left; margin-right: 10px;">
 <br><b>Figure 4:</b> Symbol table instance of the SD depicted in Figure 3.
 
 &nbsp;  
@@ -271,21 +268,31 @@ grammar can be found in the class
 [```SDBasisSymbolTableCreator```](../../../../java/de/monticore/lang/sdbasis/_symboltable/SDBasisSymbolTableCreator.java). The handwritten
 extensions of the symbol table creator of the [```SD4Development```](../../../../grammars/de/monticore/lang/SD4Development.mc4) grammar 
 can be found in the class [```SD4DevelopmentSymbolTableCreator```](../../../../java/de/monticore/lang/sd4development/_symboltable/SD4DevelopmentSymbolTableCreator.java). 
+Instances of class [```SD4DevelopmentSymbolTableCompleter```](../../../../java/de/monticore/lang/sd4development/_symboltable/SD4DevelopmentSymbolTableCompleter.java)
+are responsible for calculating the type attributes of variable symbols and, thereby, for checking
+whether used types are defined.
 
 ## Symbol kinds used by the SD language (importable or subclassed):
-TODO analogy to CD4A
-... seems to be VariableSymbol (only)? 
+The SD language uses symbols of kind [```TypeSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/TypeSymbols.mc4),
+[```VariableSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4), and
+[```DiagramSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/symbols/BasicSymbols.mc4) as well as 
+the symbols that are used by these symbols (e.g. [```FunctionSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/symbols/BasicSymbols.mc4) 
+is used by [```TypeSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/TypeSymbols.mc4)).
 
-## Symbol kinds defined the SD language (exported):
-- TODO:? none (nonterminal `SDVariableDeclaration` build a sub-nonterminal of
-    Variable, which is the source for object definitions)      
-
-### `SDVariableDeclaration` ... TODO
+## Symbol kinds defined by the SD language (exported):
+None.      
 
 ## Symbols imported by SD models:
-TODO
+* SDs import [```VariableSymbols```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4). 
+The objects represented by imported [```VariableSymbols```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4)
+can be used as sources or targets of interactions.
+* SDs import [```TypeSymbols```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/TypeSymbols.mc4). The imported types can be used as types for objects and 
+variables introduced via inline declarations. 
+
 ## Symbols exported by SD models:
-TODO
+* SD models export [```VariableSymbols```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4). 
+For each object defined in an SD, the SD exports a corresponding [```VariableSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/types/BasicTypeSymbols.mc4). 
+* Each SD exports exactly one [```DiagramSymbol```](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/symbols/BasicSymbols.mc4) corresponding to the SDArtifact.
 
 ## Serialization and De-serialization of Symbol Tables
 
@@ -301,38 +308,48 @@ depicted in Figure 4:
 
 ```json
 {
-  "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope",
-  "name": "size",
+  "name": "Bid",
   "package": "examples.correct",
-  "sequenceDiagramSymbols": [
+  "kindHierarchy": [
+    [
+      "de.monticore.lang.sd4development._symboltable.FieldSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol"
+    ],
+    [
+      "de.monticore.lang.sd4development._symboltable.TypeVarSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+    ],
+    [
+      "de.monticore.lang.sd4development._symboltable.MethodSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol"
+    ],
+    [
+      "de.monticore.lang.sd4development._symboltable.OOTypeSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+    ]
+  ],
+  "symbols": [
     {
-      "kind": "de.monticore.lang.sdbasis._symboltable.SequenceDiagramSymbol",
-      "name": "examples.correct.size",
-      "spannedScope": {
-        "kind": "de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope",
-        "name": "size",
-        "isShadowingScope": false,
-        "variableSymbols": [
-          {
-            "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
-            "name": "examples.correct.size.kupfer912",
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "Auction"
-            },
-            "isReadOnly": false
-          },
-          {
-            "kind": "de.monticore.types.basictypesymbols._symboltable.VariableSymbol",
-            "name": "examples.correct.size.theo",
-            "type": {
-              "kind": "de.monticore.types.check.SymTypeOfObject",
-              "objName": "Person"
-            },
-            "isReadOnly": false
-          }
-        ]
-      }
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+      "name": "kupfer912",
+      "type": {
+        "kind": "de.monticore.types.check.SymTypeOfObject",
+        "objName": "Auction"
+      },
+      "isReadOnly": false
+    },
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+      "name": "theo",
+      "type": {
+        "kind": "de.monticore.types.check.SymTypeOfObject",
+        "objName": "Person"
+      },
+      "isReadOnly": false
+    },
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol",
+      "name": "bid"
     }
   ]
 }
@@ -343,9 +360,9 @@ depicted in Figure 4:
 * [Project root: MontiCore @github](https://github.com/MontiCore/monticore)
 * [MontiCore documentation](http://www.monticore.de/)
 
-* [**List of languages**](https://git.rwth-aachen.de/monticore/monticore/-/blob/dev/docs/Languages.md)
-* [**MontiCore Core Grammar Library**](https://git.rwth-aachen.de/monticore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/Grammars.md)
-* [Best Practices](BestPractices.md)
+* [**List of languages**](https://github.com/MontiCore/monticore/blob/dev/docs/Languages.md)
+* [**MontiCore Core Grammar Library**](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/Grammars.md)
+* [Best Practices](https://github.com/MontiCore/monticore/blob/dev/docs/BestPractices.md)
 * [Publications about MBSE and MontiCore](https://www.se-rwth.de/publications/)
 
 * [Licence definition](https://github.com/MontiCore/monticore/blob/master/00.org/Licenses/LICENSE-MONTICORE-3-LEVEL.md)

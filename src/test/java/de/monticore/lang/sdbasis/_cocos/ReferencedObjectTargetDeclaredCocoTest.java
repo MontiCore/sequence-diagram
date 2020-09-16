@@ -4,6 +4,7 @@ package de.monticore.lang.sdbasis._cocos;
 
 import de.monticore.lang.SDCocoTest;
 import org.junit.jupiter.api.Test;
+
 import java.util.Arrays;
 import java.util.List;
 

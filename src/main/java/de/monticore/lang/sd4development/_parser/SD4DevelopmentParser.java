@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development._parser;
 
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;

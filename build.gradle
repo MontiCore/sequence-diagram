@@ -8,15 +8,16 @@ plugins {
     id 'org.ec4j.editorconfig' version "0.0.3"
 }
 
-group = "de.monticore.lang"
-version = "0.0.3-SNAPSHOT"
-description = "Sequence Diagram DSL"
-sourceCompatibility = "1.8"
-
 def mc_version = "6.3.0-SNAPSHOT"
 def commons_version = "1.7.9"
 def grammar_classifier = "grammars"
 def grammarDir = "src/main/grammars"
+
+group = "de.monticore.lang"
+version = "6.3.1-SNAPSHOT"
+description = "Sequence Diagram DSL"
+sourceCompatibility = "1.8"
+
 
 // configure non-standard source sets
 sourceSets {
