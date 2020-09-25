@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 plugins {
     id "java"
-    id "monticore" version "6.3.0-SNAPSHOT" // MontiCore Plugin
+    id "monticore" version "6.3.0" // MontiCore Plugin
     id "maven-publish"
     id "com.github.johnrengelman.shadow" version "4.0.4"
 //    id 'cz.malohlava.visteg' version '1.0.5'
@@ -87,7 +87,7 @@ fileTree(grammarDir).matching { include '**/*.mc4' }.each {
     task "generateGrammar${grammarName}"(type: MCTask) {
         grammar = file g
         outputDir = file "$buildDir/generated-sources/monticore/sourcecode"
-        handcodedPath file("$projectDir/src/main/java")
+        // handcodedPath file("$projectDir/src/main/java")
         def grammarIncludingPackage = file(grammarDir).toURI().relativize(g.toURI()).toString()
         def uptoDate = incCheck(grammarIncludingPackage)
         outputs.upToDateWhen { uptoDate }
