@@ -10,13 +10,13 @@ import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
+import de.monticore.lang.sddiff.SDInteraction;
 import de.monticore.lang.sddiff.SDSemDiff;
-import de.monticore.lang.sddiff.SDSemDiffWitness;
 
 import java.io.IOException;
-import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -190,7 +190,7 @@ public class SD4DevelopmentTool {
    * @param to SD for which it is checked whether "from" refines it
    * @return Diff witness contained in the semantic difference from "from" to "to"
    */
-  public static Optional<SDSemDiffWitness> semDiff(ASTSDArtifact from, ASTSDArtifact to) {
+  public static Optional<List<SDInteraction>> semDiff(ASTSDArtifact from, ASTSDArtifact to) {
     return sdSemDifferencer.semDiff(from, to);
   }
 }
