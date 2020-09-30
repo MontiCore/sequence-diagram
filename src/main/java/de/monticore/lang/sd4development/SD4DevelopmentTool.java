@@ -22,22 +22,55 @@ import java.util.stream.Collectors;
 
 /**
  * Tool providing functionality for processing Sequence Diagram (SD) artifacts.
+ * Default SD4DevelopmentTool implementation.
+ * Can be overridden and instance can be changed accordingly to change the behavior.
  */
 public class SD4DevelopmentTool {
 
-  private static final SD4DevelopmentParser parser = new SD4DevelopmentParser();
-  private static final SD4DevelopmentScopeDeSer deSer = SD4DevelopmentMill.sD4DevelopmentScopeDeSerBuilder().build();
-  private static final SD4DevelopmentDelegatorPrettyPrinter prettyPrinter = new SD4DevelopmentDelegatorPrettyPrinter();
-  private static final SDSemDiff sdSemDifferencer = new SDSemDiff();
+  private static SD4DevelopmentTool instance;
+
+  private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
+  private final SD4DevelopmentScopeDeSer deSer = SD4DevelopmentMill.sD4DevelopmentScopeDeSerBuilder().build();
+  private final SD4DevelopmentDelegatorPrettyPrinter prettyPrinter = new SD4DevelopmentDelegatorPrettyPrinter();
+  private final SDSemDiff sdSemDifferencer = new SDSemDiff();
+
+  protected SD4DevelopmentTool() {
+  }
+
+  /**
+   * Method for changing the instance used by the tool.
+   *
+   * @param instance The instance to use.
+   */
+  public static void setInstance(SD4DevelopmentTool instance) {
+    SD4DevelopmentTool.instance = instance;
+  }
 
   /**
    * Parses SD artifacts (*.sd files).
+   * Calls the method of the tool instance.
    *
    * @param fileName full-qualified name of the file.
    * @return Non-empty optional iff parsing was successful.
    * @throws IOException If something goes wrong while reading the file.
    */
   public static Optional<ASTSDArtifact> parseSDArtifact(String fileName) throws IOException {
+    if (instance == null) {
+      instance = new SD4DevelopmentTool();
+    }
+    return instance._parseSDArtifact(fileName);
+  }
+
+  /**
+   * The default method to parse SD artifacts (*.sd files).
+   * Default implementation of the default SD4Development tool.
+   * Can be overridden in subclasses to change the behavior of the static tool methods.
+   *
+   * @param fileName full-qualified name of the file.
+   * @return Non-empty optional iff parsing was successful.
+   * @throws IOException If something goes wrong while reading the file.
+   */
+  public Optional<ASTSDArtifact> _parseSDArtifact(String fileName) throws IOException {
     return parser.parse(fileName);
   }
 
@@ -49,6 +82,25 @@ public class SD4DevelopmentTool {
    * @throws IOException If something goes wrong while processing the string.
    */
   public static Optional<ASTSDArtifact> parseSDModel(String sd) throws IOException {
+    if (instance == null) {
+      instance = new SD4DevelopmentTool();
+    }
+    return instance._parseSDModel(sd);
+  }
+
+  /**
+   * The default method to parse an SD in its textual syntax given by the String sd.
+   * Default implementation of the default SD4Development tool.
+   * Can be overridden in subclasses to change the behavior of the static tool methods.
+   *
+   * @param sd the SD as string in its textual syntax.
+   * @return Non-empty optional iff parsing was successful.
+   * @throws IOException If something goes wrong while processing the string.
+   */
+  public Optional<ASTSDArtifact> _parseSDModel(String sd) throws IOException {
+    if (instance == null) {
+      instance = new SD4DevelopmentTool();
+    }
     return parser.parse_String(sd);
   }
 
@@ -59,6 +111,21 @@ public class SD4DevelopmentTool {
    * @return Pretty-printed ast.
    */
   public static String prettyPrint(ASTSDArtifact ast) {
+    if (instance == null) {
+      instance = new SD4DevelopmentTool();
+    }
+    return instance._prettyPrint(ast);
+  }
+
+  /**
+   * The default method to pretty print the ast and return the result as String.
+   * Default implementation of the default SD4Development tool.
+   * Can be overridden in subclasses to change the behavior of the static tool methods.
+   *
+   * @param ast The ast to be printed
+   * @return Pretty-printed ast.
+   */
+  public String _prettyPrint(ASTSDArtifact ast) {
     return prettyPrinter.prettyPrint(ast);
   }
 
@@ -71,6 +138,23 @@ public class SD4DevelopmentTool {
    * @return The Symbol table for ast.
    */
   public static ISD4DevelopmentArtifactScope deriveSymbolSkeleton(ASTSDArtifact ast, ModelPath modelPath) {
+    if (instance == null) {
+      instance = new SD4DevelopmentTool();
+    }
+    return instance._deriveSymbolSkeleton(ast, modelPath);
+  }
+
+  /**
+   * The default method to derive the symbol table of ast while considering models contained in model path.
+   * The models contained in model path are relevant for the imports of ast.
+   * Default implementation of the default SD4Development tool.
+   * Can be overridden in subclasses to change the behavior of the static tool methods.
+   *
+   * @param ast       The ast of the SD.
+   * @param modelPath Considered model path.
+   * @return The Symbol table for ast.
+   */
+  public ISD4DevelopmentArtifactScope _deriveSymbolSkeleton(ASTSDArtifact ast, ModelPath modelPath) {
     ISD4DevelopmentGlobalScope globalScope = SD4DevelopmentMill.sD4DevelopmentGlobalScopeBuilder().setModelPath(modelPath).setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION).build();
     return deriveSymbolSkeleton(ast, globalScope);
   }
@@ -83,6 +167,22 @@ public class SD4DevelopmentTool {
    * @return The symbol table for ast while considering globalScope.
    */
   public static ISD4DevelopmentArtifactScope deriveSymbolSkeleton(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
+    if (instance == null) {
+      instance = new SD4DevelopmentTool();
+    }
+    return instance._deriveSymbolSkeleton(ast, globalScope);
+  }
+
+  /**
+   * Default method to derive symbols for ast and add them to the globalScope.
+   * Default implementation of the default SD4Development tool.
+   * Can be overridden in subclasses to change the behavior of the static tool methods.
+   *
+   * @param ast         The ast of the SD.
+   * @param globalScope Global scope to which the symbols are added.
+   * @return The symbol table for ast while considering globalScope.
+   */
+  public static ISD4DevelopmentArtifactScope _deriveSymbolSkeleton(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
     SD4DevelopmentSymbolTableCreatorDelegatorBuilder stCreatorBuilder = SD4DevelopmentMill.sD4DevelopmentSymbolTableCreatorDelegatorBuilder();
     stCreatorBuilder = stCreatorBuilder.setGlobalScope(globalScope);
     SD4DevelopmentSymbolTableCreatorDelegator stCreator = stCreatorBuilder.build();
@@ -99,6 +199,24 @@ public class SD4DevelopmentTool {
    * @return The symbol table for ast.
    */
   public static ISD4DevelopmentArtifactScope deriveSymbolSkeleton(ASTSDArtifact ast, String... modelPaths) {
+    if (instance == null) {
+      instance = new SD4DevelopmentTool();
+    }
+    return instance._deriveSymbolSkeleton(ast, modelPaths);
+  }
+
+  /**
+   * Default method to derive the symbol table of ast while considering models contained in the given model paths.
+   * The models paths are passed as their full qualified names.
+   * The models contained in model path are relevant for the imports of ast.
+   * Default implementation of the default SD4Development tool.
+   * Can be overridden in subclasses to change the behavior of the static tool methods.
+   *
+   * @param ast        The ast of the SD.
+   * @param modelPaths Full qualified names of the considered model paths.
+   * @return The symbol table for ast.
+   */
+  public ISD4DevelopmentArtifactScope _deriveSymbolSkeleton(ASTSDArtifact ast, String... modelPaths) {
     ModelPath modelPath = new ModelPath(Arrays.stream(modelPaths).map(x -> Paths.get(x)).collect(Collectors.toList()));
     return deriveSymbolSkeleton(ast, modelPath);
   }
@@ -110,6 +228,21 @@ public class SD4DevelopmentTool {
    * @param globalScope The given global scope.
    */
   public static void checkIntraModelCoCos(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
+    if (instance == null) {
+      instance = new SD4DevelopmentTool();
+    }
+    instance._checkIntraModelCoCos(ast, globalScope);
+  }
+
+  /**
+   * Default method to check whether ast satisfies the intra-model CoCos with respect to the given global scope.
+   * Default implementation of the default SD4Development tool.
+   * Can be overridden in subclasses to change the behavior of the static tool methods.
+   *
+   * @param ast         The ast of the SD.
+   * @param globalScope The given global scope.
+   */
+  public void _checkIntraModelCoCos(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
     deriveSymbolSkeleton(ast, globalScope);
     SD4DevelopmentCoCoChecker checker = new SD4DevelopmentCoCoChecker();
     checker.addCoCo(new CommonFileExtensionCoco());
@@ -134,6 +267,22 @@ public class SD4DevelopmentTool {
    * @param globalScope The given global scope.
    */
   public static void checkAllExceptTypeCoCos(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
+    if (instance == null) {
+      instance = new SD4DevelopmentTool();
+    }
+    instance._checkAllExceptTypeCoCos(ast, globalScope);
+  }
+
+  /**
+   * Default method to check whether ast satisfies the CoCos not targeting type correctness with respect to the given global scope.
+   * This method checks all CoCos except the CoCos, which check that used types (for objects and variables) are defined.
+   * Default implementation of the default SD4Development tool.
+   * Can be overridden in subclasses to change the behavior of the static tool methods.
+   *
+   * @param ast         The ast of the SD.
+   * @param globalScope The given global scope.
+   */
+  public void _checkAllExceptTypeCoCos(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
     checkIntraModelCoCos(ast, globalScope);
     SD4DevelopmentCoCoChecker checker = new SD4DevelopmentCoCoChecker();
     checker.addCoCo(new ReferencedObjectSourceDeclaredCoco());
@@ -148,6 +297,21 @@ public class SD4DevelopmentTool {
    * @param globalScope The given global scope.
    */
   public static void checkAllCoCos(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
+    if (instance == null) {
+      instance = new SD4DevelopmentTool();
+    }
+    instance._checkAllCoCos(ast, globalScope);
+  }
+
+  /**
+   * Default method to check whether ast satisfies all CoCos with respect to the given global scope.
+   * Default implementation of the default SD4Development tool.
+   * Can be overridden in subclasses to change the behavior of the static tool methods.
+   *
+   * @param ast         The ast of the SD.
+   * @param globalScope The given global scope.
+   */
+  public void _checkAllCoCos(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
     checkAllExceptTypeCoCos(ast, globalScope);
     SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
     SD4DevelopmentDelegatorVisitor stCompleterVisitor = SD4DevelopmentMill.sD4DevelopmentDelegatorVisitorBuilder().setSD4DevelopmentVisitor(stCompleter).build();
@@ -167,6 +331,23 @@ public class SD4DevelopmentTool {
    * @param filename The name of the produced symbol file.
    */
   public static void storeSymbols(ASTSDArtifact ast, String filename) {
+    if (instance == null) {
+      instance = new SD4DevelopmentTool();
+    }
+    instance._storeSymbols(ast, filename);
+  }
+
+  /**
+   * Default method to store the symbols for ast in the symbol file filename.
+   * For example, if filename = "target/symbolfiles/file.sdsym", then the symbol file corresponding to
+   * ast is stored in the file "target/symbolfiles/file.sdsym".
+   * Default implementation of the default SD4Development tool.
+   * Can be overridden in subclasses to change the behavior of the static tool methods.
+   *
+   * @param ast      The ast of the SD.
+   * @param filename The name of the produced symbol file.
+   */
+  public void _storeSymbols(ASTSDArtifact ast, String filename) {
     String serialized = deSer.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
     FileReaderWriter.storeInFile(Paths.get(filename), serialized);
   }
@@ -177,6 +358,20 @@ public class SD4DevelopmentTool {
    * @param filename Name of the symbol file to load.
    */
   public static ISD4DevelopmentArtifactScope loadSymbols(String filename) {
+    if (instance == null) {
+      instance = new SD4DevelopmentTool();
+    }
+    return instance._loadSymbols(filename);
+  }
+
+  /**
+   * Default method to load the symbols from the symbol file filename and returns the symbol table.
+   * Default implementation of the default SD4Development tool.
+   * Can be overridden in subclasses to change the behavior of the static tool methods.
+   *
+   * @param filename Name of the symbol file to load.
+   */
+  public ISD4DevelopmentArtifactScope _loadSymbols(String filename) {
     return deSer.load(filename);
   }
 
@@ -187,10 +382,27 @@ public class SD4DevelopmentTool {
    * "from" is no refinement of "to".
    *
    * @param from SD for which it checked whether it refines the SD "to"
-   * @param to SD for which it is checked whether "from" refines it
+   * @param to   SD for which it is checked whether "from" refines it
    * @return Diff witness contained in the semantic difference from "from" to "to"
    */
   public static Optional<List<SDInteraction>> semDiff(ASTSDArtifact from, ASTSDArtifact to) {
+    if (instance == null) {
+      instance = new SD4DevelopmentTool();
+    }
+    return instance._semDiff(from, to);
+  }
+
+  /**
+   * Default method to check whether the SD "from" is a refinement of the SD "to".
+   * Returns Optional.empty if "from" is a refinement of "to".
+   * Returns an element in the semantics of "from" that is no element in the semantics of "to" if
+   * "from" is no refinement of "to".
+   *
+   * @param from SD for which it checked whether it refines the SD "to"
+   * @param to   SD for which it is checked whether "from" refines it
+   * @return Diff witness contained in the semantic difference from "from" to "to"
+   */
+  public Optional<List<SDInteraction>> _semDiff(ASTSDArtifact from, ASTSDArtifact to) {
     return sdSemDifferencer.semDiff(from, to);
   }
 }
