@@ -142,6 +142,17 @@ task javadocJar(type: Jar) {
   archiveClassifier = "javadoc"
 }
 
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentCLI'
+    )
+  }
+  from {
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
+
 //shadowJar { // all in one jar
 //    manifest {
 //        attributes "Main-Class": "de.monticore.umlcd4a.CD4ACLI"
