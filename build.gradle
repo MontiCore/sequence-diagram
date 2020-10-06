@@ -3,9 +3,8 @@ plugins {
     id "java"
     id "monticore" version "6.3.0" // MontiCore Plugin
     id "maven-publish"
-    id "com.github.johnrengelman.shadow" version "4.0.4"
-//    id 'cz.malohlava.visteg' version '1.0.5'
     id 'org.ec4j.editorconfig' version "0.0.3"
+//    id 'com.github.johnrengelman.shadow' version '6.0.0'
 }
 
 def mc_version = "6.3.0-SNAPSHOT"
@@ -143,12 +142,17 @@ task javadocJar(type: Jar) {
     archiveClassifier = "javadoc"
 }
 
-//shadowJar { // all in one jar
-//    manifest {
-//        attributes "Main-Class": "de.monticore.umlcd4a.CD4ACLI"
-//    }
-//    archiveClassifier = "cli"
+// all in one cli-jar
+//shadowJar {
+//  manifest {
+//    attributes "Main-Class": "de.monticore.lang.sd4development.SD4DevelopmentCLI"
+//  }
+//  archiveFileName = "SD4DevelopmentCLI-cli.${archiveExtension.get()}"
+//  minimize()
 //}
+//
+//jar.dependsOn shadowJar
+
 
 // generated java doc contains errors, disable for now
 javadoc.failOnError(false)
@@ -165,6 +169,17 @@ task testReport(type: TestReport) {
     reportOn tasks.withType(Test)
 }
 
+jar {
+  manifest {
+    attributes(
+      'Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentCLI'
+    )
+  }
+  from {
+    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+  }
+}
+
 // configure deployment
 publishing {
     // configure what artifacts to publish
@@ -177,6 +192,10 @@ publishing {
             // artifact shadowJar
             artifact grammarJar
         }
+//        cli(MavenPublication) {
+//            artifactId = "$project.name"
+//            artifact shadowJar
+//        }
     }
     repositories.maven {
         credentials.username mavenUser

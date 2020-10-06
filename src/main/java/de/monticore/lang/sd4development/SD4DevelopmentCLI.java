@@ -35,7 +35,7 @@ public class SD4DevelopmentCLI {
     cli.run(args);
   }
 
-  private void run(String[] args) {
+  public void run(String[] args) {
     Options options = initOptions();
 
     CommandLineParser cliparser = new DefaultParser();
@@ -82,7 +82,7 @@ public class SD4DevelopmentCLI {
 
       // pretty print
       if (cmd.hasOption("pp")) {
-        if (cmd.getOptionValues("pp").length == 0) {
+        if (cmd.getOptionValues("pp") == null || cmd.getOptionValues("pp").length == 0) {
           for (ASTSDArtifact sd : inputSDs) {
             System.out.println(prettyPrint(sd));
             System.out.println();
@@ -118,7 +118,10 @@ public class SD4DevelopmentCLI {
         .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION).build();
 
       // handle CoCos and symbol storage: build symbol table as far as needed
-      Set<String> cocoOptionValues = new HashSet<>(Arrays.asList(cmd.getOptionValues("c")));
+      Set<String> cocoOptionValues = new HashSet<>();
+      if(cmd.getOptionValues("c") != null) {
+        Arrays.asList(cmd.getOptionValues("c"));
+      }
       if (cmd.hasOption("c") || cmd.hasOption("ss")) {
         for (ASTSDArtifact sd : inputSDs) {
           deriveSymbolSkeleton(sd, globalScope);
@@ -163,7 +166,7 @@ public class SD4DevelopmentCLI {
 
       // store symbols
       if (cmd.hasOption("ss")) {
-        if (cmd.getOptionValues("ss").length == 0) {
+        if (cmd.getOptionValues("ss") == null || cmd.getOptionValues("ss").length == 0) {
           for (int i = 0; i < inputSDs.size(); i++) {
             ASTSDArtifact sd = inputSDs.get(i);
             SD4DevelopmentScopeDeSer deSer = SD4DevelopmentMill.sD4DevelopmentScopeDeSerBuilder().build();

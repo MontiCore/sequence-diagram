@@ -7,14 +7,19 @@ import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.se_rwth.commons.logging.Log;
+import org.junit.Assert;
+import org.junit.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.Optional;
 
+import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
@@ -230,4 +235,60 @@ public class SD4DevelopmentCLITest {
     assertEquals(0, Log.getErrorCount());
   }
 
+  /*****************************************************************
+   ****************** CLI MAIN METHOD TESTS ************************
+   ******************************************************************/
+
+  @Test
+  public void testSemDiffRefinement() {
+    Log.clearFindings();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
+
+    SD4DevelopmentCLI.main(new String[] {
+      "-i",
+      "src/test/resources/sddiff/rob1.sd",
+      "src/test/resources/sddiff/rob2.sd",
+      "-sd"
+    });
+    String printed = out.toString().trim();
+    assertNotNull(printed);
+    assertTrue(printed.contains("is a refinement of the input SD"));
+    Assert.assertEquals(0, Log.getErrorCount());
+  }
+
+  @Test
+  public void testSemDiffNoRefinement() {
+    Log.clearFindings();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
+
+    SD4DevelopmentCLI.main(new String[] {
+      "-i",
+      "src/test/resources/sddiff/rob2.sd",
+      "src/test/resources/sddiff/rob1.sd",
+      "-sd"
+    });
+    String printed = out.toString().trim();
+    assertNotNull(printed);
+    assertTrue(printed.contains("Diff witness:"));
+    Assert.assertEquals(0, Log.getErrorCount());
+  }
+
+  @Test
+  public void testPrettyPrint() {
+    Log.clearFindings();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
+
+    SD4DevelopmentCLI.main(new String[] {
+      "-i",
+      "src/test/resources/sddiff/rob1.sd",
+      "-pp"
+    });
+    String printed = out.toString().trim();
+    assertNotNull(printed);
+    assertTrue(printed.contains("rob1"));
+    Assert.assertEquals(0, Log.getErrorCount());
+  }
 }
