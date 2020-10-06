@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sddiff;
 
+import de.monticore.lang.sd4development._ast.ASTSDNew;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentInheritanceVisitor;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
@@ -69,6 +70,11 @@ final class SDDiffSDInfoVisitor implements SD4DevelopmentInheritanceVisitor {
 
   public List<SDInteraction> getInteractions() {
     return interactions;
+  }
+
+  @Override
+  public void visit(ASTSDNew node) {
+    objects.add(node.getName());
   }
 
   @Override
