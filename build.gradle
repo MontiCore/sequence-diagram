@@ -60,7 +60,6 @@ dependencies {
   compileOnly 'org.projectlombok:lombok:1.18.12'
   annotationProcessor 'org.projectlombok:lombok:1.18.12'
 
-  testImplementation "junit:junit:4.11"
   testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.2"
   testImplementation "org.junit.jupiter:junit-jupiter-engine:5.6.2"
   testImplementation "org.junit.jupiter:junit-jupiter-params:5.6.2"
@@ -114,6 +113,7 @@ compileTestJava {
 }
 
 test {
+  useJUnit()
   useJUnitPlatform()
   testLogging {
     exceptionFormat = 'full'

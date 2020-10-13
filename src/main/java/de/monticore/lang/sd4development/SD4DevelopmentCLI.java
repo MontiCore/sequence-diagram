@@ -117,6 +117,7 @@ public class SD4DevelopmentCLI {
         .setModelPath(modelPath)
         .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION).build();
 
+
       // handle CoCos and symbol storage: build symbol table as far as needed
       Set<String> cocoOptionValues = new HashSet<>();
       if(cmd.getOptionValues("c") != null) {
