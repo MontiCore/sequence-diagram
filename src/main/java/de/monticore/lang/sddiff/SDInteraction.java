@@ -1,21 +1,20 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sddiff;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 
 @Data
-@Builder(builderClassName = "Builder")
+@AllArgsConstructor
 public class SDInteraction {
 
-  private final SDObject source;
-
-  private final SDAction action;
-
-  private final SDObject target;
+  private final String source;
+  private final String action;
+  private final String target;
 
   @Override
   public String toString() {
-    return source.toString() + " -> " + target.toString() + " : " + action.toString();
+    return source + " -> " + target + " : " + action;
   }
 }
