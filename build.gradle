@@ -1,3 +1,5 @@
+import org.gradle.api.tasks.bundling.Jar
+
 /* (c) https://github.com/MontiCore/monticore */
 plugins {
   id "java"
@@ -141,24 +143,6 @@ task javadocJar(type: Jar) {
   archiveClassifier = "javadoc"
 }
 
-jar {
-  manifest {
-    attributes(
-      'Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentCLI'
-    )
-  }
-  from {
-    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-  }
-}
-
-//shadowJar { // all in one jar
-//    manifest {
-//        attributes "Main-Class": "de.monticore.umlcd4a.CD4ACLI"
-//    }
-//    archiveClassifier = "cli"
-//}
-
 // generated java doc contains errors, disable for now
 javadoc.failOnError(false)
 
@@ -167,6 +151,27 @@ task grammarJar(type: Jar) {
   from("$projectDir/src/main/grammars/") { include "**/*.mc4" }
   archiveClassifier = "grammars"
 }
+
+task buildSD4DevelopmentCLI(type: Jar, dependsOn: shadowJar) {
+  archiveFileName = 'SD4DevelopmentCLI.jar'
+  manifest {
+    attributes('Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentCLI')
+  }
+  from zipTree(shadowJar.archiveFile)
+}
+
+jar.dependsOn(buildSD4DevelopmentCLI)
+
+//jar {
+//  manifest {
+//    attributes(
+//      'Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentCLI'
+//    )
+//  }
+//  from {
+//    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//  }
+//}
 
 task testReport(type: TestReport) {
   destinationDir = file("$buildDir/reports/allTests")
