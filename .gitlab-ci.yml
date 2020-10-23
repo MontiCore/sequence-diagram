@@ -17,36 +17,7 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 stages:
-  - build
-  - test
-  - deploy
   - check
-
-build:
-  stage: build
-  script:
-    - "./gradlew assemble --refresh-dependencies $GRADLE_OPTS $ARGS1"
-  artifacts:
-    paths:
-      - "."
-    expire_in: 1 week
-
-test:
-  stage: test
-  dependencies:
-    - build
-  script:
-    - "./gradlew check $GRADLE_OPTS $ARGS2"
-
-deploy:
-  stage: deploy
-  dependencies:
-    - build
-  script:
-    - "./gradlew publish $GRADLE_OPTS $ARGS3 -PmavenPassword=$password -PmavenUser=$username"
-  only:
-    - master
-    - dev
 
 checkMDLinks:
   stage: check
