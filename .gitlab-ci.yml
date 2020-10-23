@@ -13,6 +13,8 @@ cache:
 
 before_script:
   - chmod +x gradlew
+  - chmod +x check/mdlinkcheck.sh
+  - chmod +x check/MDLinkChecker.jar
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 stages:
@@ -52,7 +54,6 @@ checkMDLinks:
   dependencies:
     - test
   script:
-    - "chmod +x check/mdlinkcheck.sh"
     - "url=https://git.rwth-aachen.de/monticore/statechart/sd-language/-/blob/dev/src/main/grammars/de/monticore/lang/sd4development.md"
     - "echo '[MDLinkCheck]: Checking $url'"
     - "./check/mdlinkcheck.sh -url $url -t $secibuildtoken -p"
