@@ -52,6 +52,7 @@ checkMDLinks:
   dependencies:
     - test
   script:
+    - chmod +x check/mdlinkcheck.sh
     - "url=https://git.rwth-aachen.de/monticore/statechart/sd-language/-/blob/dev/src/main/grammars/de/monticore/lang/sd4development.md"
     - "./check/mdlinkcheck.sh -url $url -t $secibuildtoken -p"
   only:
