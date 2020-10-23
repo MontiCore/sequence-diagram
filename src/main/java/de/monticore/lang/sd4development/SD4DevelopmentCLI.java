@@ -223,7 +223,7 @@ public class SD4DevelopmentCLI {
       .desc("Prints this help dialog.")
       .build());
 
-    // help dialog
+    // inputs
     options.addOption(Option.builder("i")
       .longOpt("input")
       .hasArgs()

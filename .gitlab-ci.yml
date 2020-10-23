@@ -19,6 +19,7 @@ stages:
   - build
   - test
   - deploy
+  - check
 
 build:
   stage: build
@@ -44,4 +45,15 @@ deploy:
     - "./gradlew publish $GRADLE_OPTS $ARGS3 -PmavenPassword=$password -PmavenUser=$username"
   only:
     - master
+    - dev
+
+checkMDLinks:
+  stage: check
+  dependencies:
+    - test
+  script:
+    - chmod +x check/mdlinkcheck.sh
+    - "url=https://git.rwth-aachen.de/monticore/statechart/sd-language/-/blob/dev/src/main/grammars/de/monticore/lang/sd4development.md"
+    - "./check/mdlinkcheck.sh -url $url -t $secibuildtoken -p"
+  only:
     - dev

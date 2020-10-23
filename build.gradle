@@ -1,19 +1,19 @@
+import org.gradle.api.tasks.bundling.Jar
+
 /* (c) https://github.com/MontiCore/monticore */
 plugins {
   id "java"
-  id "monticore" version "6.3.0" // MontiCore Plugin
+  id "monticore" version "$mc_version" // MontiCore Plugin
   id "maven-publish"
   id "com.github.johnrengelman.shadow" version "4.0.4"
   id 'org.ec4j.editorconfig' version "0.0.3"
 }
 
-def mc_version = "6.3.0"
 def commons_version = "1.7.10-SNAPSHOT"
 def grammar_classifier = "grammars"
 def grammarDir = "src/main/grammars"
 
 group = "de.monticore.lang"
-version = "6.3.2-SNAPSHOT"
 description = "Sequence Diagram DSL"
 sourceCompatibility = "1.8"
 
@@ -45,11 +45,11 @@ dependencies {
   //implementation "com.google.guava:guava:23.0"
 
   implementation "org.antlr:antlr4-runtime:4.7.1"
-  implementation "de.monticore:monticore-runtime:$mc_version"
-  implementation "de.monticore:monticore-grammar:$mc_version"
-  implementation "de.monticore:monticore-grammar:$mc_version:$grammar_classifier"
+  implementation "de.monticore:monticore-runtime:${project.properties['mc_version']}"
+  implementation "de.monticore:monticore-grammar:${project.properties['mc_version']}"
+  implementation "de.monticore:monticore-grammar:${project.properties['mc_version']}:$grammar_classifier"
 
-  grammar "de.monticore:monticore-grammar:$mc_version:$grammar_classifier"
+  grammar "de.monticore:monticore-grammar:${project.properties['mc_version']}:$grammar_classifier"
   //implementation "ch.qos.logback:logback-classic:1.1.7"
   implementation "commons-cli:commons-cli:1.4"
 
@@ -143,24 +143,6 @@ task javadocJar(type: Jar) {
   archiveClassifier = "javadoc"
 }
 
-jar {
-  manifest {
-    attributes(
-      'Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentCLI'
-    )
-  }
-  from {
-    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-  }
-}
-
-//shadowJar { // all in one jar
-//    manifest {
-//        attributes "Main-Class": "de.monticore.umlcd4a.CD4ACLI"
-//    }
-//    archiveClassifier = "cli"
-//}
-
 // generated java doc contains errors, disable for now
 javadoc.failOnError(false)
 
@@ -169,6 +151,27 @@ task grammarJar(type: Jar) {
   from("$projectDir/src/main/grammars/") { include "**/*.mc4" }
   archiveClassifier = "grammars"
 }
+
+task buildSD4DevelopmentCLI(type: Jar, dependsOn: shadowJar) {
+  archiveFileName = 'SD4DevelopmentCLI.jar'
+  manifest {
+    attributes('Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentCLI')
+  }
+  from zipTree(shadowJar.archiveFile)
+}
+
+jar.dependsOn(buildSD4DevelopmentCLI)
+
+//jar {
+//  manifest {
+//    attributes(
+//      'Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentCLI'
+//    )
+//  }
+//  from {
+//    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
+//  }
+//}
 
 task testReport(type: TestReport) {
   destinationDir = file("$buildDir/reports/allTests")
