@@ -1,3 +1,4 @@
+chmod a+rwx MDLinkCheckerCLI.jar
 linkCheckRes=$(java -jar MDLinkCheckerCLI.jar "$@")
 echo "[MDLinkCheck]: $linkCheckRes"
 if [[ $linkCheckRes == *"ERROR"* ]]
