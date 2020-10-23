@@ -21,8 +21,6 @@ stages:
 
 checkMDLinks:
   stage: check
-  dependencies:
-    - test
   script:
     - "url=https://git.rwth-aachen.de/monticore/statechart/sd-language/-/blob/dev/src/main/grammars/de/monticore/lang/sd4development.md"
     - "echo [MDLinkCheck]: Checking $url"
