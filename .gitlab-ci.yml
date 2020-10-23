@@ -14,7 +14,7 @@ cache:
 before_script:
   - chmod +x gradlew
   - chmod +x check/mdlinkcheck.sh
-  - chmod +x check/MDLinkChecker.jar
+  - chmod +x check/MDLinkCheckerCLI.jar
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 stages:
