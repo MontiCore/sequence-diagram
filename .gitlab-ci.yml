@@ -17,15 +17,44 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 stages:
+  - build
+  - test
+  - deploy
   - check
+
+build:
+  stage: build
+  script:
+    - "./gradlew assemble --refresh-dependencies $GRADLE_OPTS $ARGS1"
+  artifacts:
+    paths:
+      - "."
+    expire_in: 1 week
+
+test:
+  stage: test
+  dependencies:
+    - build
+  script:
+    - "./gradlew check $GRADLE_OPTS $ARGS2"
+
+deploy:
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - "./gradlew publish $GRADLE_OPTS $ARGS3 -PmavenPassword=$password -PmavenUser=$username"
+  only:
+    - master
+    - dev
 
 checkMDLinks:
   stage: check
   dependencies:
     - test
   script:
-    - curl --location --header PRIVATE-TOKEN: $secibuildtoken https://git.rwth-aachen.de/api/v4/projects/monticore%2Fmdlinkchecker/jobs/artifacts/master/raw/target/libs/MDLinkCheckerCLI.jar?job=build --output MDLinkCheckerCLI.jar
-    - url=https://git.rwth-aachen.de/monticore/statechart/sd-language/-/blob/dev/src/main/grammars/de/monticore/lang/sd4development.md
-    - ./check/mdlinkcheck.sh -url $url -t $secibuildtoken -p
+    - "./check/downloadlinkchecker.sh $secibuildtoken"
+    - "url=https://git.rwth-aachen.de/monticore/statechart/sd-language/-/blob/dev/src/main/grammars/de/monticore/lang/sd4development.md"
+    - "./check/mdlinkcheck.sh -url $url -t $secibuildtoken -p"
   only:
     - dev
