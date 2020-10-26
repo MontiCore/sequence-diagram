@@ -1,7 +1,7 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 <!-- Beta-version: This is intended to become a MontiCore stable explanation. -->
 
-# Sequence Diagrams (UML/P SD)
+# Sequence Diagrams (UML/P SD) 
 The module described in this document defines a MontiCore language for 
 UML/P SDs. UML/P SDs are an SD variant that is suited e.g. for the 
 modeling of tests and (in combination e.g. with OCL) 

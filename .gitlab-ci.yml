@@ -56,6 +56,7 @@ checkMDLinks:
   script:
     - "./check/downloadlinkchecker.sh $secibuildtoken"
     - "url=https://git.rwth-aachen.de/monticore/statechart/sd-language/-/blob/dev/src/main/grammars/de/monticore/lang/sd4development.md"
+    - "echo [MDLinkCheck]: Checking $url"
     - "./check/mdlinkcheck.sh -url $url -t $secibuildtoken -p"
   only:
     - dev
