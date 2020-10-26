@@ -1,5 +1,5 @@
 linkCheckRes=$(java -jar MDLinkCheckerCLI.jar "$@")
-echo "[MDLinkCheck]: $linkCheckRes"
+echo "$linkCheckRes"
 if [[ $linkCheckRes == *"ERROR"* ]]
 then
   exit 1
