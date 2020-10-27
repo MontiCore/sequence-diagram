@@ -1,8 +1,7 @@
+# (c) https://github.com/MontiCore/monticore
 linkCheckRes=$(java -jar MDLinkCheckerCLI.jar "$@")
-echo "[MDLinkCheck]: $linkCheckRes"
+echo "$linkCheckRes"
 if [[ $linkCheckRes == *"ERROR"* ]]
 then
   exit 1
-else
-  exit 0
 fi
