@@ -56,6 +56,8 @@ checkMDLinks:
   script:
     - "curl --location --header \"PRIVATE-TOKEN: $1\" \"https://git.rwth-aachen.de/api/v4/projects/monticore%2Fmdlinkchecker/jobs/artifacts/master/raw/target/libs/MDLinkCheckerCLI.jar?job=build\" --output MDLinkCheckerCLI.jar"
     - "url=https://git.rwth-aachen.de/monticore/statechart/sd-language/-/blob/dev/src/main/grammars/de/monticore/lang/sd4development.md"
-    - "./check/mdlinkcheck.sh -url $url -t $secibuildtoken -p"
+    - "linkCheckRes=$(java -jar MDLinkCheckerCLI.jar \"$url -t $secibuildtoken -p\")"
+    - "echo \"$linkCheckRes\""
+    - "if [[ $linkCheckRes == *\"ERROR\"* ]]; then exit 1; fi"
   only:
     - dev
