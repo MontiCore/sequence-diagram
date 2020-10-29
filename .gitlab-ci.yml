@@ -54,8 +54,8 @@ checkMDLinks:
   dependencies:
     - test
   script:
-    - "./check/downloadlinkchecker.sh $secibuildtoken"
+    - ./check/downloadlinkchecker.sh $secibuildtoken
     - url=https://git.rwth-aachen.de/monticore/statechart/sd-language/-/blob/dev/src/main/grammars/de/monticore/lang/sd4development.md
-    - "./check/mdlinkcheck.sh -url $url -t $secibuildtoken -p"
+    - ./check/mdlinkcheck.sh -url $url -t $secibuildtoken -p
   only:
     - dev
