@@ -1,0 +1,19 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.correct;
+
+sequencediagram activities {
+
+  a;
+  b;
+
+  a -> b : methode1(...)
+  {
+    b -> a : methode2(...)
+    {
+      a -> b : methode3(...)
+      {
+      }
+    }
+  }
+}

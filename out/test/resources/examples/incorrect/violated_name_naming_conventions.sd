@@ -1,0 +1,12 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.incorrect;
+
+sequencediagram violated_naming_conventions {
+
+  kupfer912: Auction;
+  BidPol: BiddingPolicy;
+  TimePol: TimingPolicy;
+
+  kupfer912 -> bidPol : validateBid(bid);
+}

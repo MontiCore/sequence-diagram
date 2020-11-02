@@ -121,7 +121,7 @@ public class SD4DevelopmentCLI {
       // handle CoCos and symbol storage: build symbol table as far as needed
       Set<String> cocoOptionValues = new HashSet<>();
       if(cmd.getOptionValues("c") != null) {
-        Arrays.asList(cmd.getOptionValues("c"));
+        cocoOptionValues.addAll(Arrays.asList(cmd.getOptionValues("c")));
       }
       if (cmd.hasOption("c") || cmd.hasOption("ss")) {
         for (ASTSDArtifact sd : inputSDs) {
@@ -267,7 +267,7 @@ public class SD4DevelopmentCLI {
       .hasArgs()
       .desc("Stores the serialized symbol tables of the input SDs in the specified files. The n-th input "
         + "SD is stored in the file as specified by the n-th argument. If no arguments are given, the "
-        + "serialized symbol tables are stored in 'target/symbols/{packageName}/{modelname}.sdsym' by default.")
+        + "serialized symbol tables are stored in 'target/symbols/{packageName}/{artifactName}.sdsym' by default.")
       .build());
 
     // model paths

@@ -1,0 +1,17 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package sddiff;
+
+sequencediagram rob2 {
+
+  ui;
+  controller;
+  planner;
+  actionExecutor;
+
+  ui -> controller : deliver(r4222, wd40);
+  controller -> planner : getDeliverPlan(r4222, wd40);
+  planner -> controller : plan;
+  controller -> actionExecutor : moveTo(r4222);
+  actionExecutor -> controller : ACTION_SUCCEEDED;
+}

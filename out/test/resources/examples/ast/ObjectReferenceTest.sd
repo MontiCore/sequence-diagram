@@ -1,0 +1,17 @@
+/* (c) https://github.com/MontiCore/monticore */
+package examples.ast;
+
+sequencediagram objectreferences {
+
+  // Interacting objects
+  a : A;
+  b : B;
+  :C;
+  class D;
+
+  // Methods
+  a -> b : method();
+  a -> (e : E) : method();
+  a -> C : method();
+  a -> D : static method();
+}

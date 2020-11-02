@@ -1,0 +1,55 @@
+{
+  "name": "deser_test",
+  "package": "examples.symboltable.deser",
+  "kindHierarchy": [
+    [
+      "de.monticore.lang.sd4development._symboltable.FieldSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol"
+    ],
+    [
+      "de.monticore.lang.sd4development._symboltable.TypeVarSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+    ],
+    [
+      "de.monticore.lang.sd4development._symboltable.MethodSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol"
+    ],
+    [
+      "de.monticore.lang.sd4development._symboltable.OOTypeSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+    ]
+  ],
+  "symbols": [
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+      "name": "kupfer912",
+      "type": {
+        "kind": "de.monticore.types.check.SymTypeOfObject",
+        "objName": "Auction"
+      },
+      "isReadOnly": false
+    },
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+      "name": "bidPol",
+      "type": {
+        "kind": "de.monticore.types.check.SymTypeOfObject",
+        "objName": "BiddingPolicy"
+      },
+      "isReadOnly": false
+    },
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+      "name": "timePol",
+      "type": {
+        "kind": "de.monticore.types.check.SymTypeOfObject",
+        "objName": "TimingPolicy"
+      },
+      "isReadOnly": false
+    },
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol",
+      "name": "deser_test"
+    }
+  ]
+}

@@ -1,0 +1,18 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.incorrect;
+
+sequencediagram example_3_static {
+
+  // Interacting objects
+  a: A;
+  b;
+
+  // Static calls
+  a -> class StaticClass: static writeToProtocol("This is correct");
+  a -> b: static writeToProtocol("This is wrong");
+  b -> a: static writeToProtocol("This is wrong");
+
+  // Non static, forbidden calls
+  a -> class StaticClass: writeToProtocol("This is wrong");
+}

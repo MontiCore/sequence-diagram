@@ -1,0 +1,14 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.incorrect;
+
+(c) sequencediagram example_completeness_and_stereotypes {
+
+  // Free
+  a : A;
+  (c) b : B;
+  complete c : C;
+  ... d : D;
+  initial e : E;
+  visible f : F;
+}

@@ -1,0 +1,16 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.correct.lecture;
+
+sequencediagram example_8_ocl_let {
+
+  // Interacting objects
+  kupfer912: Auction;
+  theo: Person;
+
+  // Interaction sequence
+  let int m = theo.message.size;
+  kupfer912 -> theo : sendMessage(bm);
+  kupfer912 <- theo:;
+  assert theo.message.size == m+1;
+}

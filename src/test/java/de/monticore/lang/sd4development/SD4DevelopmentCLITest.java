@@ -291,4 +291,6 @@ public class SD4DevelopmentCLITest {
     assertTrue(printed.contains("rob1"));
     Assert.assertEquals(0, Log.getErrorCount());
   }
+
+
 }

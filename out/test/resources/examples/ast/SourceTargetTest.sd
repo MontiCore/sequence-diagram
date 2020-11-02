@@ -1,0 +1,21 @@
+/* (c) https://github.com/MontiCore/monticore */
+package examples.ast;
+
+sequencediagram example_2_interactions {
+
+  // Interacting objects
+  a : A;
+  b : B;
+
+  // Method calls
+  a -> b : methodenname();
+  a <- b : methodenname(arg);
+
+  // Returns
+  a --> b : return Ergebnis;
+  a <-- b : return ...;
+
+  // Exceptions
+  a --> b : ExceptionTyp();
+  a <-- b : ExceptionTyp(arg);
+}

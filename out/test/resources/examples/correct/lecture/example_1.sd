@@ -1,0 +1,20 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.correct.lecture;
+
+sequencediagram example_1 {
+
+  // Interacting objects
+  kupfer912: Auction;
+  bidPol: BiddingPolicy;
+  timePol: TimingPolicy;
+
+  // Interaction sequence
+  kupfer912 -> bidPol : validateBid(42);
+  kupfer912 <- bidPol : return BiddingPolicy.OK;
+
+  kupfer912 -> timePol: newCurrentClosingTime(42);
+  kupfer912 <- timePol: return t;
+
+  assert t.timeSec == bid.time.timeSec + extensionTime;
+}

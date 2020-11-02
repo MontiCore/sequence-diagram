@@ -1,0 +1,15 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.incorrect;
+
+sequencediagram violated_naming_conventions {
+
+  Kupfer912: Auction;
+  bidPol: BiddingPolicy;
+  TimePol: TimingPolicy;
+
+  //DeclarationTypeName: bidMessage instead of BidMessage
+  kupfer912 -> bidMessage bm1 = new BidMessage(...);
+  //InitializationTypeName: bidMessage instead of BidMessage
+  kupfer912 -> BidMessage bm1 = new bidMessage(...);
+}

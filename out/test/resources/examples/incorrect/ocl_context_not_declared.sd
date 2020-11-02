@@ -1,0 +1,18 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.incorrect;
+
+sequencediagram ocl_context_not_declared {
+
+  // Interacting objects
+  kupfer912: Auction;
+  bidPol: BiddingPolicy;
+  timePol: TimingPolicy;
+  theo: Person;
+
+  // Interaction sequence
+  kupfer912 -> bidPol : validateBid(bid);
+  kupfer912 -> timePol: newCurrentClosingTime(kupfer912, bid);
+  kupfer912 <- timePol: return t;
+  kupfer912 -> theo : sendMessage(bm);
+}

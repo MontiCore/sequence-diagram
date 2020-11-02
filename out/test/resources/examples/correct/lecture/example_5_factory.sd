@@ -1,0 +1,16 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.correct.lecture;
+
+sequencediagram example_5_factory {
+
+  // Interacting objects
+  kupfer912: Auction;
+  f: Factory;
+  bm: BidMessage;
+
+  // Factory call
+  kupfer912 -> f : getNewBidMessage(...);
+  f -> BidMessage bm = new BidMessage(...);
+  kupfer912 <- f : return bm;
+}

@@ -1,0 +1,37 @@
+{
+  "name": "deepTypeUsage",
+  "package": "examples.symboltable.deser",
+  "kindHierarchy": [
+    [
+      "de.monticore.lang.sd4development._symboltable.FieldSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol"
+    ],
+    [
+      "de.monticore.lang.sd4development._symboltable.TypeVarSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+    ],
+    [
+      "de.monticore.lang.sd4development._symboltable.MethodSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol"
+    ],
+    [
+      "de.monticore.lang.sd4development._symboltable.OOTypeSymbol",
+      "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+    ]
+  ],
+  "symbols": [
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+      "name": "d",
+      "type": {
+        "kind": "de.monticore.types.check.SymTypeOfObject",
+        "objName": "very.very.deep.DeepType"
+      },
+      "isReadOnly": false
+    },
+    {
+      "kind": "de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol",
+      "name": "deepTypeUsage"
+    }
+  ]
+}

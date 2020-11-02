@@ -1,0 +1,13 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.incorrect;
+
+sequencediagram violated_naming_conventions {
+
+  // Interacting objects
+  kupfer912: Auction;
+  timePol: TimingPolicy;
+
+  kupfer912 -> timePol: currentClosingTime();
+  <- : return ...;
+}

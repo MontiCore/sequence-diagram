@@ -1,0 +1,24 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.incorrect;
+
+sequencediagram example_2_interactions {
+
+  // Declarations
+  a : A;
+  b : B;
+  c : C;
+
+  // References
+  a -> b : methodenname();
+  a -> d : methodenname();  // target invalid
+  e -> a : methodenname();  // source invalid
+  a -> e : methodenname();  // target invalid
+  a <- d : return;          // source invalid
+  d <- a : return;          // target invalid
+  a <- d : Exception();     // source invalid
+  d <- a : Exception();     // target invalid
+  a -> f : methodenname();  // target invalid
+  a <- f : return;          // source invalid
+  a -> F f = new F();
+}

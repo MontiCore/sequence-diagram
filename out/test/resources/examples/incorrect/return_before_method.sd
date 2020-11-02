@@ -1,0 +1,15 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.incorrect;
+
+sequencediagram cocoviolation1 {
+
+  // Interacting objects
+  a: A;
+  b: B;
+
+    -> b : test();
+  // Return without previous call
+  a <- b : return ...;
+    <- b: return;
+}

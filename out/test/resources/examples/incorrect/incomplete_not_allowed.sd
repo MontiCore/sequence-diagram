@@ -1,0 +1,31 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.incorrect;
+
+sequencediagram incomplete_not_allowed {
+
+  ... a : A;
+  (c) b : B;
+  visible c : C;
+  initial d : D;
+
+  a ->  a : method(...);     // OK
+  a ->  Object a = new Object(...);  // OK
+  a <- a : Exception(...);  // OK
+  a <- a : return ...;    // OK
+
+  b ->  a : method(...);    // Not OK
+  b ->  Object a = new Object(...);  // Not OK
+  b <- a : Exception(...);  // Not OK
+  b <- a : return ...;    // Not OK
+
+  c ->  a : method(...);     // OK
+  c ->  Object a = new Object(...);  // OK
+  c <- a : Exception(...);  // OK
+  c <- a : return ...;    // OK
+
+  d ->  a : method(...);     // OK
+  d ->  Object a = new Object(...);  // OK
+  d <- a : Exception(...);  // OK
+  d <- a : return ...;    // OK
+}

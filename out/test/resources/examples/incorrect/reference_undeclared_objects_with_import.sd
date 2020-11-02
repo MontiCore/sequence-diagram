@@ -1,0 +1,12 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.correct;
+
+// import foo.bar.auctionobjects; // import doesn't add much. variable symbols such as kupfer912 are still resolvable
+
+sequencediagram object_references {
+  bidPol: BiddingPolicy;
+
+  kupfer912 -> bidPol : test();  // ok, beacuse kupfer912 is defined as OOTypeSymbol (test setup)
+  kupfer912 -> undefinedObject : test(); // not ok, because undefinedObject is not defined
+}

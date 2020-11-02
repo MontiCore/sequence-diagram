@@ -1,0 +1,13 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.correct.lecture;
+
+sequencediagram initialization_type_is_not_subtype_of_declaration_type {
+
+  // Interacting objects
+  kupfer912: Auction;
+
+  //Constructor call
+  kupfer912 -> BidMessage bm = new NotASubType(...);
+}
+

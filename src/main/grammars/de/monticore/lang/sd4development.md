@@ -54,13 +54,25 @@ This was for us the most intuitive textual representation of SDs, which was not
 easy to define, because SDs are inherently two dimensional with their 
 objects, activity bars and interactions in time.
 
-## Main Class ```SD4DevelopmentTool```
+## Command Line Interface (CLI) Usage
 
+This section describes the CLI for the SD language. 
+
+### Main Class ```SD4DevelopmentCLI```
 The class [```SD4DevelopmentCLI```](../../../../java/de/monticore/lang/sd4development/SD4DevelopmentCLI.java) provides typical functionality used when
 processing models. To this effect, the class provides methods
 for parsing, pretty-printing, creating symbol tables, storing symbols, and 
-loading symbols. Detailed information about the methods can be found in the Javadoc documentation
-of the class [```SD4DevelopmentCLI```](../../../../java/de/monticore/lang/sd4development/SD4DevelopmentCLI.java). 
+loading symbols. The class provides a `main` method and can thus be used as CLI as described in the following.
+
+### Building the CLI from Sources
+It is possible to build an executable JAR of the CLI from the sources in GitHub.
+
+For building an executable Jar of the CLI with Bash from the sources available in GitHub, execute the following commands.
+Executing the commands generates the executable JAR file `target/libs/SD4DevelopmentCLI.jar`.
+```
+clone 
+```
+
 
 ## Grammars
 

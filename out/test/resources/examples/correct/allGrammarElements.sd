@@ -1,0 +1,29 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package correct;
+
+sequencediagram allGrammarElements {
+
+  // Interacting objects
+  (c) o: Order;
+  c: Customer;
+
+  // Offer -> Production
+  o -> c : trigger sendConfirmation();
+  o <- c : return;
+  o -> o : orderParts();
+  assert state == Production;
+
+  // Production -> Shipping
+  o -> o : trigger shipItems();
+  assert state == Shipping;
+
+  // Shipping -> Payment
+  o -> c : sendInvoice(sum);
+  o <- c : return;
+  assert state == payment;
+
+  // Payment -> Complete
+  assert state == complete;
+  o -> Mail m = new Mail();
+}

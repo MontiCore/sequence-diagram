@@ -1,0 +1,12 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.correct.lecture;
+
+sequencediagram example_3_static {
+
+  // Interacting objects
+  kupfer912: Auction;
+
+  kupfer912 -> class Protocol: static writeToProtocol("Auction 912 started");
+  kupfer912 <- class Protocol: return;
+}

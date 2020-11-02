@@ -1,0 +1,20 @@
+/* (c) https://github.com/MontiCore/monticore */
+
+package examples.correct.lecture;
+
+complete sequencediagram example_pretty {
+
+  complete kupfer912: Auction;
+  bidPol: BiddingPolicy;
+  timePol: TimingPolicy;
+
+  a -> b : methodenname(arg);
+  f -> BidMessage bm = new BidMessage(...);
+
+  class A -> b : trigger test();
+
+  a -> b : static test() {
+    a -> b : test();
+    b <- a : test();
+  }
+}
