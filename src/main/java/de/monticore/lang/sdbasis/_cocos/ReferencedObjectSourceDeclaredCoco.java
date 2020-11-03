@@ -3,6 +3,7 @@ package de.monticore.lang.sdbasis._cocos;
 
 import com.google.common.collect.Iterables;
 import de.monticore.ast.ASTNode;
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDObjectSource;
@@ -34,7 +35,7 @@ public class ReferencedObjectSourceDeclaredCoco implements SDBasisASTSDArtifactC
   @Override
   public void check(ASTSDArtifact node) {
     this.imports.addAll(node.getMCImportStatementList());
-    this.packageDeclaration = node.getPackageDeclaration();
+    this.packageDeclaration = node.isPresentPackageDeclaration() ? node.getPackageDeclaration() : SD4DevelopmentMill.mCQualifiedNameBuilder().build();
 
     Deque<ASTNode> toProcess = new ArrayDeque<>();
     toProcess.addAll(node.get_Children());

@@ -4,6 +4,7 @@ package de.monticore.lang.sd4development._cocos;
 import com.google.common.collect.Iterables;
 import de.monticore.ast.ASTNode;
 import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDCall;
 import de.monticore.lang.sd4development._ast.ASTSDNew;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
@@ -54,7 +55,7 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
   @Override
   public void check(ASTSDArtifact node) {
     this.imports.addAll(node.getMCImportStatementList());
-    this.packageDeclaration = node.getPackageDeclaration();
+    this.packageDeclaration = node.isPresentPackageDeclaration() ? node.getPackageDeclaration() : SD4DevelopmentMill.mCQualifiedNameBuilder().build();
 
     Deque<ASTNode> toProcess = new ArrayDeque<>();
     toProcess.addAll(node.get_Children());
