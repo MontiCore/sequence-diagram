@@ -23,8 +23,8 @@ public class SD4DevelopmentGlobalScope extends SD4DevelopmentGlobalScopeTOP {
   }
 
   @Override
-  public Set<String> calculateModelNamesForType(String name) {
-    Set<String> result = super.calculateModelNamesForType(name);
+  public Set<String> calculateModelNamesForOOType(String name) {
+    Set<String> result = super.calculateModelNamesForOOType(name);
 
     while(name.contains(".")) {
       name = Names.getQualifier(name);

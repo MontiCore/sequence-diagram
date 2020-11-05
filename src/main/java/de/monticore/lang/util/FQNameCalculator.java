@@ -29,7 +29,9 @@ public class FQNameCalculator {
       }
     }
     // The searched symbol might be located in the same package as the artifact
-    fqNameCandidates.add(packageDeclaration + "." + simpleName);
+    if (!packageDeclaration.getQName().isEmpty()) {
+      fqNameCandidates.add(packageDeclaration + "." + simpleName);
+    }
 
     // Symbol might be defined in the model itself
     fqNameCandidates.add(simpleName);

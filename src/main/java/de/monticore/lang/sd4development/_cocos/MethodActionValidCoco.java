@@ -6,21 +6,17 @@ import de.monticore.ast.ASTNode;
 import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDCall;
-import de.monticore.lang.sd4development._ast.ASTSDNew;
-import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
+import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDObjectTarget;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDArtifactCoCo;
-import de.monticore.lang.sdbasis._cocos.SDBasisASTSDSendMessageCoCo;
-import de.monticore.lang.sdbasis._visitor.SDBasisVisitor;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
 import de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.types.check.SymTypeExpression;
-import de.monticore.types.check.SymTypeExpressionFactory;
 import de.monticore.types.check.TypeCheck;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
@@ -84,7 +80,7 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
         String targetTypeName = targetObjectVarSymbol.getType().getTypeInfo().getName();
 
         // compute and store all functions defined by the type and its super types
-        TypeSymbol targetTypeSymbol = resolveTypeSymbol(node, targetTypeName);
+        TypeSymbol targetTypeSymbol = resolveOOTypeSymbol(node, targetTypeName);
         List<FunctionSymbol> functionSymbols = new ArrayList<>();
         Deque<TypeSymbol> superTypesToProcess = new ArrayDeque<>();
         superTypesToProcess.add(targetTypeSymbol);
@@ -157,10 +153,11 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
     return methodSymbol.getParameterList().size() == call.getArguments().getExpressionList().size();
   }
 
-  private TypeSymbol resolveTypeSymbol(ASTSDSendMessage node, String typeName) {
+  private TypeSymbol resolveOOTypeSymbol(ASTSDSendMessage node, String typeName) {
     Set<TypeSymbol> typeSymbols = new HashSet<>();
     for (String fqNameCandidate : calcFQNameCandidates(imports, packageDeclaration, typeName)) {
-      typeSymbols.addAll(node.getEnclosingScope().resolveTypeMany(fqNameCandidate));
+      SD4DevelopmentScope scope = (SD4DevelopmentScope) node.getEnclosingScope();
+      typeSymbols.addAll(scope.resolveOOTypeMany(fqNameCandidate));
     }
 
     if (typeSymbols.isEmpty()) {
