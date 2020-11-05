@@ -4,15 +4,13 @@ import de.monticore.io.paths.ModelCoordinate;
 import de.monticore.io.paths.ModelCoordinates;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.utils.Names;
-import jdk.internal.jline.internal.Log;
+import de.se_rwth.commons.logging.Log;
 import org.apache.commons.io.filefilter.WildcardFileFilter;
 
 import java.io.File;
 import java.io.FileFilter;
 import java.net.URL;
-import java.nio.file.FileSystems;
 import java.nio.file.Path;
-import java.nio.file.PathMatcher;
 import java.nio.file.Paths;
 
 public class SD4DevelopmentScopeDeSer extends SD4DevelopmentScopeDeSerTOP {
@@ -35,7 +33,7 @@ public class SD4DevelopmentScopeDeSer extends SD4DevelopmentScopeDeSerTOP {
     if (files == null || files.length == 0) {
       return false;
     } else if (files.length > 1) {
-      Log.error("Ambigious results, multiple files found (" + files.length + ")");
+      Log.error("0x8000 Ambigious results for serialized symboltable: " + packagePath + "/" + simpleName + "*.sym");
     }
 
     Path qualifiedPath = files[0].toPath();
