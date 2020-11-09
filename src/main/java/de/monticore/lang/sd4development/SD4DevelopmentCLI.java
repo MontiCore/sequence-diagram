@@ -178,7 +178,7 @@ public class SD4DevelopmentCLI {
             String fileName = cmd.getOptionValues("i")[i];
             String symbolFile = FilenameUtils.getName(fileName) + "sym";
             String symbol_out = "target/symbols";
-            String packagePath = sd.getPackageDeclaration().getQName().replace('.', '/');
+            String packagePath = sd.isPresentPackageDeclaration() ? sd.getPackageDeclaration().getQName().replace('.', '/') : "";
             Path filePath = Paths.get(symbol_out, packagePath, symbolFile);
             FileReaderWriter.storeInFile(filePath, serialized);
           }
