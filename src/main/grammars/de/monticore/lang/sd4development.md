@@ -166,9 +166,9 @@ However, we never defined this type at any place, and therefore the tool is not 
 #### Using the model path to resolve symbols
 There are several options to resolve the previous error.
 However, in this section we make use of the model path and provide the tool with a serialized version of another model, which contains the necessary type informations.
-You can read more on model (de-)serialization [here](sd4development.md)(TODO).
 
-A serialized version of a model, which provides all necessary type information, can be found [here](sd4development.md)(TODO).
+
+A serialized version of a model, which provides all necessary type information, can be found [here](../../../../../../doc/Types.cdsym).
 The path in which the seralized model file is stored, is called the "model path".
 If we provide the model path to the tool, it will search for symbols which are stored within the model path.
 So, if we want to tool to find our serialized model, we have to provide the model path to the tool via the `-mp,--modelpath <arg>` option:
@@ -271,9 +271,12 @@ That said, the CLI tool produces the following file `target/symbols/Bid.sdsym` w
 
 #### Semantic Differencing
 For this section, consider the sequence diagrams [rob1.sd](../../../../../test/resources/sddiff/rob1.sd) and [rob2.sd](../../../../../test/resources/sddiff/rob2.sd).
-Both are depicted the Figure XX. (TODO)
+Both are depicted the Figure 2.
 
-TODO: Images of SDs
+<img width="800" src="../../../../../../doc/pics/rob1_2.png" alt="The graphical syntax of an example SD" style="float: left; margin-right: 10px;">
+<br><b>Figure 2:</b> Two sequence diagrams chosen for semantic differencing.
+
+&nbsp;  
 
 Now we want to compute the semantic differences between these sequence diagrams, whereby the semantics of a sequence diagram is defined as the set of all possible system runs of a sequence diagram.
 The semantic difference of two SDs $sd_1$ and $sd_2$ is therefore the set of all possible runs of $sd_1$ which are not possible in $sd_2$.
@@ -438,11 +441,11 @@ and [```OOTypeSymbols```][OOSymbolsRef].
 ### Symbol Table Data Structure
 
 <img width="600" src="../../../../../../doc/pics/STDataStructure.png" alt="The data structure of the symbol table of the SD language" style="float: left; margin-right: 10px;">
-<br><b>Figure 2:</b> The data structure of the symbol table of the SD language.
+<br><b>Figure 3:</b> The data structure of the symbol table of the SD language.
 
 &nbsp;  
 
-Figure 2 depicts the symbol table data structure of the [```SD4Development```](../../../../grammars/de/monticore/lang/SD4Development.mc4)
+Figure 3 depicts the symbol table data structure of the [```SD4Development```](../../../../grammars/de/monticore/lang/SD4Development.mc4)
 grammar. The ```SD4DevelopmentGlobalScope``` is associated to an
 ```SD4DevelopmentArtifactScope``` for each artifact defining an SD. In each
 of these artifacts, at most one SD can be defined and each SD introduces 
@@ -459,11 +462,11 @@ each object that is dynamically instantiated via [```SDNew```](../../../../gramm
 variable that is instantiated via [```SDVariableDeclaration```](../../../../grammars/de/monticore/lang/SD4Development.mc4).  
 
 <img width="600" src="../../../../../../doc/pics/SDSymtabExample.png" alt="The SD defines two objects and dynamically instantiated an object as well as a variable." style="float: left; margin-right: 10px;">
-<br><b>Figure 3:</b> The SD defines two objects and dynamically instantiated an object as well as a variable.
+<br><b>Figure 4:</b> The SD defines two objects and dynamically instantiated an object as well as a variable.
 
 &nbsp;  
 
-Figure 3 depicts the simple example SD ```Size```. The SD defines 
+Figure 4 depicts the simple example SD ```Size```. The SD defines 
 the two objects ```kupfer912:Auction``` and ```theo:Person```. Additionally,
 it dynamically instantiated the object ```bm:BidMessage``` and the variable
 ```int m```. The following depicts the textual syntax of the SD:
@@ -482,8 +485,8 @@ sequencediagram Size {
 }
 ```  
 
-Figure 4 depicts the symbol table instance for the SD ```Size```. 
-Figure 4 abstracts from the ```SD4DevelopmentGlobalScope``` instance. 
+Figure 5 depicts the symbol table instance for the SD ```Size```. 
+Figure 5 abstracts from the ```SD4DevelopmentGlobalScope``` instance. 
 The two objects ```kupfer912:Auction``` and ```theo:Person``` correspond to the 
  [```VariableSymbol```][BasicSymbolsRef]
  instances linked to the ```SD4DevelopmentArtifactScope```. 
@@ -495,7 +498,7 @@ The two objects ```kupfer912:Auction``` and ```theo:Person``` correspond to the
  [```SDBody```](../../../../grammars/de/monticore/lang/SDBasis.mc4).    
 
 <img width="600" src="../../../../../../doc/pics/STInstanceExample.png" alt="Symbol table instance of the SD depicted in Figure 3" style="float: left; margin-right: 10px;">
-<br><b>Figure 4:</b> Symbol table instance of the SD depicted in Figure 3.
+<br><b>Figure 5:</b> Symbol table instance of the SD depicted in Figure 3.
 
 &nbsp;  
 
