@@ -74,6 +74,8 @@ clone
 ```
 
 ### CLI Commands in Action
+
+#### First steps
 Executing the produced Jar file without any options prints a usage information of the CLI tool on the console:
 ```
 java -jar SD4DevelopmentCLI.jar                        
@@ -120,6 +122,40 @@ sequencediagram example {
 ```
 You may notice, that the CLI tool prints no output on the console.
 This means, that the tool has processed the model successfully, and the model does not violate any of the context conditions.
+
+#### Checking Context Conditions
+If you are only interested to check a model on a subset of the context conditions, you can do this by restricting the type of included context conditions.
+In particular, there are three different kinds of context conditions: 
+* `intra` context conditions only concern violations withtin a single model.
+* `inter` context conditions include, in addition to `intra` context conditions, checks which include mulitple models referencing each other.
+* `type` include all context coniditions, and in addition violations which concern the usage of types.
+
+Consider the `Bid` sequence diagram from the [introduction](#an-example-model).
+You can check the different kinds of context conditions, using the `-c,--coco <arg>` option:
+```
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -c intra
+```
+```
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -c inter
+```
+```
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type
+```
+After executing the last command, you may notice that CLI tool indeed produces some output:
+```
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type
+... ERROR ROOT - Bid.sd:<3,2>: 0xB0028: Type 'Auction' is used but not defined.
+```
+The error message indicates that there is a problem in the third line, i.e., there seems to be a problem with this statement `kupfer912:Auction;`.
+And indeed, the tool tries to load some type information about the `Auction` type.
+However, we never defined this type at any place, and therefore the tool is not able to find any information of the `Auction` type.
+
+#### Using the model path to resolve symbols
+There are several options to resolve the previous error.
+However, in this section we make use of the model path and provide the tool a serialized version of another model, which contains the necessary type informations.
+You can read more on model (de-)serialization [here](sd4development.md)(TODO).
+
+
 
 
 ## Grammars
