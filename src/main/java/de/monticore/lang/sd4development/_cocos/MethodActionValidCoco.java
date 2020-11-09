@@ -4,6 +4,7 @@ package de.monticore.lang.sd4development._cocos;
 import com.google.common.collect.Iterables;
 import de.monticore.ast.ASTNode;
 import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
+import de.monticore.expressions.expressionsbasis._ast.ASTNameExpression;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDCall;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
@@ -132,12 +133,11 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
       ASTExpression callArgument = call.getArguments().getExpression(i);
       Optional<SymTypeExpression> callArgumentType = deriveSymTypeOfSDBasis.calculateType(callArgument);
 
-      if (!callArgumentType.isPresent()) {
-        Log.info(String.format("Type of method argument '%s' could not be determined", prettyPrinter.prettyPrint(callArgument)), this.getClass().getCanonicalName());
+      if (!callArgumentType.isPresent() && !(callArgument instanceof ASTNameExpression)) {
         return false;
       }
 
-      if (!TypeCheck.compatible(methodParameterType, callArgumentType.get())) {
+      if (callArgumentType.isPresent() && !TypeCheck.compatible(methodParameterType, callArgumentType.get())) {
         return false;
       }
     }
