@@ -55,12 +55,12 @@ public class SD4DevelopmentSymbolTableCompleter implements SD4DevelopmentVisitor
     Set<TypeSymbol> typeSymbols = new HashSet<>();
     for (String fqNameCandidate : calcFQNameCandidates(imports, packageDeclaration, typeName)) {
       SD4DevelopmentScope scope = (SD4DevelopmentScope) var.getEnclosingScope();
+      typeSymbols.addAll(scope.resolveTypeMany(fqNameCandidate));
       typeSymbols.addAll(scope.resolveOOTypeMany(fqNameCandidate));
     }
 
     if (typeSymbols.isEmpty()) {
       Log.error(String.format(USED_BUT_UNDEFINED, typeName), var.getAstNode().get_SourcePositionStart());
-      return;
     }
     else if (typeSymbols.size() > 1) {
       Log.error(String.format(DEFINED_MUTLIPLE_TIMES, typeName), var.getAstNode().get_SourcePositionStart());
