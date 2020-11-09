@@ -73,6 +73,54 @@ Executing the commands generates the executable JAR file `target/libs/SD4Develop
 clone 
 ```
 
+### CLI Commands in Action
+Executing the produced Jar file without any options prints a usage information of the CLI tool on the console:
+```
+java -jar SD4DevelopmentCLI.jar                        
+usage: SD4DevelopmentCLI
+ -c,--coco <arg>            Checks the CoCos for the input FDs. Possible
+                            arguments are 'intra',  'inter', and 'type'. When
+                            given the argument 'intra', only the intra-model
+                            CoCos are checked. When given the argument 'inter',
+                            only the intra- and inter-model CoCos are checked.
+                            When given the argument 'type', all CoCos are
+                            checked. When no argument is specified, all CoCos
+                            are checked by default.
+ -h,--help                  Prints this help dialog.
+ -i,--input <arg>           Processes the SD input artifacts specified as
+                            arguments. At least one input SD is mandatory.
+ -mp,--modelpath <arg>      Sets the artifact paths for imported symbols.
+ -pp,--prettyprint <file>   Prints the input SDs to stdout or to the specified
+                            files (optional).
+ -sd,--semdiff              Computes a diff witness contained in the semantic
+                            difference from the first input SD to the second
+                            input SD if one exists and prints it to stdout.
+                            Requires exactly two  SDs as inputs. If no diff
+                            witness exists, it prints that the first SD is a
+                            refinement  of the second SD to stdout.
+ -ss,--storesymbols <arg>   Stores the serialized symbol tables of the input SDs
+                            in the specified files. The n-th input SD is stored
+                            in the file as specified by the n-th argument. If no
+                            arguments are given, the serialized symbol tables
+                            are stored in
+                            'target/symbols/{packageName}/{artifactName}.sdsym'
+                            by default.
+```
+To work properly, the CLI tool needs the mandatory argument `-i,--input <arg>`, which takes the file paths of at least one input model.
+The model has to conform to the sequence diagram language specification, which is given in the [Grammars](#grammars) section.
+If no other arguments are specified, the CLI tool just parses the model(s), and then checks every context condition that is given in [this](#context-conditions) section.
+You can try this by executing the following command
+```
+java -jar SD4DevelopmentCLI.jar -i example.sd
+```
+with the most trivial sequence diagram model:
+```
+sequencediagram example {
+}
+```
+You may notice, that the CLI tool prints no output on the console.
+This means, that the tool has processed the model successfully, and the model does not violate any of the context conditions.
+
 
 ## Grammars
 
