@@ -73,7 +73,7 @@ Executing the commands generates the executable JAR file `target/libs/SD4Develop
 clone 
 ```
 
-### CLI Commands in Action
+### Getting started
 
 #### First steps
 Executing the produced Jar file without any options prints a usage information of the CLI tool on the console:
@@ -123,6 +123,19 @@ sequencediagram example {
 You may notice, that the CLI tool prints no output on the console.
 This means, that the tool has processed the model successfully, and the model does not violate any of the context conditions.
 
+#### Pretty printing
+The CLI tool also provides a pretty printer for the sequence diagram language.
+A pretty printer can be used, e.g., to fix the formatting of a sequence diagram model.
+To execute the pretty printer, the `-pp,--prettyprint` option can be used:
+```
+java -jar SD4DevelopmentCLI.jar -pp -i example.sd
+```
+which just prints the (formatted) input model on the console:
+```
+sequencediagram example {
+}
+```
+
 #### Checking Context Conditions
 If you are only interested to check a model on a subset of the context conditions, you can do this by restricting the type of included context conditions.
 In particular, there are three different kinds of context conditions: 
@@ -155,7 +168,109 @@ There are several options to resolve the previous error.
 However, in this section we make use of the model path and provide the tool a serialized version of another model, which contains the necessary type informations.
 You can read more on model (de-)serialization [here](sd4development.md)(TODO).
 
+A serialized version of a model, which provides all necessary type information, is provided [here](sd4development.md)(TODO).
+The path in which the seralized model file is stored, is called the "model path".
+If we provide the model path to the tool, it will search for symbols which are stored within the model path.
+So, if we want to tool to find our serialized model, we have to provide the model path to the tool via the `-mp,--modelpath <arg>` option:
+```
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type -mp <MODELPATH>
+```
+where `<MODELPATH>` is the path where you stored the serialized model.
 
+But executing the above command still produces the same error message.
+This is because the model needs to be imported first, just like in Java.
+So we add the following import statement to the top of the `Bid.sd` model:
+```
+import Types.*;
+
+sequencediagram Bid {
+  ...
+}
+```
+which means that we want to import everything, which is stored in the `Types` model.
+Note that you may have to change the name here, depending on how you named the serialized model from above.
+If we now execute the command again, the CLI tool will print no output, and therefore processed the model successfully, without any context condition violations.
+Great!
+
+#### Storing symbols
+In the previous section, we saw how to load symbols from an existing serialized model.
+Now, we will use the CLI tool to serialize our `Bid.sd` model, just by executing the following command:
+```
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -ss -mp <MODELPATH>
+```
+The `-ss,--storesymbols <arg>` transforms the given models into a serialized version of it and stores the results in the file paths given as arguments.
+Note that if you don't provide an argument here, the CLI tool will just serialize every model specified in the `-i,--input <arg>` option, and stores it in `target/symbols/{packageName}/{artifactName}.sdsym` in the working directory, i.e., the directory where you executed the above command.
+Furthermore, please notice that in order to store the symbols properly, the model has to be well-formed in all regards, and therefore all context conditions (i.e., the `type` mode) are checked beforehand.
+
+That said, the CLI tool produces the following file `target/symbols/Bid.sdsym` which can now be used by other models, e.g., which want to use some of the variables defined here:
+```json
+{
+    "name": "Bid",
+    "kindHierarchy": [
+        [
+            "de.monticore.lang.sd4development._symboltable.FieldSymbol",
+            "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol"
+        ],
+        [
+            "de.monticore.lang.sd4development._symboltable.TypeVarSymbol",
+            "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+        ],
+        [
+            "de.monticore.lang.sd4development._symboltable.MethodSymbol",
+            "de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol"
+        ],
+        [
+            "de.monticore.lang.sd4development._symboltable.OOTypeSymbol",
+            "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+        ]
+    ],
+    "symbols": [
+        {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+            "name": "kupfer912",
+            "type": {
+                "kind": "de.monticore.types.check.SymTypeOfObject",
+                "objName": "Auction"
+            },
+            "isReadOnly": false
+        },
+        {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+            "name": "bidPol",
+            "type": {
+                "kind": "de.monticore.types.check.SymTypeOfObject",
+                "objName": "BiddingPolicy"
+            },
+            "isReadOnly": false
+        },
+        {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+            "name": "timePol",
+            "type": {
+                "kind": "de.monticore.types.check.SymTypeOfObject",
+                "objName": "TimingPolicy"
+            },
+            "isReadOnly": false
+        },
+        {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+            "name": "theo",
+            "type": {
+                "kind": "de.monticore.types.check.SymTypeOfObject",
+                "objName": "Person"
+            },
+            "isReadOnly": false
+        },
+        {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol",
+            "name": "Bid"
+        }
+    ]
+}
+```
+
+#### Semantic Differencing
+TODO
 
 
 ## Grammars
