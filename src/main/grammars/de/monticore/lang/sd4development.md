@@ -137,10 +137,10 @@ sequencediagram example {
 ```
 
 #### Checking Context Conditions
-If you are only interested to check a model on a subset of the context conditions, you can do this by restricting the type of included context conditions.
+If you are only interested in checking a model on a subset of the context conditions, you can do this by restricting the type of included context conditions.
 In particular, there are three different kinds of context conditions: 
 * `intra` context conditions only concern violations withtin a single model.
-* `inter` context conditions include, in addition to `intra` context conditions, checks which include mulitple models referencing each other.
+* `inter` context conditions include, in addition to `intra` context conditions, checks which include multiple models referencing each other.
 * `type` include all context coniditions, and in addition violations which concern the usage of types.
 
 Consider the `Bid` sequence diagram from the [introduction](#an-example-model).
@@ -165,10 +165,10 @@ However, we never defined this type at any place, and therefore the tool is not 
 
 #### Using the model path to resolve symbols
 There are several options to resolve the previous error.
-However, in this section we make use of the model path and provide the tool a serialized version of another model, which contains the necessary type informations.
+However, in this section we make use of the model path and provide the tool with a serialized version of another model, which contains the necessary type informations.
 You can read more on model (de-)serialization [here](sd4development.md)(TODO).
 
-A serialized version of a model, which provides all necessary type information, is provided [here](sd4development.md)(TODO).
+A serialized version of a model, which provides all necessary type information, can be found [here](sd4development.md)(TODO).
 The path in which the seralized model file is stored, is called the "model path".
 If we provide the model path to the tool, it will search for symbols which are stored within the model path.
 So, if we want to tool to find our serialized model, we have to provide the model path to the tool via the `-mp,--modelpath <arg>` option:
@@ -270,8 +270,34 @@ That said, the CLI tool produces the following file `target/symbols/Bid.sdsym` w
 ```
 
 #### Semantic Differencing
-TODO
+For this section, consider the sequence diagrams [rob1.sd](../../../../../test/resources/sddiff/rob1.sd) and [rob2.sd](../../../../../test/resources/sddiff/rob2.sd).
+Both are depicted the Figure XX. (TODO)
 
+TODO: Images of SDs
+
+Now we want to compute the semantic differences between these sequence diagrams, whereby the semantics of a sequence diagram is defined as the set of all possible system runs of a sequence diagram.
+The semantic difference of two SDs $sd_1$ and $sd_2$ is therefore the set of all possible runs of $sd_1$ which are not possible in $sd_2$.
+To calculate the semantic difference between two given SDs, the CLI tool provides the `-sd,--semdiff` option:
+```
+java -jar SD4DevelopmentCLI.jar -sd -i rob1.sd rob2.sd
+```
+And because [rob1.sd](../../../../../test/resources/sddiff/rob1.sd) is a refinement of  [rob2.sd](../../../../../test/resources/sddiff/rob2.sd), the tool prints the following output:
+```
+The input SD 'rob1.sd' is a refinement of the input SD 'rob2.sd'
+```
+However, because the semantic difference operator is by no means commutative, swapping the arguments changes the result:
+```
+java -jar SD4DevelopmentCLI.jar -sd -i rob2.sd rob1.sd
+```
+```
+Diff witness:
+ui -> controller : deliver(r4222,wd40),
+controller -> planner : getDeliverPlan(r4222,wd40),
+planner -> controller : plan,
+planner -> stateProvider : getState(),
+controller -> actionExecutor : moveTo(r4222),
+actionExecutor -> controller : ACTION_SUCCEEDED
+```
 
 ## Grammars
 
