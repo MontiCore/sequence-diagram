@@ -12,6 +12,7 @@ import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
 import de.monticore.lang.sddiff.SDInteraction;
 import de.monticore.lang.sddiff.SDSemDiff;
+import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
@@ -130,7 +131,8 @@ public class SD4DevelopmentCLI {
 
         if (cocoOptionValues.isEmpty() || cocoOptionValues.contains("type") || cmd.hasOption("ss")) {
           for (ASTSDArtifact sd : inputSDs) {
-            SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), sd.getPackageDeclaration());
+            ASTMCQualifiedName packageDeclaration = sd.isPresentPackageDeclaration() ? sd.getPackageDeclaration() : SD4DevelopmentMill.mCQualifiedNameBuilder().build();
+            SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), packageDeclaration);
             SD4DevelopmentDelegatorVisitor stCompleterVisitor = SD4DevelopmentMill
               .sD4DevelopmentDelegatorVisitorBuilder()
               .setSD4DevelopmentVisitor(stCompleter)
@@ -176,7 +178,7 @@ public class SD4DevelopmentCLI {
             String fileName = cmd.getOptionValues("i")[i];
             String symbolFile = FilenameUtils.getName(fileName) + "sym";
             String symbol_out = "target/symbols";
-            String packagePath = sd.getPackageDeclaration().getQName().replace('.', '/');
+            String packagePath = sd.isPresentPackageDeclaration() ? sd.getPackageDeclaration().getQName().replace('.', '/') : "";
             Path filePath = Paths.get(symbol_out, packagePath, symbolFile);
             FileReaderWriter.storeInFile(filePath, serialized);
           }

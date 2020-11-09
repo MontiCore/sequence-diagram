@@ -19,10 +19,6 @@ import java.util.Optional;
 public class DeriveSymTypeOfSDBasis extends SDBasisDelegatorVisitor implements ITypesCalculator {
 
   private TypeCheckResult typeCheckResult;
-  private final static String TYPE_COULD_NOT_BE_CALCULATED =  "0xB0035: Type of ASTMCType '%s' could not be calculated. Is the type defined?";
-  private final static String EXPRESSION_COULD_NOT_BE_CALCULATED =  "0xB0036: Type of expression could not be calculated. Is the type defined?";
-  private final static String LITERAL_COULD_NOT_BE_CALCULATED =  "Type of ASTLiteral could not be calculated. Is the literal defined?";
-  private final static String SIGNED_LITERAL_COULD_NOT_BE_CALCULATED =  "Type of ASTSignedLiteral could not be calculated. Is the literal defined?";
 
   public DeriveSymTypeOfSDBasis() {
     setRealThis(this);
@@ -64,10 +60,6 @@ public class DeriveSymTypeOfSDBasis extends SDBasisDelegatorVisitor implements I
       return Optional.of(getTypeCheckResult().getCurrentResult());
     }
     else {
-      Log.error(String.format(
-        TYPE_COULD_NOT_BE_CALCULATED,
-        type.printType(new MCBasicTypesPrettyPrinter(new IndentPrinter()))),
-        type.get_SourcePositionStart(), type.get_SourcePositionEnd());
       return Optional.empty();
     }
   }
@@ -79,9 +71,6 @@ public class DeriveSymTypeOfSDBasis extends SDBasisDelegatorVisitor implements I
       return Optional.of(getTypeCheckResult().getCurrentResult());
     }
     else {
-      Log.error(EXPRESSION_COULD_NOT_BE_CALCULATED,
-        ex.get_SourcePositionStart(),
-        ex.get_SourcePositionEnd());
       return Optional.empty();
     }
   }
@@ -93,9 +82,6 @@ public class DeriveSymTypeOfSDBasis extends SDBasisDelegatorVisitor implements I
       return Optional.of(getTypeCheckResult().getCurrentResult());
     }
     else {
-      Log.error(LITERAL_COULD_NOT_BE_CALCULATED,
-        lit.get_SourcePositionStart(),
-        lit.get_SourcePositionEnd());
       return Optional.empty();
     }
   }
@@ -107,9 +93,6 @@ public class DeriveSymTypeOfSDBasis extends SDBasisDelegatorVisitor implements I
       return Optional.of(getTypeCheckResult().getCurrentResult());
     }
     else {
-      Log.error(SIGNED_LITERAL_COULD_NOT_BE_CALCULATED,
-        lit.get_SourcePositionStart(),
-        lit.get_SourcePositionEnd());
       return Optional.empty();
     }
   }

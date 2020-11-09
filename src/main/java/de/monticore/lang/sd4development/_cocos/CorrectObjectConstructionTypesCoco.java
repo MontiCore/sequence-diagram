@@ -4,7 +4,9 @@ package de.monticore.lang.sd4development._cocos;
 
 import com.google.common.collect.Iterables;
 import de.monticore.ast.ASTNode;
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDNew;
+import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDObjectSource;
@@ -45,7 +47,7 @@ public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactC
   @Override
   public void check(ASTSDArtifact node) {
     this.imports.addAll(node.getMCImportStatementList());
-    this.packageDeclaration = node.getPackageDeclaration();
+    this.packageDeclaration = node.isPresentPackageDeclaration() ? node.getPackageDeclaration() : SD4DevelopmentMill.mCQualifiedNameBuilder().build();
 
     Deque<ASTNode> toProcess = new ArrayDeque<>(node.get_Children());
     while(!toProcess.isEmpty()) {
@@ -65,8 +67,8 @@ public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactC
     String declTypeName = declType.printType(prettyPrinter);
     String initTypeName = initType.printType(prettyPrinter);
 
-      TypeSymbol declTypeSymbol = resolveTypeSymbol(node, declTypeName);
-      TypeSymbol initTypeSymbol = resolveTypeSymbol(node, initTypeName);
+      TypeSymbol declTypeSymbol = resolveOOTypeSymbol(node, declTypeName);
+      TypeSymbol initTypeSymbol = resolveOOTypeSymbol(node, initTypeName);
 
       SymTypeExpression declTypeExpression = SymTypeExpressionFactory.createTypeExpression(declTypeSymbol);
       SymTypeExpression initTypeExpression = SymTypeExpressionFactory.createTypeExpression(initTypeSymbol);
@@ -76,10 +78,11 @@ public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactC
       }
   }
 
-  private TypeSymbol resolveTypeSymbol(ASTSDNew node, String typeName) {
+  private TypeSymbol resolveOOTypeSymbol(ASTSDNew node, String typeName) {
     Set<TypeSymbol> typeSymbols = new HashSet<>();
     for (String fqNameCandidate : calcFQNameCandidates(imports, packageDeclaration, typeName)) {
-      typeSymbols.addAll(node.getEnclosingScope().resolveTypeMany(fqNameCandidate));
+      SD4DevelopmentScope scope = (SD4DevelopmentScope) node.getEnclosingScope();
+      typeSymbols.addAll(scope.resolveOOTypeMany(fqNameCandidate));
     }
 
     if (typeSymbols.isEmpty()) {

@@ -34,7 +34,8 @@ public class SD4DevelopmentSymbolTableCreator extends SD4DevelopmentSymbolTableC
   @Override
   public ISD4DevelopmentArtifactScope createFromAST(ASTSDArtifact rootNode) {
     ISD4DevelopmentArtifactScope artifactScope = super.createFromAST(rootNode);
-    artifactScope.setPackageName(rootNode.getPackageDeclaration().getQName());
+    String packageDeclaration = rootNode.isPresentPackageDeclaration() ? rootNode.getPackageDeclaration().getQName() : "";
+    artifactScope.setPackageName(packageDeclaration);
     return artifactScope;
   }
 
