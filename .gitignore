@@ -3,3 +3,5 @@
 **/target
 .attach_pid*
 **/.gradle
+out/**
+out
