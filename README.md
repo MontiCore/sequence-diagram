@@ -92,7 +92,7 @@ The previous section describes how to produce an executable jar file
 using the produced SD CLI tool.   
 
 ### First Steps
-Executing the produced Jar file without any options prints usage information of the CLI tool on the console:
+Executing the produced Jar file without any options prints usage information of the CLI tool to the console:
 ```
 java -jar SD4DevelopmentCLI.jar                        
 usage: SD4DevelopmentCLI
@@ -127,7 +127,8 @@ usage: SD4DevelopmentCLI
 To work properly, the CLI tool needs the mandatory argument `-i,--input <arg>`, which takes the file paths of at least one input file containing SD models.
 If no other arguments are specified, the CLI tool solely parses the model(s).
 
-For trying this out, create a text file containing the following simple SD:
+For trying this out, copy the produced `SD4DevelopmentCLI.jar` into a directory of your choice. 
+Afterwards, create a text file containing the following simple SD:
 ```
 sequencediagram example {
 }
@@ -147,7 +148,7 @@ This means that the tool has parsed the file `example.sd` successfully.
 The CLI tool provides a pretty-printer for the SD language.
 A pretty-printer can be used, e.g., to fix the formatting of files containing SDs.
 To execute the pretty-printer, the `-pp,--prettyprint` option can be used.
-Using the option without arguments pretty-prints the models contained in the input files to the console.
+Using the option without any arguments pretty-prints the models contained in the input files to the console.
 
 Execute the following command for trying this out:
 ```
@@ -172,7 +173,7 @@ The command prints the pretty-printed model contained in the input file into the
 
 ### Checking Context Conditions
 For checking context conditions, the `-c,--coco <arg>` option can be used. 
-Using the option without any arguments checks whether the model satisfies all context conditions. 
+Using this option without any arguments checks whether the model satisfies all context conditions. 
 
 If you are only interested in checking whether a model only satisfies a subset of the context conditions or want to explicate that all context conditions shoud 
 be checked, you can do this by additionally providing one of the three
@@ -205,9 +206,10 @@ java -jar SD4DevelopmentCLI.jar -i Bid.sd -c inter
 ```
 java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type
 ```
-After executing the last command, you may notice that the CLI tool produces some output:
+After executing the last command, you may notice that the CLI tool produces some output.
+The output states the reasons why a few context conditions are not satisfied by the model.
+For instance, the output contains the following error message: 
 ```
-java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type
 ... ERROR ROOT - Bid.sd:<3,2>: 0xB0028: Type 'Auction' is used but not defined.
 ```
 The error message indicates that there is a problem in the third line, i.e., there seems to be a problem with the statement `kupfer912:Auction;`.
@@ -272,24 +274,25 @@ sequencediagram Bid {
   ...
 }
 ```
-The added import statement means that the file containing the SD imports everything, 
-which is stored in the symbol file `Types` (the file ending `.typesym` is not important 
+The added import statement means that the file containing the SD imports all symbols that 
+are stored in the symbol file `Types` (the file ending `.typesym` is not important 
 in this case).
 Note that you may have to change the name here, depending on how you named the symbol file from above.
 If you strictly followed the instructions of this tutorial, then you are fine.
+
 If we now execute the command again, the CLI tool will print no output. This means that it processed 
 the model successfully without any context condition violations.
 Great! 
 
 ### Storing Symbols
-In the previous section describes how to load symbols from an existing symbol file.
+The previous section describes how to load symbols from an existing symbol file.
 Now, we will use the CLI tool to store a symbol file for our `Bid.sd` model.
 The stored symbol file will contain information about the objects defined in the SD.
 It can be imported by other models for using the symbols introduced by these object definitions,
 similar to how we changed the file `Bid.sd` for importing the symbols contained in the
-symbol file Types.typessym.
+symbol file `Types.typessym`.
 
-The `-ss,--storesymbols <arg>` builds the symbol tables of the input models and stores them in the file paths given as arguments.
+Using the `-ss,--storesymbols <arg>` option builds the symbol tables of the input models and stores them in the file paths given as arguments.
 Either no file paths must be provided or exactly one file path has to be provided for each input model.
 The symbol file for the i-th input model is stored in the file defined by the i-th file path. 
 If you do not provide any file paths, the CLI tool stores the symbol table of each input model 
@@ -299,16 +302,18 @@ the model and `fileName` is the name of the file containing the model. The file 
 to the working directory, i.e., the directory in which you execute the command for storing the symbol files.
 Furthermore, please notice that in order to store the symbols properly, the model has to be well-formed in all regards, and therefore all context conditions are checked beforehand.
 
-For storing the symbol file of `Bid.sd`, execute the following command:
+For storing the symbol file of `Bid.sd`, execute the following command 
+(the implicit context condition checks require using the model path option):
 ```
-java -jar SD4DevelopmentCLI.jar -i Bid.sd -ss
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -mp mytypes -ss
 ```
 The CLI tool produces the file `target/symbols/Bid.sdsym`, which can now be imported by other models, e.g., by models that need to
 use some of the objects defined in the SD `Bid`.
 
-For storing the symbol file of `Bid.sd` in the file `syms/BidSyms.sdsym`, for example, execute the following command:
+For storing the symbol file of `Bid.sd` in the file `syms/BidSyms.sdsym`, for example, execute the following command
+(again, the implicit context condition checks require using the model path option):
 ```
-java -jar SD4DevelopmentCLI.jar -i Bid.sd -ss syms/BidSyms.sdsym
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -mp mytypes -ss syms/BidSyms.sdsym
 ```
 
 Congratulations, you have just finished the tutorial about saving SD symbol files!
@@ -326,7 +331,8 @@ in the SD.
 In this section, we consider the SDs [rob1.sd](src/test/resources/sddiff/rob1.sd) and [rob2.sd](src/test/resources/sddiff/rob2.sd).
 Both SDs are graphically depicted the Figure 2.
 Download the files containing the SDs (by using the links) and place them in the directory where the CLI tool `SD4DevelopmentCLI.jar`
-is located. 
+is located. The file located [here](src/test/resources/sddiff/rob1.sd) should be named `rob1.sd` and the file 
+located [here](src/test/resources/sddiff/rob2.sd) should be named `rob2.sd`.
 
 <img width="600" src="../../../../../../doc/pics/rob1_2.png" alt="The graphical syntax of an example SD" style="float: left; margin-right: 10px;">
 <br><b>Figure 2:</b> Two sequence diagrams chosen for semantic differencing.

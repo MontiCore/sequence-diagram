@@ -20,8 +20,7 @@ import java.nio.file.Paths;
 import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SD4DevelopmentCLITest {
 
@@ -292,5 +291,59 @@ public class SD4DevelopmentCLITest {
     Assert.assertEquals(0, Log.getErrorCount());
   }
 
+  @Test
+  public void testParse() {
+    Log.clearFindings();
+    Log.initWARN();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
+
+    SD4DevelopmentCLI.main(new String[] {
+      "-i",
+      "src/test/resources/examples/ast/Bid1.sd"
+    });
+    String printed = out.toString().trim();
+    assertNotNull(printed);
+    assertEquals("", printed);
+    Assert.assertEquals(0, Log.getErrorCount());
+  }
+
+  @Test
+  public void testCoCosViolated() {
+    Log.clearFindings();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
+
+    SD4DevelopmentCLI.main(new String[] {
+      "-i",
+      "src/test/resources/examples/ast/Bid1.sd",
+      "-c"
+    });
+    String printed = out.toString().trim();
+    assertNotNull(printed);
+    assertFalse(printed.equals(""));
+    assertFalse(printed.contains("java.lang.NullPointerException"));
+    Assert.assertEquals(8, Log.getErrorCount());
+  }
+
+  @Test
+  public void testCoCosNotViolated() {
+    Log.clearFindings();
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
+
+    SD4DevelopmentCLI.main(new String[] {
+      "-i",
+      "src/test/resources/examples/ast/Bid2.sd",
+      "-c",
+      "-mp",
+      "src/test/resources/examples/ast"
+    });
+    String printed = out.toString().trim();
+    assertNotNull(printed);
+    assertFalse(printed.equals(""));
+    assertFalse(printed.contains("java.lang.NullPointerException"));
+    Assert.assertEquals(0, Log.getErrorCount());
+  }
 
 }

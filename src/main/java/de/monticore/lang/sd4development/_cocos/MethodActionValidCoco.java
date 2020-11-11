@@ -84,16 +84,19 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
         TypeSymbol targetTypeSymbol = resolveOOTypeSymbol(node, targetTypeName);
         List<FunctionSymbol> functionSymbols = new ArrayList<>();
         Deque<TypeSymbol> superTypesToProcess = new ArrayDeque<>();
-        superTypesToProcess.add(targetTypeSymbol);
-        Set<TypeSymbol> processed = new HashSet<>();
-        while (!superTypesToProcess.isEmpty()) {
-          TypeSymbol cur = superTypesToProcess.pop();
-          processed.add(cur);
-          functionSymbols.addAll(cur.getFunctionList());
-          for(SymTypeExpression superType : cur.getSuperTypesList()) {
-            TypeSymbol superTypeInfo = superType.getTypeInfo();
-            if(!processed.contains(superTypeInfo)) {
-              superTypesToProcess.add(superTypeInfo);
+
+        if (targetTypeSymbol != null) {
+          superTypesToProcess.add(targetTypeSymbol);
+          Set<TypeSymbol> processed = new HashSet<>();
+          while (!superTypesToProcess.isEmpty()) {
+            TypeSymbol cur = superTypesToProcess.pop();
+            processed.add(cur);
+            functionSymbols.addAll(cur.getFunctionList());
+            for (SymTypeExpression superType : cur.getSuperTypesList()) {
+              TypeSymbol superTypeInfo = superType.getTypeInfo();
+              if (!processed.contains(superTypeInfo)) {
+                superTypesToProcess.add(superTypeInfo);
+              }
             }
           }
         }
