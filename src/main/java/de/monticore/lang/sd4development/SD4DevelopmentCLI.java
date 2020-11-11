@@ -49,6 +49,8 @@ public class SD4DevelopmentCLI {
         return;
       }
 
+      // disable fail quick to log as much errors as possible
+      Log.enableFailQuick(false);
       // Parse input FDs
       List<ASTSDArtifact> inputSDs = new ArrayList<>();
       for (String inputFileName : cmd.getOptionValues("i")) {
@@ -121,7 +123,7 @@ public class SD4DevelopmentCLI {
 
       // handle CoCos and symbol storage: build symbol table as far as needed
       Set<String> cocoOptionValues = new HashSet<>();
-      if(cmd.getOptionValues("c") != null) {
+      if(cmd.hasOption("c") && cmd.getOptionValues("c") != null) {
         cocoOptionValues.addAll(Arrays.asList(cmd.getOptionValues("c")));
       }
       if (cmd.hasOption("c") || cmd.hasOption("ss")) {
@@ -143,8 +145,8 @@ public class SD4DevelopmentCLI {
       }
 
       // cocos
-      if (cmd.hasOption("c")) {
-        if (cocoOptionValues.isEmpty() || cocoOptionValues.contains("type")) {
+      if (cmd.hasOption("c") || cmd.hasOption("ss")) {
+        if (cmd.hasOption("ss") || cocoOptionValues.isEmpty() || cocoOptionValues.contains("type")) {
           for (ASTSDArtifact sd : inputSDs) {
             checkAllCoCos(sd);
           }
@@ -166,6 +168,14 @@ public class SD4DevelopmentCLI {
             cocoOptionValues.toString()));
         }
       }
+
+      if(Log.getErrorCount() > 0) {
+        // if the model is not well-formed, then stop before generating anything
+        return;
+      }
+
+      // fail quick in case of symbol storing
+      Log.enableFailQuick(true);
 
       // store symbols
       if (cmd.hasOption("ss")) {

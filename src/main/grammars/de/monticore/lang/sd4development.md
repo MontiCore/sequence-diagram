@@ -1,6 +1,11 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 <!-- Beta-version: This is intended to become a MontiCore stable explanation. -->
 
+This documentation is intended for **language engineers** using or extending the SD languages. 
+A detailed documentation for **modelers** who use the sequence diagram (SD) languages is 
+located **[here](../../../../../../README.md)**. We recommend that **language engineers** 
+read this documentation for **modelers** before reading this documentation.
+
 # Sequence Diagrams (UML/P SD) 
 The module described in this document defines a MontiCore language for 
 UML/P SDs. UML/P SDs are an SD variant that is suited e.g. for the 
@@ -56,251 +61,15 @@ objects, activity bars and interactions in time.
 
 ## Command Line Interface (CLI) Usage
 
-This section describes the CLI for the SD language. 
-
-### Main Class ```SD4DevelopmentCLI```
 The class [```SD4DevelopmentCLI```](../../../../java/de/monticore/lang/sd4development/SD4DevelopmentCLI.java) provides typical functionality used when
 processing models. To this effect, the class provides methods
 for parsing, pretty-printing, creating symbol tables, storing symbols, and 
-loading symbols. The class provides a `main` method and can thus be used as CLI as described in the following.
+loading symbols. 
 
-### Building the CLI from Sources
-It is possible to build an executable JAR of the CLI from the sources in GitHub.
-
-For building an executable Jar of the CLI with Bash from the sources available in GitHub, execute the following commands.
-Executing the commands generates the executable JAR file `target/libs/SD4DevelopmentCLI.jar`.
-```
-clone 
-```
-
-### Getting started
-
-#### First steps
-Executing the produced Jar file without any options prints a usage information of the CLI tool on the console:
-```
-java -jar SD4DevelopmentCLI.jar                        
-usage: SD4DevelopmentCLI
- -c,--coco <arg>            Checks the CoCos for the input FDs. Possible
-                            arguments are 'intra',  'inter', and 'type'. When
-                            given the argument 'intra', only the intra-model
-                            CoCos are checked. When given the argument 'inter',
-                            only the intra- and inter-model CoCos are checked.
-                            When given the argument 'type', all CoCos are
-                            checked. When no argument is specified, all CoCos
-                            are checked by default.
- -h,--help                  Prints this help dialog.
- -i,--input <arg>           Processes the SD input artifacts specified as
-                            arguments. At least one input SD is mandatory.
- -mp,--modelpath <arg>      Sets the artifact paths for imported symbols.
- -pp,--prettyprint <file>   Prints the input SDs to stdout or to the specified
-                            files (optional).
- -sd,--semdiff              Computes a diff witness contained in the semantic
-                            difference from the first input SD to the second
-                            input SD if one exists and prints it to stdout.
-                            Requires exactly two  SDs as inputs. If no diff
-                            witness exists, it prints that the first SD is a
-                            refinement  of the second SD to stdout.
- -ss,--storesymbols <arg>   Stores the serialized symbol tables of the input SDs
-                            in the specified files. The n-th input SD is stored
-                            in the file as specified by the n-th argument. If no
-                            arguments are given, the serialized symbol tables
-                            are stored in
-                            'target/symbols/{packageName}/{artifactName}.sdsym'
-                            by default.
-```
-To work properly, the CLI tool needs the mandatory argument `-i,--input <arg>`, which takes the file paths of at least one input model.
-The model has to conform to the sequence diagram language specification, which is given in the [Grammars](#grammars) section.
-If no other arguments are specified, the CLI tool just parses the model(s), and then checks every context condition that is given in [this](#context-conditions) section.
-You can try this by executing the following command
-```
-java -jar SD4DevelopmentCLI.jar -i example.sd
-```
-with the most trivial sequence diagram model:
-```
-sequencediagram example {
-}
-```
-You may notice, that the CLI tool prints no output on the console.
-This means, that the tool has processed the model successfully, and the model does not violate any of the context conditions.
-
-#### Pretty printing
-The CLI tool also provides a pretty printer for the sequence diagram language.
-A pretty printer can be used, e.g., to fix the formatting of a sequence diagram model.
-To execute the pretty printer, the `-pp,--prettyprint` option can be used:
-```
-java -jar SD4DevelopmentCLI.jar -pp -i example.sd
-```
-which just prints the (formatted) input model on the console:
-```
-sequencediagram example {
-}
-```
-
-#### Checking Context Conditions
-If you are only interested in checking a model on a subset of the context conditions, you can do this by restricting the type of included context conditions.
-In particular, there are three different kinds of context conditions: 
-* `intra` context conditions only concern violations withtin a single model.
-* `inter` context conditions include, in addition to `intra` context conditions, checks which include multiple models referencing each other.
-* `type` include all context coniditions, and in addition violations which concern the usage of types.
-
-Consider the `Bid` sequence diagram from the [introduction](#an-example-model).
-You can check the different kinds of context conditions, using the `-c,--coco <arg>` option:
-```
-java -jar SD4DevelopmentCLI.jar -i Bid.sd -c intra
-```
-```
-java -jar SD4DevelopmentCLI.jar -i Bid.sd -c inter
-```
-```
-java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type
-```
-After executing the last command, you may notice that CLI tool indeed produces some output:
-```
-java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type
-... ERROR ROOT - Bid.sd:<3,2>: 0xB0028: Type 'Auction' is used but not defined.
-```
-The error message indicates that there is a problem in the third line, i.e., there seems to be a problem with this statement `kupfer912:Auction;`.
-And indeed, the tool tries to load some type information about the `Auction` type.
-However, we never defined this type at any place, and therefore the tool is not able to find any information of the `Auction` type.
-
-#### Using the model path to resolve symbols
-There are several options to resolve the previous error.
-However, in this section we make use of the model path and provide the tool with a serialized version of another model, which contains the necessary type informations.
-
-
-A serialized version of a model, which provides all necessary type information, can be found [here](../../../../../../doc/Types.cdsym).
-The path in which the seralized model file is stored, is called the "model path".
-If we provide the model path to the tool, it will search for symbols which are stored within the model path.
-So, if we want to tool to find our serialized model, we have to provide the model path to the tool via the `-mp,--modelpath <arg>` option:
-```
-java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type -mp <MODELPATH>
-```
-where `<MODELPATH>` is the path where you stored the serialized model.
-
-But executing the above command still produces the same error message.
-This is because the model needs to be imported first, just like in Java.
-So we add the following import statement to the top of the `Bid.sd` model:
-```
-import Types.*;
-
-sequencediagram Bid {
-  ...
-}
-```
-which means that we want to import everything, which is stored in the `Types` model.
-Note that you may have to change the name here, depending on how you named the serialized model from above.
-If we now execute the command again, the CLI tool will print no output, and therefore processed the model successfully, without any context condition violations.
-Great!
-
-#### Storing symbols
-In the previous section, we saw how to load symbols from an existing serialized model.
-Now, we will use the CLI tool to serialize our `Bid.sd` model, just by executing the following command:
-```
-java -jar SD4DevelopmentCLI.jar -i Bid.sd -ss -mp <MODELPATH>
-```
-The `-ss,--storesymbols <arg>` transforms the given models into a serialized version of it and stores the results in the file paths given as arguments.
-Note that if you don't provide an argument here, the CLI tool will just serialize every model specified in the `-i,--input <arg>` option, and stores it in `target/symbols/{packageName}/{artifactName}.sdsym` in the working directory, i.e., the directory where you executed the above command.
-Furthermore, please notice that in order to store the symbols properly, the model has to be well-formed in all regards, and therefore all context conditions (i.e., the `type` mode) are checked beforehand.
-
-That said, the CLI tool produces the following file `target/symbols/Bid.sdsym` which can now be used by other models, e.g., which want to use some of the variables defined here:
-```json
-{
-    "name": "Bid",
-    "kindHierarchy": [
-        [
-            "de.monticore.lang.sd4development._symboltable.FieldSymbol",
-            "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol"
-        ],
-        [
-            "de.monticore.lang.sd4development._symboltable.TypeVarSymbol",
-            "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
-        ],
-        [
-            "de.monticore.lang.sd4development._symboltable.MethodSymbol",
-            "de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol"
-        ],
-        [
-            "de.monticore.lang.sd4development._symboltable.OOTypeSymbol",
-            "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
-        ]
-    ],
-    "symbols": [
-        {
-            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-            "name": "kupfer912",
-            "type": {
-                "kind": "de.monticore.types.check.SymTypeOfObject",
-                "objName": "Auction"
-            },
-            "isReadOnly": false
-        },
-        {
-            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-            "name": "bidPol",
-            "type": {
-                "kind": "de.monticore.types.check.SymTypeOfObject",
-                "objName": "BiddingPolicy"
-            },
-            "isReadOnly": false
-        },
-        {
-            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-            "name": "timePol",
-            "type": {
-                "kind": "de.monticore.types.check.SymTypeOfObject",
-                "objName": "TimingPolicy"
-            },
-            "isReadOnly": false
-        },
-        {
-            "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
-            "name": "theo",
-            "type": {
-                "kind": "de.monticore.types.check.SymTypeOfObject",
-                "objName": "Person"
-            },
-            "isReadOnly": false
-        },
-        {
-            "kind": "de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol",
-            "name": "Bid"
-        }
-    ]
-}
-```
-
-#### Semantic Differencing
-For this section, consider the sequence diagrams [rob1.sd](../../../../../test/resources/sddiff/rob1.sd) and [rob2.sd](../../../../../test/resources/sddiff/rob2.sd).
-Both are depicted the Figure 2.
-
-<img width="800" src="../../../../../../doc/pics/rob1_2.png" alt="The graphical syntax of an example SD" style="float: left; margin-right: 10px;">
-<br><b>Figure 2:</b> Two sequence diagrams chosen for semantic differencing.
-
-&nbsp;  
-
-Now we want to compute the semantic differences between these sequence diagrams, whereby the semantics of a sequence diagram is defined as the set of all possible system runs of a sequence diagram.
-The semantic difference of two SDs $sd_1$ and $sd_2$ is therefore the set of all possible runs of $sd_1$ which are not possible in $sd_2$.
-To calculate the semantic difference between two given SDs, the CLI tool provides the `-sd,--semdiff` option:
-```
-java -jar SD4DevelopmentCLI.jar -sd -i rob1.sd rob2.sd
-```
-And because [rob1.sd](../../../../../test/resources/sddiff/rob1.sd) is a refinement of  [rob2.sd](../../../../../test/resources/sddiff/rob2.sd), the tool prints the following output:
-```
-The input SD 'rob1.sd' is a refinement of the input SD 'rob2.sd'
-```
-However, because the semantic difference operator is by no means commutative, swapping the arguments changes the result:
-```
-java -jar SD4DevelopmentCLI.jar -sd -i rob2.sd rob1.sd
-```
-```
-Diff witness:
-ui -> controller : deliver(r4222,wd40),
-controller -> planner : getDeliverPlan(r4222,wd40),
-planner -> controller : plan,
-planner -> stateProvider : getState(),
-controller -> actionExecutor : moveTo(r4222),
-actionExecutor -> controller : ACTION_SUCCEEDED
-```
+The class provides a `main` method and can thus be used as a CLI. Building this gradle project yields 
+the executable jar `SD4DevelopmentCLI`, which can be found
+in the directory `target/libs`. The usage of the `SD4DevelopmentCLI` tool and detailed instructions
+for building the took from the source files are described **[here](../../../../../../README.md)**. 
 
 ## Grammars
 
@@ -543,7 +312,7 @@ introduced via [```SDVariableDeclaration```](../../../../grammars/de/monticore/l
 (they are defined in an unnamed inner scope introduced with [```SCBody```](../../../../grammars/de/monticore/lang/SDBasis.mc4)).
 Therefore, the corresponding variable symbols are not serialized, i.e., they
 are not part of the corresponding symbol file. For example, the following 
-depicts the symbol file obtained from serializing the symbol table instance 
+depicts an excerpt of the symbol file obtained from serializing the symbol table instance 
 depicted in Figure 4:
 
 ```json
