@@ -1,6 +1,11 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
 <!-- Beta-version: This is intended to become a MontiCore stable explanation. -->
 
+This documentation is intended for **language engineers** using or extending the SD languages. 
+A detailed documentation for **modelers** who use the sequence diagram (SD) languages is 
+located **[here](../../../../../../README.md)**. We recommend that **language engineers** 
+read this documentation for **modelers** before reading this documentation.
+
 # Sequence Diagrams (UML/P SD) 
 The module described in this document defines a MontiCore language for 
 UML/P SDs. UML/P SDs are an SD variant that is suited e.g. for the 
@@ -54,13 +59,17 @@ This was for us the most intuitive textual representation of SDs, which was not
 easy to define, because SDs are inherently two dimensional with their 
 objects, activity bars and interactions in time.
 
-## Main Class ```SD4DevelopmentTool```
+## Command Line Interface (CLI) Usage
 
 The class [```SD4DevelopmentCLI```](../../../../java/de/monticore/lang/sd4development/SD4DevelopmentCLI.java) provides typical functionality used when
 processing models. To this effect, the class provides methods
 for parsing, pretty-printing, creating symbol tables, storing symbols, and 
-loading symbols. Detailed information about the methods can be found in the Javadoc documentation
-of the class [```SD4DevelopmentCLI```](../../../../java/de/monticore/lang/sd4development/SD4DevelopmentCLI.java). 
+loading symbols. 
+
+The class provides a `main` method and can thus be used as a CLI. Building this gradle project yields 
+the executable jar `SD4DevelopmentCLI`, which can be found
+in the directory `target/libs`. The usage of the `SD4DevelopmentCLI` tool and detailed instructions
+for building the took from the source files are described **[here](../../../../../../README.md)**. 
 
 ## Grammars
 
@@ -201,11 +210,11 @@ and [```OOTypeSymbols```][OOSymbolsRef].
 ### Symbol Table Data Structure
 
 <img width="600" src="../../../../../../doc/pics/STDataStructure.png" alt="The data structure of the symbol table of the SD language" style="float: left; margin-right: 10px;">
-<br><b>Figure 2:</b> The data structure of the symbol table of the SD language.
+<br><b>Figure 3:</b> The data structure of the symbol table of the SD language.
 
 &nbsp;  
 
-Figure 2 depicts the symbol table data structure of the [```SD4Development```](../../../../grammars/de/monticore/lang/SD4Development.mc4)
+Figure 3 depicts the symbol table data structure of the [```SD4Development```](../../../../grammars/de/monticore/lang/SD4Development.mc4)
 grammar. The ```SD4DevelopmentGlobalScope``` is associated to an
 ```SD4DevelopmentArtifactScope``` for each artifact defining an SD. In each
 of these artifacts, at most one SD can be defined and each SD introduces 
@@ -222,11 +231,11 @@ each object that is dynamically instantiated via [```SDNew```](../../../../gramm
 variable that is instantiated via [```SDVariableDeclaration```](../../../../grammars/de/monticore/lang/SD4Development.mc4).  
 
 <img width="600" src="../../../../../../doc/pics/SDSymtabExample.png" alt="The SD defines two objects and dynamically instantiated an object as well as a variable." style="float: left; margin-right: 10px;">
-<br><b>Figure 3:</b> The SD defines two objects and dynamically instantiated an object as well as a variable.
+<br><b>Figure 4:</b> The SD defines two objects and dynamically instantiated an object as well as a variable.
 
 &nbsp;  
 
-Figure 3 depicts the simple example SD ```Size```. The SD defines 
+Figure 4 depicts the simple example SD ```Size```. The SD defines 
 the two objects ```kupfer912:Auction``` and ```theo:Person```. Additionally,
 it dynamically instantiated the object ```bm:BidMessage``` and the variable
 ```int m```. The following depicts the textual syntax of the SD:
@@ -245,8 +254,8 @@ sequencediagram Size {
 }
 ```  
 
-Figure 4 depicts the symbol table instance for the SD ```Size```. 
-Figure 4 abstracts from the ```SD4DevelopmentGlobalScope``` instance. 
+Figure 5 depicts the symbol table instance for the SD ```Size```. 
+Figure 5 abstracts from the ```SD4DevelopmentGlobalScope``` instance. 
 The two objects ```kupfer912:Auction``` and ```theo:Person``` correspond to the 
  [```VariableSymbol```][BasicSymbolsRef]
  instances linked to the ```SD4DevelopmentArtifactScope```. 
@@ -258,7 +267,7 @@ The two objects ```kupfer912:Auction``` and ```theo:Person``` correspond to the
  [```SDBody```](../../../../grammars/de/monticore/lang/SDBasis.mc4).    
 
 <img width="600" src="../../../../../../doc/pics/STInstanceExample.png" alt="Symbol table instance of the SD depicted in Figure 3" style="float: left; margin-right: 10px;">
-<br><b>Figure 4:</b> Symbol table instance of the SD depicted in Figure 3.
+<br><b>Figure 5:</b> Symbol table instance of the SD depicted in Figure 3.
 
 &nbsp;  
 
@@ -303,7 +312,7 @@ introduced via [```SDVariableDeclaration```](../../../../grammars/de/monticore/l
 (they are defined in an unnamed inner scope introduced with [```SCBody```](../../../../grammars/de/monticore/lang/SDBasis.mc4)).
 Therefore, the corresponding variable symbols are not serialized, i.e., they
 are not part of the corresponding symbol file. For example, the following 
-depicts the symbol file obtained from serializing the symbol table instance 
+depicts an excerpt of the symbol file obtained from serializing the symbol table instance 
 depicted in Figure 4:
 
 ```json

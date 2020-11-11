@@ -12,6 +12,7 @@ import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
 import de.monticore.lang.sddiff.SDInteraction;
 import de.monticore.lang.sddiff.SDSemDiff;
+import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
@@ -48,6 +49,8 @@ public class SD4DevelopmentCLI {
         return;
       }
 
+      // disable fail quick to log as much errors as possible
+      Log.enableFailQuick(false);
       // Parse input FDs
       List<ASTSDArtifact> inputSDs = new ArrayList<>();
       for (String inputFileName : cmd.getOptionValues("i")) {
@@ -120,8 +123,8 @@ public class SD4DevelopmentCLI {
 
       // handle CoCos and symbol storage: build symbol table as far as needed
       Set<String> cocoOptionValues = new HashSet<>();
-      if(cmd.getOptionValues("c") != null) {
-        Arrays.asList(cmd.getOptionValues("c"));
+      if(cmd.hasOption("c") && cmd.getOptionValues("c") != null) {
+        cocoOptionValues.addAll(Arrays.asList(cmd.getOptionValues("c")));
       }
       if (cmd.hasOption("c") || cmd.hasOption("ss")) {
         for (ASTSDArtifact sd : inputSDs) {
@@ -130,7 +133,8 @@ public class SD4DevelopmentCLI {
 
         if (cocoOptionValues.isEmpty() || cocoOptionValues.contains("type") || cmd.hasOption("ss")) {
           for (ASTSDArtifact sd : inputSDs) {
-            SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), sd.getPackageDeclaration());
+            ASTMCQualifiedName packageDeclaration = sd.isPresentPackageDeclaration() ? sd.getPackageDeclaration() : SD4DevelopmentMill.mCQualifiedNameBuilder().build();
+            SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), packageDeclaration);
             SD4DevelopmentDelegatorVisitor stCompleterVisitor = SD4DevelopmentMill
               .sD4DevelopmentDelegatorVisitorBuilder()
               .setSD4DevelopmentVisitor(stCompleter)
@@ -141,8 +145,8 @@ public class SD4DevelopmentCLI {
       }
 
       // cocos
-      if (cmd.hasOption("c")) {
-        if (cocoOptionValues.isEmpty() || cocoOptionValues.contains("type")) {
+      if (cmd.hasOption("c") || cmd.hasOption("ss")) {
+        if (cmd.hasOption("ss") || cocoOptionValues.isEmpty() || cocoOptionValues.contains("type")) {
           for (ASTSDArtifact sd : inputSDs) {
             checkAllCoCos(sd);
           }
@@ -165,6 +169,14 @@ public class SD4DevelopmentCLI {
         }
       }
 
+      if(Log.getErrorCount() > 0) {
+        // if the model is not well-formed, then stop before generating anything
+        return;
+      }
+
+      // fail quick in case of symbol storing
+      Log.enableFailQuick(true);
+
       // store symbols
       if (cmd.hasOption("ss")) {
         if (cmd.getOptionValues("ss") == null || cmd.getOptionValues("ss").length == 0) {
@@ -176,7 +188,7 @@ public class SD4DevelopmentCLI {
             String fileName = cmd.getOptionValues("i")[i];
             String symbolFile = FilenameUtils.getName(fileName) + "sym";
             String symbol_out = "target/symbols";
-            String packagePath = sd.getPackageDeclaration().getQName().replace('.', '/');
+            String packagePath = sd.isPresentPackageDeclaration() ? sd.getPackageDeclaration().getQName().replace('.', '/') : "";
             Path filePath = Paths.get(symbol_out, packagePath, symbolFile);
             FileReaderWriter.storeInFile(filePath, serialized);
           }
@@ -267,7 +279,7 @@ public class SD4DevelopmentCLI {
       .hasArgs()
       .desc("Stores the serialized symbol tables of the input SDs in the specified files. The n-th input "
         + "SD is stored in the file as specified by the n-th argument. If no arguments are given, the "
-        + "serialized symbol tables are stored in 'target/symbols/{packageName}/{modelname}.sdsym' by default.")
+        + "serialized symbol tables are stored in 'target/symbols/{packageName}/{artifactName}.sdsym' by default.")
       .build());
 
     // model paths
