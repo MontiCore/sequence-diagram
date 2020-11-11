@@ -232,7 +232,7 @@ from the models of these languages.
 The following subsection describes how to fix the error in the example model `Bid.sd` 
 by importing a symbol file defining the (yet undefined) types. 
 
-### Using the model path to resolve symbols
+### Using the Model Path to Resolve Symbols
 
 In this section we make use of the model path and provide the CLI tool with
 a symbol file (stored symbol table) of another model, which contains the necessary type information.
@@ -281,7 +281,7 @@ If we now execute the command again, the CLI tool will print no output. This mea
 the model successfully without any context condition violations.
 Great! 
 
-### Storing symbols
+### Storing Symbols
 In the previous section describes how to load symbols from an existing symbol file.
 Now, we will use the CLI tool to store a symbol file for our `Bid.sd` model.
 The stored symbol file will contain information about the objects defined in the SD.
