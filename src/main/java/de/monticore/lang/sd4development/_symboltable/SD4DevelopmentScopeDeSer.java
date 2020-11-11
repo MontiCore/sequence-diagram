@@ -12,6 +12,9 @@ import java.io.FileFilter;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
+import java.util.Arrays;
+import java.util.HashSet;
+import java.util.Set;
 
 public class SD4DevelopmentScopeDeSer extends SD4DevelopmentScopeDeSerTOP {
 
@@ -26,17 +29,24 @@ public class SD4DevelopmentScopeDeSer extends SD4DevelopmentScopeDeSerTOP {
     String simpleName = Names.getSimpleName(qualifiedModelName);
     String packagePath = Names.getPathFromQualifiedName(qualifiedModelName);
     packagePath = packagePath.isEmpty() ? "." : packagePath;
-    File dir = Paths.get(packagePath).toFile();
-    FileFilter fileFilter = new WildcardFileFilter(simpleName + ".*sym");
-    File[] files = dir.listFiles(fileFilter);
 
-    if (files == null || files.length == 0) {
+
+    Set<File> foundFiles = new HashSet<>();
+    FileFilter fileFilter = new WildcardFileFilter(simpleName + ".*sym");
+    for(Path p : modelPath.getFullPathOfEntries()) {
+      Path pack = p.resolve(packagePath);
+      if(pack.toFile().isDirectory()) {
+        foundFiles.addAll(Arrays.asList(pack.toFile().listFiles(fileFilter)));
+      }
+    }
+
+    if (foundFiles == null || foundFiles.size() == 0) {
       return false;
-    } else if (files.length > 1) {
+    } else if (foundFiles.size() > 1) {
       Log.error("0x8000 Ambigious results for serialized symboltable: " + packagePath + "/" + simpleName + "*.sym");
     }
 
-    Path qualifiedPath = files[0].toPath();
+    Path qualifiedPath = foundFiles.iterator().next().toPath();
 
     //2. try to find qualified path within model path entries
     ModelCoordinate modelCoordinate = ModelCoordinates.createQualifiedCoordinate(qualifiedPath);
