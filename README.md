@@ -9,7 +9,7 @@ documentation.
 
 # An Example Model
 
-<img width="600" src="doc/pics/SDOverviewExample.png" alt="The graphical syntax of an example SD" style="float: left; margin-right: 10px;">
+<img width="700" src="doc/pics/SDOverviewExample.png" alt="The graphical syntax of an example SD" style="float: left; margin-right: 10px;">
 <br><b>Figure 1:</b> The graphical syntax of an example SD.
 
 &nbsp;  
