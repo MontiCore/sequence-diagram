@@ -334,7 +334,7 @@ Download the files containing the SDs (by using the links) and place them in the
 is located. The file located [here](src/test/resources/sddiff/rob1.sd) should be named `rob1.sd` and the file 
 located [here](src/test/resources/sddiff/rob2.sd) should be named `rob2.sd`.
 
-<img width="600" src="../../../../../../doc/pics/rob1_2.png" alt="The graphical syntax of an example SD" style="float: left; margin-right: 10px;">
+<img width="600" src="doc/pics/rob1_2.png" alt="The graphical syntax of an example SD" style="float: left; margin-right: 10px;">
 <br><b>Figure 2:</b> Two sequence diagrams chosen for semantic differencing.
 
 &nbsp;  
