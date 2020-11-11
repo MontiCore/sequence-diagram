@@ -49,8 +49,12 @@ public class SD4DevelopmentCLI {
         return;
       }
 
+      // disable debug messages
+      Log.initWARN();
+
       // disable fail quick to log as much errors as possible
       Log.enableFailQuick(false);
+
       // Parse input FDs
       List<ASTSDArtifact> inputSDs = new ArrayList<>();
       for (String inputFileName : cmd.getOptionValues("i")) {
@@ -110,7 +114,7 @@ public class SD4DevelopmentCLI {
       }
 
       // we need the global scope for symbols and cocos
-      ModelPath modelPath = new ModelPath();
+      ModelPath modelPath = new ModelPath(Paths.get(""));
       if (cmd.hasOption("mp")) {
         modelPath = new ModelPath(Arrays.stream(cmd.getOptionValues("mp")).map(x -> Paths.get(x)).collect(Collectors.toList()));
       }

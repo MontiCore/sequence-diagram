@@ -1,0 +1,171 @@
+{
+    "name": "Types",
+    "package": "",
+    "kindHierarchy": [
+        [
+            "de.monticore.lang.sd4development._symboltable.FieldSymbol",
+            "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol"
+        ],
+        [
+            "de.monticore.lang.sd4development._symboltable.TypeVarSymbol",
+            "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+        ],
+        [
+            "de.monticore.lang.sd4development._symboltable.MethodSymbol",
+            "de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol"
+        ],
+        [
+            "de.monticore.lang.sd4development._symboltable.OOTypeSymbol",
+            "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol"
+        ]
+    ],
+    "symbols": [
+        {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.TypeSymbol",
+            "name": "int"
+        },
+        {
+            "kind": "de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol",
+            "name": "Auction",
+            "isClass": true,
+            "isFinal": false,
+            "isInterface": false,
+            "isEnum": false,
+            "isAbstract": false,
+            "isPrivate": false,
+            "isProtected": false,
+            "isPublic": false,
+            "isStatic": false
+        },
+        {
+            "kind": "de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol",
+            "name": "BiddingPolicy",
+            "isClass": true,
+            "isFinal": false,
+            "isInterface": false,
+            "isEnum": false,
+            "isAbstract": false,
+            "isPrivate": false,
+            "isProtected": false,
+            "isPublic": false,
+            "isStatic": false,
+            "spannedScope": {
+                "isShadowingScope": false,
+                "symbols": [
+                    {
+                       "kind": "de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol",
+                        "name": "validateBid",
+                        "returnType": {
+                            "kind": "de.monticore.types.check.SymTypeConstant",
+                            "constName": "boolean"
+                        },
+                        "spannedScope": {
+                            "isShadowingScope": false,
+                            "symbols": [
+                                {
+                                    "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+                                    "name": "bid",
+                                    "type": {
+                                        "kind": "de.monticore.types.check.SymTypeConstant",
+                                        "constName": "int"
+                                    },
+                                    "isReadOnly": false
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol",
+            "name": "TimingPolicy",
+            "isClass": true,
+            "isFinal": false,
+            "isInterface": false,
+            "isEnum": false,
+            "isAbstract": false,
+            "isPrivate": false,
+            "isProtected": false,
+            "isPublic": false,
+            "isStatic": false,
+            "spannedScope": {
+                "isShadowingScope": false,
+                "symbols": [
+                    {
+                       "kind": "de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol",
+                        "name": "newCurrentClosingTime",
+                        "returnType": {
+                            "kind": "de.monticore.types.check.SymTypeConstant",
+                            "constName": "int"
+                        },
+                        "spannedScope": {
+                            "isShadowingScope": false,
+                            "symbols": [
+                                {
+                                    "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+                                    "name": "auction",
+                                    "type": {
+                                        "kind": "de.monticore.types.check.SymTypeOfObject",
+                                        "objName": "Auction"
+                                    },
+                                    "isReadOnly": false
+                                },
+                                {
+                                    "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+                                    "name": "bid",
+                                    "type": {
+                                        "kind": "de.monticore.types.check.SymTypeConstant",
+                                        "constName": "int"
+                                    },
+                                    "isReadOnly": false
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol",
+            "name": "Person",
+            "isClass": true,
+            "isFinal": false,
+            "isInterface": false,
+            "isEnum": false,
+            "isAbstract": false,
+            "isPrivate": false,
+            "isProtected": false,
+            "isPublic": false,
+            "isStatic": false,
+            "spannedScope": {
+                "isShadowingScope": false,
+                "symbols": [
+                    {
+                       "kind": "de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol",
+                        "name": "sendMessage",
+                        "returnType": "voidType",
+                        "spannedScope": {
+                            "isShadowingScope": false,
+                            "symbols": [
+                                {
+                                    "kind": "de.monticore.symbols.basicsymbols._symboltable.VariableSymbol",
+                                    "name": "bm",
+                                    "type": {
+                                        "kind": "de.monticore.types.check.SymTypeOfObject",
+                                        "objName": "String"
+                                    },
+                                    "isReadOnly": false
+                                }
+                            ]
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "kind": "de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol",
+            "name": "Types"
+        }
+    ]
+}

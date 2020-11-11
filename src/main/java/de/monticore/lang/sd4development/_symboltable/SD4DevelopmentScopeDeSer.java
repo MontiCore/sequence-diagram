@@ -9,6 +9,7 @@ import org.apache.commons.io.filefilter.WildcardFileFilter;
 
 import java.io.File;
 import java.io.FileFilter;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.nio.file.Path;
 import java.nio.file.Paths;
@@ -28,36 +29,33 @@ public class SD4DevelopmentScopeDeSer extends SD4DevelopmentScopeDeSerTOP {
     //1. Calculate qualified path of of stored artifact scopes relative to model path entries
     String simpleName = Names.getSimpleName(qualifiedModelName);
     String packagePath = Names.getPathFromQualifiedName(qualifiedModelName);
-    packagePath = packagePath.isEmpty() ? "." : packagePath;
-
+    //packagePath = packagePath.isEmpty() ? "." : packagePath;
 
     Set<File> foundFiles = new HashSet<>();
     FileFilter fileFilter = new WildcardFileFilter(simpleName + ".*sym");
-    for(Path p : modelPath.getFullPathOfEntries()) {
+    for (Path p : modelPath.getFullPathOfEntries()) {
       Path pack = p.resolve(packagePath);
-      if(pack.toFile().isDirectory()) {
+      if (pack.toFile().isDirectory()) {
         foundFiles.addAll(Arrays.asList(pack.toFile().listFiles(fileFilter)));
       }
     }
 
     if (foundFiles == null || foundFiles.size() == 0) {
       return false;
-    } else if (foundFiles.size() > 1) {
+    }
+    else if (foundFiles.size() > 1) {
       Log.error("0x8000 Ambigious results for serialized symboltable: " + packagePath + "/" + simpleName + "*.sym");
+      return false;
     }
 
     Path qualifiedPath = foundFiles.iterator().next().toPath();
-
-    //2. try to find qualified path within model path entries
-    ModelCoordinate modelCoordinate = ModelCoordinates.createQualifiedCoordinate(qualifiedPath);
-    modelPath.resolveModel(modelCoordinate);
-
-    //3. Load symbol table into enclosing global scope if a file has been found
-    if (modelCoordinate.hasLocation()) {
-      URL url = modelCoordinate.getLocation();
+    try {
+      URL url = qualifiedPath.toUri().toURL();
       enclosingScope.addSubScope(load(url));
       return true;
     }
-    return false;
+    catch (MalformedURLException e) {
+      return false;
+    }
   }
 }
