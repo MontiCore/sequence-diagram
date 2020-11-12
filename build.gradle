@@ -152,16 +152,15 @@ task grammarJar(type: Jar) {
   archiveClassifier = "grammars"
 }
 
-task buildSD4DevelopmentCLI(type: Jar, dependsOn: shadowJar) {
+shadowJar {
   archiveFileName = 'SD4DevelopmentCLI.jar'
   archiveClassifier = "cli"
   manifest {
     attributes('Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentCLI')
   }
-  from zipTree(shadowJar.archiveFile)
 }
 
-jar.dependsOn(buildSD4DevelopmentCLI)
+jar.dependsOn(shadowJar)
 
 //jar {
 //  manifest {
