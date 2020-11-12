@@ -275,9 +275,11 @@ sequencediagram Bid {
 }
 ```
 The added import statement means that the file containing the SD imports all symbols that 
-are stored in the symbol file `Types` (the file ending `.typesym` is not important 
-in this case).
+are stored in the symbol file `Types`. 
 Note that you may have to change the name here, depending on how you named the symbol file from above.
+The concrete file ending `.typesym` is not important 
+in this case. However, the file ending of the symbol file must end with `sym`, i.e., the name of the 
+symbol file must be compatible to the pattern `*.*sym`.
 If you strictly followed the instructions of this tutorial, then you are fine.
 
 If we now execute the command again, the CLI tool will print no output. This means that it processed 
