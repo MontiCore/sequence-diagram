@@ -130,21 +130,21 @@ If no other arguments are specified, the CLI tool solely parses the model(s).
 For trying this out, copy the produced `SD4DevelopmentCLI.jar` into a directory of your choice. 
 Afterwards, create a text file containing the following simple SD:
 ```
-sequencediagram example {
+sequencediagram Example {
 }
 ```
 
-Save the text file as `example.sd` in the directory where `SD4DevelopmentCLI.jar` is located. 
+Save the text file as `Example.sd` in the directory where `SD4DevelopmentCLI.jar` is located. 
 
 Now execute the following command:
 ```
-java -jar SD4DevelopmentCLI.jar -i example.sd
+java -jar SD4DevelopmentCLI.jar -i Example.sd
 ```
 
 You may notice that the CLI tool prints no output to the console.
-This means that the tool has parsed the file `example.sd` successfully.
+This means that the tool has parsed the file `Example.sd` successfully.
 
-### Pretty-Printing
+### Step 2: Pretty-Printing
 The CLI tool provides a pretty-printer for the SD language.
 A pretty-printer can be used, e.g., to fix the formatting of files containing SDs.
 To execute the pretty-printer, the `-pp,--prettyprint` option can be used.
@@ -152,11 +152,11 @@ Using the option without any arguments pretty-prints the models contained in the
 
 Execute the following command for trying this out:
 ```
-java -jar SD4DevelopmentCLI.jar -i example.sd -pp
+java -jar SD4DevelopmentCLI.jar -i Example.sd -pp
 ```
 The command prints the pretty-printed model contained in the input file to the console:
 ```
-sequencediagram example {
+sequencediagram Example {
 }
 ```
 
@@ -167,11 +167,11 @@ The i-th input file is pretty-printed into the i-th output file.
 
 Execute the following command for trying this out:
 ```
-java -jar SD4DevelopmentCLI.jar -i example.sd -pp ppExample.sd
+java -jar SD4DevelopmentCLI.jar -i Example.sd -pp PPExample.sd
 ```
-The command prints the pretty-printed model contained in the input file into the file `ppExample.sd`.
+The command prints the pretty-printed model contained in the input file into the file `PPExample.sd`.
 
-### Checking Context Conditions
+### Step 3: Checking Context Conditions
 For checking context conditions, the `-c,--coco <arg>` option can be used. 
 Using this option without any arguments checks whether the model satisfies all context conditions. 
 
@@ -186,7 +186,7 @@ be checked, you can do this by additionally providing one of the three
 
 Execute the following command for trying out a simple example:
 ```
-java -jar SD4DevelopmentCLI.jar -i example.sd -c
+java -jar SD4DevelopmentCLI.jar -i Example.sd -c
 ```
 You may notice that the CLI prints nothing to the console when executing this command.
 This means that the model satisfies all context condtions. 
@@ -234,7 +234,7 @@ from the models of these languages.
 The following subsection describes how to fix the error in the example model `Bid.sd` 
 by importing a symbol file defining the (yet undefined) types. 
 
-### Using the Model Path to Resolve Symbols
+### Step 4: Using the Model Path to Resolve Symbols
 
 In this section we make use of the model path and provide the CLI tool with
 a symbol file (stored symbol table) of another model, which contains the necessary type information.
@@ -284,7 +284,7 @@ If we now execute the command again, the CLI tool will print no output. This mea
 the model successfully without any context condition violations.
 Great! 
 
-### Storing Symbols
+### Step 5: Storing Symbols
 The previous section describes how to load symbols from an existing symbol file.
 Now, we will use the CLI tool to store a symbol file for our `Bid.sd` model.
 The stored symbol file will contain information about the objects defined in the SD.
@@ -318,7 +318,7 @@ java -jar SD4DevelopmentCLI.jar -i Bid.sd -mp mytypes -ss syms/BidSyms.sdsym
 
 Congratulations, you have just finished the tutorial about saving SD symbol files!
 
-### Semantic Differencing
+### Step 6: Semantic Differencing
 
 Semantic differencing of SDs enables developers to detect differences in the meanings of the SDs.
 The semantic difference from an SD `sd1` to an SD `sd2` is defined as the set of all system runs 

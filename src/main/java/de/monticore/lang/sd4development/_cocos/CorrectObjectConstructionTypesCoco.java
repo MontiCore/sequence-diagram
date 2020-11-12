@@ -34,7 +34,7 @@ public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactC
 
   private static final String INCOMPATIBLE_TYPES = "0xB0009: " + "%s and %s are incompatible types. Use the same type or a subtype of %s as the initialization type";
   private static final String TYPE_DEFINED_MUTLIPLE_TIMES = "0xB0032: Type '%s' is defined more than once.";
-  private static final String TYPE_USED_BUT_UNDEFINED = "0xB0028: Type '%s' is used but not defined.";
+  private static final String TYPE_USED_BUT_UNDEFINED = "0xB0035: Type '%s' is used but not defined.";
 
   private List<ASTMCImportStatement> imports = new ArrayList<>();
   private ASTMCQualifiedName packageDeclaration;
