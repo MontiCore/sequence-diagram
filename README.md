@@ -102,14 +102,14 @@ Congratulations! You can now find the executable JAR file `SD4DevelopmentCLI.jar
 ## Tutorial: Getting Started Using the SD CLI Tool
 The previous sections describe how to obtain an executable JAR file
 (SD CLI tool). This section provides a tutorial for
-using the produced SD CLI tool. The following examples assume
+using the SD CLI tool. The following examples assume
 that you locally named the CLI tool `SD4DevelopmentCLI`.
 If you build the CLI tool from the sources or used the `wget`
 command above, then you are fine. If you manually downloaded 
 the CLI tool, then you should consider renaming the downloaded JAR.   
 
 ### First Steps
-Executing the produced Jar file without any options prints usage information of the CLI tool to the console:
+Executing the Jar file without any options prints usage information of the CLI tool to the console:
 ```
 java -jar SD4DevelopmentCLI.jar                        
 usage: SD4DevelopmentCLI
@@ -144,7 +144,7 @@ usage: SD4DevelopmentCLI
 To work properly, the CLI tool needs the mandatory argument `-i,--input <arg>`, which takes the file paths of at least one input file containing SD models.
 If no other arguments are specified, the CLI tool solely parses the model(s).
 
-For trying this out, copy the produced `SD4DevelopmentCLI.jar` into a directory of your choice. 
+For trying this out, copy the `SD4DevelopmentCLI.jar` into a directory of your choice. 
 Afterwards, create a text file containing the following simple SD:
 ```
 sequencediagram Example {
