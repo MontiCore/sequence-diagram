@@ -111,7 +111,7 @@ the CLI tool, then you should consider renaming the downloaded JAR.
 ### First Steps
 Executing the Jar file without any options prints usage information of the CLI tool to the console:
 ```
-java -jar SD4DevelopmentCLI.jar                        
+java -jar SD4DevelopmentCLI.jar
 usage: SD4DevelopmentCLI
  -c,--coco <arg>            Checks the CoCos for the input FDs. Possible
                             arguments are 'intra',  'inter', and 'type'. When
@@ -124,22 +124,23 @@ usage: SD4DevelopmentCLI
  -h,--help                  Prints this help dialog.
  -i,--input <arg>           Processes the SD input artifacts specified as
                             arguments. At least one input SD is mandatory.
- -mp,--modelpath <arg>      Sets the artifact paths for imported symbols.
+ -path <arg>                Sets the artifact path for imported symbols, space
+                            separated.
  -pp,--prettyprint <file>   Prints the input SDs to stdout or to the specified
                             files (optional).
- -sd,--semdiff              Computes a diff witness contained in the semantic
-                            difference from the first input SD to the second
-                            input SD if one exists and prints it to stdout.
-                            Requires exactly two  SDs as inputs. If no diff
-                            witness exists, it prints that the first SD is a
-                            refinement  of the second SD to stdout.
- -ss,--storesymbols <arg>   Stores the serialized symbol tables of the input SDs
+ -s,--symboltable <arg>     Stores the serialized symbol tables of the input SDs
                             in the specified files. The n-th input SD is stored
                             in the file as specified by the n-th argument. If no
                             arguments are given, the serialized symbol tables
                             are stored in
                             'target/symbols/{packageName}/{artifactName}.sdsym'
                             by default.
+ -sd,--semdiff              Computes a diff witness contained in the semantic
+                            difference from the first input SD to the second
+                            input SD if one exists and prints it to stdout.
+                            Requires exactly two  SDs as inputs. If no diff
+                            witness exists, it prints that the first SD is a
+                            refinement  of the second SD to stdout.
 ```
 To work properly, the CLI tool needs the mandatory argument `-i,--input <arg>`, which takes the file paths of at least one input file containing SD models.
 If no other arguments are specified, the CLI tool solely parses the model(s).
@@ -269,15 +270,15 @@ you, as a language user, must not be concerned with their contents.
   
 The path containing the directory structure that contains the symbol file is called the "Model Path".
 If we provide the model path to the tool, it will search for symbols in symbol files, which are stored in directories contained in the model path.
-So, if we want the tool to find our symbol file, we have to provide the model path to the tool via the `-mp,--modelpath <arg>` option:
+So, if we want the tool to find our symbol file, we have to provide the model path to the tool via the `-path <arg>` option:
 ```
-java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type -mp <MODELPATH>
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type -path <MODELPATH>
 ```
 where `<MODELPATH>` is the path where you stored the downloaded symbol file.
 In our example, in case you stored the model in the directory `mytypes`,
 execute the following command:
 ```
-java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type -mp mytypes
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type -path mytypes
 ```
 
 Well, executing the above command still produces the same error message.
@@ -311,7 +312,7 @@ It can be imported by other models for using the symbols introduced by these obj
 similar to how we changed the file `Bid.sd` for importing the symbols contained in the
 symbol file `Types.typessym`.
 
-Using the `-ss,--storesymbols <arg>` option builds the symbol tables of the input models and stores them in the file paths given as arguments.
+Using the `-s,-symboltable <arg>` option builds the symbol tables of the input models and stores them in the file paths given as arguments.
 Either no file paths must be provided or exactly one file path has to be provided for each input model.
 The symbol file for the i-th input model is stored in the file defined by the i-th file path. 
 If you do not provide any file paths, the CLI tool stores the symbol table of each input model 
@@ -324,7 +325,7 @@ Furthermore, please notice that in order to store the symbols properly, the mode
 For storing the symbol file of `Bid.sd`, execute the following command 
 (the implicit context condition checks require using the model path option):
 ```
-java -jar SD4DevelopmentCLI.jar -i Bid.sd -mp mytypes -ss
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -path mytypes -s
 ```
 The CLI tool produces the file `target/symbols/Bid.sdsym`, which can now be imported by other models, e.g., by models that need to
 use some of the objects defined in the SD `Bid`.
@@ -332,7 +333,7 @@ use some of the objects defined in the SD `Bid`.
 For storing the symbol file of `Bid.sd` in the file `syms/BidSyms.sdsym`, for example, execute the following command
 (again, the implicit context condition checks require using the model path option):
 ```
-java -jar SD4DevelopmentCLI.jar -i Bid.sd -mp mytypes -ss syms/BidSyms.sdsym
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -path mytypes -s syms/BidSyms.sdsym
 ```
 
 Congratulations, you have just finished the tutorial about saving SD symbol files!
