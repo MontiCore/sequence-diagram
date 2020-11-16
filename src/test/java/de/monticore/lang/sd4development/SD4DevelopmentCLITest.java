@@ -337,7 +337,7 @@ public class SD4DevelopmentCLITest {
       "-i",
       "src/test/resources/examples/ast/Bid2.sd",
       "-c",
-      "-mp",
+      "-path",
       "src/test/resources/examples/ast"
     });
     String printed = out.toString().trim();

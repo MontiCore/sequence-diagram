@@ -115,8 +115,8 @@ public class SD4DevelopmentCLI {
 
       // we need the global scope for symbols and cocos
       ModelPath modelPath = new ModelPath(Paths.get(""));
-      if (cmd.hasOption("mp")) {
-        modelPath = new ModelPath(Arrays.stream(cmd.getOptionValues("mp")).map(x -> Paths.get(x)).collect(Collectors.toList()));
+      if (cmd.hasOption("path")) {
+        modelPath = new ModelPath(Arrays.stream(cmd.getOptionValues("path")).map(x -> Paths.get(x)).collect(Collectors.toList()));
       }
 
       ISD4DevelopmentGlobalScope globalScope = SD4DevelopmentMill
@@ -130,12 +130,12 @@ public class SD4DevelopmentCLI {
       if(cmd.hasOption("c") && cmd.getOptionValues("c") != null) {
         cocoOptionValues.addAll(Arrays.asList(cmd.getOptionValues("c")));
       }
-      if (cmd.hasOption("c") || cmd.hasOption("ss")) {
+      if (cmd.hasOption("c") || cmd.hasOption("s")) {
         for (ASTSDArtifact sd : inputSDs) {
           deriveSymbolSkeleton(sd, globalScope);
         }
 
-        if (cocoOptionValues.isEmpty() || cocoOptionValues.contains("type") || cmd.hasOption("ss")) {
+        if (cocoOptionValues.isEmpty() || cocoOptionValues.contains("type") || cmd.hasOption("s")) {
           for (ASTSDArtifact sd : inputSDs) {
             ASTMCQualifiedName packageDeclaration = sd.isPresentPackageDeclaration() ? sd.getPackageDeclaration() : SD4DevelopmentMill.mCQualifiedNameBuilder().build();
             SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), packageDeclaration);
@@ -149,8 +149,8 @@ public class SD4DevelopmentCLI {
       }
 
       // cocos
-      if (cmd.hasOption("c") || cmd.hasOption("ss")) {
-        if (cmd.hasOption("ss") || cocoOptionValues.isEmpty() || cocoOptionValues.contains("type")) {
+      if (cmd.hasOption("c") || cmd.hasOption("s")) {
+        if (cmd.hasOption("s") || cocoOptionValues.isEmpty() || cocoOptionValues.contains("type")) {
           for (ASTSDArtifact sd : inputSDs) {
             checkAllCoCos(sd);
           }
@@ -182,8 +182,8 @@ public class SD4DevelopmentCLI {
       Log.enableFailQuick(true);
 
       // store symbols
-      if (cmd.hasOption("ss")) {
-        if (cmd.getOptionValues("ss") == null || cmd.getOptionValues("ss").length == 0) {
+      if (cmd.hasOption("s")) {
+        if (cmd.getOptionValues("s") == null || cmd.getOptionValues("s").length == 0) {
           for (int i = 0; i < inputSDs.size(); i++) {
             ASTSDArtifact sd = inputSDs.get(i);
             SD4DevelopmentScopeDeSer deSer = SD4DevelopmentMill.sD4DevelopmentScopeDeSerBuilder().build();
@@ -197,19 +197,19 @@ public class SD4DevelopmentCLI {
             FileReaderWriter.storeInFile(filePath, serialized);
           }
         }
-        else if (cmd.getOptionValues("ss").length != inputSDs.size()) {
+        else if (cmd.getOptionValues("s").length != inputSDs.size()) {
           Log.error(String.format("Received '%s' output files for the storesymbols option. "
             + "Expected that '%s' many output files are specified. "
             + "If output files for the storesymbols option are specified, then the number "
             + " of specified output files must be equal to the number of specified input files.",
-            cmd.getOptionValues("ss").length,
+            cmd.getOptionValues("s").length,
             inputSDs.size()));
           return;
         }
         else {
           for (int i = 0; i < inputSDs.size(); i++) {
             ASTSDArtifact sd_i = inputSDs.get(i);
-            storeSymbols(sd_i, cmd.getOptionValues("ss")[i]);
+            storeSymbols(sd_i, cmd.getOptionValues("s")[i]);
           }
         }
       }
@@ -277,8 +277,8 @@ public class SD4DevelopmentCLI {
       .build());
 
     // store symbols
-    options.addOption(Option.builder("ss")
-      .longOpt("storesymbols")
+    options.addOption(Option.builder("s")
+      .longOpt("symboltable")
       .optionalArg(true)
       .hasArgs()
       .desc("Stores the serialized symbol tables of the input SDs in the specified files. The n-th input "
@@ -287,10 +287,9 @@ public class SD4DevelopmentCLI {
       .build());
 
     // model paths
-    options.addOption(Option.builder("mp")
-      .longOpt("modelpath")
+    options.addOption(Option.builder("path")
       .hasArgs()
-      .desc("Sets the artifact paths for imported symbols.")
+      .desc("Sets the artifact path for imported symbols, space separated.")
       .build());
 
     return options;
