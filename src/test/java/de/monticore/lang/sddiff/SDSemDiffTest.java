@@ -6,7 +6,9 @@ import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -35,6 +37,11 @@ public class SDSemDiffTest {
   @BeforeEach
   void setup() {
     sdSemDiff = new SDSemDiff();
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ByteArrayOutputStream err = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
+    System.setErr(new PrintStream(err));
   }
 
   @Test

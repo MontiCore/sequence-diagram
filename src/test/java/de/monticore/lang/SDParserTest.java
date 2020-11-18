@@ -7,7 +7,10 @@ import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
+
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
@@ -25,6 +28,11 @@ public class SDParserTest {
   void setup() {
     this.parser = new SD4DevelopmentParser();
     Log.enableFailQuick(false);
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ByteArrayOutputStream err = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
+    System.setErr(new PrintStream(err));
   }
 
   @ParameterizedTest

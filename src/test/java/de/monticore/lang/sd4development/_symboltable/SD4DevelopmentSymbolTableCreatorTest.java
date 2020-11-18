@@ -11,7 +11,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -34,6 +36,11 @@ public class SD4DevelopmentSymbolTableCreatorTest {
             .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
             .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION)
             .build();
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ByteArrayOutputStream err = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
+    System.setErr(new PrintStream(err));
   }
 
   @ParameterizedTest

@@ -117,7 +117,10 @@ grammar SD4Development extends
    * had to be a component grammar.
    * EDeclarations define Variable symbols.
    */
+  @Override
   EDeclaration implements Variable = MCType Name "=" assignment:Expression;
+
+  @Override
   ExtType = MCObjectType;
 
   /*

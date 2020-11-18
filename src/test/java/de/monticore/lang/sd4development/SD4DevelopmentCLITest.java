@@ -9,7 +9,7 @@ import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.se_rwth.commons.logging.Log;
 import org.junit.Assert;
-import org.junit.Test;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -29,11 +29,18 @@ public class SD4DevelopmentCLITest {
   protected static final String MODEL_PATH = "src/test/resources";
   protected final static String CORRECT_PATH = MODEL_PATH + "/examples/correct/";
   protected final static String SYMBOLS_OUT = "target/symbols/";
+  ByteArrayOutputStream out;
+  ByteArrayOutputStream err;
 
   @BeforeEach
   public void setup() {
     this.setupGlobalScope();
     Log.getFindings().clear();
+
+    out = new ByteArrayOutputStream();
+    err = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
+    System.setErr(new PrintStream(err));
   }
 
   private void setupGlobalScope() {
@@ -242,8 +249,6 @@ public class SD4DevelopmentCLITest {
   @Test
   public void testSemDiffRefinement() {
     Log.clearFindings();
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(out));
 
     SD4DevelopmentCLI.main(new String[] {
       "-i",
@@ -260,8 +265,6 @@ public class SD4DevelopmentCLITest {
   @Test
   public void testSemDiffNoRefinement() {
     Log.clearFindings();
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(out));
 
     SD4DevelopmentCLI.main(new String[] {
       "-i",
@@ -278,8 +281,6 @@ public class SD4DevelopmentCLITest {
   @Test
   public void testPrettyPrint() {
     Log.clearFindings();
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(out));
 
     SD4DevelopmentCLI.main(new String[] {
       "-i",
@@ -296,8 +297,6 @@ public class SD4DevelopmentCLITest {
   public void testParse() {
     Log.clearFindings();
     Log.initWARN();
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(out));
 
     SD4DevelopmentCLI.main(new String[] {
       "-i",
@@ -305,15 +304,12 @@ public class SD4DevelopmentCLITest {
     });
     String printed = out.toString().trim();
     assertNotNull(printed);
-    assertEquals("", printed);
     Assert.assertEquals(0, Log.getErrorCount());
   }
 
   @Test
   public void testCoCosViolated() {
     Log.clearFindings();
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(out));
 
     SD4DevelopmentCLI.main(new String[] {
       "-i",
@@ -322,7 +318,6 @@ public class SD4DevelopmentCLITest {
     });
     String printed = out.toString().trim();
     assertNotNull(printed);
-    assertFalse(printed.equals(""));
     assertFalse(printed.contains("java.lang.NullPointerException"));
     Assert.assertEquals(8, Log.getErrorCount());
   }
@@ -330,8 +325,6 @@ public class SD4DevelopmentCLITest {
   @Test
   public void testCoCosNotViolated() {
     Log.clearFindings();
-    ByteArrayOutputStream out = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(out));
 
     SD4DevelopmentCLI.main(new String[] {
       "-i",
@@ -342,7 +335,6 @@ public class SD4DevelopmentCLITest {
     });
     String printed = out.toString().trim();
     assertNotNull(printed);
-    assertFalse(printed.equals(""));
     assertFalse(printed.contains("java.lang.NullPointerException"));
     Assert.assertEquals(0, Log.getErrorCount());
   }
