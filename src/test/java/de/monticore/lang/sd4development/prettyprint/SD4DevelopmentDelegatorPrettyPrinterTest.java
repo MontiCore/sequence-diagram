@@ -9,7 +9,9 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import javax.annotation.Nonnull;
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.io.StringReader;
 import java.util.NoSuchElementException;
 
@@ -29,6 +31,11 @@ public class SD4DevelopmentDelegatorPrettyPrinterTest {
     this.parser = new SD4DevelopmentParser();
     this.prettyPrinter = new SD4DevelopmentDelegatorPrettyPrinter();
     Log.enableFailQuick(false);
+
+    ByteArrayOutputStream out = new ByteArrayOutputStream();
+    ByteArrayOutputStream err = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
+    System.setErr(new PrintStream(err));
   }
 
   @ParameterizedTest

@@ -16,7 +16,9 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
+import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -40,6 +42,10 @@ public abstract class SDCocoTest {
 
   protected SD4DevelopmentCoCoChecker checker;
 
+  ByteArrayOutputStream out;
+
+  ByteArrayOutputStream err;
+
   public SDCocoTest() {
     Log.enableFailQuick(false);
   }
@@ -50,6 +56,11 @@ public abstract class SDCocoTest {
     this.checker = new SD4DevelopmentCoCoChecker();
     initCoCoChecker();
     Log.getFindings().clear();
+
+    out = new ByteArrayOutputStream();
+    err = new ByteArrayOutputStream();
+    System.setOut(new PrintStream(out));
+    System.setErr(new PrintStream(err));
   }
 
   private void setupGlobalScope() {
