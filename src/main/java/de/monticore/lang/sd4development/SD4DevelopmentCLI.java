@@ -233,17 +233,19 @@ public class SD4DevelopmentCLI {
   private Options initOptions() {
     Options options = new Options();
 
-    // help dialog
+    // help info
     options.addOption(Option.builder("h")
       .longOpt("help")
-      .desc("Prints this help dialog.")
+      .desc("Prints this help informations.")
       .build());
 
     // inputs
     options.addOption(Option.builder("i")
       .longOpt("input")
       .hasArgs()
-      .desc("Processes the SD input artifacts specified as arguments. At least one input SD is mandatory.")
+      .desc("Processes the list of SD input artifacts. "
+        + "Argument list is space separated. "
+        + "CoCos are not checked automatically (see -c).")
       .build());
 
     // pretty print
@@ -252,16 +254,15 @@ public class SD4DevelopmentCLI {
       .argName("file")
       .optionalArg(true)
       .numberOfArgs(1)
-      .desc("Prints the input SDs to stdout or to the specified files (optional).")
+      .desc("Prints the input SDs to stdout or to the specified file (optional).")
       .build());
 
     // semantic diff
     options.addOption(Option.builder("sd")
       .longOpt("semdiff")
-      .desc("Computes a diff witness contained in the semantic difference from the first input "
-        + "SD to the second input SD if one exists and prints it to stdout. Requires exactly two "
-        + " SDs as inputs. If no diff witness exists, it prints that the first SD is a refinement "
-        + " of the second SD to stdout.")
+      .desc("Computes a diff witness showing the asymmetrical semantic difference "
+        + "of two SD. Requires two "
+        + "SDs as inputs. See se-rwth.de/topics for scientific foundation.")
       .build());
 
     // cocos
@@ -269,11 +270,10 @@ public class SD4DevelopmentCLI {
       .longOpt("coco")
       .optionalArg(true)
       .numberOfArgs(3)
-      .desc("Checks the CoCos for the input FDs. Possible arguments are 'intra', "
-        + " 'inter', and 'type'. When given the argument 'intra', only the intra-model CoCos are "
-        + "checked. When given the argument 'inter', only the intra- and inter-model CoCos are checked. "
-        + "When given the argument 'type', all CoCos are checked. When no argument is specified, all "
-        + "CoCos are checked by default.")
+      .desc("Checks the CoCos for the input. Optional arguments are:\n"
+        + "-c intra to check only the intra-model CoCos,\n"
+        + "-c inter checks also inter-model CoCos,\n"
+        + "-c type (default) checks all CoCos.")
       .build());
 
     // store symbols
@@ -281,9 +281,10 @@ public class SD4DevelopmentCLI {
       .longOpt("symboltable")
       .optionalArg(true)
       .hasArgs()
-      .desc("Stores the serialized symbol tables of the input SDs in the specified files. The n-th input "
-        + "SD is stored in the file as specified by the n-th argument. If no arguments are given, the "
-        + "serialized symbol tables are stored in 'target/symbols/{packageName}/{artifactName}.sdsym' by default.")
+      .desc("Stores the symbol tables of the input SDs in the specified files. "
+        + "The n-th input "
+        + "SD is stored in the file as specified by the n-th argument. "
+        + "Default is 'target/symbols/{packageName}/{artifactName}.sdsym'.")
       .build());
 
     // model paths
