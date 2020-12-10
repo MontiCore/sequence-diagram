@@ -1,5 +1,4 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
-<!-- Beta-version: This is intended to become a MontiCore stable explanation. -->
 
 This documentation is intended for  **modelers** who use the sequence diagram (SD) languages.
 A detailed documentation for **language engineers** using or extending the SD language is 
