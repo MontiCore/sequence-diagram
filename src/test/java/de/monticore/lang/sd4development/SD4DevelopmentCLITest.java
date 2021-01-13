@@ -4,7 +4,6 @@ package de.monticore.lang.sd4development;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.TestUtils;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
-import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentGlobalScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCompleter;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
@@ -325,23 +324,6 @@ public class SD4DevelopmentCLITest {
     assertNotNull(printed);
     assertFalse(printed.contains("java.lang.NullPointerException"));
     Assert.assertEquals(8, Log.getErrorCount());
-  }
-
-  @Test
-  public void testCoCosNotViolated() {
-    Log.clearFindings();
-
-    SD4DevelopmentCLI.main(new String[] {
-      "-i",
-      "src/test/resources/examples/ast/Bid2.sd",
-      "-c",
-      "-path",
-      "src/test/resources/examples/ast"
-    });
-    String printed = out.toString().trim();
-    assertNotNull(printed);
-    assertFalse(printed.contains("java.lang.NullPointerException"));
-    Assert.assertEquals(0, Log.getErrorCount());
   }
 
 }

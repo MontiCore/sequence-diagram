@@ -71,10 +71,6 @@ public class DeriveSymTypeOfSDBasis implements SDBasisVisitor2, SDBasisHandler {
     return typeCheckResult;
   }
 
-  public void setTypeCheckResult(TypeCheckResult typeCheckResult) {
-    this.typeCheckResult = typeCheckResult;
-  }
-
   public Optional<SymTypeExpression> calculateType(ASTMCType type) {
     type.accept(getTraverser());
     if (getTypeCheckResult().isPresentCurrentResult()) {

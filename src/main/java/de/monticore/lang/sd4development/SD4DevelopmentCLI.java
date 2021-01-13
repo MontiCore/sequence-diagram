@@ -114,6 +114,7 @@ public class SD4DevelopmentCLI {
       }
 
       ISD4DevelopmentGlobalScope globalScope = SD4DevelopmentMill.globalScope();
+      globalScope.setModelPath(modelPath);
 
       // handle CoCos and symbol storage: build symbol table as far as needed
       Set<String> cocoOptionValues = new HashSet<>();
@@ -265,11 +266,10 @@ public class SD4DevelopmentCLI {
    * Derives symbols for ast and adds them to the globalScope.
    *
    * @param ast The ast of the SD.
-   * @return The symbol table for ast while considering globalScope.
    */
-  public ISD4DevelopmentArtifactScope deriveSymbolSkeleton(ASTSDArtifact ast) {
+  public void deriveSymbolSkeleton(ASTSDArtifact ast) {
     SD4DevelopmentScopesGenitorDelegator genitor = SD4DevelopmentMill.scopesGenitorDelegator();
-    return genitor.createFromAST(ast);
+    genitor.createFromAST(ast);
   }
 
   /**

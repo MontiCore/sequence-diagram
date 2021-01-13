@@ -1,7 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development._symboltable;
 
-import de.monticore.io.paths.ModelPath;
 import de.monticore.utils.Names;
 
 import java.util.Set;

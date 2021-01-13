@@ -12,7 +12,6 @@ import de.monticore.types.mcbasictypes._ast.ASTMCObjectType;
 import de.monticore.types.prettyprint.MCBasicTypesFullPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
-import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Optional;
 

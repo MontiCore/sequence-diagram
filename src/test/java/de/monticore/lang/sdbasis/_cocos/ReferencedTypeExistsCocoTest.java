@@ -4,7 +4,6 @@ package de.monticore.lang.sdbasis._cocos;
 import de.monticore.lang.SDCocoTest;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScopesGenitor;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScopesGenitorDelegator;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCompleter;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;

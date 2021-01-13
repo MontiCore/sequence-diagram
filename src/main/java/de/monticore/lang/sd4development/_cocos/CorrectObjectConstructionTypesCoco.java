@@ -3,10 +3,10 @@
 package de.monticore.lang.sd4development._cocos;
 
 import com.google.common.collect.Iterables;
-import de.monticore.ast.ASTNode;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDNew;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDArtifactCoCo;
 import de.monticore.prettyprint.IndentPrinter;
@@ -20,7 +20,10 @@ import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
 import de.monticore.types.prettyprint.MCBasicTypesFullPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static de.monticore.lang.util.FQNameCalculator.calcFQNameCandidates;
 
@@ -47,14 +50,14 @@ public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactC
     this.imports.addAll(node.getMCImportStatementList());
     this.packageDeclaration = node.isPresentPackageDeclaration() ? node.getPackageDeclaration() : SD4DevelopmentMill.mCQualifiedNameBuilder().build();
 
-    Deque<ASTNode> toProcess = new ArrayDeque<>(node.get_Children());
-    while(!toProcess.isEmpty()) {
-      ASTNode current = toProcess.pop();
-      if(current instanceof ASTSDNew) {
-        check((ASTSDNew) current);
-      }
-      toProcess.addAll(current.get_Children());
-    }
+    SDNewCollector c = new SDNewCollector();
+    SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
+    t.setSD4DevelopmentHandler(c);
+    t.add4SD4Development(c);
+    c.setTraverser(t);
+    node.accept(t);
+
+    c.getResult().forEach(this::check);
   }
 
   public void check(ASTSDNew node) {
@@ -65,15 +68,15 @@ public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactC
     String declTypeName = declType.printType(prettyPrinter);
     String initTypeName = initType.printType(prettyPrinter);
 
-      TypeSymbol declTypeSymbol = resolveOOTypeSymbol(node, declTypeName);
-      TypeSymbol initTypeSymbol = resolveOOTypeSymbol(node, initTypeName);
+    TypeSymbol declTypeSymbol = resolveOOTypeSymbol(node, declTypeName);
+    TypeSymbol initTypeSymbol = resolveOOTypeSymbol(node, initTypeName);
 
-      SymTypeExpression declTypeExpression = SymTypeExpressionFactory.createTypeExpression(declTypeSymbol);
-      SymTypeExpression initTypeExpression = SymTypeExpressionFactory.createTypeExpression(initTypeSymbol);
+    SymTypeExpression declTypeExpression = SymTypeExpressionFactory.createTypeExpression(declTypeSymbol);
+    SymTypeExpression initTypeExpression = SymTypeExpressionFactory.createTypeExpression(initTypeSymbol);
 
-      if (!TypeCheck.compatible(initTypeExpression, declTypeExpression)) {
-        Log.error(String.format(INCOMPATIBLE_TYPES, declTypeName, initTypeName, declTypeName));
-      }
+    if (!TypeCheck.compatible(initTypeExpression, declTypeExpression)) {
+      Log.error(String.format(INCOMPATIBLE_TYPES, declTypeName, initTypeName, declTypeName));
+    }
   }
 
   private TypeSymbol resolveOOTypeSymbol(ASTSDNew node, String typeName) {

@@ -2,19 +2,19 @@
 package de.monticore.lang.sdbasis._cocos;
 
 import com.google.common.collect.Iterables;
-import de.monticore.ast.ASTNode;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
-import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDObjectSource;
-import de.monticore.lang.sdbasis._visitor.SDBasisVisitor;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
 import de.se_rwth.commons.logging.Log;
-import org.checkerframework.checker.nullness.qual.Nullable;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
 import static de.monticore.lang.util.FQNameCalculator.calcFQNameCandidates;
 
@@ -29,7 +29,7 @@ public class ReferencedObjectSourceDeclaredCoco implements SDBasisASTSDArtifactC
 
   private static final String NOT_DECLARED_BEFORE = "0xB0026: " + "Object '%s' is used before it is declared.";
 
-  private List<ASTMCImportStatement> imports = new ArrayList<>();
+  private final List<ASTMCImportStatement> imports = new ArrayList<>();
   private ASTMCQualifiedName packageDeclaration;
 
   @Override
@@ -37,15 +37,14 @@ public class ReferencedObjectSourceDeclaredCoco implements SDBasisASTSDArtifactC
     this.imports.addAll(node.getMCImportStatementList());
     this.packageDeclaration = node.isPresentPackageDeclaration() ? node.getPackageDeclaration() : SD4DevelopmentMill.mCQualifiedNameBuilder().build();
 
-    Deque<ASTNode> toProcess = new ArrayDeque<>();
-    toProcess.addAll(node.get_Children());
-    while(!toProcess.isEmpty()) {
-      ASTNode current = toProcess.pop();
-      if(current instanceof ASTSDObjectSource) {
-        check((ASTSDObjectSource) current);
-      }
-      toProcess.addAll(current.get_Children());
-    }
+    SDObjectSourceCollector c = new SDObjectSourceCollector();
+    SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
+    t.setSDBasisHandler(c);
+    t.add4SDBasis(c);
+    c.setTraverser(t);
+    node.accept(t);
+
+    c.getResult().forEach(this::check);
   }
 
   public void check(ASTSDObjectSource node) {
