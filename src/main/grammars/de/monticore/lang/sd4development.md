@@ -271,12 +271,12 @@ The two objects ```kupfer912:Auction``` and ```theo:Person``` correspond to the
 
 &nbsp;  
 
-The handwritten extensions of the symbol table creator of the 
+The handwritten extensions of the scopes genitor of the 
 [```SDBasis```](../../../../grammars/de/monticore/lang/SDBasis.mc4)
 grammar can be found in the class 
-[```SDBasisSymbolTableCreator```](../../../../java/de/monticore/lang/sdbasis/_symboltable/SDBasisSymbolTableCreator.java). The handwritten
-extensions of the symbol table creator of the [```SD4Development```](../../../../grammars/de/monticore/lang/SD4Development.mc4) grammar 
-can be found in the class [```SD4DevelopmentSymbolTableCreator```](../../../../java/de/monticore/lang/sd4development/_symboltable/SD4DevelopmentSymbolTableCreator.java). 
+[```SDBasisScopesGenitor```](../../../../java/de/monticore/lang/sdbasis/_symboltable/SDBasisScopesGenitor.java). The handwritten
+extensions of the scopes genitor of the [```SD4Development```](../../../../grammars/de/monticore/lang/SD4Development.mc4) grammar 
+can be found in the class [```SD4DevelopmentScopesGenitor```](../../../../java/de/monticore/lang/sd4development/_symboltable/SD4DevelopmentScopesGenitor.java). 
 Instances of class [```SD4DevelopmentSymbolTableCompleter```](../../../../java/de/monticore/lang/sd4development/_symboltable/SD4DevelopmentSymbolTableCompleter.java)
 are responsible for calculating the type attributes of variable symbols and, thereby, for checking
 whether used types are defined.
