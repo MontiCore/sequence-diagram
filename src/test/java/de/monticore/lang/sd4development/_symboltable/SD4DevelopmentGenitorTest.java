@@ -2,10 +2,10 @@
 package de.monticore.lang.sd4development._symboltable;
 
 import de.monticore.io.paths.ModelPath;
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
-import de.monticore.symboltable.IArtifactScope;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -20,7 +20,7 @@ import java.util.Optional;
 
 import static org.junit.Assert.*;
 
-public class SD4DevelopmentSymbolTableCreatorTest {
+public class SD4DevelopmentGenitorTest {
 
   private static final String MODEL_PATH = "src/test/resources/";
 
@@ -28,14 +28,11 @@ public class SD4DevelopmentSymbolTableCreatorTest {
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
-  private ISD4DevelopmentGlobalScope globalScope;
-
   @BeforeEach
   void setup() {
-    this.globalScope = new SD4DevelopmentGlobalScopeBuilder()
-            .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
-            .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION)
-            .build();
+    SD4DevelopmentMill.reset();
+    SD4DevelopmentMill.init();
+    SD4DevelopmentMill.globalScope().setModelPath(new ModelPath(Paths.get(MODEL_PATH)));
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     ByteArrayOutputStream err = new ByteArrayOutputStream();
@@ -56,10 +53,10 @@ public class SD4DevelopmentSymbolTableCreatorTest {
     createSymbolTableFromAST(ast);
 
     // then
-    Optional<DiagramSymbol> sdOpt = globalScope.resolveDiagram("examples.symboltable." + FilenameUtils.removeExtension(model));
+    Optional<DiagramSymbol> sdOpt = SD4DevelopmentMill.globalScope().resolveDiagram("examples.symboltable." + FilenameUtils.removeExtension(model));
     assertTrue(sdOpt.isPresent());
-    assertEquals(1, globalScope.getSubScopes().size());
-    ISD4DevelopmentScope artifactScope = globalScope.getSubScopes().get(0);
+    assertEquals(1, SD4DevelopmentMill.globalScope().getSubScopes().size());
+    ISD4DevelopmentScope artifactScope = SD4DevelopmentMill.globalScope().getSubScopes().get(0);
     assertEquals(3, artifactScope.getVariableSymbols().size());
     assertEquals(1, artifactScope.getSubScopes().size());
     assertEquals(2, artifactScope.getSubScopes().get(0).getVariableSymbols().size());
@@ -76,6 +73,6 @@ public class SD4DevelopmentSymbolTableCreatorTest {
   }
 
   private void createSymbolTableFromAST(ASTSDArtifact ast) {
-    new SD4DevelopmentSymbolTableCreatorDelegator(this.globalScope).createFromAST(ast);
+    SD4DevelopmentMill.scopesGenitorDelegator().createFromAST(ast);
   }
 }

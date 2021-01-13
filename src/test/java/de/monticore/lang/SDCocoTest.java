@@ -3,12 +3,10 @@
 package de.monticore.lang;
 
 import de.monticore.io.paths.ModelPath;
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._cocos.SD4DevelopmentCoCoChecker;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
-import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentGlobalScope;
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobalScope;
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentGlobalScopeBuilder;
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCreatorDelegatorBuilder;
+import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScopesGenitorDelegator;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
@@ -38,8 +36,6 @@ public abstract class SDCocoTest {
 
   protected final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
-  protected ISD4DevelopmentGlobalScope globalScope;
-
   protected SD4DevelopmentCoCoChecker checker;
 
   ByteArrayOutputStream out;
@@ -52,6 +48,8 @@ public abstract class SDCocoTest {
 
   @BeforeEach
   public void setup() {
+    SD4DevelopmentMill.reset();
+    SD4DevelopmentMill.init();
     this.setupGlobalScope();
     this.checker = new SD4DevelopmentCoCoChecker();
     initCoCoChecker();
@@ -64,11 +62,8 @@ public abstract class SDCocoTest {
   }
 
   private void setupGlobalScope() {
-    this.globalScope = new SD4DevelopmentGlobalScopeBuilder()
-      .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
-      .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION)
-      .build();
-    TestUtils.setupGlobalScope(globalScope);
+    SD4DevelopmentMill.globalScope().setModelPath(new ModelPath(Paths.get(MODEL_PATH)));
+    TestUtils.setupGlobalScope(SD4DevelopmentMill.globalScope());
   }
 
   protected abstract void initCoCoChecker();
@@ -133,6 +128,8 @@ public abstract class SDCocoTest {
   }
 
   private void createSymbolTableFromAST(ASTSDArtifact ast) {
-    new SD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(this.globalScope).build().createFromAST(ast);
+    SD4DevelopmentScopesGenitorDelegator genitor = SD4DevelopmentMill.scopesGenitorDelegator();
+    genitor.createFromAST(ast);
+    System.out.println("TEST");
   }
 }

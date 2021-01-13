@@ -3,8 +3,7 @@ package de.monticore.lang.sddiff;
 
 import de.monticore.lang.sd4development._ast.ASTSDNew;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentInheritanceVisitor;
-import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
-import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
+import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.*;
 import de.monticore.lang.sdbasis._visitor.SDBasisVisitor;
 
@@ -15,7 +14,7 @@ import java.util.Set;
 
 final class SDDiffSDInfoVisitor implements SD4DevelopmentInheritanceVisitor {
 
-  private final SD4DevelopmentDelegatorPrettyPrinter pp = new SD4DevelopmentDelegatorPrettyPrinter();
+  private final SD4DevelopmentPrettyPrinter pp = new SD4DevelopmentPrettyPrinter();
 
   // the information required for the trafo to an NFA
   private Set<String> objects;

@@ -8,7 +8,7 @@ import de.monticore.expressions.expressionsbasis._ast.ASTNameExpression;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDCall;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
-import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
+import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDObjectTarget;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
@@ -40,13 +40,13 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
   private static final String TYPE_USED_BUT_UNDEFINED = "0xB0034: Type '%s' is used but not defined.";
 
   private final DeriveSymTypeOfSDBasis deriveSymTypeOfSDBasis;
-  private final SD4DevelopmentDelegatorPrettyPrinter prettyPrinter;
+  private final SD4DevelopmentPrettyPrinter prettyPrinter;
   private List<ASTMCImportStatement> imports = new ArrayList<>();
   private ASTMCQualifiedName packageDeclaration;
 
   public MethodActionValidCoco() {
     this.deriveSymTypeOfSDBasis = new DeriveSymTypeOfSDBasis();
-    this.prettyPrinter = new SD4DevelopmentDelegatorPrettyPrinter();
+    this.prettyPrinter = new SD4DevelopmentPrettyPrinter();
   }
 
   @Override

@@ -9,7 +9,7 @@ plugins {
   id 'org.ec4j.editorconfig' version "0.0.3"
 }
 
-def commons_version = "1.7.10-SNAPSHOT"
+def commons_version = "1.7.11"
 def grammar_classifier = "grammars"
 def grammarDir = "src/main/grammars"
 
@@ -40,8 +40,8 @@ buildDir = file("$projectDir/target")
 configurations { grammar }
 
 dependencies {
-  //implementation "de.se_rwth.commons:se-commons-logging:$commons_version"
-  //implementation "de.se_rwth.commons:se-commons-utilities:$commons_version"
+  implementation "de.se_rwth.commons:se-commons-logging:$commons_version"
+  implementation "de.se_rwth.commons:se-commons-utilities:$commons_version"
   //implementation "com.google.guava:guava:23.0"
 
   implementation "org.antlr:antlr4-runtime:4.7.1"

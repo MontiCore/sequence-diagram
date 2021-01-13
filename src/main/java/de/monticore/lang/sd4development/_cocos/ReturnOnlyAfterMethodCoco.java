@@ -5,9 +5,8 @@ import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDEndCall;
 import de.monticore.lang.sd4development._ast.ASTSDReturn;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
-import de.monticore.lang.sd4development._visitor.SD4DevelopmentInheritanceVisitor;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
-import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
+import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDArtifactCoCo;
@@ -43,7 +42,7 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
    * If there does not exists such a SendCall, an error will be produced.
    */
   private static final class ReturnOnlyAfterMethodCocoVisitor implements SD4DevelopmentVisitor {
-    private final SD4DevelopmentDelegatorPrettyPrinter pp = new SD4DevelopmentDelegatorPrettyPrinter();
+    private final SD4DevelopmentPrettyPrinter pp = new SD4DevelopmentPrettyPrinter();
 
     private final Set<ASTSDSendMessage> openMethodCalls = new HashSet<>();
 

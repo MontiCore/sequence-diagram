@@ -1,8 +1,10 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development.prettyprint;
 
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.prettyprint.IndentPrinter;
 import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -24,12 +26,12 @@ public class SD4DevelopmentDelegatorPrettyPrinterTest {
 
   private SD4DevelopmentParser parser;
 
-  private SD4DevelopmentDelegatorPrettyPrinter prettyPrinter;
+  private SD4DevelopmentPrettyPrinter prettyPrinter;
 
   @BeforeEach
   void setup() {
     this.parser = new SD4DevelopmentParser();
-    this.prettyPrinter = new SD4DevelopmentDelegatorPrettyPrinter();
+    this.prettyPrinter = new SD4DevelopmentPrettyPrinter(new IndentPrinter(), SD4DevelopmentMill.traverser());
     Log.enableFailQuick(false);
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();

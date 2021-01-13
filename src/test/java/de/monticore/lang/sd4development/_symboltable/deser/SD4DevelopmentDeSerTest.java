@@ -4,9 +4,10 @@ package de.monticore.lang.sd4development._symboltable.deser;
 import com.google.common.collect.LinkedListMultimap;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.TestUtils;
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
-import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
@@ -28,7 +29,6 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
-import de.monticore.lang.TestUtils;
 
 import static org.junit.Assert.*;
 
@@ -40,18 +40,17 @@ public class SD4DevelopmentDeSerTest {
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
-  private ISD4DevelopmentGlobalScope globalScope;
-
-  private SD4DevelopmentScopeDeSer deSer;
+  private SD4DevelopmentDeSer deSer;
 
   @BeforeEach
   void setup() {
+    SD4DevelopmentMill.reset();
+    SD4DevelopmentMill.init();
     Log.enableFailQuick(false);
-    this.globalScope = new SD4DevelopmentGlobalScopeBuilder().setModelPath(new ModelPath(Paths.get(MODEL_PATH))).setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION).build();
+    SD4DevelopmentMill.globalScope().setModelPath(new ModelPath(Paths.get(MODEL_PATH)));
     JsonPrinter.enableIndentation();
-    TestUtils.setupGlobalScope(globalScope);
-    this.deSer = new SD4DevelopmentScopeDeSer();
-    this.deSer.setSymbolFileExtension("sdsym");
+    TestUtils.setupGlobalScope(SD4DevelopmentMill.globalScope());
+    this.deSer = new SD4DevelopmentDeSer();
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     ByteArrayOutputStream err = new ByteArrayOutputStream();
@@ -130,8 +129,12 @@ public class SD4DevelopmentDeSerTest {
     try {
       ASTSDArtifact ast = parser.parse(modelPath).orElseThrow(NoSuchElementException::new);
       createSymbolTableFromAST(ast);
+      SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
       SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
-      this.globalScope.accept(stCompleter);
+      t.setSD4DevelopmentHandler(stCompleter);
+      t.add4BasicSymbols(stCompleter);
+      stCompleter.setTraverser(t);
+      SD4DevelopmentMill.globalScope().accept(t);
 
       return ast;
     }
@@ -154,6 +157,6 @@ public class SD4DevelopmentDeSerTest {
   }
 
   private void createSymbolTableFromAST(ASTSDArtifact ast) {
-    new SD4DevelopmentSymbolTableCreatorDelegator(this.globalScope).createFromAST(ast);
+    SD4DevelopmentMill.scopesGenitorDelegator().createFromAST(ast);
   }
 }

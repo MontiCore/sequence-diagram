@@ -3,14 +3,17 @@ package de.monticore.lang.sd4development;
 
 import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.TestUtils;
-import de.monticore.lang.sd4development._symboltable.*;
-import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentGlobalScope;
+import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
+import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCompleter;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.se_rwth.commons.logging.Log;
 import org.junit.Assert;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
@@ -25,7 +28,6 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SD4DevelopmentCLITest {
 
-  protected ISD4DevelopmentGlobalScope globalScope;
   protected static final String MODEL_PATH = "src/test/resources";
   protected final static String CORRECT_PATH = MODEL_PATH + "/examples/correct/";
   protected final static String SYMBOLS_OUT = "target/symbols/";
@@ -34,8 +36,11 @@ public class SD4DevelopmentCLITest {
 
   @BeforeEach
   public void setup() {
+    SD4DevelopmentMill.reset();
+    SD4DevelopmentMill.init();
     this.setupGlobalScope();
     Log.getFindings().clear();
+    Log.enableFailQuick(false);
 
     out = new ByteArrayOutputStream();
     err = new ByteArrayOutputStream();
@@ -44,11 +49,8 @@ public class SD4DevelopmentCLITest {
   }
 
   private void setupGlobalScope() {
-    this.globalScope = new SD4DevelopmentGlobalScopeBuilder()
-      .setModelPath(new ModelPath(Paths.get(MODEL_PATH)))
-      .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION)
-      .build();
-    TestUtils.setupGlobalScope(globalScope);
+    SD4DevelopmentMill.globalScope().setModelPath(new ModelPath(Paths.get(MODEL_PATH)));
+    TestUtils.setupGlobalScope(SD4DevelopmentMill.globalScope());
   }
 
   @ParameterizedTest
@@ -102,7 +104,7 @@ public class SD4DevelopmentCLITest {
     SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
     Optional<ASTSDArtifact> ast = cli.parseSDArtifact(CORRECT_PATH + model);
     assertTrue(ast.isPresent());
-    cli.deriveSymbolSkeleton(ast.get(), globalScope);
+    cli.deriveSymbolSkeleton(ast.get());
 
     cli.checkIntraModelCoCos(ast.get());
     assertEquals(0, Log.getErrorCount());
@@ -132,7 +134,7 @@ public class SD4DevelopmentCLITest {
     SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
     Optional<ASTSDArtifact> ast = cli.parseSDArtifact(CORRECT_PATH + model);
     assertTrue(ast.isPresent());
-    cli.deriveSymbolSkeleton(ast.get(), globalScope);
+    cli.deriveSymbolSkeleton(ast.get());
 
     cli.checkAllExceptTypeCoCos(ast.get());
     assertEquals(0, Log.getErrorCount());
@@ -156,14 +158,15 @@ public class SD4DevelopmentCLITest {
     SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
     Optional<ASTSDArtifact> ast = cli.parseSDArtifact(CORRECT_PATH + model);
     assertTrue(ast.isPresent());
-    cli.deriveSymbolSkeleton(ast.get(), globalScope);
+    cli.deriveSymbolSkeleton(ast.get());
 
     SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.get().getMCImportStatementList(), ast.get().getPackageDeclaration());
-    SD4DevelopmentDelegatorVisitor stCompleterVisitor = SD4DevelopmentMill
-      .sD4DevelopmentDelegatorVisitorBuilder()
-      .setSD4DevelopmentVisitor(stCompleter)
-      .build();
-    globalScope.accept(stCompleterVisitor);
+    SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
+    t.add4BasicSymbols(stCompleter);
+    t.setSD4DevelopmentHandler(stCompleter);
+    stCompleter.setTraverser(t);
+
+    SD4DevelopmentMill.globalScope().accept(t);
 
     cli.checkAllCoCos(ast.get());
     assertEquals(0, Log.getErrorCount());
@@ -223,7 +226,7 @@ public class SD4DevelopmentCLITest {
     Optional<ASTSDArtifact> ast = cli.parseSDArtifact(CORRECT_PATH + model);
     assertTrue(ast.isPresent());
     String symbolFileName = SYMBOLS_OUT + ast.get().getSequenceDiagram().getName() +".sdsym";
-    cli.deriveSymbolSkeleton(ast.get(), this.globalScope);
+    cli.deriveSymbolSkeleton(ast.get());
     SD4DevelopmentArtifactScope artifactScope = (SD4DevelopmentArtifactScope) ast.get().getEnclosingScope();
 
     cli.storeSymbols(ast.get(), symbolFileName);
@@ -310,6 +313,8 @@ public class SD4DevelopmentCLITest {
   @Test
   public void testCoCosViolated() {
     Log.clearFindings();
+    SD4DevelopmentMill.reset();
+    SD4DevelopmentMill.init();
 
     SD4DevelopmentCLI.main(new String[] {
       "-i",
