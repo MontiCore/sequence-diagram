@@ -2,11 +2,15 @@
 package de.monticore.lang;
 
 import com.google.common.collect.Lists;
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentGlobalScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
-import de.monticore.symbols.basicsymbols._symboltable.*;
+import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbolBuilder;
+import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.symbols.oosymbols._symboltable.*;
 import de.monticore.types.MCTypeFacade;
 import de.monticore.types.check.SymTypeExpressionFactory;
@@ -27,21 +31,14 @@ public final class TestUtils {
   }
 
   private static void addPrimitiveTypeSymbols(ISD4DevelopmentGlobalScope globalScope) {
-    Stream.of(
-      new TypeSymbol("int")
-    ).forEach(t -> {
+    Stream.of(new TypeSymbol("int")).forEach(t -> {
       t.setEnclosingScope(globalScope);
       globalScope.add(t);
     });
   }
 
   private static void addOOTypeSymbols(ISD4DevelopmentGlobalScope globalScope) {
-    List<OOTypeSymbol> ooTypes = Stream.of(
-      "BidMessage", "Auction", "NotASubType",
-      "Protocol", "Factory", "AuctionTest", "Person", "Order", "Customer", "Mail",
-      "A", "B", "C", "D", "E", "F", "G", "H", "ExceptionTyp")
-                                           .map(OOTypeSymbol::new)
-                                           .collect(Collectors.toList());
+    List<OOTypeSymbol> ooTypes = Stream.of("BidMessage", "Auction", "NotASubType", "Protocol", "Factory", "AuctionTest", "Person", "Order", "Customer", "Mail", "A", "B", "C", "D", "E", "F", "G", "H", "ExceptionTyp").map(OOTypeSymbol::new).collect(Collectors.toList());
     ooTypes.add(createBiddingPolicyOOTypeSymbol());
     ooTypes.add(createTimingPolicyOOTypeSymbol());
     ooTypes.forEach(t -> {
@@ -50,11 +47,7 @@ public final class TestUtils {
       globalScope.add((TypeSymbol) t);
     });
 
-    SD4DevelopmentArtifactScope scopeContainingDeepOOTypeSymbol =
-      new SD4DevelopmentArtifactScope(
-        Optional.of(globalScope),
-      "very.very.deep",
-        Lists.newArrayList());
+    SD4DevelopmentArtifactScope scopeContainingDeepOOTypeSymbol = new SD4DevelopmentArtifactScope(Optional.of(globalScope), "very.very.deep", Lists.newArrayList());
     OOTypeSymbol deepOOTypeSymbol = createDeepOOTypeSymbol();
     deepOOTypeSymbol.setEnclosingScope(scopeContainingDeepOOTypeSymbol);
     scopeContainingDeepOOTypeSymbol.add(deepOOTypeSymbol);
@@ -66,10 +59,7 @@ public final class TestUtils {
   }
 
   private static OOTypeSymbol createDeepOOTypeSymbol() {
-    MethodSymbol someMethod = new MethodSymbolBuilder()
-      .setReturnType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get())
-      .setName("someMethod")
-      .build();
+    MethodSymbol someMethod = new MethodSymbolBuilder().setReturnType(new DeriveSymTypeOfSDBasis(SD4DevelopmentMill.traverser()).calculateType(typeFacade.createIntType()).get()).setName("someMethod").build();
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
     FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
     scope.add(valueField);
@@ -85,10 +75,7 @@ public final class TestUtils {
 
   private static OOTypeSymbol createBiddingPolicyOOTypeSymbol() {
     // validateBid method symbol
-    MethodSymbol validateBid = new MethodSymbolBuilder()
-      .setName("validateBid")
-      .setReturnType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get())
-      .build();
+    MethodSymbol validateBid = new MethodSymbolBuilder().setName("validateBid").setReturnType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
     FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
     scope.add(valueField);
@@ -104,10 +91,7 @@ public final class TestUtils {
 
   private static OOTypeSymbol createTimingPolicyOOTypeSymbol() {
     // newCurrentClosingTime method symbol
-    MethodSymbol newCurrentClosingTime = new MethodSymbolBuilder()
-      .setReturnType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get())
-      .setName("newCurrentClosingTime")
-      .build();
+    MethodSymbol newCurrentClosingTime = new MethodSymbolBuilder().setReturnType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).setName("newCurrentClosingTime").build();
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
     FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
     scope.add(valueField);

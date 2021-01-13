@@ -2,10 +2,12 @@
 package de.monticore.lang.sdbasis._cocos;
 
 import de.monticore.lang.SDCocoTest;
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCreatorDelegatorBuilder;
-import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScopesGenitorDelegator;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCompleter;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
+import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import org.junit.jupiter.api.Test;
@@ -28,9 +30,16 @@ public class ReferencedTypeExistsCocoTest extends SDCocoTest {
   @Test
   public void testCocoViolation1() {
     ASTSDArtifact sd = loadModel("src/test/resources/examples/incorrect/used_type_undefined.sd");
-    ISD4DevelopmentArtifactScope st = new SD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(super.globalScope).build().createFromAST(sd);
+    SD4DevelopmentScopesGenitorDelegator genitor = SD4DevelopmentMill.scopesGenitorDelegator();
+    ISD4DevelopmentArtifactScope st = genitor.createFromAST(sd);
+
     SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), sd.getPackageDeclaration());
-    st.accept(stCompleter);
+    SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
+    t.setSD4DevelopmentHandler(stCompleter);
+    t.add4BasicSymbols(stCompleter);
+    stCompleter.setTraverser(t);
+    st.accept(t);
+
     assertEquals(1, Log.getErrorCount());
     assertEquals(1,
       Log.getFindings()
@@ -43,9 +52,16 @@ public class ReferencedTypeExistsCocoTest extends SDCocoTest {
   @Test
   public void testCocoViolation2() {
     ASTSDArtifact sd = loadModel("src/test/resources/examples/incorrect/deepTypeUsageIncorrect.sd");
-    ISD4DevelopmentArtifactScope st = new SD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(super.globalScope).build().createFromAST(sd);
+    SD4DevelopmentScopesGenitorDelegator genitor = SD4DevelopmentMill.scopesGenitorDelegator();
+    ISD4DevelopmentArtifactScope st = genitor.createFromAST(sd);
+
     SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), sd.getPackageDeclaration());
-    st.accept(stCompleter);
+    SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
+    t.setSD4DevelopmentHandler(stCompleter);
+    t.add4BasicSymbols(stCompleter);
+    stCompleter.setTraverser(t);
+    st.accept(t);
+
     assertEquals(1, Log.getErrorCount());
     assertEquals(1,
       Log.getFindings()
@@ -58,9 +74,17 @@ public class ReferencedTypeExistsCocoTest extends SDCocoTest {
   @Test
   public void testCorrectDeepTypeUsage() {
     ASTSDArtifact sd = loadModel("src/test/resources/examples/correct/deepTypeUsage.sd");
-    ISD4DevelopmentArtifactScope st = new SD4DevelopmentSymbolTableCreatorDelegatorBuilder().setGlobalScope(super.globalScope).build().createFromAST(sd);
+
+    SD4DevelopmentScopesGenitorDelegator genitor = SD4DevelopmentMill.scopesGenitorDelegator();
+    ISD4DevelopmentArtifactScope st = genitor.createFromAST(sd);
+
     SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), sd.getPackageDeclaration());
-    st.accept(stCompleter);
+    SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
+    t.setSD4DevelopmentHandler(stCompleter);
+    t.add4BasicSymbols(stCompleter);
+    stCompleter.setTraverser(t);
+    st.accept(t);
+
     assertEquals(0, Log.getErrorCount());
     assertEquals(0,
       Log.getFindings()

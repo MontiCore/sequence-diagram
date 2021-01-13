@@ -2,20 +2,29 @@
 package de.monticore.lang.sdbasis.prettyprint;
 
 import de.monticore.lang.sdbasis._ast.*;
-import de.monticore.lang.sdbasis._visitor.SDBasisInheritanceVisitor;
-import de.monticore.lang.sdbasis._visitor.SDBasisVisitor;
+import de.monticore.lang.sdbasis._visitor.SDBasisHandler;
+import de.monticore.lang.sdbasis._visitor.SDBasisTraverser;
+import de.monticore.lang.sdbasis._visitor.SDBasisVisitor2;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 
-public class SDBasisPrettyPrinter implements SDBasisInheritanceVisitor {
-
-  private SDBasisVisitor realThis;
+public class SDBasisPrinter implements SDBasisVisitor2, SDBasisHandler {
 
   private final IndentPrinter printer;
+  private SDBasisTraverser traverser;
 
-  public SDBasisPrettyPrinter(IndentPrinter printer) {
-    this.realThis = this;
+  public SDBasisPrinter(IndentPrinter printer) {
     this.printer = printer;
+  }
+
+  @Override
+  public SDBasisTraverser getTraverser() {
+    return traverser;
+  }
+
+  @Override
+  public void setTraverser(SDBasisTraverser traverser) {
+    this.traverser = traverser;
   }
 
   protected IndentPrinter getPrinter() {
@@ -23,42 +32,32 @@ public class SDBasisPrettyPrinter implements SDBasisInheritanceVisitor {
   }
 
   @Override
-  public void setRealThis(SDBasisVisitor realThis) {
-    this.realThis = realThis;
-  }
-
-  @Override
-  public SDBasisVisitor getRealThis() {
-    return realThis;
-  }
-
-  @Override
   public void traverse(ASTSDArtifact node) {
     if (node.isPresentPackageDeclaration()) {
       getPrinter().print("package ");
-      node.getPackageDeclaration().accept(getRealThis());
+      node.getPackageDeclaration().accept(getTraverser());
       getPrinter().println(";");
     }
     for (ASTMCImportStatement i : node.getMCImportStatementList()) {
-      i.accept(getRealThis());
+      i.accept(getTraverser());
     }
-    node.getSequenceDiagram().accept(getRealThis());
+    node.getSequenceDiagram().accept(getTraverser());
   }
 
   @Override
   public void traverse(ASTSequenceDiagram node) {
     if (node.isPresentStereotype()) {
-      node.getStereotype().accept(getRealThis());
+      node.getStereotype().accept(getTraverser());
     }
     for (ASTSDModifier modifier : node.getSDModifierList()) {
-      modifier.accept(getRealThis());
+      modifier.accept(getTraverser());
     }
     getPrinter().println("sequencediagram " + node.getName() + " {");
     getPrinter().indent();
     for (ASTSDObject object : node.getSDObjectList()) {
-      object.accept(getRealThis());
+      object.accept(getTraverser());
     }
-    node.getSDBody().accept(getRealThis());
+    node.getSDBody().accept(getTraverser());
 
     getPrinter().unindent();
     getPrinter().println("}");
@@ -67,15 +66,15 @@ public class SDBasisPrettyPrinter implements SDBasisInheritanceVisitor {
   @Override
   public void traverse(ASTSDObject node) {
     if (node.isPresentStereotype()) {
-      node.getStereotype().accept(getRealThis());
+      node.getStereotype().accept(getTraverser());
     }
     for (ASTSDModifier modifier : node.getSDModifierList()) {
-      modifier.accept(getRealThis());
+      modifier.accept(getTraverser());
     }
     getPrinter().print(node.getName());
     if (node.isPresentMCObjectType()) {
       getPrinter().print(" : ");
-      node.getMCObjectType().accept(getRealThis());
+      node.getMCObjectType().accept(getTraverser());
     }
     getPrinter().println(";");
   }
@@ -93,18 +92,18 @@ public class SDBasisPrettyPrinter implements SDBasisInheritanceVisitor {
   @Override
   public void traverse(ASTSDSendMessage node) {
     if (node.isPresentSDSource()) {
-      node.getSDSource().accept(getRealThis());
+      node.getSDSource().accept(getTraverser());
     }
     getPrinter().print(" -> ");
     if (node.isPresentSDTarget()) {
-      node.getSDTarget().accept(getRealThis());
+      node.getSDTarget().accept(getTraverser());
     }
     getPrinter().print(" : ");
     if (null != node.getSDAction()) {
-      node.getSDAction().accept(getRealThis());
+      node.getSDAction().accept(getTraverser());
     }
     if (node.isPresentSDActivityBar()) {
-      node.getSDActivityBar().accept(getRealThis());
+      node.getSDActivityBar().accept(getTraverser());
     } else {
       getPrinter().print(";");
     }

@@ -2,13 +2,12 @@
 package de.monticore.lang.sd4development._cocos;
 
 import com.google.common.collect.Iterables;
-import de.monticore.ast.ASTNode;
 import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
 import de.monticore.expressions.expressionsbasis._ast.ASTNameExpression;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDCall;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
-import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDObjectTarget;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
@@ -40,13 +39,11 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
   private static final String TYPE_USED_BUT_UNDEFINED = "0xB0034: Type '%s' is used but not defined.";
 
   private final DeriveSymTypeOfSDBasis deriveSymTypeOfSDBasis;
-  private final SD4DevelopmentDelegatorPrettyPrinter prettyPrinter;
-  private List<ASTMCImportStatement> imports = new ArrayList<>();
+  private final List<ASTMCImportStatement> imports = new ArrayList<>();
   private ASTMCQualifiedName packageDeclaration;
 
   public MethodActionValidCoco() {
     this.deriveSymTypeOfSDBasis = new DeriveSymTypeOfSDBasis();
-    this.prettyPrinter = new SD4DevelopmentDelegatorPrettyPrinter();
   }
 
   @Override
@@ -54,15 +51,14 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
     this.imports.addAll(node.getMCImportStatementList());
     this.packageDeclaration = node.isPresentPackageDeclaration() ? node.getPackageDeclaration() : SD4DevelopmentMill.mCQualifiedNameBuilder().build();
 
-    Deque<ASTNode> toProcess = new ArrayDeque<>();
-    toProcess.addAll(node.get_Children());
-    while (!toProcess.isEmpty()) {
-      ASTNode current = toProcess.pop();
-      if (current instanceof ASTSDSendMessage) {
-        check((ASTSDSendMessage) current);
-      }
-      toProcess.addAll(current.get_Children());
-    }
+    SDSendMessageCollector c = new SDSendMessageCollector();
+    SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
+    t.setSDBasisHandler(c);
+    t.add4SDBasis(c);
+    c.setTraverser(t);
+    node.accept(t);
+
+    c.getResult().forEach(this::check);
   }
 
   public void check(ASTSDSendMessage node) {
