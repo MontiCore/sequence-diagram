@@ -1,29 +1,30 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sddiff;
 
-import de.monticore.lang.sd4development._ast.ASTSDNew;
-import de.monticore.lang.sd4development._visitor.SD4DevelopmentInheritanceVisitor;
-import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
-import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
+import de.monticore.lang.sd4development._ast.*;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentHandler;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor2;
+import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.*;
-import de.monticore.lang.sdbasis._visitor.SDBasisVisitor;
+import de.monticore.lang.sdbasis._visitor.SDBasisVisitor2;
 
 import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-final class SDDiffSDInfoVisitor implements SD4DevelopmentInheritanceVisitor {
+final class SDDiffSDInfoVisitor implements SD4DevelopmentVisitor2, SDBasisVisitor2, SD4DevelopmentHandler {
 
-  private final SD4DevelopmentDelegatorPrettyPrinter pp = new SD4DevelopmentDelegatorPrettyPrinter();
+  private final SD4DevelopmentPrettyPrinter pp = new SD4DevelopmentPrettyPrinter();
 
   // the information required for the trafo to an NFA
-  private Set<String> objects;
-  private Set<String> completeObjects;
-  private Set<String> visibleObjects;
-  private Set<String> initialObjects;
-  private Set<String> actions;
-  private List<SDInteraction> interactions;
+  private final Set<String> objects;
+  private final Set<String> completeObjects;
+  private final Set<String> visibleObjects;
+  private final Set<String> initialObjects;
+  private final Set<String> actions;
+  private final List<SDInteraction> interactions;
 
   // helper variables used during visiting
   private boolean isComplete;
@@ -33,7 +34,8 @@ final class SDDiffSDInfoVisitor implements SD4DevelopmentInheritanceVisitor {
   private String currentInteractionSource;
   private String currentInteractionTarget;
   private String currentInteractionAction;
-  private SDBasisVisitor realThis;
+
+  private SD4DevelopmentTraverser traverser;
 
   public SDDiffSDInfoVisitor() {
     this.objects = new HashSet<>();
@@ -45,7 +47,16 @@ final class SDDiffSDInfoVisitor implements SD4DevelopmentInheritanceVisitor {
     this.currentInteractionSource = "";
     this.currentInteractionTarget = "";
     this.currentInteractionAction = "";
-    realThis = this;
+  }
+
+  @Override
+  public SD4DevelopmentTraverser getTraverser() {
+    return traverser;
+  }
+
+  @Override
+  public void setTraverser(SD4DevelopmentTraverser traverser) {
+    this.traverser = traverser;
   }
 
   public Set<String> getObjects() {
@@ -131,7 +142,35 @@ final class SDDiffSDInfoVisitor implements SD4DevelopmentInheritanceVisitor {
   }
 
   @Override
-  public void endVisit(ASTSDInteraction node) {
+  public void visit(ASTSDCall node) {
+    currentInteractionAction = pp.prettyPrint(node);
+    actions.add(currentInteractionAction);
+  }
+
+  @Override
+  public void visit(ASTSDReturn node) {
+    currentInteractionAction = pp.prettyPrint(node);
+    actions.add(currentInteractionAction);
+  }
+
+  @Override
+  public void visit(ASTSDThrow node) {
+    currentInteractionAction = pp.prettyPrint(node);
+    actions.add(currentInteractionAction);
+  }
+
+  @Override
+  public void endVisit(ASTSDSendMessage node) {
+    interactions.add(new SDInteraction(currentInteractionSource, currentInteractionAction, currentInteractionTarget));
+  }
+
+  @Override
+  public void endVisit(ASTSDNew node) {
+    interactions.add(new SDInteraction(currentInteractionSource, currentInteractionAction, currentInteractionTarget));
+  }
+
+  @Override
+  public void endVisit(ASTSDEndCall node) {
     interactions.add(new SDInteraction(currentInteractionSource, currentInteractionAction, currentInteractionTarget));
   }
 }

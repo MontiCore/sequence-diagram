@@ -1,5 +1,4 @@
 <!-- (c) https://github.com/MontiCore/monticore -->
-<!-- Beta-version: This is intended to become a MontiCore stable explanation. -->
 
 This documentation is intended for  **modelers** who use the sequence diagram (SD) languages.
 A detailed documentation for **language engineers** using or extending the SD language is 
@@ -398,3 +397,14 @@ also valid in the SD `rob2`. Thus, the semantic difference from `rob1` to `rob2`
 
 You finished the tutorial on semantic SD differencing and are now ready to execute 
 semantic evolution analysis via semantic differencing for arbitrary SDs. Great!
+
+## Further Information
+
+* [Project root: MontiCore @github](https://github.com/MontiCore/monticore)
+* [MontiCore documentation](http://www.monticore.de/)
+* [**List of languages**](https://github.com/MontiCore/monticore/blob/dev/docs/Languages.md)
+* [**MontiCore Core Grammar Library**](https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/Grammars.md)
+* [Best Practices](https://github.com/MontiCore/monticore/blob/dev/docs/BestPractices.md)
+* [Publications about MBSE and MontiCore](https://www.se-rwth.de/publications/)
+* [Licence definition](https://github.com/MontiCore/monticore/blob/master/00.org/Licenses/LICENSE-MONTICORE-3-LEVEL.md)
+

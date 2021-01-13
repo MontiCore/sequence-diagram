@@ -6,12 +6,13 @@ import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd4development._cocos.*;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
-import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
-import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentDelegatorPrettyPrinter;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
+import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
 import de.monticore.lang.sddiff.SDInteraction;
 import de.monticore.lang.sddiff.SDSemDiff;
+import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
 import de.se_rwth.commons.logging.Log;
 import org.apache.commons.cli.*;
@@ -81,9 +82,7 @@ public class SD4DevelopmentCLI {
           System.out.println(witness.get().get(witness.get().size() - 1));
         }
         else {
-          System.out.println(String.format("The input SD '%s' is a refinement of the input SD '%s'",
-            cmd.getOptionValues("i")[0],
-            cmd.getOptionValues("i")[1]));
+          System.out.println(String.format("The input SD '%s' is a refinement of the input SD '%s'", cmd.getOptionValues("i")[0], cmd.getOptionValues("i")[1]));
         }
       }
 
@@ -96,12 +95,7 @@ public class SD4DevelopmentCLI {
           }
         }
         else if (cmd.getOptionValues("pp").length != inputSDs.size()) {
-          Log.error(String.format("Received '%s' output files for the prettyprint option. "
-            + "Expected that '%s' many output files are specified. "
-            + "If output files for the prettyprint option are specified, then the number "
-            + " of specified output files must be equal to the number of specified input files.",
-            cmd.getOptionValues("pp").length,
-            inputSDs.size()));
+          Log.error(String.format("Received '%s' output files for the prettyprint option. " + "Expected that '%s' many output files are specified. " + "If output files for the prettyprint option are specified, then the number " + " of specified output files must be equal to the number of specified input files.", cmd.getOptionValues("pp").length, inputSDs.size()));
           return;
         }
         else {
@@ -119,31 +113,28 @@ public class SD4DevelopmentCLI {
         modelPath = new ModelPath(Arrays.stream(cmd.getOptionValues("path")).map(x -> Paths.get(x)).collect(Collectors.toList()));
       }
 
-      ISD4DevelopmentGlobalScope globalScope = SD4DevelopmentMill
-        .sD4DevelopmentGlobalScopeBuilder()
-        .setModelPath(modelPath)
-        .setModelFileExtension(SD4DevelopmentGlobalScope.FILE_EXTENSION).build();
-
+      ISD4DevelopmentGlobalScope globalScope = SD4DevelopmentMill.globalScope();
+      globalScope.setModelPath(modelPath);
 
       // handle CoCos and symbol storage: build symbol table as far as needed
       Set<String> cocoOptionValues = new HashSet<>();
-      if(cmd.hasOption("c") && cmd.getOptionValues("c") != null) {
+      if (cmd.hasOption("c") && cmd.getOptionValues("c") != null) {
         cocoOptionValues.addAll(Arrays.asList(cmd.getOptionValues("c")));
       }
       if (cmd.hasOption("c") || cmd.hasOption("s")) {
         for (ASTSDArtifact sd : inputSDs) {
-          deriveSymbolSkeleton(sd, globalScope);
+          deriveSymbolSkeleton(sd);
         }
 
         if (cocoOptionValues.isEmpty() || cocoOptionValues.contains("type") || cmd.hasOption("s")) {
           for (ASTSDArtifact sd : inputSDs) {
             ASTMCQualifiedName packageDeclaration = sd.isPresentPackageDeclaration() ? sd.getPackageDeclaration() : SD4DevelopmentMill.mCQualifiedNameBuilder().build();
             SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), packageDeclaration);
-            SD4DevelopmentDelegatorVisitor stCompleterVisitor = SD4DevelopmentMill
-              .sD4DevelopmentDelegatorVisitorBuilder()
-              .setSD4DevelopmentVisitor(stCompleter)
-              .build();
-            globalScope.accept(stCompleterVisitor);
+            SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
+            t.add4BasicSymbols(stCompleter);
+            t.setSD4DevelopmentHandler(stCompleter);
+            stCompleter.setTraverser(t);
+            globalScope.accept(t);
           }
         }
       }
@@ -166,14 +157,11 @@ public class SD4DevelopmentCLI {
           }
         }
         else {
-          Log.error(String.format("Received unexpected arguments '%s' for option 'coco'"
-            + "Possible arguments are 'type', 'inter', and 'intra'. If no argument is specified, "
-            + "then 'type' is chosen by default.",
-            cocoOptionValues.toString()));
+          Log.error(String.format("Received unexpected arguments '%s' for option 'coco'" + "Possible arguments are 'type', 'inter', and 'intra'. If no argument is specified, " + "then 'type' is chosen by default.", cocoOptionValues.toString()));
         }
       }
 
-      if(Log.getErrorCount() > 0) {
+      if (Log.getErrorCount() > 0) {
         // if the model is not well-formed, then stop before generating anything
         return;
       }
@@ -186,7 +174,7 @@ public class SD4DevelopmentCLI {
         if (cmd.getOptionValues("s") == null || cmd.getOptionValues("s").length == 0) {
           for (int i = 0; i < inputSDs.size(); i++) {
             ASTSDArtifact sd = inputSDs.get(i);
-            SD4DevelopmentScopeDeSer deSer = SD4DevelopmentMill.sD4DevelopmentScopeDeSerBuilder().build();
+            SD4DevelopmentDeSer deSer = new SD4DevelopmentDeSer();
             String serialized = deSer.serialize((SD4DevelopmentArtifactScope) sd.getEnclosingScope());
 
             String fileName = cmd.getOptionValues("i")[i];
@@ -198,13 +186,7 @@ public class SD4DevelopmentCLI {
           }
         }
         else if (cmd.getOptionValues("s").length != inputSDs.size()) {
-          Log.error(String.format("Received '%s' output files for the storesymbols option. "
-            + "Expected that '%s' many output files are specified. "
-            + "If output files for the storesymbols option are specified, then the number "
-            + " of specified output files must be equal to the number of specified input files.",
-            cmd.getOptionValues("s").length,
-            inputSDs.size()));
-          return;
+          Log.error(String.format("Received '%s' output files for the storesymbols option. " + "Expected that '%s' many output files are specified. " + "If output files for the storesymbols option are specified, then the number " + " of specified output files must be equal to the number of specified input files.", cmd.getOptionValues("s").length, inputSDs.size()));
         }
         else {
           for (int i = 0; i < inputSDs.size(); i++) {
@@ -233,64 +215,26 @@ public class SD4DevelopmentCLI {
   private Options initOptions() {
     Options options = new Options();
 
-    // help dialog
-    options.addOption(Option.builder("h")
-      .longOpt("help")
-      .desc("Prints this help dialog.")
-      .build());
+    // help info
+    options.addOption(Option.builder("h").longOpt("help").desc("Prints this help informations.").build());
 
     // inputs
-    options.addOption(Option.builder("i")
-      .longOpt("input")
-      .hasArgs()
-      .desc("Processes the SD input artifacts specified as arguments. At least one input SD is mandatory.")
-      .build());
+    options.addOption(Option.builder("i").longOpt("input").hasArgs().desc("Processes the list of SD input artifacts. " + "Argument list is space separated. " + "CoCos are not checked automatically (see -c).").build());
 
     // pretty print
-    options.addOption(Option.builder("pp")
-      .longOpt("prettyprint")
-      .argName("file")
-      .optionalArg(true)
-      .numberOfArgs(1)
-      .desc("Prints the input SDs to stdout or to the specified files (optional).")
-      .build());
+    options.addOption(Option.builder("pp").longOpt("prettyprint").argName("file").optionalArg(true).numberOfArgs(1).desc("Prints the input SDs to stdout or to the specified file (optional).").build());
 
     // semantic diff
-    options.addOption(Option.builder("sd")
-      .longOpt("semdiff")
-      .desc("Computes a diff witness contained in the semantic difference from the first input "
-        + "SD to the second input SD if one exists and prints it to stdout. Requires exactly two "
-        + " SDs as inputs. If no diff witness exists, it prints that the first SD is a refinement "
-        + " of the second SD to stdout.")
-      .build());
+    options.addOption(Option.builder("sd").longOpt("semdiff").desc("Computes a diff witness showing the asymmetrical semantic difference " + "of two SD. Requires two " + "SDs as inputs. See se-rwth.de/topics for scientific foundation.").build());
 
     // cocos
-    options.addOption(Option.builder("c")
-      .longOpt("coco")
-      .optionalArg(true)
-      .numberOfArgs(3)
-      .desc("Checks the CoCos for the input FDs. Possible arguments are 'intra', "
-        + " 'inter', and 'type'. When given the argument 'intra', only the intra-model CoCos are "
-        + "checked. When given the argument 'inter', only the intra- and inter-model CoCos are checked. "
-        + "When given the argument 'type', all CoCos are checked. When no argument is specified, all "
-        + "CoCos are checked by default.")
-      .build());
+    options.addOption(Option.builder("c").longOpt("coco").optionalArg(true).numberOfArgs(3).desc("Checks the CoCos for the input. Optional arguments are:\n" + "-c intra to check only the intra-model CoCos,\n" + "-c inter checks also inter-model CoCos,\n" + "-c type (default) checks all CoCos.").build());
 
     // store symbols
-    options.addOption(Option.builder("s")
-      .longOpt("symboltable")
-      .optionalArg(true)
-      .hasArgs()
-      .desc("Stores the serialized symbol tables of the input SDs in the specified files. The n-th input "
-        + "SD is stored in the file as specified by the n-th argument. If no arguments are given, the "
-        + "serialized symbol tables are stored in 'target/symbols/{packageName}/{artifactName}.sdsym' by default.")
-      .build());
+    options.addOption(Option.builder("s").longOpt("symboltable").optionalArg(true).hasArgs().desc("Stores the symbol tables of the input SDs in the specified files. " + "The n-th input " + "SD is stored in the file as specified by the n-th argument. " + "Default is 'target/symbols/{packageName}/{artifactName}.sdsym'.").build());
 
     // model paths
-    options.addOption(Option.builder("path")
-      .hasArgs()
-      .desc("Sets the artifact path for imported symbols, space separated.")
-      .build());
+    options.addOption(Option.builder("path").hasArgs().desc("Sets the artifact path for imported symbols, space separated.").build());
 
     return options;
   }
@@ -314,22 +258,18 @@ public class SD4DevelopmentCLI {
    * @return Pretty-printed ast.
    */
   public String prettyPrint(ASTSDArtifact ast) {
-    SD4DevelopmentDelegatorPrettyPrinter prettyPrinter = new SD4DevelopmentDelegatorPrettyPrinter();
+    SD4DevelopmentPrettyPrinter prettyPrinter = new SD4DevelopmentPrettyPrinter(new IndentPrinter(), SD4DevelopmentMill.traverser());
     return prettyPrinter.prettyPrint(ast);
   }
 
   /**
    * Derives symbols for ast and adds them to the globalScope.
    *
-   * @param ast         The ast of the SD.
-   * @param globalScope Global scope to which the symbols are added.
-   * @return The symbol table for ast while considering globalScope.
+   * @param ast The ast of the SD.
    */
-  public ISD4DevelopmentArtifactScope deriveSymbolSkeleton(ASTSDArtifact ast, ISD4DevelopmentGlobalScope globalScope) {
-    SD4DevelopmentSymbolTableCreatorDelegatorBuilder stCreatorBuilder = SD4DevelopmentMill.sD4DevelopmentSymbolTableCreatorDelegatorBuilder();
-    stCreatorBuilder = stCreatorBuilder.setGlobalScope(globalScope);
-    SD4DevelopmentSymbolTableCreatorDelegator stCreator = stCreatorBuilder.build();
-    return stCreator.createFromAST(ast);
+  public void deriveSymbolSkeleton(ASTSDArtifact ast) {
+    SD4DevelopmentScopesGenitorDelegator genitor = SD4DevelopmentMill.scopesGenitorDelegator();
+    genitor.createFromAST(ast);
   }
 
   /**
@@ -389,7 +329,7 @@ public class SD4DevelopmentCLI {
    * @param filename The name of the produced symbol file.
    */
   public void storeSymbols(ASTSDArtifact ast, String filename) {
-    SD4DevelopmentScopeDeSer deSer = SD4DevelopmentMill.sD4DevelopmentScopeDeSerBuilder().build();
+    SD4DevelopmentDeSer deSer = new SD4DevelopmentDeSer();
     String serialized = deSer.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
     FileReaderWriter.storeInFile(Paths.get(filename), serialized);
   }
@@ -400,7 +340,7 @@ public class SD4DevelopmentCLI {
    * @param filename Name of the symbol file to load.
    */
   public ISD4DevelopmentArtifactScope loadSymbols(String filename) {
-    SD4DevelopmentScopeDeSer deSer = SD4DevelopmentMill.sD4DevelopmentScopeDeSerBuilder().build();
+    SD4DevelopmentSymbols2Json deSer = new SD4DevelopmentSymbols2Json();
     return deSer.load(filename);
   }
 

@@ -3,7 +3,7 @@ package de.monticore.lang.sddiff;
 
 import com.google.common.collect.Sets;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
-import de.monticore.lang.sd4development._visitor.SD4DevelopmentDelegatorVisitor;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.se_rwth.automata.Automaton;
 import de.se_rwth.automata.Operations;
@@ -23,8 +23,23 @@ public class SDSemDiff {
     SDDiffSDInfoVisitor ast1Info = new SDDiffSDInfoVisitor();
     SDDiffSDInfoVisitor ast2Info = new SDDiffSDInfoVisitor();
 
-    ast1.accept(ast1Info);
-    ast2.accept(ast2Info);
+    SD4DevelopmentTraverser t1 = SD4DevelopmentMill.traverser();
+    SD4DevelopmentTraverser t2 = SD4DevelopmentMill.traverser();
+
+    t1.setSD4DevelopmentHandler(ast1Info);
+    t2.setSD4DevelopmentHandler(ast2Info);
+
+    t1.add4SDBasis(ast1Info);
+    t1.add4SD4Development(ast1Info);
+
+    t2.add4SDBasis(ast2Info);
+    t2.add4SD4Development(ast2Info);
+
+    ast1Info.setTraverser(t1);
+    ast2Info.setTraverser(t2);
+
+    ast1.accept(t1);
+    ast2.accept(t2);
 
     Set<SDInteraction> alphabet = getAlphabet(ast1Info, ast2Info);
 
@@ -53,54 +68,6 @@ public class SDSemDiff {
 
   private Set<SDInteraction> getAlphabet(Set<String> omega, Set<String> alpha) {
     return Sets.cartesianProduct(omega, alpha, omega).stream().map(e -> new SDInteraction(e.get(0), e.get(1), e.get(2))).collect(Collectors.toSet());
-  }
-
-  Automaton<SDInteraction, Integer> getDFA(Set<SDInteraction> alphabet, SDDiffSDInfoVisitor astInfo) {
-    final Automaton.Builder<SDInteraction, Integer> dfa = Automaton.dfa(alphabet);
-    final int d = astInfo.getInteractions().size();
-    Map<Integer, State<Integer>> states = IntStream.rangeClosed(0, d + 1).mapToObj(n -> new State<>(n == 0, n == d, n)).collect(Collectors.toMap(State::getData, Function.identity()));
-    List<Transition<SDInteraction, Integer>> transitions = new ArrayList<>();
-    states.values().forEach(dfa::addState);
-    State<Integer> initialState = states.get(0);
-    State<Integer> finalState = states.get(d);
-    State<Integer> catchState = states.get(d + 1);
-    alphabet.forEach(a -> {
-      // L_0
-      if (!astInfo.getInteractions().get(0).equals(a)) {
-        transitions.add(new Transition<>(initialState, initialState, a));
-      }
-      // L_|d|
-      transitions.add(new Transition<>(finalState, finalState, a));
-      // catch state self loop
-      transitions.add(new Transition<>(catchState, catchState, a));
-    });
-    // L_k
-    for (int k = 1; k < d; k++) {
-      Set<SDInteraction> X_k = getX_k(alphabet, astInfo, k, d);
-      State<Integer> s_k = states.get(k);
-      for (SDInteraction l : Sets.difference(X_k, Sets.newHashSet(astInfo.getInteractions().get(k)))) {
-        transitions.add(new Transition<>(s_k, s_k, l));
-      }
-    }
-    // P_k
-    for (int k = 0; k < d; k++) {
-      State<Integer> from = states.get(k);
-      State<Integer> to = states.get(k + 1);
-      SDInteraction a = astInfo.getInteractions().get(k);
-      transitions.add(new Transition<>(from, to, a));
-    }
-    transitions.forEach(dfa::addTransition);
-    List<Transition<SDInteraction, Integer>> remaining = new ArrayList<>();
-    // add remaining transitions to catch state
-    for (State<Integer> s : states.values()) {
-      for (SDInteraction i : alphabet) {
-        if (transitions.stream().noneMatch(t -> s.equals(t.getFrom()) && i.equals(t.getSymbol()))) {
-          remaining.add(new Transition<>(s, catchState, i));
-        }
-      }
-    }
-    remaining.forEach(dfa::addTransition);
-    return dfa.build();
   }
 
   Automaton<SDInteraction, Integer> getNFA(Set<SDInteraction> alphabet, SDDiffSDInfoVisitor astInfo) {

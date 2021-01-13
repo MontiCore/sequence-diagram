@@ -2,10 +2,11 @@
 package de.monticore.lang.sd4development._symboltable;
 
 import com.google.common.collect.Iterables;
-import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor;
-import de.monticore.lang.sdbasis._visitor.SDBasisVisitor;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentHandler;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
+import de.monticore.symbols.basicsymbols._visitor.BasicSymbolsVisitor2;
 import de.monticore.types.check.SymTypeExpressionFactory;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
@@ -17,14 +18,14 @@ import java.util.Set;
 
 import static de.monticore.lang.util.FQNameCalculator.calcFQNameCandidates;
 
-public class SD4DevelopmentSymbolTableCompleter implements SD4DevelopmentVisitor {
+public class SD4DevelopmentSymbolTableCompleter implements BasicSymbolsVisitor2, SD4DevelopmentHandler {
 
   private static final String USED_BUT_UNDEFINED = "0xB0028: Type '%s' is used but not defined.";
   private static final String DEFINED_MUTLIPLE_TIMES = "0xB0031: Type '%s' is defined more than once.";
 
-  private List<ASTMCImportStatement> imports;
-  private ASTMCQualifiedName packageDeclaration;
-  private SDBasisVisitor realThis;
+  private final List<ASTMCImportStatement> imports;
+  private final ASTMCQualifiedName packageDeclaration;
+  private SD4DevelopmentTraverser traverser;
 
   public SD4DevelopmentSymbolTableCompleter(List<ASTMCImportStatement> imports, ASTMCQualifiedName packageDeclaration) {
     this.imports = imports;
@@ -32,20 +33,20 @@ public class SD4DevelopmentSymbolTableCompleter implements SD4DevelopmentVisitor
   }
 
   @Override
-  public void setRealThis(SD4DevelopmentVisitor realThis) {
-    this.realThis = realThis;
+  public SD4DevelopmentTraverser getTraverser() {
+    return traverser;
   }
 
   @Override
-  public void setRealThis(SDBasisVisitor realThis) {
-    this.realThis = realThis;
+  public void setTraverser(SD4DevelopmentTraverser traverser) {
+    this.traverser = traverser;
   }
 
   @Override
   public void traverse(ISD4DevelopmentScope node) {
-    SD4DevelopmentVisitor.super.traverse(node);
+    SD4DevelopmentHandler.super.traverse(node);
     for (ISD4DevelopmentScope subscope : node.getSubScopes()) {
-      subscope.accept(this.getRealThis());
+      subscope.accept(this.getTraverser());
     }
   }
 
