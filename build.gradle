@@ -47,9 +47,13 @@ dependencies {
   implementation "org.antlr:antlr4-runtime:4.7.1"
   implementation "de.monticore:monticore-runtime:${project.properties['mc_version']}"
   implementation "de.monticore:monticore-grammar:${project.properties['mc_version']}"
-  implementation "de.monticore:monticore-grammar:${project.properties['mc_version']}:$grammar_classifier"
-
-  grammar "de.monticore:monticore-grammar:${project.properties['mc_version']}:$grammar_classifier"
+  implementation ("de.monticore:monticore-grammar:$mc_version") {capabilities {
+    requireCapability("$group:monticore-grammar-grammars") }
+  }
+  
+  grammar ("de.monticore:monticore-grammar:$mc_version") {capabilities {
+    requireCapability("$group:monticore-grammar-grammars") }
+  }
   //implementation "ch.qos.logback:logback-classic:1.1.7"
   implementation "commons-cli:commons-cli:1.4"
 
@@ -204,3 +208,5 @@ publishing {
 task buildAll(type: GradleBuild) {
   tasks = [ 'build' ]
 }
+
+defaultTasks('build')
