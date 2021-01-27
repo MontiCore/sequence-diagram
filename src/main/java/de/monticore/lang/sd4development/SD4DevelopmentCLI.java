@@ -56,7 +56,7 @@ public class SD4DevelopmentCLI {
       // disable fail quick to log as much errors as possible
       Log.enableFailQuick(false);
 
-      // Parse input FDs
+      // Parse input SDs
       List<ASTSDArtifact> inputSDs = new ArrayList<>();
       for (String inputFileName : cmd.getOptionValues("i")) {
         Optional<ASTSDArtifact> ast = parseSDArtifact(inputFileName);
