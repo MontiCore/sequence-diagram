@@ -52,7 +52,7 @@ dependencies {
   }
   
   grammar ("de.monticore:monticore-grammar:$mc_version") {capabilities {
-    requireCapability("$group:monticore-grammar-grammars") }
+    requireCapability("de.monticore:monticore-grammar-grammars") }
   }
   //implementation "ch.qos.logback:logback-classic:1.1.7"
   implementation "commons-cli:commons-cli:1.4"
