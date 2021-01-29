@@ -186,7 +186,7 @@ public class SD4DevelopmentCLI {
           }
         }
         else if (cmd.getOptionValues("s").length != inputSDs.size()) {
-          Log.error(String.format("Received '%s' output files for the storesymbols option. " + "Expected that '%s' many output files are specified. " + "If output files for the storesymbols option are specified, then the number " + " of specified output files must be equal to the number of specified input files.", cmd.getOptionValues("s").length, inputSDs.size()));
+          Log.error(String.format("Received '%s' output files for the symboltable option. " + "Expected that '%s' many output files are specified. " + "If output files for the symboltable option are specified, then the number " + " of specified output files must be equal to the number of specified input files.", cmd.getOptionValues("s").length, inputSDs.size()));
         }
         else {
           for (int i = 0; i < inputSDs.size(); i++) {
