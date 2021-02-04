@@ -4,7 +4,6 @@ package de.monticore.lang.sd4development.prettyprint;
 import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
 import de.monticore.expressions.prettyprint.CommonExpressionsPrettyPrinter;
 import de.monticore.expressions.prettyprint.ExpressionsBasisPrettyPrinter;
-import de.monticore.expressions.prettyprint.OCLExpressionsPrettyPrinter;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDEndCall;
 import de.monticore.lang.sd4development._ast.ASTSDNew;
@@ -17,6 +16,7 @@ import de.monticore.lang.sdbasis._ast.ASTSDSource;
 import de.monticore.lang.sdbasis._ast.ASTSDTarget;
 import de.monticore.lang.sdbasis.prettyprint.SDBasisPrinter;
 import de.monticore.literals.prettyprint.MCCommonLiteralsPrettyPrinter;
+import de.monticore.ocl.oclexpressions.prettyprint.OCLExpressionsPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.prettyprint.UMLStereotypePrettyPrinter;
 import de.monticore.types.prettyprint.MCBasicTypesPrettyPrinter;
@@ -73,7 +73,6 @@ public class SD4DevelopmentPrettyPrinter implements SD4DevelopmentHandler {
 
     OCLExpressionsPrettyPrinter oclepp = new OCLExpressionsPrettyPrinter(printer);
     t.setOCLExpressionsHandler(oclepp);
-    t.add4OCLExpressions(oclepp);
   }
 
   public String prettyPrint(ASTSDArtifact a) {

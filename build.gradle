@@ -54,6 +54,11 @@ dependencies {
   grammar ("de.monticore:monticore-grammar:$mc_version") {capabilities {
     requireCapability("de.monticore:monticore-grammar-grammars") }
   }
+  grammar ("de.monticore.lang:ocl:$mc_version")
+    {capabilities {
+    requireCapability("de.monticore.lang:ocl-grammars") }
+  }
+  implementation "de.monticore.lang:ocl:$mc_version"
   //implementation "ch.qos.logback:logback-classic:1.1.7"
   implementation "commons-cli:commons-cli:1.4"
 
