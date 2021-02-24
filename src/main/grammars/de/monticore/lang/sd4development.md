@@ -116,7 +116,7 @@ The grammar [SD4Development](../../../../grammars/de/monticore/lang/SD4Developme
 * [SDBasis](../../../../grammars/de/monticore/lang/SDBasis.mc4) to reuse the basic constituents of SDs,
 * [MCCommonLiterals][MCCommonLiteralsRef] to be able to use common literals in expressions.
 * [CommonExpressions][CommonExpressionsRef] to be able to use simple expressions, e.g. a == b.
-* [OCLExpressions][OCLExpressionsRef] for embedding OCL expressions as conditions and to be 
+* OCLExpressions for embedding OCL expressions as conditions and to be 
   able to use OCL expressions for the definition of local variables.
 * [OOSymbols][OOSymbolsRef] to be able to import OOType Symbols.
 
@@ -200,7 +200,7 @@ Each SD may define objects. Therefore, SDs may
 export [```VariableSymbols```][BasicSymbolsRef] 
 containing the information about the name and the type of the object. Possible types for objects are 
 [```MCObjectTypes```][MCBasicTypesRef]. Further, it is possible to dynamically instantiated 
-variables via [```SDVariableDeclarations```](../../../../grammars/de/monticore/lang/SD4Development.mc4) by using [OCL expressions][OCLExpressionsRef]. 
+variables via [```SDVariableDeclarations```](../../../../grammars/de/monticore/lang/SD4Development.mc4) by using OCL expressions.  
 Interactions may call methods of objects.
 Therefore, for checking whether the types of objects and variables
 are defined and for checking whether methods used in interactions are 
@@ -372,7 +372,7 @@ depicted in Figure 4:
 [UMLStereotypeRef]:https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/UMLStereotype.mc4
 [MCCommonLiteralsRef]:https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/literals/MCCommonLiterals.mc4
 [CommonExpressionsRef]:https://github.com/MontiCore/monticore/blob/dev/monticore-grammar/src/main/grammars/de/monticore/expressions/CommonExpressions.mc4
-[OCLExpressionsRef]:https://git.rwth-aachen.de/monticore/languages/OCL/blob/develop/src/main/grammars/de/monticore/ocl/OCL.md
+<!-- [OCLExpressionsRef]:https://git.rwth-aachen.de/monticore/languages/OCL/blob/develop/src/main/grammars/de/monticore/ocl/OCL.md -->
 
 ## Further Information
 
