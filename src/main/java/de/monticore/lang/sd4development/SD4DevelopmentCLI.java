@@ -125,6 +125,9 @@ public class SD4DevelopmentCLI {
         for (ASTSDArtifact sd : inputSDs) {
           deriveSymbolSkeleton(sd);
         }
+        if(Log.getErrorCount()>0){
+          return;
+        }
 
         if (cocoOptionValues.isEmpty() || cocoOptionValues.contains("type") || cmd.hasOption("s")) {
           for (ASTSDArtifact sd : inputSDs) {
@@ -284,9 +287,7 @@ public class SD4DevelopmentCLI {
     checker.addCoCo(new PackageNameIsFolderNameCoco());
     checker.addCoCo(new SDNameIsArtifactNameCoco());
     checker.addCoCo(new SendMessageHasSourceOrTargetCoco());
-    checker.addCoCo(new TypeNamingConventionCoco());
     checker.addCoCo(new UniqueObjectNamingCoco());
-    checker.addCoCo(new ConstructorObjectNameNamingConventionCoco());
     checker.addCoCo(new EndCallHasSourceOrTargetCoco());
     checker.addCoCo(new MethodActionRefersToCorrectTargetCoco());
     checker.addCoCo(new ReturnOnlyAfterMethodCoco());

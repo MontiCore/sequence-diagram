@@ -152,21 +152,12 @@ containing the SDs.
 * The context condition [```SendMessageHasSourceOrTargetCoco```](../../../../java/de/monticore/lang/sdbasis/_cocos/SendMessageHasSourceOrTargetCoco.java) checks 
 if SDSendMessage interactions have a source or a target.
 
-* The context condition [```TypeNamingConventionCoco```](../../../../java/de/monticore/lang/sdbasis/_cocos/TypeNamingConventionCoco.java) checks if the 
-naming convention for types is satisfied, i.e. that type names start 
-with upper case letters.
-
 * The context condition [```UniqueObjectNamingCoco```](../../../../java/de/monticore/lang/sdbasis/_cocos/UniqueObjectNamingCoco.java) checks if every 
 object defined in an SD has a unique name.
 
 ### SD4Development Context Conditions 
 The implementations of the context conditions for the [SD4Development](../../../../grammars/de/monticore/lang/SD4Development.mc4) grammar 
 are located [here](../../../../java/de/monticore/lang/sd4development/_cocos).
-
-* The context condition [```ConstructorObjectNameNamingConventionCoco```](../../../../java/de/monticore/lang/sd4development/_cocos/ConstructorObjectNameNamingConventionCoco.java) 
-checks if naming conventions for objects constructed with SDNew 
-interactions are satisfied, i.e., the name is not empty and starts
-with a lower case letter.
 
 * The context condition [```CorrectObjectConstructionTypesCoco```](../../../../java/de/monticore/lang/sd4development/_cocos/CorrectObjectConstructionTypesCoco.java) checks
 if the type declared for an object instantiated with an SDNew interaction 
