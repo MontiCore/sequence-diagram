@@ -116,7 +116,7 @@ The grammar [SD4Development](../../../../grammars/de/monticore/lang/SD4Developme
 * [SDBasis](../../../../grammars/de/monticore/lang/SDBasis.mc4) to reuse the basic constituents of SDs,
 * [MCCommonLiterals][MCCommonLiteralsRef] to be able to use common literals in expressions.
 * [CommonExpressions][CommonExpressionsRef] to be able to use simple expressions, e.g. a == b.
-* [OCLExpressions][OCLExpressionsRef] for embedding OCL expressions as conditions and to be 
+* OCLExpressions for embedding OCL expressions as conditions and to be 
   able to use OCL expressions for the definition of local variables.
 * [OOSymbols][OOSymbolsRef] to be able to import OOType Symbols.
 
@@ -152,21 +152,12 @@ containing the SDs.
 * The context condition [```SendMessageHasSourceOrTargetCoco```](../../../../java/de/monticore/lang/sdbasis/_cocos/SendMessageHasSourceOrTargetCoco.java) checks 
 if SDSendMessage interactions have a source or a target.
 
-* The context condition [```TypeNamingConventionCoco```](../../../../java/de/monticore/lang/sdbasis/_cocos/TypeNamingConventionCoco.java) checks if the 
-naming convention for types is satisfied, i.e. that type names start 
-with upper case letters.
-
 * The context condition [```UniqueObjectNamingCoco```](../../../../java/de/monticore/lang/sdbasis/_cocos/UniqueObjectNamingCoco.java) checks if every 
 object defined in an SD has a unique name.
 
 ### SD4Development Context Conditions 
 The implementations of the context conditions for the [SD4Development](../../../../grammars/de/monticore/lang/SD4Development.mc4) grammar 
 are located [here](../../../../java/de/monticore/lang/sd4development/_cocos).
-
-* The context condition [```ConstructorObjectNameNamingConventionCoco```](../../../../java/de/monticore/lang/sd4development/_cocos/ConstructorObjectNameNamingConventionCoco.java) 
-checks if naming conventions for objects constructed with SDNew 
-interactions are satisfied, i.e., the name is not empty and starts
-with a lower case letter.
 
 * The context condition [```CorrectObjectConstructionTypesCoco```](../../../../java/de/monticore/lang/sd4development/_cocos/CorrectObjectConstructionTypesCoco.java) checks
 if the type declared for an object instantiated with an SDNew interaction 
@@ -200,7 +191,7 @@ Each SD may define objects. Therefore, SDs may
 export [```VariableSymbols```][BasicSymbolsRef] 
 containing the information about the name and the type of the object. Possible types for objects are 
 [```MCObjectTypes```][MCBasicTypesRef]. Further, it is possible to dynamically instantiated 
-variables via [```SDVariableDeclarations```](../../../../grammars/de/monticore/lang/SD4Development.mc4) by using [OCL expressions][OCLExpressionsRef]. 
+variables via [```SDVariableDeclarations```](../../../../grammars/de/monticore/lang/SD4Development.mc4) by using OCL expressions.  
 Interactions may call methods of objects.
 Therefore, for checking whether the types of objects and variables
 are defined and for checking whether methods used in interactions are 

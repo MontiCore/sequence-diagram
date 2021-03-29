@@ -8,6 +8,7 @@ import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCompleter;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.se_rwth.commons.logging.Log;
 import org.junit.Assert;
@@ -314,6 +315,7 @@ public class SD4DevelopmentCLITest {
     Log.clearFindings();
     SD4DevelopmentMill.reset();
     SD4DevelopmentMill.init();
+    BasicSymbolsMill.initializePrimitives();
 
     SD4DevelopmentCLI.main(new String[] {
       "-i",

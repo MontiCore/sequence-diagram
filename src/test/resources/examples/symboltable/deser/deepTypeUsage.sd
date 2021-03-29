@@ -5,5 +5,5 @@ package examples.symboltable.deser;
 import very.very.deep.DeepType;
 
 sequencediagram deepTypeUsage {
-  d:DeepType;
+  d:very.very.deep.DeepType;
 }

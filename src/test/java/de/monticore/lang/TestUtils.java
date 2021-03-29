@@ -7,6 +7,7 @@ import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentGlobalScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
+import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbolBuilder;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
@@ -25,16 +26,9 @@ public final class TestUtils {
   private static final MCTypeFacade typeFacade = MCTypeFacade.getInstance();
 
   public static void setupGlobalScope(ISD4DevelopmentGlobalScope globalScope) {
-    addPrimitiveTypeSymbols(globalScope);
+    BasicSymbolsMill.initializePrimitives();
     addOOTypeSymbols(globalScope);
     addVariableSymbols(globalScope);
-  }
-
-  private static void addPrimitiveTypeSymbols(ISD4DevelopmentGlobalScope globalScope) {
-    Stream.of(new TypeSymbol("int")).forEach(t -> {
-      t.setEnclosingScope(globalScope);
-      globalScope.add(t);
-    });
   }
 
   private static void addOOTypeSymbols(ISD4DevelopmentGlobalScope globalScope) {

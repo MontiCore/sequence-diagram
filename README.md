@@ -66,14 +66,14 @@ Afterwards, this document contains a tutorial for using the CLI tool.
 
 ## Downloading the Latest Version of the CLI Tool
 A ready to use version of the CLI tool can be downloaded in the form of an executable JAR file.
-You can use [**this download link**](https://nexus.se.rwth-aachen.de/service/rest/v1/search/assets/download?sort=version&repository=monticore-snapshots&maven.groupId=de.monticore.lang&maven.artifactId=sd-language&maven.extension=jar&maven.classifier=cli) 
+You can use [**this download link**](http://monticore.de/download/SD4DevelopmentCLI.jar) 
 for downloading the CLI tool. 
 
 Alternatively, you can download the CLI tool using `wget`.
 The following command downloads the latest version of the CLI tool and saves it under the name `SD4DevelopmentCLI` 
 in your working directory:
 ```
-wget "https://nexus.se.rwth-aachen.de/service/rest/v1/search/assets/download?sort=version&repository=monticore-snapshots&maven.groupId=de.monticore.lang&maven.artifactId=sd-language&maven.extension=jar&maven.classifier=cli" -O SD4DevelopmentCLI.jar
+wget "http://monticore.de/download/SD4DevelopmentCLI.jar" -O SD4DevelopmentCLI.jar
 ``` 
 
 ## Building the CLI Tool from the Sources
@@ -103,9 +103,6 @@ The previous sections describe how to obtain an executable JAR file
 (SD CLI tool). This section provides a tutorial for
 using the SD CLI tool. The following examples assume
 that you locally named the CLI tool `SD4DevelopmentCLI`.
-If you build the CLI tool from the sources or used the `wget`
-command above, then you are fine. If you manually downloaded 
-the CLI tool, then you should consider renaming the downloaded JAR.   
 
 ### First Steps
 Executing the Jar file without any options prints usage information of the CLI tool to the console:
