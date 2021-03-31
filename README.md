@@ -91,9 +91,10 @@ Change the directory to the root directory of the cloned sources:
 ```
 cd sequence-diagram
 ```
-Afterwards, build the source files with gradle (if `./gradlew.bat` is not recognized as a command in your shell, then use `./gradlew`):
+Afterwards, build the source files with gradle (if `gradle` is not
+recognized as a command in your shell, please install [Gradle](https://gradle.org/releases/)):
 ```
-./gradlew.bat build
+gradle build
 ```
 Congratulations! You can now find the executable JAR file `SD4DevelopmentCLI.jar` in
  the directory `target/libs` (accessible via `cd target/libs`).
