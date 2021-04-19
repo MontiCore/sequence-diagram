@@ -177,8 +177,8 @@ public class SD4DevelopmentCLI {
         if (cmd.getOptionValues("s") == null || cmd.getOptionValues("s").length == 0) {
           for (int i = 0; i < inputSDs.size(); i++) {
             ASTSDArtifact sd = inputSDs.get(i);
-            SD4DevelopmentDeSer deSer = new SD4DevelopmentDeSer();
-            String serialized = deSer.serialize((SD4DevelopmentArtifactScope) sd.getEnclosingScope());
+            SD4DevelopmentSymbols2Json symbols2Json = new SD4DevelopmentSymbols2Json();
+            String serialized = symbols2Json.serialize((SD4DevelopmentArtifactScope) sd.getEnclosingScope());
 
             String fileName = cmd.getOptionValues("i")[i];
             String symbolFile = FilenameUtils.getName(fileName) + "sym";
@@ -330,8 +330,8 @@ public class SD4DevelopmentCLI {
    * @param filename The name of the produced symbol file.
    */
   public void storeSymbols(ASTSDArtifact ast, String filename) {
-    SD4DevelopmentDeSer deSer = new SD4DevelopmentDeSer();
-    String serialized = deSer.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
+    SD4DevelopmentSymbols2Json symbols2Json = new SD4DevelopmentSymbols2Json();
+    String serialized = symbols2Json.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
     FileReaderWriter.storeInFile(Paths.get(filename), serialized);
   }
 
