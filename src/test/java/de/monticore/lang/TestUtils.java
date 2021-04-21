@@ -57,7 +57,6 @@ public final class TestUtils {
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
     FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
     scope.add(valueField);
-    scope.add((VariableSymbol) valueField);
     someMethod.setSpannedScope(scope);
     // TimingPolicy oo type symbol
     OOTypeSymbol deepType = new OOTypeSymbol("DeepType");
@@ -73,7 +72,6 @@ public final class TestUtils {
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
     FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
     scope.add(valueField);
-    scope.add((VariableSymbol) valueField);
     validateBid.setSpannedScope(scope);
     // BiddingPolicy oo type symbol
     OOTypeSymbol biddingPolicy = new OOTypeSymbol("BiddingPolicy");
@@ -89,7 +87,6 @@ public final class TestUtils {
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
     FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
     scope.add(valueField);
-    scope.add((VariableSymbol) valueField);
     newCurrentClosingTime.setSpannedScope(scope);
     // TimingPolicy oo type symbol
     OOTypeSymbol timingPolicy = new OOTypeSymbol("TimingPolicy");
