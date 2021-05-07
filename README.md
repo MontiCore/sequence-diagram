@@ -4,7 +4,7 @@ This documentation is intended for  **modelers** who use the sequence diagram (S
 A detailed documentation for **language engineers** using or extending the SD language is 
 located **[here](src/main/grammars/de/monticore/lang/sd4development.md)**.
 We recommend that **language engineers** read this documentation before reading the detailed
-documentation. 
+documentation.
 
 # An Example Model
 
