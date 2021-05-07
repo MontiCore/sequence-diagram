@@ -77,7 +77,7 @@ githubmirror:
   script: 
     - sh pre/mirror.sh
     - cd ..
-    - rm -r sequence-diagram
+    - if [ -d "$sequence-diagram" ]; rm -r sequence-diagram; fi
     - git clone git@github.com:MontiCore/sequence-diagram.git
     - rm -r sequence-diagram/*
     - mv sd-language/* sequence-diagram/
