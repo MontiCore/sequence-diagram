@@ -6,10 +6,7 @@ import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.TestUtils;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
-import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentScope;
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentDeSer;
-import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCompleter;
+import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
@@ -43,7 +40,7 @@ public class SD4DevelopmentDeSerTest {
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
-  private SD4DevelopmentDeSer deSer;
+  private SD4DevelopmentSymbols2Json symbols2Json;
 
   @BeforeEach
   void setup() {
@@ -53,7 +50,7 @@ public class SD4DevelopmentDeSerTest {
     SD4DevelopmentMill.globalScope().setModelPath(new ModelPath(Paths.get(MODEL_PATH)));
     JsonPrinter.enableIndentation();
     TestUtils.setupGlobalScope(SD4DevelopmentMill.globalScope());
-    this.deSer = new SD4DevelopmentDeSer();
+    this.symbols2Json = new SD4DevelopmentSymbols2Json();
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     ByteArrayOutputStream err = new ByteArrayOutputStream();
@@ -68,11 +65,11 @@ public class SD4DevelopmentDeSerTest {
     assertNotNull(ast);
 
     // when
-    String serializedSD = deSer.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
+    String serializedSD = symbols2Json.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
 
     // then
     assertTrue(serializedSD.length() > 0);
-    deSer.deserialize(serializedSD); // test if JSON is valid
+    symbols2Json.deserialize(serializedSD); // test if JSON is valid
   }
 
   @Test
@@ -82,11 +79,11 @@ public class SD4DevelopmentDeSerTest {
     assertNotNull(ast);
 
     // when
-    String serializedSD = deSer.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
+    String serializedSD = symbols2Json.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
 
     // then
     assertTrue(serializedSD.length() > 0);
-    deSer.deserialize(serializedSD); // test if JSON is valid
+    symbols2Json.deserialize(serializedSD); // test if JSON is valid
   }
 
   @ParameterizedTest
@@ -97,7 +94,7 @@ public class SD4DevelopmentDeSerTest {
     assertNotNull(serializedSD);
 
     // when
-    ISD4DevelopmentScope deserializedSD = deSer.deserialize(serializedSD);
+    ISD4DevelopmentScope deserializedSD = symbols2Json.deserialize(serializedSD);
 
     // then
     assertNotNull(deserializedSD);

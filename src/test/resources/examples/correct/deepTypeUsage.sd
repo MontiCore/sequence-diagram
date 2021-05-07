@@ -5,5 +5,5 @@ package examples.correct;
 import very.very.deep.DeepType;
 
 sequencediagram deepTypeUsage {
-  d:DeepType;
+  d:very.very.deep.DeepType;
 }

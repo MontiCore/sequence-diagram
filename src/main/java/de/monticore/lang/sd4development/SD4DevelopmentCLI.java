@@ -56,7 +56,7 @@ public class SD4DevelopmentCLI {
       // disable fail quick to log as much errors as possible
       Log.enableFailQuick(false);
 
-      // Parse input FDs
+      // Parse input SDs
       List<ASTSDArtifact> inputSDs = new ArrayList<>();
       for (String inputFileName : cmd.getOptionValues("i")) {
         Optional<ASTSDArtifact> ast = parseSDArtifact(inputFileName);
@@ -125,6 +125,9 @@ public class SD4DevelopmentCLI {
         for (ASTSDArtifact sd : inputSDs) {
           deriveSymbolSkeleton(sd);
         }
+        if(Log.getErrorCount()>0){
+          return;
+        }
 
         if (cocoOptionValues.isEmpty() || cocoOptionValues.contains("type") || cmd.hasOption("s")) {
           for (ASTSDArtifact sd : inputSDs) {
@@ -174,8 +177,8 @@ public class SD4DevelopmentCLI {
         if (cmd.getOptionValues("s") == null || cmd.getOptionValues("s").length == 0) {
           for (int i = 0; i < inputSDs.size(); i++) {
             ASTSDArtifact sd = inputSDs.get(i);
-            SD4DevelopmentDeSer deSer = new SD4DevelopmentDeSer();
-            String serialized = deSer.serialize((SD4DevelopmentArtifactScope) sd.getEnclosingScope());
+            SD4DevelopmentSymbols2Json symbols2Json = new SD4DevelopmentSymbols2Json();
+            String serialized = symbols2Json.serialize((SD4DevelopmentArtifactScope) sd.getEnclosingScope());
 
             String fileName = cmd.getOptionValues("i")[i];
             String symbolFile = FilenameUtils.getName(fileName) + "sym";
@@ -186,7 +189,7 @@ public class SD4DevelopmentCLI {
           }
         }
         else if (cmd.getOptionValues("s").length != inputSDs.size()) {
-          Log.error(String.format("Received '%s' output files for the storesymbols option. " + "Expected that '%s' many output files are specified. " + "If output files for the storesymbols option are specified, then the number " + " of specified output files must be equal to the number of specified input files.", cmd.getOptionValues("s").length, inputSDs.size()));
+          Log.error(String.format("Received '%s' output files for the symboltable option. " + "Expected that '%s' many output files are specified. " + "If output files for the symboltable option are specified, then the number " + " of specified output files must be equal to the number of specified input files.", cmd.getOptionValues("s").length, inputSDs.size()));
         }
         else {
           for (int i = 0; i < inputSDs.size(); i++) {
@@ -284,9 +287,7 @@ public class SD4DevelopmentCLI {
     checker.addCoCo(new PackageNameIsFolderNameCoco());
     checker.addCoCo(new SDNameIsArtifactNameCoco());
     checker.addCoCo(new SendMessageHasSourceOrTargetCoco());
-    checker.addCoCo(new TypeNamingConventionCoco());
     checker.addCoCo(new UniqueObjectNamingCoco());
-    checker.addCoCo(new ConstructorObjectNameNamingConventionCoco());
     checker.addCoCo(new EndCallHasSourceOrTargetCoco());
     checker.addCoCo(new MethodActionRefersToCorrectTargetCoco());
     checker.addCoCo(new ReturnOnlyAfterMethodCoco());
@@ -329,8 +330,8 @@ public class SD4DevelopmentCLI {
    * @param filename The name of the produced symbol file.
    */
   public void storeSymbols(ASTSDArtifact ast, String filename) {
-    SD4DevelopmentDeSer deSer = new SD4DevelopmentDeSer();
-    String serialized = deSer.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
+    SD4DevelopmentSymbols2Json symbols2Json = new SD4DevelopmentSymbols2Json();
+    String serialized = symbols2Json.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
     FileReaderWriter.storeInFile(Paths.get(filename), serialized);
   }
 

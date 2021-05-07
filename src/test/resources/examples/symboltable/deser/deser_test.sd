@@ -16,7 +16,7 @@ sequencediagram deser_test {
   kupfer912 -> timePol: newCurrentClosingTime(kupfer912, bid);
   kupfer912 <- timePol: return t;
 
-  kupfer912 -> Policy bidPol2 = new BiddingPolicy();
+  kupfer912 -> BiddingPolicy bidPol2 = new BiddingPolicy();
 
   let int i = 0;
 }
