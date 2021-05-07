@@ -44,4 +44,4 @@ githubmirror:
     - git commit -m 'Updated branch with most recent version.'
     - git push --force origin master
   only:
-    - master
+    - dev
