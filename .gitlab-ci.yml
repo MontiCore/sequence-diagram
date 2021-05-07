@@ -64,7 +64,7 @@ githubmirror:
   image: maven:3-jdk-8
   stage: mirror
   dependencies:
-    - check
+    - checkMDLinks
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
