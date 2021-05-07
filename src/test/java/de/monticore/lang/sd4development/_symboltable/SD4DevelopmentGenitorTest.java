@@ -5,6 +5,7 @@ import de.monticore.io.paths.ModelPath;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
@@ -32,6 +33,7 @@ public class SD4DevelopmentGenitorTest {
   void setup() {
     SD4DevelopmentMill.reset();
     SD4DevelopmentMill.init();
+    BasicSymbolsMill.initializePrimitives();
     SD4DevelopmentMill.globalScope().setModelPath(new ModelPath(Paths.get(MODEL_PATH)));
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();

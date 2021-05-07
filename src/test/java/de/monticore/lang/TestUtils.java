@@ -7,6 +7,7 @@ import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentGlobalScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
 import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
+import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbolBuilder;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
@@ -25,16 +26,9 @@ public final class TestUtils {
   private static final MCTypeFacade typeFacade = MCTypeFacade.getInstance();
 
   public static void setupGlobalScope(ISD4DevelopmentGlobalScope globalScope) {
-    addPrimitiveTypeSymbols(globalScope);
+    BasicSymbolsMill.initializePrimitives();
     addOOTypeSymbols(globalScope);
     addVariableSymbols(globalScope);
-  }
-
-  private static void addPrimitiveTypeSymbols(ISD4DevelopmentGlobalScope globalScope) {
-    Stream.of(new TypeSymbol("int")).forEach(t -> {
-      t.setEnclosingScope(globalScope);
-      globalScope.add(t);
-    });
   }
 
   private static void addOOTypeSymbols(ISD4DevelopmentGlobalScope globalScope) {
@@ -63,7 +57,6 @@ public final class TestUtils {
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
     FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
     scope.add(valueField);
-    scope.add((VariableSymbol) valueField);
     someMethod.setSpannedScope(scope);
     // TimingPolicy oo type symbol
     OOTypeSymbol deepType = new OOTypeSymbol("DeepType");
@@ -79,7 +72,6 @@ public final class TestUtils {
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
     FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
     scope.add(valueField);
-    scope.add((VariableSymbol) valueField);
     validateBid.setSpannedScope(scope);
     // BiddingPolicy oo type symbol
     OOTypeSymbol biddingPolicy = new OOTypeSymbol("BiddingPolicy");
@@ -95,7 +87,6 @@ public final class TestUtils {
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
     FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
     scope.add(valueField);
-    scope.add((VariableSymbol) valueField);
     newCurrentClosingTime.setSpannedScope(scope);
     // TimingPolicy oo type symbol
     OOTypeSymbol timingPolicy = new OOTypeSymbol("TimingPolicy");

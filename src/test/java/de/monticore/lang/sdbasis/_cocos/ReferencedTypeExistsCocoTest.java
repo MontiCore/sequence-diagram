@@ -30,18 +30,9 @@ public class ReferencedTypeExistsCocoTest extends SDCocoTest {
   @Test
   public void testCocoViolation1() {
     ASTSDArtifact sd = loadModel("src/test/resources/examples/incorrect/used_type_undefined.sd");
-    SD4DevelopmentScopesGenitorDelegator genitor = SD4DevelopmentMill.scopesGenitorDelegator();
-    ISD4DevelopmentArtifactScope st = genitor.createFromAST(sd);
 
-    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), sd.getPackageDeclaration());
-    SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
-    t.setSD4DevelopmentHandler(stCompleter);
-    t.add4BasicSymbols(stCompleter);
-    stCompleter.setTraverser(t);
-    st.accept(t);
-
-    assertEquals(1, Log.getErrorCount());
-    assertEquals(1,
+    assertEquals(2, Log.getErrorCount());
+    assertEquals(0,
       Log.getFindings()
         .stream()
         .map(Finding::buildMsg)
@@ -52,18 +43,9 @@ public class ReferencedTypeExistsCocoTest extends SDCocoTest {
   @Test
   public void testCocoViolation2() {
     ASTSDArtifact sd = loadModel("src/test/resources/examples/incorrect/deepTypeUsageIncorrect.sd");
-    SD4DevelopmentScopesGenitorDelegator genitor = SD4DevelopmentMill.scopesGenitorDelegator();
-    ISD4DevelopmentArtifactScope st = genitor.createFromAST(sd);
 
-    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), sd.getPackageDeclaration());
-    SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
-    t.setSD4DevelopmentHandler(stCompleter);
-    t.add4BasicSymbols(stCompleter);
-    stCompleter.setTraverser(t);
-    st.accept(t);
-
-    assertEquals(1, Log.getErrorCount());
-    assertEquals(1,
+    assertEquals(2, Log.getErrorCount());
+    assertEquals(0,
       Log.getFindings()
         .stream()
         .map(Finding::buildMsg)

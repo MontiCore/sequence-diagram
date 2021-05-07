@@ -2,7 +2,6 @@
 package de.monticore.lang.sd4development._symboltable;
 
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
-import de.monticore.lang.sd4development._ast.ASTEDeclaration;
 import de.monticore.lang.sd4development._ast.ASTSDNew;
 import de.monticore.lang.sd4development._ast.ASTSDVariableDeclaration;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
@@ -44,19 +43,6 @@ public class SD4DevelopmentScopesGenitor extends SD4DevelopmentScopesGenitorTOP 
     }
   }
 
-  @Override
-  public void endVisit(ASTEDeclaration node) {
-    VariableSymbol symbol = node.getSymbol();
-
-    final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(node.getMCType());
-    if (!typeResult.isPresent()) {
-      Log.error(String.format("0xB0003: The type (%s) of the variable (%s) could not be calculated",
-        prettyPrinter.prettyprint(node.getMCType()),
-        node.getName()));
-    } else {
-      symbol.setType(typeResult.get());
-    }
-  }
 
   @Override
   public void endVisit(ASTSDVariableDeclaration node) {

@@ -57,8 +57,8 @@ public abstract class SDCocoTest {
 
     out = new ByteArrayOutputStream();
     err = new ByteArrayOutputStream();
-    System.setOut(new PrintStream(out));
-    System.setErr(new PrintStream(err));
+//    System.setOut(new PrintStream(out));
+//    System.setErr(new PrintStream(err));
   }
 
   private void setupGlobalScope() {
@@ -130,6 +130,5 @@ public abstract class SDCocoTest {
   private void createSymbolTableFromAST(ASTSDArtifact ast) {
     SD4DevelopmentScopesGenitorDelegator genitor = SD4DevelopmentMill.scopesGenitorDelegator();
     genitor.createFromAST(ast);
-    System.out.println("TEST");
   }
 }
