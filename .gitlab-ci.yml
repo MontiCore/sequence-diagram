@@ -86,5 +86,6 @@ githubmirror:
     - git push --force origin master
     - cd ..
     - rm -r sequence-diagram
+    - exit 0
   only:
     - dev
