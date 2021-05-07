@@ -15,11 +15,56 @@ before_script:
   - export GRADLE_USER_HOME=`pwd`/.gradle
 
 stages:
+  - build
+  - test
+  - deploy
+  - check
   - mirror
+
+build:
+  stage: build
+  script:
+    - "gradle assemble --refresh-dependencies $GRADLE_OPTS $ARGS1"
+  artifacts:
+    paths:
+      - "."
+    expire_in: 1 week
+
+test:
+  stage: test
+  dependencies:
+    - build
+  script:
+    - "gradle check $GRADLE_OPTS $ARGS2"
+
+deploy:
+  stage: deploy
+  dependencies:
+    - build
+  script:
+    - "gradle publish $GRADLE_OPTS $ARGS3 -PmavenPassword=$password -PmavenUser=$username"
+  only:
+    - master
+    - dev
+
+checkMDLinks:
+  stage: check
+  dependencies:
+    - test
+  script:
+    - "curl --location --header \"PRIVATE-TOKEN: $secibuildtoken\" \"https://git.rwth-aachen.de/api/v4/projects/monticore%2Fmdlinkchecker/jobs/artifacts/master/raw/target/libs/MDLinkCheckerCLI.jar?job=build\" --output MDLinkCheckerCLI.jar"
+    - "url=https://git.rwth-aachen.de/monticore/statechart/sd-language/-/tree/dev"
+    - "linkCheckRes=$(java -jar MDLinkCheckerCLI.jar -url $url -t $secibuildtoken -p)"
+    - "echo \"$linkCheckRes\""
+    - "if [[ $linkCheckRes == *\"ERROR\"* ]]; then exit 1; fi"
+  only:
+    - dev
 
 githubmirror:
   image: maven:3-jdk-8
   stage: mirror
+  dependencies:
+    - check
   before_script:
     - 'which ssh-agent || ( apt-get update -y && apt-get install openssh-client -y )'
     - eval $(ssh-agent -s)
@@ -28,7 +73,6 @@ githubmirror:
     - git config --global user.email "noreply-ci@se-rwth.de"
     - git config --global user.name "MontiCore Mirroring Bot"
     - mkdir -p ~/.ssh
-#  - cat gitlab-known-hosts >> ~/.ssh/known_hosts
     - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   script: 
     - sh pre/mirror.sh
