@@ -31,6 +31,7 @@ githubmirror:
 #  - cat gitlab-known-hosts >> ~/.ssh/known_hosts
     - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
   script: 
+    - dir
     - ./pre/premirror.sh
     - cd ..
     - git clone git@github.com:MontiCore/sequence-diagram.git
