@@ -83,7 +83,7 @@ githubmirror:
     - mv sd-language/* sequence-diagram/
     - cd sequence-diagram 
     - git add --all
-    - "(git commit -m 'Updated branch with most recent version.')"
+    - "(git commit -m 'Updated branch with most recent version.') || true"
     - git push --force origin master
     - cd ..
     - rm -r sequence-diagram
