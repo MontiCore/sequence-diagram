@@ -78,16 +78,16 @@ githubmirror:
     - "curl --location --header \"PRIVATE-TOKEN: $secibuildtoken\" \"https://git.rwth-aachen.de/api/v4/projects/monticore%2Fmdlinkchecker/jobs/artifacts/master/raw/target/libs/MDLinkChangerCLI.jar?job=build\" --output MDLinkChangerCLI.jar"
     - sh pre/mirror.sh
     - cd ..
-    - "if [ -d \"sequence-diagram\" ]; then rm -r sequence-diagram; fi"
+    - "if [ -d \"sequence-diagram\" ]; then rm -rf sequence-diagram; fi"
     - git clone git@github.com:MontiCore/sequence-diagram.git
-    - rm -r sequence-diagram/*
+    - rm -rf sequence-diagram/*
     - mv sd-language/* sequence-diagram/
     - cd sequence-diagram
     - git add --all
     - "(git commit -m 'Updated branch with most recent version.') || true"
     - git push --force
     - cd ..
-    - rm -r sequence-diagram
+    - rm -rf sequence-diagram
     - exit 0
   only:
     - dev
