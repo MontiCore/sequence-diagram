@@ -8,6 +8,6 @@ echo "[INFO] Removed all occureneces of '[[_TOC_]]' in *.md files"
 for file in $(find . -type f -name "*.md")
 do
   content=$(java -jar MDLinkChangerCLI.jar -f $file)
-  echo $content > $file
+  echo "$content" > $file
 done
 
