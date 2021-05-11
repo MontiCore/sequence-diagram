@@ -10,3 +10,4 @@ do
   content=$(java -jar MDLinkChangerCLI.jar -f $file)
   echo $content > $file
 done
+
