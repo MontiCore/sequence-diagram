@@ -74,6 +74,7 @@ githubmirror:
     - git config --global user.name "MontiCore Mirroring Bot"
     - mkdir -p ~/.ssh
     - echo -e "Host github.com\n\tStrictHostKeyChecking no\n" >> ~/.ssh/config
+    - "curl --location --header \"PRIVATE-TOKEN: $secibuildtoken\" \"https://git.rwth-aachen.de/api/v4/projects/monticore%2Fmdlinkchecker/jobs/artifacts/master/raw/target/libs/MDLinkChangerCLI.jar?job=build\" --output MDLinkChangerCLI.jar"
   script: 
     - sh pre/mirror.sh
     - cd ..
