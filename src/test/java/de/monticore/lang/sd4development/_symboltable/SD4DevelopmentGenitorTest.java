@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development._symboltable;
 
-import de.monticore.io.paths.ModelPath;
+import de.monticore.io.paths.MCPath;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
@@ -23,9 +23,9 @@ import static org.junit.Assert.*;
 
 public class SD4DevelopmentGenitorTest {
 
-  private static final String MODEL_PATH = "src/test/resources/";
+  private static final String SYMBOL_PATH = "src/test/resources/";
 
-  private static final String PACKAGE_PATH = MODEL_PATH + "examples/symboltable/";
+  private static final String PACKAGE_PATH = SYMBOL_PATH + "examples/symboltable/";
 
   private final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
@@ -34,7 +34,7 @@ public class SD4DevelopmentGenitorTest {
     SD4DevelopmentMill.reset();
     SD4DevelopmentMill.init();
     BasicSymbolsMill.initializePrimitives();
-    SD4DevelopmentMill.globalScope().setModelPath(new ModelPath(Paths.get(MODEL_PATH)));
+    SD4DevelopmentMill.globalScope().setSymbolPath(new MCPath(Paths.get(SYMBOL_PATH)));
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     ByteArrayOutputStream err = new ByteArrayOutputStream();

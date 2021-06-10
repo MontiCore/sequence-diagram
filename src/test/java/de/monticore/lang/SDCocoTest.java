@@ -2,7 +2,7 @@
 
 package de.monticore.lang;
 
-import de.monticore.io.paths.ModelPath;
+import de.monticore.io.paths.MCPath;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._cocos.SD4DevelopmentCoCoChecker;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
@@ -16,7 +16,6 @@ import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
-import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -28,11 +27,11 @@ import static org.junit.Assert.fail;
 
 public abstract class SDCocoTest {
 
-  protected static final String MODEL_PATH = "src/test/resources";
+  protected static final String SYMBOL_PATH = "src/test/resources";
 
-  protected final static String CORRECT_PATH = MODEL_PATH + "/examples/correct/";
+  protected final static String CORRECT_PATH = SYMBOL_PATH + "/examples/correct/";
 
-  protected final static String INCORRECT_PATH = MODEL_PATH + "/examples/incorrect/";
+  protected final static String INCORRECT_PATH = SYMBOL_PATH + "/examples/incorrect/";
 
   protected final SD4DevelopmentParser parser = new SD4DevelopmentParser();
 
@@ -62,7 +61,7 @@ public abstract class SDCocoTest {
   }
 
   private void setupGlobalScope() {
-    SD4DevelopmentMill.globalScope().setModelPath(new ModelPath(Paths.get(MODEL_PATH)));
+    SD4DevelopmentMill.globalScope().setSymbolPath(new MCPath(Paths.get(SYMBOL_PATH)));
     TestUtils.setupGlobalScope(SD4DevelopmentMill.globalScope());
   }
 

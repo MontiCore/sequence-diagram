@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development;
 
-import de.monticore.io.paths.ModelPath;
+import de.monticore.io.paths.MCPath;
 import de.monticore.lang.TestUtils;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
@@ -28,8 +28,8 @@ import static org.junit.jupiter.api.Assertions.*;
 
 public class SD4DevelopmentCLITest {
 
-  protected static final String MODEL_PATH = "src/test/resources";
-  protected final static String CORRECT_PATH = MODEL_PATH + "/examples/correct/";
+  protected static final String SYMBOL_PATH = "src/test/resources";
+  protected final static String CORRECT_PATH = SYMBOL_PATH + "/examples/correct/";
   protected final static String SYMBOLS_OUT = "target/symbols/";
   ByteArrayOutputStream out;
   ByteArrayOutputStream err;
@@ -49,7 +49,7 @@ public class SD4DevelopmentCLITest {
   }
 
   private void setupGlobalScope() {
-    SD4DevelopmentMill.globalScope().setModelPath(new ModelPath(Paths.get(MODEL_PATH)));
+    SD4DevelopmentMill.globalScope().setSymbolPath(new MCPath(Paths.get(SYMBOL_PATH)));
     TestUtils.setupGlobalScope(SD4DevelopmentMill.globalScope());
   }
 
