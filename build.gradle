@@ -146,6 +146,8 @@ task sourcesJar(type: Jar) {
   archiveClassifier = "sources"
 }
 
+sourcesJar.dependsOn project.collect { it.tasks.withType(MCTask)}
+
 // build javadoc jar in addition
 task javadocJar(type: Jar) {
   from javadoc

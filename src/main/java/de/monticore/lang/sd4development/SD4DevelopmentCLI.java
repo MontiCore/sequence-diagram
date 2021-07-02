@@ -2,7 +2,7 @@
 package de.monticore.lang.sd4development;
 
 import de.monticore.io.FileReaderWriter;
-import de.monticore.io.paths.ModelPath;
+import de.monticore.io.paths.MCPath;
 import de.monticore.lang.sd4development._cocos.*;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
@@ -108,13 +108,13 @@ public class SD4DevelopmentCLI {
       }
 
       // we need the global scope for symbols and cocos
-      ModelPath modelPath = new ModelPath(Paths.get(""));
+      MCPath symbolPath = new MCPath(Paths.get(""));
       if (cmd.hasOption("path")) {
-        modelPath = new ModelPath(Arrays.stream(cmd.getOptionValues("path")).map(x -> Paths.get(x)).collect(Collectors.toList()));
+        symbolPath = new MCPath(Arrays.stream(cmd.getOptionValues("path")).map(x -> Paths.get(x)).collect(Collectors.toList()));
       }
 
       ISD4DevelopmentGlobalScope globalScope = SD4DevelopmentMill.globalScope();
-      globalScope.setModelPath(modelPath);
+      globalScope.setSymbolPath(symbolPath);
 
       // handle CoCos and symbol storage: build symbol table as far as needed
       Set<String> cocoOptionValues = new HashSet<>();
