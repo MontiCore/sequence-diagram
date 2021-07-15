@@ -2,6 +2,7 @@
 package de.monticore.lang.sd4development;
 
 import de.monticore.io.paths.MCPath;
+import de.monticore.lang.sd4development.SD4DevelopmentCLI;
 import de.monticore.lang.TestUtils;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
@@ -12,6 +13,7 @@ import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.se_rwth.commons.logging.Log;
 import org.junit.Assert;
+import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -75,8 +77,8 @@ public class SD4DevelopmentCLITest {
   })
   public void toolParseCorrectTest(String model) throws IOException {
     SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
-    Optional<ASTSDArtifact> ast = cli.parseSDArtifact(CORRECT_PATH + model);
-    assertTrue(ast.isPresent());
+    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    Assertions.assertNotNull(ast);
     assertEquals(0, Log.getErrorCount());
   }
 
@@ -102,11 +104,11 @@ public class SD4DevelopmentCLITest {
   })
   public void toolIntraModelCocosCorrectTest(String model) throws IOException {
     SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
-    Optional<ASTSDArtifact> ast = cli.parseSDArtifact(CORRECT_PATH + model);
-    assertTrue(ast.isPresent());
-    cli.deriveSymbolSkeleton(ast.get());
+    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    Assertions.assertNotNull(ast);
+    cli.createSymbolTable(ast);
 
-    cli.checkIntraModelCoCos(ast.get());
+    cli.checkIntraModelCoCos(ast);
     assertEquals(0, Log.getErrorCount());
   }
 
@@ -132,11 +134,11 @@ public class SD4DevelopmentCLITest {
   })
   public void toolAllExceptTypeCocosCorrectTest(String model) throws IOException {
     SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
-    Optional<ASTSDArtifact> ast = cli.parseSDArtifact(CORRECT_PATH + model);
-    assertTrue(ast.isPresent());
-    cli.deriveSymbolSkeleton(ast.get());
+    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    Assertions.assertNotNull(ast);
+    cli.createSymbolTable(ast);
 
-    cli.checkAllExceptTypeCoCos(ast.get());
+    cli.checkAllExceptTypeCoCos(ast);
     assertEquals(0, Log.getErrorCount());
   }
 
@@ -156,11 +158,11 @@ public class SD4DevelopmentCLITest {
   })
   public void toolAllCocosCorrectTest(String model) throws IOException {
     SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
-    Optional<ASTSDArtifact> ast = cli.parseSDArtifact(CORRECT_PATH + model);
-    assertTrue(ast.isPresent());
-    cli.deriveSymbolSkeleton(ast.get());
+    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    Assertions.assertNotNull(ast);
+    cli.createSymbolTable(ast);
 
-    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.get().getMCImportStatementList(), ast.get().getPackageDeclaration());
+    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
     SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
     t.add4BasicSymbols(stCompleter);
     t.setSD4DevelopmentHandler(stCompleter);
@@ -168,7 +170,7 @@ public class SD4DevelopmentCLITest {
 
     SD4DevelopmentMill.globalScope().accept(t);
 
-    cli.checkAllCoCos(ast.get());
+    cli.checkAllCoCos(ast);
     assertEquals(0, Log.getErrorCount());
   }
 
@@ -194,9 +196,9 @@ public class SD4DevelopmentCLITest {
   })
   public void toolPrettyPrintNoErrorTest(String model) throws IOException {
     SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
-    Optional<ASTSDArtifact> ast = cli.parseSDArtifact(CORRECT_PATH + model);
-    assertTrue(ast.isPresent());
-    cli.prettyPrint(ast.get());
+    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    Assertions.assertNotNull(ast);
+    cli.prettyPrint(ast, "");
     assertEquals(0, Log.getErrorCount());
   }
 
@@ -223,13 +225,13 @@ public class SD4DevelopmentCLITest {
   public void toolDeSerTest(String model) throws IOException {
     SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
 
-    Optional<ASTSDArtifact> ast = cli.parseSDArtifact(CORRECT_PATH + model);
-    assertTrue(ast.isPresent());
-    String symbolFileName = SYMBOLS_OUT + ast.get().getSequenceDiagram().getName() +".sdsym";
-    cli.deriveSymbolSkeleton(ast.get());
-    SD4DevelopmentArtifactScope artifactScope = (SD4DevelopmentArtifactScope) ast.get().getEnclosingScope();
+    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    Assertions.assertNotNull(ast);
+    String symbolFileName = SYMBOLS_OUT + ast.getSequenceDiagram().getName() +".sdsym";
+    cli.createSymbolTable(ast);
+    SD4DevelopmentArtifactScope artifactScope = (SD4DevelopmentArtifactScope) ast.getEnclosingScope();
 
-    cli.storeSymbols(ast.get(), symbolFileName);
+    cli.storeSymbols(ast, symbolFileName);
     ISD4DevelopmentArtifactScope loadedST = cli.loadSymbols(symbolFileName);
 
     assertEquals(0, loadedST.getSubScopes().size());

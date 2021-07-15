@@ -1,9 +1,11 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.lang.sd4development;
+package de.monticore.lang;
 
 import de.monticore.io.FileReaderWriter;
 import de.monticore.io.paths.MCPath;
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._cocos.*;
+import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentPrettyPrinter;
@@ -17,6 +19,7 @@ import de.se_rwth.commons.logging.Log;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
 
+import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -25,9 +28,17 @@ import java.util.stream.Collectors;
 /**
  * CLI tool providing functionality for processing Sequence Diagram (SD) artifacts.
  */
-public class SD4DevelopmentCLI extends SD4DevelopmentCLITOP {
+@Deprecated
+public class SD4DevelopmentCLI {
 
-  @Override
+  /*
+   * Main method of the CLI.
+   */
+  public static void main(String[] args) {
+    SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
+    cli.run(args);
+  }
+
   public void run(String[] args) {
     Options options = initOptions();
 
@@ -50,8 +61,12 @@ public class SD4DevelopmentCLI extends SD4DevelopmentCLITOP {
       // Parse input SDs
       List<ASTSDArtifact> inputSDs = new ArrayList<>();
       for (String inputFileName : cmd.getOptionValues("i")) {
-        ASTSDArtifact ast = parse(inputFileName);
-        inputSDs.add(ast);
+        Optional<ASTSDArtifact> ast = parseSDArtifact(inputFileName);
+        if (!ast.isPresent()) {
+          Log.error(String.format("Parsing the input SD '%s' was not successful", inputFileName));
+          return;
+        }
+        inputSDs.add(ast.get());
       }
 
       // semantic differencing
@@ -77,7 +92,7 @@ public class SD4DevelopmentCLI extends SD4DevelopmentCLITOP {
       if (cmd.hasOption("pp")) {
         if (cmd.getOptionValues("pp") == null || cmd.getOptionValues("pp").length == 0) {
           for (ASTSDArtifact sd : inputSDs) {
-            prettyPrint(sd, "");
+            System.out.println(prettyPrint(sd));
             System.out.println();
           }
         }
@@ -88,7 +103,8 @@ public class SD4DevelopmentCLI extends SD4DevelopmentCLITOP {
         else {
           for (int i = 0; i < inputSDs.size(); i++) {
             ASTSDArtifact sd_i = inputSDs.get(i);
-            prettyPrint(sd_i, cmd.getOptionValues("pp")[i]);
+            String prettyPrinted = prettyPrint(sd_i);
+            FileReaderWriter.storeInFile(Paths.get(cmd.getOptionValues("pp")[i]), prettyPrinted);
           }
         }
       }
@@ -109,7 +125,7 @@ public class SD4DevelopmentCLI extends SD4DevelopmentCLITOP {
       }
       if (cmd.hasOption("c") || cmd.hasOption("s")) {
         for (ASTSDArtifact sd : inputSDs) {
-          createSymbolTable(sd);
+          deriveSymbolSkeleton(sd);
         }
         if(Log.getErrorCount()>0){
           return;
@@ -189,7 +205,55 @@ public class SD4DevelopmentCLI extends SD4DevelopmentCLITOP {
       // unexpected error from apache CLI parser
       Log.error("0xA7101 Could not process CLI parameters: " + e.getMessage());
     }
+    catch (IOException e) {
+      e.printStackTrace();
+    }
 
+  }
+
+  private void printHelp(Options options) {
+    HelpFormatter formatter = new HelpFormatter();
+    formatter.setWidth(80);
+    formatter.printHelp("SD4DevelopmentCLI", options);
+  }
+
+  private Options initOptions() {
+    Options options = new Options();
+
+    // help info
+    options.addOption(Option.builder("h").longOpt("help").desc("Prints this help informations.").build());
+
+    // inputs
+    options.addOption(Option.builder("i").longOpt("input").hasArgs().desc("Processes the list of SD input artifacts. " + "Argument list is space separated. " + "CoCos are not checked automatically (see -c).").build());
+
+    // pretty print
+    options.addOption(Option.builder("pp").longOpt("prettyprint").argName("file").optionalArg(true).numberOfArgs(1).desc("Prints the input SDs to stdout or to the specified file (optional).").build());
+
+    // semantic diff
+    options.addOption(Option.builder("sd").longOpt("semdiff").desc("Computes a diff witness showing the asymmetrical semantic difference " + "of two SD. Requires two " + "SDs as inputs. See se-rwth.de/topics for scientific foundation.").build());
+
+    // cocos
+    options.addOption(Option.builder("c").longOpt("coco").optionalArg(true).numberOfArgs(3).desc("Checks the CoCos for the input. Optional arguments are:\n" + "-c intra to check only the intra-model CoCos,\n" + "-c inter checks also inter-model CoCos,\n" + "-c type (default) checks all CoCos.").build());
+
+    // store symbols
+    options.addOption(Option.builder("s").longOpt("symboltable").optionalArg(true).hasArgs().desc("Stores the symbol tables of the input SDs in the specified files. " + "The n-th input " + "SD is stored in the file as specified by the n-th argument. " + "Default is 'target/symbols/{packageName}/{artifactName}.sdsym'.").build());
+
+    // model paths
+    options.addOption(Option.builder("path").hasArgs().desc("Sets the artifact path for imported symbols, space separated.").build());
+
+    return options;
+  }
+
+  /**
+   * Parses SD artifacts (*.sd files).
+   *
+   * @param fileName full-qualified name of the file.
+   * @return Non-empty optional iff parsing was successful.
+   * @throws IOException If something goes wrong while reading the file.
+   */
+  public Optional<ASTSDArtifact> parseSDArtifact(String fileName) throws IOException {
+    SD4DevelopmentParser parser = new SD4DevelopmentParser();
+    return parser.parse(fileName);
   }
 
   /**
@@ -198,10 +262,9 @@ public class SD4DevelopmentCLI extends SD4DevelopmentCLITOP {
    * @param ast The ast to be printed
    * @return Pretty-printed ast.
    */
-  @Override
-  public void prettyPrint(ASTSDArtifact ast, String file) {
+  public String prettyPrint(ASTSDArtifact ast) {
     SD4DevelopmentPrettyPrinter prettyPrinter = new SD4DevelopmentPrettyPrinter(new IndentPrinter(), SD4DevelopmentMill.traverser());
-    print(prettyPrinter.prettyPrint(ast), file);
+    return prettyPrinter.prettyPrint(ast);
   }
 
   /**
@@ -209,10 +272,9 @@ public class SD4DevelopmentCLI extends SD4DevelopmentCLITOP {
    *
    * @param ast The ast of the SD.
    */
-  @Override
-  public ISD4DevelopmentArtifactScope createSymbolTable(ASTSDArtifact ast) {
+  public void deriveSymbolSkeleton(ASTSDArtifact ast) {
     SD4DevelopmentScopesGenitorDelegator genitor = SD4DevelopmentMill.scopesGenitorDelegator();
-    return genitor.createFromAST(ast);
+    genitor.createFromAST(ast);
   }
 
   /**
@@ -261,7 +323,6 @@ public class SD4DevelopmentCLI extends SD4DevelopmentCLITOP {
     checker.checkAll(ast);
   }
 
-
   /**
    * Stores the symbols for ast in the symbol file filename.
    * For example, if filename = "target/symbolfiles/file.sdsym", then the symbol file corresponding to
@@ -301,34 +362,4 @@ public class SD4DevelopmentCLI extends SD4DevelopmentCLITOP {
     return sdSemDifferencer.semDiff(from, to);
   }
 
-  @Override
-  public Options addStandardOptions(Options options) {
-    // help info
-    options.addOption(Option.builder("h").longOpt("help").desc("Prints this help informations.").build());
-
-    // inputs
-    options.addOption(Option.builder("i").longOpt("input").hasArgs().desc("Processes the list of SD input artifacts. " + "Argument list is space separated. " + "CoCos are not checked automatically (see -c).").build());
-
-    // pretty print
-    options.addOption(Option.builder("pp").longOpt("prettyprint").argName("file").optionalArg(true).numberOfArgs(1).desc("Prints the input SDs to stdout or to the specified file (optional).").build());
-
-    // store symbols
-    options.addOption(Option.builder("s").longOpt("symboltable").optionalArg(true).hasArgs().desc("Stores the symbol tables of the input SDs in the specified files. " + "The n-th input " + "SD is stored in the file as specified by the n-th argument. " + "Default is 'target/symbols/{packageName}/{artifactName}.sdsym'.").build());
-
-    // model paths
-    options.addOption(Option.builder("path").hasArgs().desc("Sets the artifact path for imported symbols, space separated.").build());
-
-    return options;
-  }
-
-  @Override
-  public Options addAdditionalOptions(Options options) {
-    // semantic diff
-    options.addOption(Option.builder("sd").longOpt("semdiff").desc("Computes a diff witness showing the asymmetrical semantic difference " + "of two SD. Requires two " + "SDs as inputs. See se-rwth.de/topics for scientific foundation.").build());
-
-    // cocos
-    options.addOption(Option.builder("c").longOpt("coco").optionalArg(true).numberOfArgs(3).desc("Checks the CoCos for the input. Optional arguments are:\n" + "-c intra to check only the intra-model CoCos,\n" + "-c inter checks also inter-model CoCos,\n" + "-c type (default) checks all CoCos.").build());
-
-    return options;
-  }
 }
