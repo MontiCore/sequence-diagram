@@ -61,7 +61,6 @@ checkMDLinks:
     - dev
 
 githubmirror:
-  image: maven:3-jdk-8
   stage: mirror
   dependencies:
     - checkMDLinks
@@ -81,7 +80,8 @@ githubmirror:
     - "if [ -d \"sequence-diagram\" ]; then rm -rf sequence-diagram; fi"
     - git clone git@github.com:MontiCore/sequence-diagram.git
     - rm -rf sequence-diagram/*
-    - mv sd-language/* sequence-diagram/
+    - shopt -s extglob
+    - mv sd-language/!(MDLinkChangerCLI.jar) sequence-diagram/
     - cd sequence-diagram
     - git add --all
     - "(git commit -m 'Updated branch with most recent version.') || true"
