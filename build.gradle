@@ -66,8 +66,6 @@ dependencies {
   implementation("de.se_rwth:automata-library:1.1-SNAPSHOT") {
     exclude group: "com.google.guava", module: "guava"
   }
-  compileOnly 'org.projectlombok:lombok:1.18.12'
-  annotationProcessor 'org.projectlombok:lombok:1.18.12'
 
   testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.2"
   testImplementation "org.junit.jupiter:junit-jupiter-engine:5.6.2"
