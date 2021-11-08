@@ -39,7 +39,7 @@ public class SDBasisScopesGenitor extends SDBasisScopesGenitorTOP {
 
       final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(objectType);
       if (!typeResult.isPresent()) {
-        Log.error(String.format("0xB0001: The type (%s) of the object (%s) could not be calculated", prettyPrinter.prettyprint(objectType), node.getName()));
+        Log.error(String.format("0xB0005: The type (%s) of the object (%s) could not be calculated", prettyPrinter.prettyprint(objectType), node.getName()));
       }
       else {
         symbol.setType(typeResult.get());

@@ -187,7 +187,7 @@ public class SD4DevelopmentCLI extends SD4DevelopmentCLITOP {
     }
     catch (ParseException e) {
       // unexpected error from apache CLI parser
-      Log.error("0xA7101 Could not process CLI parameters: " + e.getMessage());
+      Log.error("0xA7103 Could not process CLI parameters: " + e.getMessage());
     }
 
   }

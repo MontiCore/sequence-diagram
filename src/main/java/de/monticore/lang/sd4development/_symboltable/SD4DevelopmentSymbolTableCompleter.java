@@ -20,8 +20,8 @@ import static de.monticore.lang.util.FQNameCalculator.calcFQNameCandidates;
 
 public class SD4DevelopmentSymbolTableCompleter implements BasicSymbolsVisitor2, SD4DevelopmentHandler {
 
-  private static final String USED_BUT_UNDEFINED = "0xB0028: Type '%s' is used but not defined.";
-  private static final String DEFINED_MUTLIPLE_TIMES = "0xB0031: Type '%s' is defined more than once.";
+  private static final String USED_BUT_UNDEFINED = "0xB0038: Type '%s' is used but not defined.";
+  private static final String DEFINED_MUTLIPLE_TIMES = "0xB0100: Type '%s' is defined more than once.";
 
   private final List<ASTMCImportStatement> imports;
   private final ASTMCQualifiedName packageDeclaration;
