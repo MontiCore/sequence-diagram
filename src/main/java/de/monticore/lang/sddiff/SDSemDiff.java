@@ -6,7 +6,7 @@ import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.se_rwth.automata.Automaton;
-import de.se_rwth.automata.Operations;
+import de.se_rwth.automata.operations.Operations;
 import de.se_rwth.automata.State;
 import de.se_rwth.automata.Transition;
 import de.se_rwth.automata.exceptions.AlphabetsNotEqualException;
