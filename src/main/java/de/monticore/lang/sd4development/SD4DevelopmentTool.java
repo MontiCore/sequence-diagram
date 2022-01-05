@@ -23,7 +23,7 @@ import java.util.*;
 import java.util.stream.Collectors;
 
 /**
- * CLI tool providing functionality for processing Sequence Diagram (SD) artifacts.
+ * Tool providing functionality for processing Sequence Diagram (SD) artifacts.
  */
 public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
 

@@ -74,8 +74,8 @@ public class SD4DevelopmentToolTest {
     "deepTypeUsage.sd"
   })
   public void toolParseCorrectTest(String model) throws IOException {
-    SD4DevelopmentTool cli = new SD4DevelopmentTool();
-    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    SD4DevelopmentTool tool = new SD4DevelopmentTool();
+    ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
     assertEquals(0, Log.getErrorCount());
   }
@@ -101,12 +101,12 @@ public class SD4DevelopmentToolTest {
     "deepTypeUsage.sd"
   })
   public void toolIntraModelCocosCorrectTest(String model) throws IOException {
-    SD4DevelopmentTool cli = new SD4DevelopmentTool();
-    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    SD4DevelopmentTool tool = new SD4DevelopmentTool();
+    ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
-    cli.createSymbolTable(ast);
+    tool.createSymbolTable(ast);
 
-    cli.checkIntraModelCoCos(ast);
+    tool.checkIntraModelCoCos(ast);
     assertEquals(0, Log.getErrorCount());
   }
 
@@ -131,12 +131,12 @@ public class SD4DevelopmentToolTest {
     "deepTypeUsage.sd"
   })
   public void toolAllExceptTypeCocosCorrectTest(String model) throws IOException {
-    SD4DevelopmentTool cli = new SD4DevelopmentTool();
-    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    SD4DevelopmentTool tool = new SD4DevelopmentTool();
+    ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
-    cli.createSymbolTable(ast);
+    tool.createSymbolTable(ast);
 
-    cli.checkAllExceptTypeCoCos(ast);
+    tool.checkAllExceptTypeCoCos(ast);
     assertEquals(0, Log.getErrorCount());
   }
 
@@ -155,10 +155,10 @@ public class SD4DevelopmentToolTest {
     "deepTypeUsage.sd"
   })
   public void toolAllCocosCorrectTest(String model) throws IOException {
-    SD4DevelopmentTool cli = new SD4DevelopmentTool();
-    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    SD4DevelopmentTool tool = new SD4DevelopmentTool();
+    ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
-    cli.createSymbolTable(ast);
+    tool.createSymbolTable(ast);
 
     SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
     SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
@@ -168,7 +168,7 @@ public class SD4DevelopmentToolTest {
 
     SD4DevelopmentMill.globalScope().accept(t);
 
-    cli.checkAllCoCos(ast);
+    tool.checkAllCoCos(ast);
     assertEquals(0, Log.getErrorCount());
   }
 
@@ -193,10 +193,10 @@ public class SD4DevelopmentToolTest {
     "deepTypeUsage.sd"
   })
   public void toolPrettyPrintNoErrorTest(String model) throws IOException {
-    SD4DevelopmentTool cli = new SD4DevelopmentTool();
-    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    SD4DevelopmentTool tool = new SD4DevelopmentTool();
+    ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
-    cli.prettyPrint(ast, "");
+    tool.prettyPrint(ast, "");
     assertEquals(0, Log.getErrorCount());
   }
 
@@ -221,16 +221,16 @@ public class SD4DevelopmentToolTest {
     "deepTypeUsage.sd"
   })
   public void toolDeSerTest(String model) throws IOException {
-    SD4DevelopmentTool cli = new SD4DevelopmentTool();
+    SD4DevelopmentTool tool = new SD4DevelopmentTool();
 
-    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
     String symbolFileName = SYMBOLS_OUT + ast.getSequenceDiagram().getName() +".sdsym";
-    cli.createSymbolTable(ast);
+    tool.createSymbolTable(ast);
     SD4DevelopmentArtifactScope artifactScope = (SD4DevelopmentArtifactScope) ast.getEnclosingScope();
 
-    cli.storeSymbols(ast, symbolFileName);
-    ISD4DevelopmentArtifactScope loadedST = cli.loadSymbols(symbolFileName);
+    tool.storeSymbols(ast, symbolFileName);
+    ISD4DevelopmentArtifactScope loadedST = tool.loadSymbols(symbolFileName);
 
     assertEquals(0, loadedST.getSubScopes().size());
     assertEquals(1, loadedST.getLocalDiagramSymbols().size());
@@ -246,7 +246,7 @@ public class SD4DevelopmentToolTest {
   }
 
   /*****************************************************************
-   ****************** CLI MAIN METHOD TESTS ************************
+   ****************** Tool MAIN METHOD TESTS ************************
    ******************************************************************/
 
   @Test
