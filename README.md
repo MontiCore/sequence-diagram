@@ -66,14 +66,14 @@ Afterwards, this document contains a tutorial for using the tool.
 
 ## Downloading the Latest Version of the Tool
 A ready to use version of the tool can be downloaded in the form of an executable JAR file.
-You can use [**this download link**](http://monticore.de/download/SD4DevelopmentTool.jar) 
+You can use [**this download link**](http://monticore.de/download/SD4DevelopmentCLI.jar) 
 for downloading the tool. 
 
 Alternatively, you can download the tool using `wget`.
-The following command downloads the latest version of the tool and saves it under the name `SD4DevelopmentTool` 
+The following command downloads the latest version of the tool and saves it under the name `SD4DevelopmentCLI` 
 in your working directory:
 ```
-wget "http://monticore.de/download/SD4DevelopmentCLI.jar" -O SD4DevelopmentTool.jar
+wget "http://monticore.de/download/SD4DevelopmentCLI.jar" -O SD4DevelopmentCLI.jar
 ``` 
 
 ## Building the Tool from the Sources
@@ -96,19 +96,19 @@ recognized as a command in your shell, please install [Gradle](https://gradle.or
 ```
 gradle build
 ```
-Congratulations! You can now find the executable JAR file `SD4DevelopmentTool.jar` in
+Congratulations! You can now find the executable JAR file `SD4DevelopmentCLI.jar` in
  the directory `target/libs` (accessible via `cd target/libs`).
 
 ## Tutorial: Getting Started Using the SD Tool
 The previous sections describe how to obtain an executable JAR file
 (SD command line tool). This section provides a tutorial for
 using the SD tool. The following examples assume
-that you locally named the tool `SD4DevelopmentTool`.
+that you locally named the tool `SD4DevelopmentCLI`.
 
 ### First Steps
 Executing the Jar file without any options prints usage information of the tool to the console:
 ```
-java -jar SD4DevelopmentTool.jar
+java -jar SD4DevelopmentCLI.jar
 usage: SD4DevelopmentTool
  -c,--coco <arg>            Checks the CoCos for the input FDs. Possible
                             arguments are 'intra',  'inter', and 'type'. When
@@ -142,18 +142,18 @@ usage: SD4DevelopmentTool
 To work properly, the tool needs the mandatory argument `-i,--input <arg>`, which takes the file paths of at least one input file containing SD models.
 If no other arguments are specified, the tool solely parses the model(s).
 
-For trying this out, copy the `SD4DevelopmentTool.jar` into a directory of your choice. 
+For trying this out, copy the `SD4DevelopmentCLI.jar` into a directory of your choice. 
 Afterwards, create a text file containing the following simple SD:
 ```
 sequencediagram Example {
 }
 ```
 
-Save the text file as `Example.sd` in the directory where `SD4DevelopmentTool.jar` is located. 
+Save the text file as `Example.sd` in the directory where `SD4DevelopmentCLI.jar` is located. 
 
 Now execute the following command:
 ```
-java -jar SD4DevelopmentTool.jar -i Example.sd
+java -jar SD4DevelopmentCLI.jar -i Example.sd
 ```
 
 You may notice that the tool prints no output to the console.
@@ -167,7 +167,7 @@ Using the option without any arguments pretty-prints the models contained in the
 
 Execute the following command for trying this out:
 ```
-java -jar SD4DevelopmentTool.jar -i Example.sd -pp
+java -jar SD4DevelopmentCLI.jar -i Example.sd -pp
 ```
 The command prints the pretty-printed model contained in the input file to the console:
 ```
@@ -182,7 +182,7 @@ The i-th input file is pretty-printed into the i-th output file.
 
 Execute the following command for trying this out:
 ```
-java -jar SD4DevelopmentTool.jar -i Example.sd -pp PPExample.sd
+java -jar SD4DevelopmentCLI.jar -i Example.sd -pp PPExample.sd
 ```
 The command prints the pretty-printed model contained in the input file into the file `PPExample.sd`.
 
@@ -201,7 +201,7 @@ be checked, you can do this by additionally providing one of the three
 
 Execute the following command for trying out a simple example:
 ```
-java -jar SD4DevelopmentTool.jar -i Example.sd -c
+java -jar SD4DevelopmentCLI.jar -i Example.sd -c
 ```
 You may notice that the tool prints nothing to the console when executing this command.
 This means that the model satisfies all context condtions. 
@@ -209,17 +209,17 @@ This means that the model satisfies all context condtions.
 Let us now consider a more complex example.
 Recall the SD `Bid` from the `An Example Model` section above.
 For continuing, copy the textual representation of the SD `Bid` and save it in a 
-file `Bid.sd` in the directory where the file `SD4DevelopmentTool.jar` is located.
+file `Bid.sd` in the directory where the file `SD4DevelopmentCLI.jar` is located.
 
 You can check the different kinds of context conditions, using the `-c,--coco <arg>` option:
 ```
-java -jar SD4DevelopmentTool.jar -i Bid.sd -c intra
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -c intra
 ```
 ```
-java -jar SD4DevelopmentTool.jar -i Bid.sd -c inter
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -c inter
 ```
 ```
-java -jar SD4DevelopmentTool.jar -i Bid.sd -c type
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type
 ```
 After executing the last command, you may notice that the tool produces some output.
 The output states the reasons why a few context conditions are not satisfied by the model.
@@ -254,7 +254,7 @@ by importing a symbol file defining the (yet undefined) types.
 In this section we make use of the model path and provide the tool with
 a symbol file (stored symbol table) of another model, which contains the necessary type information.
 
-Create a new directory `mytypes` in the directory where the tool `SD4DevelopmentTool.jar` is located.
+Create a new directory `mytypes` in the directory where the tool `SD4DevelopmentCLI.jar` is located.
 The symbol file `Types.typesym` of a model, which provides all necessary type information, can be found [here](doc/Types.typesym).
 Download the file, name it `Types.typesym`, and move it into the directory `mytypes`.
 
@@ -269,13 +269,13 @@ The path containing the directory structure that contains the symbol file is cal
 If we provide the model path to the tool, it will search for symbols in symbol files, which are stored in directories contained in the model path.
 So, if we want the tool to find our symbol file, we have to provide the model path to the tool via the `-path <arg>` option:
 ```
-java -jar SD4DevelopmentTool.jar -i Bid.sd -c type -path <MODELPATH>
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type -path <MODELPATH>
 ```
 where `<MODELPATH>` is the path where you stored the downloaded symbol file.
 In our example, in case you stored the model in the directory `mytypes`,
 execute the following command:
 ```
-java -jar SD4DevelopmentTool.jar -i Bid.sd -c type -path mytypes
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -c type -path mytypes
 ```
 
 Well, executing the above command still produces the same error message.
@@ -322,7 +322,7 @@ Furthermore, please notice that in order to store the symbols properly, the mode
 For storing the symbol file of `Bid.sd`, execute the following command 
 (the implicit context condition checks require using the model path option):
 ```
-java -jar SD4DevelopmentTool.jar -i Bid.sd -path mytypes -s
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -path mytypes -s
 ```
 The tool produces the file `target/symbols/Bid.sdsym`, which can now be imported by other models, e.g., by models that need to
 use some of the objects defined in the SD `Bid`.
@@ -330,7 +330,7 @@ use some of the objects defined in the SD `Bid`.
 For storing the symbol file of `Bid.sd` in the file `syms/BidSyms.sdsym`, for example, execute the following command
 (again, the implicit context condition checks require using the model path option):
 ```
-java -jar SD4DevelopmentTool.jar -i Bid.sd -path mytypes -s syms/BidSyms.sdsym
+java -jar SD4DevelopmentCLI.jar -i Bid.sd -path mytypes -s syms/BidSyms.sdsym
 ```
 
 Congratulations, you have just finished the tutorial about saving SD symbol files!
@@ -347,7 +347,7 @@ in the SD.
  
 In this section, we consider the SDs [rob1.sd](src/test/resources/sddiff/rob1.sd) and [rob2.sd](src/test/resources/sddiff/rob2.sd).
 Both SDs are graphically depicted the Figure 2.
-Download the files containing the SDs (by using the links) and place them in the directory where the tool `SD4DevelopmentTool.jar`
+Download the files containing the SDs (by using the links) and place them in the directory where the tool `SD4DevelopmentCLI.jar`
 is located. The file located [here](src/test/resources/sddiff/rob1.sd) should be named `rob1.sd` and the file 
 located [here](src/test/resources/sddiff/rob2.sd) should be named `rob2.sd`.
 
@@ -363,7 +363,7 @@ the SD defined in the file `rob2.sd` to the SD defined in the file `rob1.sd`, ex
 the following command:
 
 ```
-java -jar SD4DevelopmentTool.jar -sd -i rob2.sd rob1.sd
+java -jar SD4DevelopmentCLI.jar -sd -i rob2.sd rob1.sd
 ```
 
 The tool prints the following output, which represents the interaction sequence of a system
@@ -381,7 +381,7 @@ actionExecutor -> controller : ACTION_SUCCEEDED
 However, as the semantic difference operator is by no means commutative, swapping the arguments changes the result.
 Execute the following command:
 ```
-java -jar SD4DevelopmentTool.jar -sd -i rob1.sd rob2.sd
+java -jar SD4DevelopmentCLI.jar -sd -i rob1.sd rob2.sd
 ```
 
 This yield the following output:
