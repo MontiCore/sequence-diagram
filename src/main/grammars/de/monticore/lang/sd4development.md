@@ -59,14 +59,14 @@ This was for us the most intuitive textual representation of SDs, which was not
 easy to define, because SDs are inherently two dimensional with their 
 objects, activity bars and interactions in time.
 
-## Command Line Interface (CLI) Usage
+## Command Line Usage
 
-The class [```SD4DevelopmentCLI```](../../../../java/de/monticore/lang/sd4development/SD4DevelopmentCLI.java) provides typical functionality used when
+The class [```SD4DevelopmentTool```](../../../../java/de/monticore/lang/sd4development/SD4DevelopmentTool.java) provides typical functionality used when
 processing models. To this effect, the class provides methods
 for parsing, pretty-printing, creating symbol tables, storing symbols, and 
 loading symbols. 
 
-The class provides a `main` method and can thus be used as a CLI. Building this gradle project yields 
+The class provides a `main` method and can thus be used from command line. Building this gradle project yields 
 the executable jar `SD4DevelopmentCLI`, which can be found
 in the directory `target/libs`. The usage of the `SD4DevelopmentCLI` tool and detailed instructions
 for building the tool from the source files are described **[here](../../../../../../README.md)**. 

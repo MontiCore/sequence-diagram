@@ -2,7 +2,6 @@
 package de.monticore.lang.sd4development;
 
 import de.monticore.io.paths.MCPath;
-import de.monticore.lang.sd4development.SD4DevelopmentCLI;
 import de.monticore.lang.TestUtils;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
@@ -23,12 +22,11 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Paths;
-import java.util.Optional;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
-public class SD4DevelopmentCLITest {
+public class SD4DevelopmentToolTest {
 
   protected static final String SYMBOL_PATH = "src/test/resources";
   protected final static String CORRECT_PATH = SYMBOL_PATH + "/examples/correct/";
@@ -76,8 +74,8 @@ public class SD4DevelopmentCLITest {
     "deepTypeUsage.sd"
   })
   public void toolParseCorrectTest(String model) throws IOException {
-    SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
-    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    SD4DevelopmentTool tool = new SD4DevelopmentTool();
+    ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
     assertEquals(0, Log.getErrorCount());
   }
@@ -103,12 +101,12 @@ public class SD4DevelopmentCLITest {
     "deepTypeUsage.sd"
   })
   public void toolIntraModelCocosCorrectTest(String model) throws IOException {
-    SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
-    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    SD4DevelopmentTool tool = new SD4DevelopmentTool();
+    ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
-    cli.createSymbolTable(ast);
+    tool.createSymbolTable(ast);
 
-    cli.checkIntraModelCoCos(ast);
+    tool.checkIntraModelCoCos(ast);
     assertEquals(0, Log.getErrorCount());
   }
 
@@ -133,12 +131,12 @@ public class SD4DevelopmentCLITest {
     "deepTypeUsage.sd"
   })
   public void toolAllExceptTypeCocosCorrectTest(String model) throws IOException {
-    SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
-    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    SD4DevelopmentTool tool = new SD4DevelopmentTool();
+    ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
-    cli.createSymbolTable(ast);
+    tool.createSymbolTable(ast);
 
-    cli.checkAllExceptTypeCoCos(ast);
+    tool.checkAllExceptTypeCoCos(ast);
     assertEquals(0, Log.getErrorCount());
   }
 
@@ -157,10 +155,10 @@ public class SD4DevelopmentCLITest {
     "deepTypeUsage.sd"
   })
   public void toolAllCocosCorrectTest(String model) throws IOException {
-    SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
-    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    SD4DevelopmentTool tool = new SD4DevelopmentTool();
+    ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
-    cli.createSymbolTable(ast);
+    tool.createSymbolTable(ast);
 
     SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
     SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
@@ -170,7 +168,7 @@ public class SD4DevelopmentCLITest {
 
     SD4DevelopmentMill.globalScope().accept(t);
 
-    cli.checkAllCoCos(ast);
+    tool.checkAllCoCos(ast);
     assertEquals(0, Log.getErrorCount());
   }
 
@@ -195,10 +193,10 @@ public class SD4DevelopmentCLITest {
     "deepTypeUsage.sd"
   })
   public void toolPrettyPrintNoErrorTest(String model) throws IOException {
-    SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
-    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    SD4DevelopmentTool tool = new SD4DevelopmentTool();
+    ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
-    cli.prettyPrint(ast, "");
+    tool.prettyPrint(ast, "");
     assertEquals(0, Log.getErrorCount());
   }
 
@@ -223,16 +221,16 @@ public class SD4DevelopmentCLITest {
     "deepTypeUsage.sd"
   })
   public void toolDeSerTest(String model) throws IOException {
-    SD4DevelopmentCLI cli = new SD4DevelopmentCLI();
+    SD4DevelopmentTool tool = new SD4DevelopmentTool();
 
-    ASTSDArtifact ast = cli.parse(CORRECT_PATH + model);
+    ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
     String symbolFileName = SYMBOLS_OUT + ast.getSequenceDiagram().getName() +".sdsym";
-    cli.createSymbolTable(ast);
+    tool.createSymbolTable(ast);
     SD4DevelopmentArtifactScope artifactScope = (SD4DevelopmentArtifactScope) ast.getEnclosingScope();
 
-    cli.storeSymbols(ast, symbolFileName);
-    ISD4DevelopmentArtifactScope loadedST = cli.loadSymbols(symbolFileName);
+    tool.storeSymbols(ast, symbolFileName);
+    ISD4DevelopmentArtifactScope loadedST = tool.loadSymbols(symbolFileName);
 
     assertEquals(0, loadedST.getSubScopes().size());
     assertEquals(1, loadedST.getLocalDiagramSymbols().size());
@@ -248,14 +246,14 @@ public class SD4DevelopmentCLITest {
   }
 
   /*****************************************************************
-   ****************** CLI MAIN METHOD TESTS ************************
+   ****************** Tool MAIN METHOD TESTS ************************
    ******************************************************************/
 
   @Test
   public void testSemDiffRefinement() {
     Log.clearFindings();
 
-    SD4DevelopmentCLI.main(new String[] {
+    SD4DevelopmentTool.main(new String[] {
       "-i",
       "src/test/resources/sddiff/rob1.sd",
       "src/test/resources/sddiff/rob2.sd",
@@ -271,7 +269,7 @@ public class SD4DevelopmentCLITest {
   public void testSemDiffNoRefinement() {
     Log.clearFindings();
 
-    SD4DevelopmentCLI.main(new String[] {
+    SD4DevelopmentTool.main(new String[] {
       "-i",
       "src/test/resources/sddiff/rob2.sd",
       "src/test/resources/sddiff/rob1.sd",
@@ -287,7 +285,7 @@ public class SD4DevelopmentCLITest {
   public void testPrettyPrint() {
     Log.clearFindings();
 
-    SD4DevelopmentCLI.main(new String[] {
+    SD4DevelopmentTool.main(new String[] {
       "-i",
       "src/test/resources/sddiff/rob1.sd",
       "-pp"
@@ -303,7 +301,7 @@ public class SD4DevelopmentCLITest {
     Log.clearFindings();
     Log.initWARN();
 
-    SD4DevelopmentCLI.main(new String[] {
+    SD4DevelopmentTool.main(new String[] {
       "-i",
       "src/test/resources/examples/ast/Bid1.sd"
     });
@@ -319,7 +317,7 @@ public class SD4DevelopmentCLITest {
     SD4DevelopmentMill.init();
     BasicSymbolsMill.initializePrimitives();
 
-    SD4DevelopmentCLI.main(new String[] {
+    SD4DevelopmentTool.main(new String[] {
       "-i",
       "src/test/resources/examples/ast/Bid1.sd",
       "-c"

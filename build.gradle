@@ -165,7 +165,7 @@ shadowJar {
   archiveFileName = 'SD4DevelopmentCLI.jar'
   archiveClassifier = "cli"
   manifest {
-    attributes('Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentCLI')
+    attributes('Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentTool')
   }
 }
 
@@ -174,7 +174,7 @@ jar.dependsOn(shadowJar)
 //jar {
 //  manifest {
 //    attributes(
-//      'Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentCLI'
+//      'Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentTool'
 //    )
 //  }
 //  from {
