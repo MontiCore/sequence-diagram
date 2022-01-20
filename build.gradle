@@ -135,7 +135,6 @@ compileTestJava {
 }
 
 test {
-  useJUnit()
   useJUnitPlatform()
   testLogging {
     exceptionFormat = 'full'
