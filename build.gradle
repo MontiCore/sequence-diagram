@@ -175,8 +175,8 @@ task grammarJar(type: Jar) {
 }
 
 shadowJar {
-  archiveFileName = 'SD4DevelopmentCLI.jar'
-  archiveClassifier = "cli"
+  archiveFileName = 'MCSD4Development.jar'
+  archiveClassifier = "mc-tool"
   manifest {
     attributes('Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentTool')
   }
