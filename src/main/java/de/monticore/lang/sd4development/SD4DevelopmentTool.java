@@ -1,12 +1,19 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development;
 
+import de.monticore.cd.codegen.CDGenerator;
+import de.monticore.cd.codegen.CdUtilsPrinter;
+import de.monticore.generating.GeneratorSetup;
+import de.monticore.generating.templateengine.GlobalExtensionManagement;
+import de.monticore.generating.templateengine.TemplateController;
+import de.monticore.generating.templateengine.TemplateHookPoint;
 import de.monticore.io.FileReaderWriter;
 import de.monticore.io.paths.MCPath;
 import de.monticore.lang.sd4development._cocos.*;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentPrettyPrinter;
+import de.monticore.lang.sd4development.sd2cd.SD2CDTransformer;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
 import de.monticore.lang.sddiff.SDInteraction;
@@ -17,6 +24,7 @@ import de.se_rwth.commons.logging.Log;
 import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
 
+import java.io.File;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -69,7 +77,7 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
           System.out.println(witness.get().get(witness.get().size() - 1));
         }
         else {
-          System.out.println(String.format("The input SD '%s' is a refinement of the input SD '%s'", cmd.getOptionValues("i")[0], cmd.getOptionValues("i")[1]));
+          System.out.printf("The input SD '%s' is a refinement of the input SD '%s'%n", cmd.getOptionValues("i")[0], cmd.getOptionValues("i")[1]);
         }
       }
 
@@ -96,7 +104,7 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
       // we need the global scope for symbols and cocos
       MCPath symbolPath = new MCPath(Paths.get(""));
       if (cmd.hasOption("path")) {
-        symbolPath = new MCPath(Arrays.stream(cmd.getOptionValues("path")).map(x -> Paths.get(x)).collect(Collectors.toList()));
+        symbolPath = new MCPath(Arrays.stream(cmd.getOptionValues("path")).map(Paths::get).collect(Collectors.toList()));
       }
 
       ISD4DevelopmentGlobalScope globalScope = SD4DevelopmentMill.globalScope();
@@ -182,6 +190,37 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
             ASTSDArtifact sd_i = inputSDs.get(i);
             storeSymbols(sd_i, cmd.getOptionValues("s")[i]);
           }
+        }
+      }
+
+      if (cmd.hasOption("o")) {
+        String outputPath = cmd.getOptionValue("o", ".");
+
+        GlobalExtensionManagement glex = new GlobalExtensionManagement();
+        glex.setGlobalValue("cdPrinter", new CdUtilsPrinter());
+
+        GeneratorSetup generatorSetup = new GeneratorSetup();
+
+        if (cmd.hasOption("fp")) { // Template path
+          generatorSetup.setAdditionalTemplatePaths(Arrays.stream(cmd.getOptionValues("fp"))
+            .map(Paths::get)
+            .map(Path::toFile)
+            .collect(Collectors.toList()));
+        }
+
+        generatorSetup.setGlex(glex);
+        generatorSetup.setOutputDirectory(new File(outputPath));
+
+        SD2CDTransformer transformer = new SD2CDTransformer();
+
+        CDGenerator generator = new CDGenerator(generatorSetup);
+        String configTemplate = cmd.getOptionValue("ct", "sd2java.SD2Java");
+        TemplateController tc = generatorSetup.getNewTemplateController(configTemplate);
+        TemplateHookPoint hpp = new TemplateHookPoint(configTemplate);
+        List<Object> configTemplateArgs = Arrays.asList(glex, transformer, generator);
+
+        for (ASTSDArtifact ast : inputSDs) {
+          hpp.processValue(tc, ast, configTemplateArgs);
         }
       }
     }
@@ -304,19 +343,39 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
   @Override
   public Options addStandardOptions(Options options) {
     // help info
-    options.addOption(Option.builder("h").longOpt("help").desc("Prints this help informations.").build());
+    options.addOption(Option.builder("h")
+      .longOpt("help")
+      .desc("Prints this help informations.").build());
 
     // inputs
-    options.addOption(Option.builder("i").longOpt("input").hasArgs().desc("Processes the list of SD input artifacts. " + "Argument list is space separated. " + "CoCos are not checked automatically (see -c).").build());
+    options.addOption(Option.builder("i")
+      .longOpt("input")
+      .hasArgs()
+      .desc("Processes the list of SD input artifacts. " + "Argument list is space separated. " + "CoCos are not checked automatically (see -c).")
+      .build());
 
     // pretty print
-    options.addOption(Option.builder("pp").longOpt("prettyprint").argName("file").optionalArg(true).numberOfArgs(1).desc("Prints the input SDs to stdout or to the specified file (optional).").build());
+    options.addOption(
+      Option.builder("pp")
+        .longOpt("prettyprint")
+        .argName("file")
+        .optionalArg(true)
+        .numberOfArgs(1)
+        .desc("Prints the input SDs to stdout or to the specified file (optional).").build());
 
     // store symbols
-    options.addOption(Option.builder("s").longOpt("symboltable").optionalArg(true).hasArgs().desc("Stores the symbol tables of the input SDs in the specified files. " + "The n-th input " + "SD is stored in the file as specified by the n-th argument. " + "Default is 'target/symbols/{packageName}/{artifactName}.sdsym'.").build());
+    options.addOption(Option.builder("s")
+      .longOpt("symboltable")
+      .optionalArg(true)
+      .hasArgs()
+      .desc("Stores the symbol tables of the input SDs in the specified files. " + "The n-th input " + "SD is stored in the file as specified by the n-th argument. " + "Default is 'target/symbols/{packageName}/{artifactName}.sdsym'.")
+      .build());
 
     // model paths
-    options.addOption(Option.builder("path").hasArgs().desc("Sets the artifact path for imported symbols, space separated.").build());
+    options.addOption(Option.builder("path")
+      .hasArgs()
+      .desc("Sets the artifact path for imported symbols, space separated.")
+      .build());
 
     return options;
   }
@@ -324,10 +383,44 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
   @Override
   public Options addAdditionalOptions(Options options) {
     // semantic diff
-    options.addOption(Option.builder("sd").longOpt("semdiff").desc("Computes a diff witness showing the asymmetrical semantic difference " + "of two SD. Requires two " + "SDs as inputs. See se-rwth.de/topics for scientific foundation.").build());
+    options.addOption(Option.builder("sd")
+      .longOpt("semdiff")
+      .desc("Computes a diff witness showing the asymmetrical semantic difference " + "of two SD. Requires two " + "SDs as inputs. See se-rwth.de/topics for scientific foundation.")
+      .build());
 
     // cocos
-    options.addOption(Option.builder("c").longOpt("coco").optionalArg(true).numberOfArgs(3).desc("Checks the CoCos for the input. Optional arguments are:\n" + "-c intra to check only the intra-model CoCos,\n" + "-c inter checks also inter-model CoCos,\n" + "-c type (default) checks all CoCos.").build());
+    options.addOption(Option.builder("c")
+      .longOpt("coco")
+      .optionalArg(true)
+      .numberOfArgs(3)
+      .desc("Checks the CoCos for the input. Optional arguments are:\n" + "-c intra to check only the intra-model CoCos,\n" + "-c inter checks also inter-model CoCos,\n" + "-c type (default) checks all CoCos.")
+      .build());
+
+    // output path
+    options.addOption(Option
+      .builder("o").longOpt("output")
+      .hasArg().type(String.class)
+      .argName("dir").optionalArg(true).numberOfArgs(1)
+      .desc("Path for generated files (optional). Default is `.`.")
+      .build());
+
+    // template path
+    options.addOption(Option.builder("fp")
+      .longOpt("templatePath")
+      .argName("pathlist")
+      .hasArgs()
+      .type(String.class)
+      .desc("Optional list of directories to look for handwritten templates to integrate.")
+      .build());
+
+    // configTemplate parameter
+    options.addOption(Option.builder("ct")
+      .longOpt("configTemplate")
+      .argName("file")
+      .optionalArg(true)
+      .numberOfArgs(1)
+      .desc("Provides a config template (optional)")
+      .build());
 
     return options;
   }

@@ -63,7 +63,9 @@ dependencies {
   implementation ("de.monticore:monticore-grammar:$mc_version") {capabilities {
     requireCapability("$group:monticore-grammar-grammars") }
   }
-  
+
+  implementation "de.monticore.lang:cd4analysis:$mc_version"
+
   grammar ("de.monticore:monticore-grammar:$mc_version") {capabilities {
     requireCapability("de.monticore:monticore-grammar-grammars") }
   }
@@ -133,7 +135,6 @@ compileTestJava {
 }
 
 test {
-  useJUnit()
   useJUnitPlatform()
   testLogging {
     exceptionFormat = 'full'

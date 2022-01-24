@@ -1,0 +1,46 @@
+plugins {
+  id "monticore"
+  id "java"
+}
+
+sourceSets["main"].java.srcDir("src/generated/java")
+
+test {
+  useJUnitPlatform()
+  testLogging {
+    exceptionFormat = 'full'
+    showStackTraces = true
+    showStandardStreams = true
+  }
+
+  // listen to standard out and standard error of the test JVM(s)
+  onOutput { descriptor, event ->
+    logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message)
+  }
+}
+
+tasks.withType(JavaCompile) {
+  options.warnings = false
+  options.encoding = "UTF-8"
+}
+
+repositories {
+  maven {
+    credentials.username mavenUser
+    credentials.password mavenPassword
+    url repo
+  }
+  mavenLocal()
+}
+
+dependencies {
+  def commons_version = "1.7.11"
+
+  implementation "de.se_rwth.commons:se-commons-logging:$commons_version"
+  implementation "de.se_rwth.commons:se-commons-utilities:$commons_version"
+
+  testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.2"
+  testImplementation "org.junit.jupiter:junit-jupiter-engine:5.6.2"
+  testImplementation "org.junit.jupiter:junit-jupiter-params:5.6.2"
+  testImplementation "org.junit.vintage:junit-vintage-engine:5.6.2"
+}
