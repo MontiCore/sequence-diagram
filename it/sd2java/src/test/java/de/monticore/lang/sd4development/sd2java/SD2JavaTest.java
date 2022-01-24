@@ -1,3 +1,5 @@
+/* (c) https://github.com/MontiCore/monticore */
+
 package de.monticore.lang.sd4development.sd2java;
 
 import com.example.Bid;

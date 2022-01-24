@@ -1,3 +1,5 @@
+/* (c) https://github.com/MontiCore/monticore */
+
 package com.example;
 
 public final class Foo {
