@@ -2,7 +2,7 @@
 package de.monticore.lang.sdbasis._cocos;
 
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.monticore.utils.Names;
+import de.se_rwth.commons.Names;
 import de.se_rwth.commons.logging.Log;
 
 /**
