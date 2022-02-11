@@ -67,8 +67,8 @@ for parsing, pretty-printing, creating symbol tables, storing symbols, and
 loading symbols. 
 
 The class provides a `main` method and can thus be used from command line. Building this gradle project yields 
-the executable jar `SD4DevelopmentCLI`, which can be found
-in the directory `target/libs`. The usage of the `SD4DevelopmentCLI` tool and detailed instructions
+the executable jar `MCSD4Development`, which can be found
+in the directory `target/libs`. The usage of the `MCSD4Development` tool and detailed instructions
 for building the tool from the source files are described **[here](../../../../../../README.md)**. 
 
 ## Grammars

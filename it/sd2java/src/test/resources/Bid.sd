@@ -1,0 +1,10 @@
+/* (c) https://github.com/MontiCore/monticore */
+package com.example;
+
+sequencediagram Bid {
+
+  foo:Foo;
+
+  -> foo: doStuff();
+
+}
