@@ -2,6 +2,7 @@ package de.monticore.lang.sd4development.sd2cd;
 
 import de.monticore.cd.codegen.CDGenerator;
 import de.monticore.cd.codegen.CdUtilsPrinter;
+import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.generating.templateengine.TemplateController;
@@ -17,10 +18,7 @@ import org.junit.jupiter.api.Test;
 
 import java.io.File;
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
-import java.util.NoSuchElementException;
-import java.util.Optional;
+import java.util.*;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -33,10 +31,6 @@ public class SD2CDTest {
 
   private SD4DevelopmentParser parser;
 
-  public SD2CDTest() {
-    Log.enableFailQuick(false);
-  }
-
   @BeforeAll
   public static void cleanup() {
     Files.deleteFiles(OUTPUT_DIR);
@@ -44,13 +38,32 @@ public class SD2CDTest {
 
   @BeforeEach
   public void setup() {
-    this.parser = new SD4DevelopmentParser();
     SD4DevelopmentMill.reset();
     SD4DevelopmentMill.init();
+
+    Log.getFindings().clear();
+    Log.enableFailQuick(false);
+
+    this.parser = new SD4DevelopmentParser();
   }
 
   @Test
   public void test() {
+    ASTSDArtifact astArtifact;
+
+    try {
+      Optional<ASTSDArtifact> parseResult = this.parser.parse(MODEL_PATH + "Bid.sd");
+      assertTrue(parseResult.isPresent(), "Failed to parse model: " + MODEL_PATH + "Bid.sd");
+
+      astArtifact = parseResult.get();
+    } catch (IOException |NoSuchElementException e) {
+      fail("Loading model '" + MODEL_PATH + "Bid.sd" + "' failed: " + e.getMessage(), e);
+      return;
+    }
+
+    SD4DevelopmentMill.reset();
+    CD4CodeMill.init();
+
     GlobalExtensionManagement glex = new GlobalExtensionManagement();
     glex.setGlobalValue("cdPrinter", new CdUtilsPrinter());
 
@@ -66,19 +79,14 @@ public class SD2CDTest {
     TemplateHookPoint hpp = new TemplateHookPoint(configTemplate);
     List<Object> configTemplateArgs = Arrays.asList(glex, transformer, generator);
 
-    ASTSDArtifact astArtifact;
-
-    try {
-      Optional<ASTSDArtifact> parseResult = this.parser.parse(MODEL_PATH + "Bid.sd");
-      assertTrue(parseResult.isPresent(), "Failed to parse model: " + MODEL_PATH + "Bid.sd");
-
-      astArtifact = parseResult.get();
-    } catch (IOException |NoSuchElementException e) {
-      fail("Loading model '" + MODEL_PATH + "Bid.sd" + "' failed: " + e.getMessage(), e);
-      return;
-    }
-
     hpp.processValue(tc, astArtifact, configTemplateArgs);
+
+    if (!Log.getFindings().isEmpty()) {
+      StringJoiner sj = new StringJoiner("\n");
+      Log.getFindings().forEach(it -> sj.add(it.toString()));
+
+      fail(sj.toString());
+    }
   }
 
 }
