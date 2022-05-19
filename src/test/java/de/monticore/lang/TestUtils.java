@@ -6,7 +6,7 @@ import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentGlobalScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
-import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
+import de.monticore.lang.sdbasis.types.FullSDBasisSynthesizer;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbolBuilder;
@@ -53,9 +53,13 @@ public final class TestUtils {
   }
 
   private static OOTypeSymbol createDeepOOTypeSymbol() {
-    MethodSymbol someMethod = new MethodSymbolBuilder().setReturnType(new DeriveSymTypeOfSDBasis(SD4DevelopmentMill.traverser()).calculateType(typeFacade.createIntType()).get()).setName("someMethod").build();
+<<<<<<< src/test/java/de/monticore/lang/TestUtils.java
+    MethodSymbol someMethod = new MethodSymbolBuilder().setType(new DeriveSymTypeOfSDBasis(SD4DevelopmentMill.traverser()).calculateType(typeFacade.createIntType()).get()).setName("someMethod").build();
+=======
+    MethodSymbol someMethod = new MethodSymbolBuilder().setReturnType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).setName("someMethod").build();
+>>>>>>> src/test/java/de/monticore/lang/TestUtils.java
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
-    FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
+    FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).build();
     scope.add(valueField);
     someMethod.setSpannedScope(scope);
     // TimingPolicy oo type symbol
@@ -68,9 +72,13 @@ public final class TestUtils {
 
   private static OOTypeSymbol createBiddingPolicyOOTypeSymbol() {
     // validateBid method symbol
-    MethodSymbol validateBid = new MethodSymbolBuilder().setName("validateBid").setReturnType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
+<<<<<<< src/test/java/de/monticore/lang/TestUtils.java
+    MethodSymbol validateBid = new MethodSymbolBuilder().setName("validateBid").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
+=======
+    MethodSymbol validateBid = new MethodSymbolBuilder().setName("validateBid").setType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).build();
+>>>>>>> src/test/java/de/monticore/lang/TestUtils.java
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
-    FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
+    FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).build();
     scope.add(valueField);
     validateBid.setSpannedScope(scope);
     // BiddingPolicy oo type symbol
@@ -83,9 +91,13 @@ public final class TestUtils {
 
   private static OOTypeSymbol createTimingPolicyOOTypeSymbol() {
     // newCurrentClosingTime method symbol
-    MethodSymbol newCurrentClosingTime = new MethodSymbolBuilder().setReturnType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).setName("newCurrentClosingTime").build();
+<<<<<<< src/test/java/de/monticore/lang/TestUtils.java
+    MethodSymbol newCurrentClosingTime = new MethodSymbolBuilder().setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).setName("newCurrentClosingTime").build();
+=======
+    MethodSymbol newCurrentClosingTime = new MethodSymbolBuilder().setType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).setName("newCurrentClosingTime").build();
+>>>>>>> src/test/java/de/monticore/lang/TestUtils.java
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
-    FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
+    FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).build();
     scope.add(valueField);
     newCurrentClosingTime.setSpannedScope(scope);
     // TimingPolicy oo type symbol
