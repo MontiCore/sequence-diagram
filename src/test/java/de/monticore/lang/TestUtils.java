@@ -53,7 +53,7 @@ public final class TestUtils {
   }
 
   private static OOTypeSymbol createDeepOOTypeSymbol() {
-    MethodSymbol someMethod = new MethodSymbolBuilder().setReturnType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).setName("someMethod").build();
+    MethodSymbol someMethod = new MethodSymbolBuilder().setType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).setName("someMethod").build();
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
     FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).build();
     scope.add(valueField);
@@ -68,7 +68,7 @@ public final class TestUtils {
 
   private static OOTypeSymbol createBiddingPolicyOOTypeSymbol() {
     // validateBid method symbol
-    MethodSymbol validateBid = new MethodSymbolBuilder().setName("validateBid").setReturnType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).build();
+    MethodSymbol validateBid = new MethodSymbolBuilder().setName("validateBid").setType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).build();
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
     FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).build();
     scope.add(valueField);
@@ -83,7 +83,7 @@ public final class TestUtils {
 
   private static OOTypeSymbol createTimingPolicyOOTypeSymbol() {
     // newCurrentClosingTime method symbol
-    MethodSymbol newCurrentClosingTime = new MethodSymbolBuilder().setReturnType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).setName("newCurrentClosingTime").build();
+    MethodSymbol newCurrentClosingTime = new MethodSymbolBuilder().setType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).setName("newCurrentClosingTime").build();
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
     FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new FullSDBasisSynthesizer().synthesizeType(typeFacade.createIntType()).getResult()).build();
     scope.add(valueField);
