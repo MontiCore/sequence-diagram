@@ -15,7 +15,7 @@ def grammarDir = "src/main/grammars"
 
 group = "de.monticore.lang"
 description = "Sequence Diagram DSL"
-sourceCompatibility = "1.8"
+sourceCompatibility = "1.11"
 
 
 // configure non-standard source sets
