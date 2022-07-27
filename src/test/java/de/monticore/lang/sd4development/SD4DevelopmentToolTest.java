@@ -325,7 +325,7 @@ public class SD4DevelopmentToolTest {
     String printed = out.toString().trim();
     assertNotNull(printed);
     assertFalse(printed.contains("java.lang.NullPointerException"));
-    Assert.assertEquals(8, Log.getErrorCount());
+    Assert.assertEquals(4, Log.getErrorCount());
   }
 
 }
