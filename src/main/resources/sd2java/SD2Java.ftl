@@ -7,4 +7,5 @@
 -->
 ${tc.signature("glex", "sd2cdTransformer", "cdGenerator")}
 
-${cdGenerator.generate(sd2cdTransformer.transform(ast))}
+<#assign cddata = sd2cdTransformer.transform(ast, glex)>
+${cdGenerator.generate(cddata.getCompilationUnit())}

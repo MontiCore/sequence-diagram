@@ -194,7 +194,7 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
       }
 
       if (cmd.hasOption("o")) {
-        String outputPath = cmd.getOptionValue("o", ".");
+        String outputPath = cmd.getOptionValue("o", "target/gen-test");
 
         GlobalExtensionManagement glex = new GlobalExtensionManagement();
         glex.setGlobalValue("cdPrinter", new CdUtilsPrinter());

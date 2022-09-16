@@ -328,4 +328,10 @@ public class SD4DevelopmentToolTest {
     Assert.assertEquals(4, Log.getErrorCount());
   }
 
+  @Test
+  public void testGenerate() {
+    SD4DevelopmentTool.main(new String[] {"-i","src/test/resources/examples/ast/Bid1.sd" ,"-o"});
+    assertTrue(!false);
+  }
+
 }
