@@ -11,4 +11,4 @@ pluginManagement {
 }
 rootProject.name = 'sd-language'
 
-include(':it:sd2java')
+include(':gentest')
