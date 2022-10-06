@@ -39,6 +39,7 @@ public class SD4DevelopmentToolTest {
     SD4DevelopmentMill.reset();
     SD4DevelopmentMill.init();
     this.setupGlobalScope();
+    Log.init();
     Log.getFindings().clear();
     Log.enableFailQuick(false);
 
@@ -330,7 +331,7 @@ public class SD4DevelopmentToolTest {
 
   @Test
   public void testGenerate() {
-    SD4DevelopmentTool.main(new String[] {"-i","src/test/resources/examples/ast/Bid1.sd" ,"-o"});
+    SD4DevelopmentTool.main(new String[] {"-i","src/test/resources/examples/ast/Bid1.sd" ,"-o", "target/gen-test"});
     assertTrue(!false);
   }
 

@@ -22,7 +22,6 @@ public class SD2CDTransformer {
     traverser.handle(ast);
 
     return new SC2CDData(visitor.getCompilationUnit(),
-      visitor.getCdClass(),
-      visitor.getClassMap().values());
+      visitor.getCdClass());
   }
 }

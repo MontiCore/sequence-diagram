@@ -11,12 +11,9 @@ public class SC2CDData {
 
   protected final ASTCDClass cdClass;
 
-  protected final Collection<ASTCDClass> classes;
-
-  public SC2CDData(ASTCDCompilationUnit compilationUnit, ASTCDClass cdClass, Collection<ASTCDClass> classes) {
+  public SC2CDData(ASTCDCompilationUnit compilationUnit, ASTCDClass cdClass) {
     this.compilationUnit = compilationUnit;
     this.cdClass = cdClass;
-    this.classes = classes;
   }
 
   public ASTCDCompilationUnit getCompilationUnit() {

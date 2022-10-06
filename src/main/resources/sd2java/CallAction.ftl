@@ -1,3 +1,3 @@
-${tc.signature("call")}
+${tc.signature("methodName")}
 ${cd4c.method("public void testMethod()")}
-${call}
+super.${methodName}();
