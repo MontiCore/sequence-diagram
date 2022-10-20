@@ -13,7 +13,9 @@ import de.monticore.lang.sd4development._cocos.*;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentPrettyPrinter;
-import de.monticore.lang.sd4development.sd2cd.SD2CDTransformer;
+import de.monticore.lang.sd4development.sdtransformer.SDTransformer;
+import de.monticore.lang.sd4development.sdtransformer.sd2cd.SD2CDTransformer;
+import de.monticore.lang.sd4development.sdtransformer.sd2test.SD2TestTransformer;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
 import de.monticore.lang.sddiff.SDInteraction;
@@ -194,41 +196,38 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
       }
 
       if (cmd.hasOption("o")) {
-        String outputPath = cmd.getOptionValue("o", "target/gen-test");
-
-        GlobalExtensionManagement glex = new GlobalExtensionManagement();
-        glex.setGlobalValue("cdPrinter", new CdUtilsPrinter());
-
-        GeneratorSetup generatorSetup = new GeneratorSetup();
-
-        if (cmd.hasOption("fp")) { // Template path
-          generatorSetup.setAdditionalTemplatePaths(Arrays.stream(cmd.getOptionValues("fp"))
-            .map(Paths::get)
-            .map(Path::toFile)
-            .collect(Collectors.toList()));
-        }
-
-        generatorSetup.setGlex(glex);
-        generatorSetup.setOutputDirectory(new File(outputPath));
-
-        SD2CDTransformer transformer = new SD2CDTransformer();
-
-        CDGenerator generator = new CDGenerator(generatorSetup);
-        String configTemplate = cmd.getOptionValue("ct", "sd2java.SD2Java");
-        TemplateController tc = generatorSetup.getNewTemplateController(configTemplate);
-        TemplateHookPoint hpp = new TemplateHookPoint(configTemplate);
-        List<Object> configTemplateArgs = Arrays.asList(glex, transformer, generator);
-
-        for (ASTSDArtifact ast : inputSDs) {
-          hpp.processValue(tc, ast, configTemplateArgs);
-        }
+        generateCD(inputSDs, cmd, new SD2CDTransformer());
+        generateCD(inputSDs, cmd, new SD2TestTransformer());
       }
     }
     catch (ParseException e) {
       // unexpected error from apache CLI parser
       Log.error("0xA7103 Could not process CLI parameters: " + e.getMessage());
     }
+  }
 
+  public void generateCD(List<ASTSDArtifact> inputSDs, CommandLine cmd, SDTransformer transformer) {
+    String outputPath = cmd.getOptionValue("o", "target/gen-test");
+
+    GlobalExtensionManagement glex = new GlobalExtensionManagement();
+    glex.setGlobalValue("cdPrinter", new CdUtilsPrinter());
+    GeneratorSetup generatorSetup = new GeneratorSetup();
+    if (cmd.hasOption("fp")) { // Template path
+      generatorSetup.setAdditionalTemplatePaths(Arrays.stream(cmd.getOptionValues("fp"))
+        .map(Paths::get)
+        .map(Path::toFile)
+        .collect(Collectors.toList()));
+    }
+    generatorSetup.setGlex(glex);
+    generatorSetup.setOutputDirectory(new File(outputPath));
+    CDGenerator generator = new CDGenerator(generatorSetup);
+    String configTemplate = cmd.getOptionValue("ct", "sdtransformer.SDTransformer");
+    TemplateController tc = generatorSetup.getNewTemplateController(configTemplate);
+    TemplateHookPoint hpp = new TemplateHookPoint(configTemplate);
+    List<Object> configTemplateArgs = Arrays.asList(glex, transformer, generator);
+    for (ASTSDArtifact ast : inputSDs) {
+      hpp.processValue(tc, ast, configTemplateArgs);
+    }
   }
 
   /**

@@ -1,11 +1,10 @@
-package de.monticore.lang.sd4development.sd2cd;
+package de.monticore.lang.sd4development.sdtransformer.sd2cd;
 
 import de.monticore.cdbasis._ast.ASTCDClass;
 import de.monticore.cdbasis._ast.ASTCDCompilationUnit;
+import de.monticore.lang.sd4development.sdtransformer.SDData;
 
-import java.util.Collection;
-
-public class SC2CDData {
+public class SC2CDData implements SDData {
 
   protected final ASTCDCompilationUnit compilationUnit;
 

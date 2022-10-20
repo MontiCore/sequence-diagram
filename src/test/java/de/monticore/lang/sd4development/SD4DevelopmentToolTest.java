@@ -331,7 +331,7 @@ public class SD4DevelopmentToolTest {
 
   @Test
   public void testGenerate() {
-    SD4DevelopmentTool.main(new String[] {"-i","src/test/resources/examples/ast/Bid1.sd" ,"-o", "target/gen-test"});
+    SD4DevelopmentTool.main(new String[] {"-i","src/test/resources/examples/ast/Bid1.sd" ,"-o"});
     assertTrue(!false);
   }
 

@@ -1,4 +1,4 @@
-package de.monticore.lang.sd4development.sd2cd;
+package de.monticore.lang.sd4development.sdtransformer.sd2cd;
 
 import de.monticore.cd.facade.MCQualifiedNameFacade;
 import de.monticore.cd.methodtemplates.CD4C;
@@ -70,8 +70,8 @@ public class SC2CDVisitor implements SDBasisVisitor2 {
       .map(ASTSDObject::getName)
       .collect(Collectors.toList());
 
-    this.cd4C.addConstructor(cdClass, "sd2java.Constructor", diagram.getName(), parameters, assignments);
-    this.cd4C.addConstructor(cdClass, "sd2java.DefaultConstructor", diagram.getName());
+    this.cd4C.addConstructor(cdClass, "sdtransformer.sd2java.Constructor", diagram.getName(), parameters, assignments);
+    this.cd4C.addConstructor(cdClass, "sdtransformer.sd2java.DefaultConstructor", diagram.getName());
 
 
     this.cdPackage.addCDElement(cdClass);
@@ -99,7 +99,7 @@ public class SC2CDVisitor implements SDBasisVisitor2 {
         ASTSDCall call = (ASTSDCall) action;
         String callee = call.getName();
 
-        this.cd4C.addMethod(cdClass, "sd2java.CallAction", receiver + "." + callee + "();");
+        this.cd4C.addMethod(cdClass, "sdtransformer.sd2java.CallAction", receiver + "." + callee + "();");
       }
     }
   }
