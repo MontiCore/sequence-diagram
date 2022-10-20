@@ -13,9 +13,9 @@ import de.monticore.lang.sd4development._cocos.*;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentPrettyPrinter;
-import de.monticore.lang.sd4development.sdtransformer.SDTransformer;
-import de.monticore.lang.sd4development.sdtransformer.sd2cd.SD2CDTransformer;
-import de.monticore.lang.sd4development.sdtransformer.sd2test.SD2TestTransformer;
+import de.monticore.lang.sd4development.sdtransformer.SDGenerator;
+import de.monticore.lang.sd4development.sdtransformer.sd2cd.SD2CDGenerator;
+import de.monticore.lang.sd4development.sdtransformer.sd2test.SD2TestGenerator;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
 import de.monticore.lang.sddiff.SDInteraction;
@@ -196,8 +196,8 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
       }
 
       if (cmd.hasOption("o")) {
-        generateCD(inputSDs, cmd, new SD2CDTransformer());
-        generateCD(inputSDs, cmd, new SD2TestTransformer());
+        generateCD(inputSDs, cmd, new SD2CDGenerator());
+        generateCD(inputSDs, cmd, new SD2TestGenerator());
       }
     }
     catch (ParseException e) {
@@ -206,7 +206,7 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
     }
   }
 
-  public void generateCD(List<ASTSDArtifact> inputSDs, CommandLine cmd, SDTransformer transformer) {
+  public void generateCD(List<ASTSDArtifact> inputSDs, CommandLine cmd, SDGenerator transformer) {
     String outputPath = cmd.getOptionValue("o", "target/gen-test");
 
     GlobalExtensionManagement glex = new GlobalExtensionManagement();
