@@ -118,7 +118,7 @@ public class MockClassTransformer extends AbstractVisitor implements SDBasisVisi
         //parameter list in a string format to print in the template
         parameterString = join(parameterList);
       }
-      cd4C.addMethod(mockClass, "sdtransformer.sd2test.MockMethods",
+      cd4C.addMethod(mockClass, "sdgenerator.sd2test.MockMethods",
         prodReturnType, prodMethodName, prodMethodCDParameterList, parameterString,
         monitorName, capitalize(target), capitalize(prodMethodName), isSDMethod);
     }

@@ -46,7 +46,7 @@ public class ExampleProdClass extends AbstractVisitor implements SDBasisVisitor2
       .setName("ASTBook")
       .build();
 
-    cd4C.addConstructor(bookClass, "sdtransformer.sd2java.DefaultConstructor", "ASTBook");
+    cd4C.addConstructor(bookClass, "sdgenerator.sd2java.DefaultConstructor", "ASTBook");
     String quantity = "public int quantity;";
     String price = "public int price;";
     String bookId = "public String bookId;";
@@ -64,7 +64,7 @@ public class ExampleProdClass extends AbstractVisitor implements SDBasisVisitor2
       .setModifier(CD4CodeMill.modifierBuilder().PUBLIC().build())
       .setName("ASTCustomer")
       .build();
-    cd4C.addConstructor(customerClass, "sdtransformer.sd2java.DefaultConstructor", "ASTCustomer");
+    cd4C.addConstructor(customerClass, "sdgenerator.sd2java.DefaultConstructor", "ASTCustomer");
     String age = "protected  int age;";
     String accountBalance = "protected  int accountBalance ;";
     String customerID = "protected  String customerID ;";
@@ -89,11 +89,11 @@ public class ExampleProdClass extends AbstractVisitor implements SDBasisVisitor2
       .setName("ASTInventoryManager")
       .build();
 
-    cd4C.addConstructor(inventoryManagerClass, "sdtransformer.sd2java.DefaultConstructor", "ASTInventoryManager");
+    cd4C.addConstructor(inventoryManagerClass, "sdgenerator.sd2java.DefaultConstructor", "ASTInventoryManager");
 
-    cd4C.addMethod(inventoryManagerClass, "sdtransformer.sd2test.InventoryManagerMethods", "checkQuantity");
-    cd4C.addMethod(inventoryManagerClass, "sdtransformer.sd2test.InventoryManagerMethods", "addInventory");
-    cd4C.addMethod(inventoryManagerClass, "sdtransformer.sd2test.InventoryManagerMethods", "removeInventory");
+    cd4C.addMethod(inventoryManagerClass, "sdgenerator.sd2test.InventoryManagerMethods", "checkQuantity");
+    cd4C.addMethod(inventoryManagerClass, "sdgenerator.sd2test.InventoryManagerMethods", "addInventory");
+    cd4C.addMethod(inventoryManagerClass, "sdgenerator.sd2test.InventoryManagerMethods", "removeInventory");
 
     return inventoryManagerClass;
   }
@@ -103,9 +103,9 @@ public class ExampleProdClass extends AbstractVisitor implements SDBasisVisitor2
       .setModifier(CD4CodeMill.modifierBuilder().PUBLIC().build())
       .setName("ASTPaymentGateway")
       .build();
-    cd4C.addConstructor(paymentGatewayClass, "sdtransformer.sd2java.DefaultConstructor", "ASTPaymentGateway");
-    cd4C.addMethod(paymentGatewayClass, "sdtransformer.sd2test.PaymentGatewayMethods", "processPayment");
-    cd4C.addMethod(paymentGatewayClass, "sdtransformer.sd2test.PaymentGatewayMethods", "processReturn");
+    cd4C.addConstructor(paymentGatewayClass, "sdgenerator.sd2java.DefaultConstructor", "ASTPaymentGateway");
+    cd4C.addMethod(paymentGatewayClass, "sdgenerator.sd2test.PaymentGatewayMethods", "processPayment");
+    cd4C.addMethod(paymentGatewayClass, "sdgenerator.sd2test.PaymentGatewayMethods", "processReturn");
 
 
     return paymentGatewayClass;
@@ -117,7 +117,7 @@ public class ExampleProdClass extends AbstractVisitor implements SDBasisVisitor2
       .setName("ASTStore")
       .build();
     String storeCtor = "public ASTStore()";
-    cd4C.addConstructor(storeClass, "sdtransformer.sd2java.DefaultConstructor", "ASTStore");
+    cd4C.addConstructor(storeClass, "sdgenerator.sd2java.DefaultConstructor", "ASTStore");
 
     String inventoryManagerAttribute = "protected  ASTInventoryManager inventoryManager;";
     String paymentGatewayAttribute = "protected  ASTPaymentGateway paymentGateway;";
@@ -125,9 +125,9 @@ public class ExampleProdClass extends AbstractVisitor implements SDBasisVisitor2
     cd4C.addAttribute(storeClass, true, true, inventoryManagerAttribute);
     cd4C.addAttribute(storeClass, true, true, paymentGatewayAttribute);
 
-    cd4C.addMethod(storeClass, "sdtransformer.sd2test.StoreMethods", "checkAvailability");
-    cd4C.addMethod(storeClass, "sdtransformer.sd2test.StoreMethods", "makePurchase");
-    cd4C.addMethod(storeClass, "sdtransformer.sd2test.StoreMethods", "placeReturn");
+    cd4C.addMethod(storeClass, "sdgenerator.sd2test.StoreMethods", "checkAvailability");
+    cd4C.addMethod(storeClass, "sdgenerator.sd2test.StoreMethods", "makePurchase");
+    cd4C.addMethod(storeClass, "sdgenerator.sd2test.StoreMethods", "placeReturn");
 
     return storeClass;
   }
@@ -137,7 +137,7 @@ public class ExampleProdClass extends AbstractVisitor implements SDBasisVisitor2
       .setModifier(CD4CodeMill.modifierBuilder().PUBLIC().build())
       .setName("BookstoreMill")
       .build();
-    cd4C.addConstructor(mainMill, "sdtransformer.sd2java.DefaultConstructor", "BookstoreMill");
+    cd4C.addConstructor(mainMill, "sdgenerator.sd2java.DefaultConstructor", "BookstoreMill");
 
     String millAttribute = "protected  static  BookstoreMill mill ;";
     String bookAttribute = "protected  static  BookstoreMill millASTBookBuilder ;";
@@ -153,20 +153,20 @@ public class ExampleProdClass extends AbstractVisitor implements SDBasisVisitor2
     cd4C.addAttribute(mainMill, paymentGatewayAttribute);
     cd4C.addAttribute(mainMill, storeAttribute);
 
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillMethods", "book");
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillMethods", "customer");
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillMethods", "inventoryManager");
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillMethods", "paymentGateway");
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillMethods", "store");
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillSecondaryMethods", "book");
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillSecondaryMethods", "customer");
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillSecondaryMethods", "inventoryManager");
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillSecondaryMethods", "paymentGateway");
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillSecondaryMethods", "store");
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillCommonMethods", "initMe");
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillCommonMethods", "reset");
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillCommonMethods", "getMill");
-    cd4C.addMethod(mainMill, "sdtransformer.sd2test.MillCommonMethods", "init");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillMethods", "book");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillMethods", "customer");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillMethods", "inventoryManager");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillMethods", "paymentGateway");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillMethods", "store");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillSecondaryMethods", "book");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillSecondaryMethods", "customer");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillSecondaryMethods", "inventoryManager");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillSecondaryMethods", "paymentGateway");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillSecondaryMethods", "store");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillCommonMethods", "initMe");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillCommonMethods", "reset");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillCommonMethods", "getMill");
+    cd4C.addMethod(mainMill, "sdgenerator.sd2test.MillCommonMethods", "init");
 
     return mainMill;
   }

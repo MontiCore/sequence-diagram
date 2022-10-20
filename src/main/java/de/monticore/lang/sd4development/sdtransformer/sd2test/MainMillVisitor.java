@@ -40,7 +40,7 @@ public class MainMillVisitor extends AbstractVisitor implements SDBasisVisitor2 
       if(astcdClass.getName().endsWith("Mill")) {
         continue;
       }
-      cd4C.addMethod(mockMillClass, "sdtransformer.sd2test.MockMillMethods", astcdClass.getName(), uncapitalize(astcdClass.getName()));
+      cd4C.addMethod(mockMillClass, "sdgenerator.sd2test.MockMillMethods", astcdClass.getName(), uncapitalize(astcdClass.getName()));
     }
 
     classes.add(mockMillClass);

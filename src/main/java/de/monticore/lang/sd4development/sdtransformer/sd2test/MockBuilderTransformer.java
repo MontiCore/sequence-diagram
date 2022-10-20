@@ -70,11 +70,11 @@ public class MockBuilderTransformer extends AbstractVisitor implements SDBasisVi
       .collect(Collectors.toList());
     List<ASTCDAttribute> assignAttributeList = prodClass.getCDAttributeList();
 
-    cd4C.addConstructor(mockBuilder, "sdtransformer.sd2test.BuilderConstructor",
+    cd4C.addConstructor(mockBuilder, "sdgenerator.sd2test.BuilderConstructor",
       builderType);
-    cd4C.addMethod(mockBuilder, "sdtransformer.sd2test.BuilderBuildMethods",
+    cd4C.addMethod(mockBuilder, "sdgenerator.sd2test.BuilderBuildMethods",
       prodClass.getName(), attributeList, false, sdName, assignAttributeList);
-    cd4C.addMethod(mockBuilder, "sdtransformer.sd2test.BuilderBuildMethods",
+    cd4C.addMethod(mockBuilder, "sdgenerator.sd2test.BuilderBuildMethods",
       prodClass.getName(), attributeList, true, sdName, assignAttributeList);
 
     return mockBuilder;

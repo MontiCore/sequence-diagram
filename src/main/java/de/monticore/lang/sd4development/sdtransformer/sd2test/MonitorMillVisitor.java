@@ -62,21 +62,21 @@ public class MonitorMillVisitor extends AbstractVisitor implements SDBasisVisito
     String monitorAttribute = "protected static " + sequenceDiagram.getName() + "Monitor monitor;";
     cd4C.addAttribute(cdClass, monitorAttribute);
 
-    cd4C.addConstructor(cdClass, "sdtransformer.sd2java.DefaultConstructor", sequenceDiagram.getName()+"Mill");
+    cd4C.addConstructor(cdClass, "sdgenerator.sd2java.DefaultConstructor", sequenceDiagram.getName()+"Mill");
 
-    cd4C.addMethod(cdClass, "sdtransformer.sd2test.MonitorMillMethods",
+    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorMillMethods",
       "init",classList, sequenceDiagram.getName(), mainMillName, uncapitalize(sequenceDiagram.getName()));
 
-    cd4C.addMethod(cdClass, "sdtransformer.sd2test.MonitorMillMethods",
+    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorMillMethods",
       "initMe",classList, sequenceDiagram.getName(), mainMillName, uncapitalize(sequenceDiagram.getName()));
 
-    cd4C.addMethod(cdClass, "sdtransformer.sd2test.MonitorMillMethods",
+    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorMillMethods",
       "getMill",classList, sequenceDiagram.getName(), mainMillName, uncapitalize(sequenceDiagram.getName()));
 
-    cd4C.addMethod(cdClass, "sdtransformer.sd2test.MonitorMillMethods",
+    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorMillMethods",
       "getMonitor",classList, sequenceDiagram.getName(), mainMillName, uncapitalize(sequenceDiagram.getName()));
 
-    cd4C.addMethod(cdClass, "sdtransformer.sd2test.MonitorMillMethods",
+    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorMillMethods",
       "reset",classList, sequenceDiagram.getName(), mainMillName, uncapitalize(sequenceDiagram.getName()));
 
     compilationUnit.getCDDefinition().getCDPackagesList().get(0)

@@ -221,7 +221,7 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
     generatorSetup.setGlex(glex);
     generatorSetup.setOutputDirectory(new File(outputPath));
     CDGenerator generator = new CDGenerator(generatorSetup);
-    String configTemplate = cmd.getOptionValue("ct", "sdtransformer.SDTransformer");
+    String configTemplate = cmd.getOptionValue("ct", "sdgenerator.SDTransformer");
     TemplateController tc = generatorSetup.getNewTemplateController(configTemplate);
     TemplateHookPoint hpp = new TemplateHookPoint(configTemplate);
     List<Object> configTemplateArgs = Arrays.asList(glex, transformer, generator);

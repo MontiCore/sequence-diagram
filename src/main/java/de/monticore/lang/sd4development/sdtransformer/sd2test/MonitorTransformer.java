@@ -203,7 +203,7 @@ public class MonitorTransformer extends AbstractVisitor implements SDBasisVisito
         }
       }
     }
-    cd4C.addMethod(cdClass, "sdtransformer.sd2test.BeginMonitorMethods",
+    cd4C.addMethod(cdClass, "sdgenerator.sd2test.BeginMonitorMethods",
       capitalize(target), capitalize(callee), methodParameters, parameterList, paramValues, monitorName);
   }
 
@@ -247,6 +247,6 @@ public class MonitorTransformer extends AbstractVisitor implements SDBasisVisito
       }
     }
 
-    cd4C.addMethod(cdClass, "sdtransformer.sd2test.EndMonitorMethods", capitalize(target), capitalize(call), returnValue, returnType, monitorName);
+    cd4C.addMethod(cdClass, "sdgenerator.sd2test.EndMonitorMethods", capitalize(target), capitalize(call), returnValue, returnType, monitorName);
   }
 }
