@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-public class MonitorMillVisitor extends AbstractVisitor implements SDBasisVisitor2 {
+public class MonitorMillVisitor extends AbstractVisitor {
 
   public MonitorMillVisitor(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, GlobalExtensionManagement glex) {
     super(compilationUnit, classes, glex);

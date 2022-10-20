@@ -34,7 +34,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-public class MonitorTransformer extends AbstractVisitor implements SDBasisVisitor2 {
+public class MonitorTransformer extends AbstractVisitor {
 
   public MonitorTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, GlobalExtensionManagement glex) {
     super(compilationUnit, classes, glex);

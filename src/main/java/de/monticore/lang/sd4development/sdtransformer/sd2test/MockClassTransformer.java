@@ -22,7 +22,7 @@ import de.se_rwth.commons.logging.Log;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MockClassTransformer extends AbstractVisitor implements SDBasisVisitor2 {
+public class MockClassTransformer extends AbstractVisitor {
 
   public MockClassTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, GlobalExtensionManagement glex) {
     super(compilationUnit, classes, glex);

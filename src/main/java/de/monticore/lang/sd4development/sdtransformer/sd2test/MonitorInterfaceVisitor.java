@@ -15,7 +15,7 @@ import de.monticore.types.MCTypeFacade;
 import java.util.Collections;
 import java.util.List;
 
-public class MonitorInterfaceVisitor extends AbstractVisitor implements SDBasisVisitor2 {
+public class MonitorInterfaceVisitor extends AbstractVisitor {
 
   public MonitorInterfaceVisitor(List<ASTCDElement> classes, GlobalExtensionManagement glex) {
     super(classes, glex);

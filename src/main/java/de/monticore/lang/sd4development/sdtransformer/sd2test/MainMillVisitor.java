@@ -12,7 +12,7 @@ import de.monticore.umlmodifier._ast.ASTModifierBuilder;
 
 import java.util.List;
 
-public class MainMillVisitor extends AbstractVisitor implements SDBasisVisitor2 {
+public class MainMillVisitor extends AbstractVisitor {
 
   @Override
   public void visit(ASTSDArtifact ast) {

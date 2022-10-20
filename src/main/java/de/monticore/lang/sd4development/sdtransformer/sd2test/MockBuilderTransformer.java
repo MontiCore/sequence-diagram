@@ -17,7 +17,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class MockBuilderTransformer extends AbstractVisitor implements SDBasisVisitor2 {
+public class MockBuilderTransformer extends AbstractVisitor {
 
   public MockBuilderTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, GlobalExtensionManagement glex) {
     super(compilationUnit, classes, glex);

@@ -10,7 +10,7 @@ import de.monticore.lang.sdbasis._visitor.SDBasisVisitor2;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ExampleProdClass extends AbstractVisitor implements SDBasisVisitor2 {
+public class ExampleProdClass extends AbstractVisitor {
 
   public ExampleProdClass(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, GlobalExtensionManagement glex) {
     super(compilationUnit, classes, glex);
