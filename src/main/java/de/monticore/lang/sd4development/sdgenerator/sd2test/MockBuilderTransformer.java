@@ -1,19 +1,14 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.lang.sd4development.sdtransformer.sd2test;
+package de.monticore.lang.sd4development.sdgenerator.sd2test;
 
-import de.monticore.cd.methodtemplates.CD4C;
 import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.cdbasis._ast.*;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.monticore.lang.sdbasis._ast.ASTSDBody;
-import de.monticore.lang.sdbasis._visitor.SDBasisVisitor2;
 import de.monticore.types.MCTypeFacade;
 import de.monticore.types.mcbasictypes._ast.ASTMCPrimitiveType;
-import de.monticore.umlmodifier._ast.ASTModifierBuilder;
 
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 

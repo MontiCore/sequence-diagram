@@ -1,11 +1,11 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.lang.sd4development.sdtransformer.sd2test;
+package de.monticore.lang.sd4development.sdgenerator.sd2test;
 
 import de.monticore.cdbasis._ast.ASTCDElement;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
-import de.monticore.lang.sd4development.sdtransformer.SDGenerator;
+import de.monticore.lang.sd4development.sdgenerator.SDGenerator;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 
 import java.util.ArrayList;

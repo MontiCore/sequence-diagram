@@ -1,4 +1,4 @@
-package de.monticore.lang.sd4development.sdtransformer.sd2test;
+package de.monticore.lang.sd4development.sdgenerator.sd2test;
 
 import de.monticore.cd.methodtemplates.CD4C;
 import de.monticore.cd4code.CD4CodeMill;
@@ -21,7 +21,6 @@ import de.monticore.lang.sd4development._ast.ASTSDReturn;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverserImplementation;
 import de.monticore.lang.sdbasis._ast.*;
-import de.monticore.lang.sdbasis._visitor.SDBasisVisitor2;
 import de.monticore.literals.prettyprint.MCCommonLiteralsPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.MCTypeFacade;

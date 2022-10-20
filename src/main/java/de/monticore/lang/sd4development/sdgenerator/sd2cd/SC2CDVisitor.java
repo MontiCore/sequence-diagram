@@ -1,4 +1,4 @@
-package de.monticore.lang.sd4development.sdtransformer.sd2cd;
+package de.monticore.lang.sd4development.sdgenerator.sd2cd;
 
 import de.monticore.cd.facade.MCQualifiedNameFacade;
 import de.monticore.cd.methodtemplates.CD4C;
@@ -11,7 +11,6 @@ import de.monticore.cdbasis._ast.ASTCDPackage;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.lang.sd4development._ast.ASTSDCall;
 import de.monticore.lang.sd4development._ast.ASTSDClass;
-import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor2;
 import de.monticore.lang.sdbasis._ast.*;
 import de.monticore.lang.sdbasis._visitor.SDBasisVisitor2;
 import de.monticore.types.mcbasictypes.MCBasicTypesMill;

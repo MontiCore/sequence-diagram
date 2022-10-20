@@ -1,4 +1,4 @@
-package de.monticore.lang.sd4development.sdtransformer.sd2test;
+package de.monticore.lang.sd4development.sdgenerator.sd2test;
 
 import de.monticore.cd4codebasis._ast.ASTCDParameter;
 import de.monticore.expressions.expressionsbasis._ast.ASTExpression;
