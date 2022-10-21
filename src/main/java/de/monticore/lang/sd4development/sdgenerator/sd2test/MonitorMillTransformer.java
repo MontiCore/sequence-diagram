@@ -4,6 +4,7 @@ package de.monticore.lang.sd4development.sdgenerator.sd2test;
 import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.cdbasis._ast.*;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSequenceDiagram;
 import de.monticore.types.MCTypeFacade;
@@ -11,11 +12,7 @@ import de.monticore.types.MCTypeFacade;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MonitorMillVisitor extends AbstractVisitor {
-
-  public MonitorMillVisitor(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, GlobalExtensionManagement glex) {
-    super(compilationUnit, classes, glex);
-  }
+public class MonitorMillTransformer extends AbstractVisitor {
 
   @Override
   public void visit(ASTSDArtifact ast) {
@@ -74,5 +71,9 @@ public class MonitorMillVisitor extends AbstractVisitor {
 
     compilationUnit.getCDDefinition().getCDPackagesList().get(0)
       .addCDElement(cdClass);
+  }
+
+  public MonitorMillTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, ISD4DevelopmentArtifactScope scope, GlobalExtensionManagement glex) {
+    super(compilationUnit, classes, scope, glex);
   }
 }

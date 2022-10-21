@@ -19,7 +19,7 @@ import de.se_rwth.commons.logging.Log;
 import java.util.*;
 import java.util.stream.Collectors;
 
-public class SC2CDVisitor implements SDBasisVisitor2 {
+public class SD2CDVisitor implements SDBasisVisitor2 {
 
   protected ASTCDCompilationUnit cdCompilationUnit;
 
@@ -114,7 +114,7 @@ public class SC2CDVisitor implements SDBasisVisitor2 {
     this.cd4C.addAttribute(cdClass, sb);
   }
 
-  public SC2CDVisitor(GlobalExtensionManagement glex) {
+  public SD2CDVisitor(GlobalExtensionManagement glex) {
     this.glex = glex;
     this.cd4C = CD4C.getInstance();
   }

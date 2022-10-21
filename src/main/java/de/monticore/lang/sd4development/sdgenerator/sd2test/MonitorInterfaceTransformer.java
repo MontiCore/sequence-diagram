@@ -7,16 +7,13 @@ import de.monticore.cd4codebasis._ast.ASTCDMethod;
 import de.monticore.cdbasis._ast.*;
 import de.monticore.cdinterfaceandenum._ast.ASTCDInterface;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.types.MCTypeFacade;
 
 import java.util.List;
 
-public class MonitorInterfaceVisitor extends AbstractVisitor {
-
-  public MonitorInterfaceVisitor(List<ASTCDElement> classes, GlobalExtensionManagement glex) {
-    super(classes, glex);
-  }
+public class MonitorInterfaceTransformer extends AbstractVisitor {
 
   @Override
   public void visit(ASTSDArtifact ast) {
@@ -33,17 +30,11 @@ public class MonitorInterfaceVisitor extends AbstractVisitor {
       .addCDMember(getMonitorNameMethod)
       .build();
 
-    ASTCDDefinitionBuilder bCDDefinition = CD4CodeMill.cDDefinitionBuilder()
-      .setModifier(CD4CodeMill.modifierBuilder().PUBLIC().build())
-      .setName("MonitorInfrastructure").addCDElement(CD4CodeMill.cDPackageBuilder()
-      .setMCQualifiedName(MCQualifiedNameFacade.createQualifiedName("de.monticore"))
-      .addCDElement(astcdInterface)
-      .build());
-
     classes.add(astcdInterface);
+    compilationUnit.getCDDefinition().getCDPackagesList().get(0).addCDElement(astcdInterface);
+  }
 
-    compilationUnit = CD4CodeMill.cDCompilationUnitBuilder()
-      .setCDDefinition(bCDDefinition.build())
-      .build();
+  public MonitorInterfaceTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, ISD4DevelopmentArtifactScope scope, GlobalExtensionManagement glex) {
+    super(compilationUnit, classes, scope, glex);
   }
 }

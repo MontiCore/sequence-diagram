@@ -4,6 +4,7 @@ package de.monticore.lang.sd4development.sdgenerator.sd2test;
 import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.cdbasis._ast.*;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.types.MCTypeFacade;
 import de.monticore.types.mcbasictypes._ast.ASTMCPrimitiveType;
@@ -14,25 +15,13 @@ import java.util.stream.Collectors;
 
 public class MockBuilderTransformer extends AbstractVisitor {
 
-  public MockBuilderTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, GlobalExtensionManagement glex) {
-    super(compilationUnit, classes, glex);
-  }
-
   @Override
   public void visit(ASTSDArtifact astsdArtifact) {
     List<ASTCDElement> mockBuilders = new ArrayList<>();
 
-    for(ASTCDElement cdElement : compilationUnit.getCDDefinition()
-      .getCDPackagesList().get(0).getCDElementList()) {
+    for(String type : concat(scope.getTypeSymbols().keySet(), scope.getOOTypeSymbols().keySet())) {
 
-      ASTCDClass cdClass;
-      if(cdElement instanceof ASTCDClass) {
-        cdClass = (ASTCDClass) cdElement;
-      } else {
-        continue;
-      }
-
-      if(cdClass.getName().endsWith("Mill") || cdClass.getName().endsWith("Builder")) {
+      if(type.endsWith("Mill") ||type.endsWith("Builder")) {
         continue;
       }
       mockBuilders.add(createMockBuilders(astsdArtifact, cdClass));
@@ -42,9 +31,9 @@ public class MockBuilderTransformer extends AbstractVisitor {
     compilationUnit.getCDDefinition().getCDPackagesList().get(0).addAllCDElements(mockBuilders);
   }
 
-  private ASTCDClass createMockBuilders(ASTSDArtifact astsdArtifact, ASTCDClass prodClass) {
+  private ASTCDClass createMockBuilders(ASTSDArtifact astsdArtifact, String typeName) {
 
-    String builderType = "Mock" + prodClass.getName() + "Builder";
+    String builderType = "Mock" + typeName + "Builder";
 
     String sdName = astsdArtifact.getSequenceDiagram().getName();
 
@@ -53,7 +42,7 @@ public class MockBuilderTransformer extends AbstractVisitor {
       .setName(builderType)
       .setCDExtendUsage(CD4CodeMill.cDExtendUsageBuilder()
         .addSuperclass(MCTypeFacade.getInstance()
-          .createQualifiedType(prodClass.getName() + "Builder"))
+          .createQualifiedType(typeName + "Builder"))
         .build())
       .build();
 
@@ -68,11 +57,14 @@ public class MockBuilderTransformer extends AbstractVisitor {
     cd4C.addConstructor(mockBuilder, "sdgenerator.sd2test.BuilderConstructor",
       builderType);
     cd4C.addMethod(mockBuilder, "sdgenerator.sd2test.BuilderBuildMethods",
-      prodClass.getName(), attributeList, false, sdName, assignAttributeList);
+      typeName, attributeList, false, sdName, assignAttributeList);
     cd4C.addMethod(mockBuilder, "sdgenerator.sd2test.BuilderBuildMethods",
-      prodClass.getName(), attributeList, true, sdName, assignAttributeList);
+      typeName, attributeList, true, sdName, assignAttributeList);
 
     return mockBuilder;
   }
 
+  public MockBuilderTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, ISD4DevelopmentArtifactScope scope, GlobalExtensionManagement glex) {
+    super(compilationUnit, classes, scope, glex);
+  }
 }

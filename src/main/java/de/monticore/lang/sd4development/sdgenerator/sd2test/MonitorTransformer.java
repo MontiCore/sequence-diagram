@@ -18,6 +18,7 @@ import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDCall;
 import de.monticore.lang.sd4development._ast.ASTSDClass;
 import de.monticore.lang.sd4development._ast.ASTSDReturn;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverserImplementation;
 import de.monticore.lang.sdbasis._ast.*;
@@ -34,10 +35,6 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MonitorTransformer extends AbstractVisitor {
-
-  public MonitorTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, GlobalExtensionManagement glex) {
-    super(compilationUnit, classes, glex);
-  }
 
   @Override
   public void visit(ASTSequenceDiagram sequenceDiagram) {
@@ -247,5 +244,9 @@ public class MonitorTransformer extends AbstractVisitor {
     }
 
     cd4C.addMethod(cdClass, "sdgenerator.sd2test.EndMonitorMethods", capitalize(target), capitalize(call), returnValue, returnType, monitorName);
+  }
+
+  public MonitorTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, ISD4DevelopmentArtifactScope scope, GlobalExtensionManagement glex) {
+    super(compilationUnit, classes, scope, glex);
   }
 }

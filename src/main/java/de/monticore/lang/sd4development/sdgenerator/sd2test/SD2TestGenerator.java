@@ -1,65 +1,69 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4development.sdgenerator.sd2test;
 
+import de.monticore.cd.facade.MCQualifiedNameFacade;
+import de.monticore.cd4code.CD4CodeMill;
+import de.monticore.cdbasis._ast.ASTCDCompilationUnit;
+import de.monticore.cdbasis._ast.ASTCDDefinition;
 import de.monticore.cdbasis._ast.ASTCDElement;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sd4development.sdgenerator.SDGenerator;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SD2TestGenerator implements SDGenerator {
+public class SD2TestGenerator extends SDGenerator {
 
-  public SD2TestData transform(ASTSDArtifact ast, GlobalExtensionManagement glex) {
+  @Override
+  public SD2TestData transform(ASTSDArtifact ast, ISD4DevelopmentArtifactScope scope, GlobalExtensionManagement glex) {
 
+    ASTCDCompilationUnit compilationUnit = createCU(ast);
     List<ASTCDElement> classes = new ArrayList<>();
 
-    AbstractVisitor visitor = new MonitorInterfaceVisitor(classes, glex);
-    SD4DevelopmentTraverser traverser = SD4DevelopmentMill.inheritanceTraverser();
-    traverser.add4SDBasis(visitor);
+    Pair<ASTCDCompilationUnit, List<ASTCDElement>> p = addVisitor(ast, new MainMillTransformer(compilationUnit, classes, scope, glex));
 
-    traverser.handle(ast);
+    p = addVisitor(ast, new MockBuilderTransformer(p.a, p.b, scope, glex));
 
-    visitor = new ExampleProdClass(visitor.getCompilationUnit(), visitor.getClasses(), glex);
-    traverser = SD4DevelopmentMill.inheritanceTraverser();
-    traverser.add4SDBasis(visitor);
+    p = addVisitor(ast, new MockClassTransformer(p.a, p.b, scope, glex));
 
-    traverser.handle(ast);
+    p = addVisitor(ast, new MonitorInterfaceTransformer(p.a, p.b, scope, glex));
 
-    visitor = new MainMillVisitor(visitor.getCompilationUnit(), visitor.getClasses(), glex);
-    traverser = SD4DevelopmentMill.inheritanceTraverser();
-    traverser.add4SDBasis(visitor);
+    p = addVisitor(ast, new MonitorMillTransformer(p.a, p.b, scope, glex));
 
-    traverser.handle(ast);
+    p = addVisitor(ast, new MonitorTransformer(p.a, p.b, scope, glex));
 
-    visitor = new MonitorTransformer(visitor.getCompilationUnit(), visitor.getClasses(), glex);
-    traverser = SD4DevelopmentMill.inheritanceTraverser();
-    traverser.add4SDBasis(visitor);
-
-    traverser.handle(ast);
-
-    visitor = new MockBuilderTransformer(visitor.getCompilationUnit(), visitor.getClasses(), glex);
-    traverser = SD4DevelopmentMill.inheritanceTraverser();
-    traverser.add4SDBasis(visitor);
-
-    traverser.handle(ast);
-
-    visitor = new MockClassTransformer(visitor.getCompilationUnit(), visitor.getClasses(), glex);
-    traverser = SD4DevelopmentMill.inheritanceTraverser();
-    traverser.add4SDBasis(visitor);
-
-    traverser.handle(ast);
-
-    visitor = new MonitorMillVisitor(visitor.getCompilationUnit(), visitor.getClasses(), glex);
-    traverser = SD4DevelopmentMill.inheritanceTraverser();
-    traverser.add4SDBasis(visitor);
-
-    traverser.handle(ast);
-
-    return new SD2TestData(visitor.getCompilationUnit(), visitor.getClasses());
+    return new SD2TestData(p.a, p.b);
   }
 
+  private Pair<ASTCDCompilationUnit, List<ASTCDElement>> addVisitor(ASTSDArtifact ast,
+                                                                    AbstractVisitor visitor) {
+    SD4DevelopmentTraverser traverser = SD4DevelopmentMill.inheritanceTraverser();
+    traverser.add4SDBasis(visitor);
+    traverser.handle(ast);
+    return new Pair<>(visitor.getCompilationUnit(), visitor.getClasses());
+  }
+
+  private ASTCDCompilationUnit createCU(ASTSDArtifact ast) {
+    ASTCDDefinition cDDefinition = CD4CodeMill.cDDefinitionBuilder()
+      .setModifier(CD4CodeMill.modifierBuilder().PUBLIC().build())
+      .setName(ast.getSequenceDiagram().getName())
+      .addCDElement(CD4CodeMill.cDPackageBuilder()
+        .setMCQualifiedName(MCQualifiedNameFacade.createQualifiedName("de.monticore"))
+        .build())
+      .build();
+
+    return CD4CodeMill.cDCompilationUnitBuilder()
+      .setCDDefinition(cDDefinition)
+      .build();
+  }
+
+  @Override
+  public SD2TestData transform(ASTSDArtifact ast, GlobalExtensionManagement glex) {
+    return new SD2TestData(null, null);
+  }
 }

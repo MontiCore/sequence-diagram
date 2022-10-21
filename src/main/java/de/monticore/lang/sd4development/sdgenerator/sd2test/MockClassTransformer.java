@@ -9,6 +9,7 @@ import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDCall;
 import de.monticore.lang.sd4development._ast.ASTSDClass;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sdbasis._ast.*;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.types.MCTypeFacade;
@@ -21,10 +22,6 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MockClassTransformer extends AbstractVisitor {
-
-  public MockClassTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, GlobalExtensionManagement glex) {
-    super(compilationUnit, classes, glex);
-  }
 
   @Override
   public void visit(ASTSDArtifact ast) {
@@ -120,5 +117,9 @@ public class MockClassTransformer extends AbstractVisitor {
         prodReturnType, prodMethodName, prodMethodCDParameterList, parameterString,
         monitorName, capitalize(target), capitalize(prodMethodName), isSDMethod);
     }
+  }
+
+  public MockClassTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, ISD4DevelopmentArtifactScope scope, GlobalExtensionManagement glex) {
+    super(compilationUnit, classes, scope, glex);
   }
 }

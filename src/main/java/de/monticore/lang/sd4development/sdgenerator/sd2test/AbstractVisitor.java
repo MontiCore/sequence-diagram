@@ -4,8 +4,12 @@ import de.monticore.cd.methodtemplates.CD4C;
 import de.monticore.cdbasis._ast.ASTCDCompilationUnit;
 import de.monticore.cdbasis._ast.ASTCDElement;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sdbasis._visitor.SDBasisVisitor2;
 
+import java.util.ArrayDeque;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 
 public abstract class AbstractVisitor implements SDBasisVisitor2 {
@@ -14,19 +18,16 @@ public abstract class AbstractVisitor implements SDBasisVisitor2 {
 
   protected List<ASTCDElement> classes;
 
+  protected ISD4DevelopmentArtifactScope scope;
+
   protected final CD4C cd4C;
 
   protected final GlobalExtensionManagement glex;
 
-  public AbstractVisitor(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, GlobalExtensionManagement glex) {
+  public AbstractVisitor(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, ISD4DevelopmentArtifactScope scope, GlobalExtensionManagement glex) {
     this.compilationUnit = compilationUnit;
     this.classes = classes;
-    this.cd4C = CD4C.getInstance();
-    this.glex = glex;
-  }
-
-  public AbstractVisitor(List<ASTCDElement> classes, GlobalExtensionManagement glex) {
-    this.classes = classes;
+    this.scope = scope;
     this.cd4C = CD4C.getInstance();
     this.glex = glex;
   }
@@ -48,6 +49,13 @@ public abstract class AbstractVisitor implements SDBasisVisitor2 {
       joiner = ",";
     }
     return res.toString();
+  }
+
+  protected Collection<String> concat(Collection<String> collection1, Collection<String> collection2) {
+    Collection<String> res = new ArrayList<>();
+    res.addAll(collection1);
+    res.addAll(collection2);
+    return res;
   }
 
   public ASTCDCompilationUnit getCompilationUnit() {

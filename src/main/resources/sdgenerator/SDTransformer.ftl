@@ -5,7 +5,12 @@
   Call it using the CLI: .. -ct sd2java.SD2Java
 
 -->
-${tc.signature("glex", "sdTransformer", "cdGenerator")}
+${tc.signature("glex", "sdTransformer", "cdGenerator", "scope")}
 
-<#assign cddata = sdTransformer.transform(ast, glex)>
+<#if scope??>
+    <#assign cddata = sdTransformer.transform(ast, scope, glex)>
+<#else>
+    <#assign cddata = sdTransformer.transform(ast, glex)>
+</#if>
+
 ${cdGenerator.generate(cddata.getCompilationUnit())}
