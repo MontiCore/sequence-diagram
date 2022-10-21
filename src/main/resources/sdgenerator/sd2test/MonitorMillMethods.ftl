@@ -14,7 +14,7 @@ ${cd4c.method(" public static void reset ()")}
     <#list classNameList as attribute>
      millMock${attribute}Builder = null;
     </#list>
-  ${parentMillName}.reset();
+     monitor.reset();
 
 <#elseif methodName == "getMill">
 ${cd4c.method(" protected static ${sdName}Mill getMill ()")}
@@ -29,7 +29,7 @@ ${cd4c.method(" public static void init ()")}
 
      mill = new ${sdName}Mill();
      monitor = new ${sdName}Monitor();
-     ${parentMillName}.initMe(new ${parentMillName}ForMock());
+     monitor.initMe(new ${parentMillName}ForMock());
 
 <#elseif methodName == "getMonitor">
 ${cd4c.method(" public static ${sdName}Monitor get${sdName}Monitor()")}
