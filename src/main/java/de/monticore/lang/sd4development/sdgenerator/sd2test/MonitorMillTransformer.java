@@ -7,6 +7,8 @@ import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSequenceDiagram;
+import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
+import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.types.MCTypeFacade;
 
 import java.util.ArrayList;
@@ -27,19 +29,22 @@ public class MonitorMillTransformer extends AbstractVisitor {
       .build();
 
     List<String> classList = new ArrayList<>();
-    for (ASTCDElement cdElement : compilationUnit.getCDDefinition().getCDPackagesList().get(0).getCDElementList()) {
-      ASTCDClass astCDClass;
-      if(cdElement instanceof ASTCDClass) {
-        astCDClass = (ASTCDClass) cdElement;
-      } else {
-       continue;
-      }
-      if (astCDClass.getName().endsWith("Mill")) {
-        mainMillName = astCDClass.getName() ;
+    for (TypeSymbol type : scope.getTypeSymbols().values()) {
+      if (type.getName().endsWith("Mill")) {
+        mainMillName = type.getName() ;
         continue;
       }
-      classList.add(astCDClass.getName());
-      String millAttribute = "protected static " + millName + " millMock" + astCDClass.getName() + "Builder;";
+      classList.add(type.getName());
+      String millAttribute = "protected static " + millName + " millMock" + type.getName() + "Builder;";
+      cd4C.addAttribute(cdClass, millAttribute);
+    }
+    for (OOTypeSymbol type : scope.getOOTypeSymbols().values()) {
+      if (type.getName().endsWith("Mill")) {
+        mainMillName = type.getName() ;
+        continue;
+      }
+      classList.add(type.getName());
+      String millAttribute = "protected static " + millName + " millMock" + type.getName() + "Builder;";
       cd4C.addAttribute(cdClass, millAttribute);
     }
 

@@ -6,6 +6,8 @@ import de.monticore.cdbasis._ast.*;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
+import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.types.MCTypeFacade;
 import de.monticore.umlmodifier._ast.ASTModifierBuilder;
 import de.se_rwth.commons.logging.Log;
@@ -16,13 +18,18 @@ public class MainMillTransformer extends AbstractVisitor {
 
   @Override
   public void visit(ASTSDArtifact ast) {
-
     boolean hasMill = false;
     String millName = "";
-    for(String types: concat(scope.getTypeSymbols().keySet(), scope.getOOTypeSymbols().keySet())) {
-      if(types.endsWith("Mill")) {
+    for (TypeSymbol type : scope.getTypeSymbols().values()) {
+      if(type.getName().endsWith("Mill")) {
         hasMill = true;
-        millName = types;
+        millName = type.getName();
+      }
+    }
+    for (OOTypeSymbol type : scope.getOOTypeSymbols().values()) {
+      if(type.getName().endsWith("Mill")) {
+        hasMill = true;
+        millName = type.getName();
       }
     }
     if(!hasMill) {
@@ -36,15 +43,21 @@ public class MainMillTransformer extends AbstractVisitor {
         .addSuperclass(MCTypeFacade.getInstance().createQualifiedType(millName)).build())
       .build();
 
-    for(String types: concat(scope.getTypeSymbols().keySet(), scope.getOOTypeSymbols().keySet())) {
-      if(types.endsWith("Mill")) {
+    for(TypeSymbol type : scope.getTypeSymbols().values()) {
+      if(type.getName().endsWith("Mill")) {
         continue;
       }
-      cd4C.addMethod(mockMillClass, "sdgenerator.sd2test.MockMillMethods", types, uncapitalize(types));
+      cd4C.addMethod(mockMillClass, "sdgenerator.sd2test.MockMillMethods", type.getName(), uncapitalize(type.getName()));
+    }
+
+    for(OOTypeSymbol type : scope.getOOTypeSymbols().values()) {
+      if(type.getName().endsWith("Mill")) {
+        continue;
+      }
+      cd4C.addMethod(mockMillClass, "sdgenerator.sd2test.MockMillMethods", type.getName(), uncapitalize(type.getName()));
     }
 
     classes.add(mockMillClass);
-
     compilationUnit.getCDDefinition().getCDPackagesList().get(0)
       .addCDElement(mockMillClass);
   }
