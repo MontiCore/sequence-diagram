@@ -3,11 +3,10 @@ package de.monticore.lang.sd4development.sdgenerator.sd2test;
 
 import de.monticore.cdbasis._ast.ASTCDCompilationUnit;
 import de.monticore.cdbasis._ast.ASTCDElement;
-import de.monticore.lang.sd4development.sdgenerator.SDData;
 
 import java.util.Collection;
 
-public class SD2TestData implements SDData {
+public class SD2TestData {
 
   protected ASTCDCompilationUnit compilationUnit;
 

@@ -58,8 +58,7 @@ public class MainMillTransformer extends AbstractVisitor {
     }
 
     classes.add(mockMillClass);
-    compilationUnit.getCDDefinition().getCDPackagesList().get(0)
-      .addCDElement(mockMillClass);
+    compilationUnit.getCDDefinition().getCDPackagesList().get(0).addCDElement(mockMillClass);
   }
 
   public MainMillTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, ISD4DevelopmentArtifactScope scope, GlobalExtensionManagement glex) {

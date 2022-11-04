@@ -7,6 +7,7 @@ import de.monticore.cdbasis._ast.ASTCDCompilationUnit;
 import de.monticore.cdbasis._ast.ASTCDElement;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentScope;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
@@ -60,7 +61,7 @@ public class MockBuilderTransformer extends AbstractVisitor {
     String sb = "protected " + builderType + " " + "realBuilder ;";
     cd4C.addAttribute(mockBuilder, sb);
 
-    List<FieldSymbol> fieldList = ((ISD4DevelopmentArtifactScope) type.getSpannedScope())
+    List<FieldSymbol> fieldList = ((ISD4DevelopmentScope) type.getSpannedScope())
       .getLocalFieldSymbols()
       .stream()
       .filter(a -> !(a.getType().isPrimitive()))
@@ -71,7 +72,7 @@ public class MockBuilderTransformer extends AbstractVisitor {
       .filter(v -> !(v.getType().isPrimitive()))
       .collect(Collectors.toList());
 
-    List<FieldSymbol> assignFieldList = ((ISD4DevelopmentArtifactScope)type.getSpannedScope()).getLocalFieldSymbols();
+    List<FieldSymbol> assignFieldList = ((ISD4DevelopmentScope)type.getSpannedScope()).getLocalFieldSymbols();
 
     List<VariableSymbol> assignVariableList = type.getSpannedScope().getLocalVariableSymbols();
 

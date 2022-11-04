@@ -74,8 +74,7 @@ public class MonitorMillTransformer extends AbstractVisitor {
     cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorMillMethods",
       "reset",classList, sequenceDiagram.getName(), mainMillName, uncapitalize(sequenceDiagram.getName()));
 
-    compilationUnit.getCDDefinition().getCDPackagesList().get(0)
-      .addCDElement(cdClass);
+    compilationUnit.getCDDefinition().getCDPackagesList().get(0).addCDElement(cdClass);
   }
 
   public MonitorMillTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, ISD4DevelopmentArtifactScope scope, GlobalExtensionManagement glex) {

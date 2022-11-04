@@ -24,6 +24,10 @@ import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverserImplemen
 import de.monticore.lang.sdbasis._ast.*;
 import de.monticore.literals.prettyprint.MCCommonLiteralsPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
+import de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
+import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
+import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.types.MCTypeFacade;
 import de.monticore.types.mcbasictypes.MCBasicTypesMill;
 import de.monticore.types.prettyprint.MCBasicTypesFullPrettyPrinter;
@@ -74,7 +78,7 @@ public class MonitorTransformer extends AbstractVisitor {
         String callee = call.getName();
         stateEnumConstants.addAll(addEnumElement(cdClass, callee, isFirst, monitorName, true));
         callStack.add(((ASTSDCall) action).getName());
-        createBeginMonitorMethods(cdClass, sdElement, compilationUnit, monitorName);
+        createBeginMonitorMethods(cdClass, sdElement, monitorName);
       }
       if(action instanceof ASTSDReturn) {
         if(callStack.size() < 1) {
@@ -82,7 +86,7 @@ public class MonitorTransformer extends AbstractVisitor {
         }
         String call = callStack.remove(callStack.size() - 1);
         stateEnumConstants.addAll(addEnumElement(cdClass, call, false, monitorName, false));
-        createEndMonitorMethods(cdClass, sdElement, compilationUnit, call, monitorName);
+        createEndMonitorMethods(cdClass, sdElement, call, monitorName);
       }
     }
     stateEnumConstants.add(CD4CodeMill.cD4CodeEnumConstantBuilder().setName("END").build());
@@ -151,7 +155,7 @@ public class MonitorTransformer extends AbstractVisitor {
     return enumElements;
   }
 
-  private void createBeginMonitorMethods(ASTCDClass cdClass, ASTSDElement sdElement, ASTCDCompilationUnit prodClassDiagram, String monitorName) {
+  private void createBeginMonitorMethods(ASTCDClass cdClass, ASTSDElement sdElement, String monitorName) {
     ASTSDSendMessage sendMessage = (ASTSDSendMessage) sdElement;
     ASTSDTarget targetObject;
 
@@ -173,7 +177,7 @@ public class MonitorTransformer extends AbstractVisitor {
 
     ASTSDAction action = sendMessage.getSDAction();
 
-    List<ASTCDParameter> methodParameters = new ArrayList<>();
+    List<VariableSymbol> methodParameters = new ArrayList<>();
     List<Parameter> parameterList = new ArrayList<>();
     ASTSDCall call = (ASTSDCall) action;
     SD4DevelopmentTraverser t = new SD4DevelopmentTraverserImplementation();
@@ -186,14 +190,27 @@ public class MonitorTransformer extends AbstractVisitor {
     List<String> paramValues = Arrays.asList(paramValue.split(","));
 
     String callee = call.getName();
-    for(ASTCDClass astcdClass: prodClassDiagram.getCDDefinition().getCDClassesList()) {
-      if(astcdClass.getName().equalsIgnoreCase(target)) {
-        List<ASTCDMethod> methodList = astcdClass.getCDMethodList();
-        for(ASTCDMethod m: methodList) {
+    for(TypeSymbol type : scope.getTypeSymbols().values()) {
+      if(type.getName().equalsIgnoreCase(target)) {
+        List<FunctionSymbol> methodList = type.getFunctionList();
+        for(FunctionSymbol m: methodList) {
           if((m.getName()).equals(callee)) {
-            methodParameters = m.getCDParameterList();
-            for(int i = 0; i < m.getCDParameterList().size(); i++) {
-              parameterList.add(new Parameter(m.getCDParameterList().get(i), call.getArguments().getExpression(i)));
+            methodParameters = m.getParameterList();
+            for(int i = 0; i < m.getParameterList().size(); i++) {
+              parameterList.add(new Parameter(m.getParameterList().get(i), call.getArguments().getExpression(i)));
+            }
+          }
+        }
+      }
+    }
+    for(OOTypeSymbol type : scope.getOOTypeSymbols().values()) {
+      if(type.getName().equalsIgnoreCase(target)) {
+        List<FunctionSymbol> methodList = type.getFunctionList();
+        for(FunctionSymbol m: methodList) {
+          if((m.getName()).equals(callee)) {
+            methodParameters = m.getParameterList();
+            for(int i = 0; i < m.getParameterList().size(); i++) {
+              parameterList.add(new Parameter(m.getParameterList().get(i), call.getArguments().getExpression(i)));
             }
           }
         }
@@ -203,7 +220,7 @@ public class MonitorTransformer extends AbstractVisitor {
       capitalize(target), capitalize(callee), methodParameters, parameterList, paramValues, monitorName);
   }
 
-  private void createEndMonitorMethods(ASTCDClass cdClass, ASTSDElement sdElement, ASTCDCompilationUnit prodClassDiagram, String call, String monitorName) {
+  private void createEndMonitorMethods(ASTCDClass cdClass, ASTSDElement sdElement, String call, String monitorName) {
 
     ASTSDSendMessage sendMessage = (ASTSDSendMessage) sdElement;
     ASTSDSource targetObject;
@@ -234,11 +251,19 @@ public class MonitorTransformer extends AbstractVisitor {
     String returnValue = ip.getContent();
     String returnType = "";
 
-    for(ASTCDClass astcdClass: prodClassDiagram.getCDDefinition().getCDClassesList()) {
-      List<ASTCDMethod> methodList = astcdClass.getCDMethodList();
-      for(ASTCDMethod m: methodList) {
+    for(TypeSymbol type: scope.getTypeSymbols().values()) {
+      List<FunctionSymbol> methodList = type.getFunctionList();
+      for(FunctionSymbol m: methodList) {
         if((m.getName()).equals(call)) {
-          returnType = m.getMCReturnType().printType(new MCBasicTypesFullPrettyPrinter(new IndentPrinter()));
+          returnType = m.getType().print();
+        }
+      }
+    }
+    for(OOTypeSymbol type: scope.getOOTypeSymbols().values()) {
+      List<FunctionSymbol> methodList = type.getFunctionList();
+      for(FunctionSymbol m: methodList) {
+        if((m.getName()).equals(call)) {
+          returnType = m.getType().print();
         }
       }
     }

@@ -7,10 +7,6 @@
 -->
 ${tc.signature("glex", "sdTransformer", "cdGenerator", "scope")}
 
-<#if scope??>
-    <#assign cddata = sdTransformer.transform(ast, scope, glex)>
-<#else>
-    <#assign cddata = sdTransformer.transform(ast, glex)>
-</#if>
+<#assign cddata = sdTransformer.transform(ast, scope, glex)>
 
 ${cdGenerator.generate(cddata.getCompilationUnit())}

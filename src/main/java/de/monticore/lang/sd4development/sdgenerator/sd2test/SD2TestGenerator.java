@@ -10,16 +10,14 @@ import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
-import de.monticore.lang.sd4development.sdgenerator.SDGenerator;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import org.antlr.v4.runtime.misc.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class SD2TestGenerator extends SDGenerator {
+public class SD2TestGenerator {
 
-  @Override
   public SD2TestData transform(ASTSDArtifact ast, ISD4DevelopmentArtifactScope scope, GlobalExtensionManagement glex) {
 
     ASTCDCompilationUnit compilationUnit = createCU(ast);
@@ -60,10 +58,5 @@ public class SD2TestGenerator extends SDGenerator {
     return CD4CodeMill.cDCompilationUnitBuilder()
       .setCDDefinition(cDDefinition)
       .build();
-  }
-
-  @Override
-  public SD2TestData transform(ASTSDArtifact ast, GlobalExtensionManagement glex) {
-    return new SD2TestData(null, null);
   }
 }

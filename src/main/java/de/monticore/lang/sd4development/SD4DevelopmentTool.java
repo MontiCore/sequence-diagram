@@ -3,6 +3,7 @@ package de.monticore.lang.sd4development;
 
 import de.monticore.cd.codegen.CDGenerator;
 import de.monticore.cd.codegen.CdUtilsPrinter;
+import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.generating.templateengine.TemplateController;
@@ -13,7 +14,7 @@ import de.monticore.lang.sd4development._cocos.*;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentPrettyPrinter;
-import de.monticore.lang.sd4development.sdgenerator.sd2cd.SD2CDGenerator;
+import de.monticore.lang.sd4development.sdgenerator.sd2test.SD2TestGenerator;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
 import de.monticore.lang.sddiff.SDInteraction;
@@ -25,6 +26,7 @@ import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 import java.util.*;
@@ -194,7 +196,14 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
       }
 
       if (cmd.hasOption("o")) {
-        generateCD(inputSDs, cmd, new SD2CDGenerator());
+        if(!cmd.hasOption("scope")) {
+          Log.error("0x13509 No given scope for generation");
+        } else {
+          SD4DevelopmentMill.init();
+          ISD4DevelopmentArtifactScope scope = new SD4DevelopmentSymbols2Json().load(cmd.getOptionValue("scope"));
+          CD4CodeMill.init();
+          generateCD(inputSDs, cmd, scope, new SD2TestGenerator());
+        }
       }
     }
     catch (ParseException e) {
@@ -203,13 +212,13 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
     }
   }
 
-  public void generateCD(List<ASTSDArtifact> inputSDs, CommandLine cmd, SD2CDGenerator sd2cd) {
+  public void generateCD(List<ASTSDArtifact> inputSDs, CommandLine cmd, ISD4DevelopmentArtifactScope scope, SD2TestGenerator sdGenerator) {
     String outputPath = cmd.getOptionValue("o", "target/gen-test");
 
     GlobalExtensionManagement glex = new GlobalExtensionManagement();
     glex.setGlobalValue("cdPrinter", new CdUtilsPrinter());
     GeneratorSetup generatorSetup = new GeneratorSetup();
-    if (cmd.hasOption("fp")) { // Template path
+    if(cmd.hasOption("fp")) { // Template path
       generatorSetup.setAdditionalTemplatePaths(Arrays.stream(cmd.getOptionValues("fp"))
         .map(Paths::get)
         .map(Path::toFile)
@@ -221,8 +230,8 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
     String configTemplate = cmd.getOptionValue("ct", "sdgenerator.SDTransformer");
     TemplateController tc = generatorSetup.getNewTemplateController(configTemplate);
     TemplateHookPoint hpp = new TemplateHookPoint(configTemplate);
-    List<Object> configTemplateArgs = Arrays.asList(glex, sd2cd, generator, null);
-    for (ASTSDArtifact ast : inputSDs) {
+    List<Object> configTemplateArgs = Arrays.asList(glex, sdGenerator, generator, scope);
+    for(ASTSDArtifact ast: inputSDs) {
       hpp.processValue(tc, ast, configTemplateArgs);
     }
   }
@@ -371,6 +380,11 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
     options.addOption(Option.builder("path")
       .hasArgs()
       .desc("Sets the artifact path for imported symbols, space separated.")
+      .build());
+
+    options.addOption(Option.builder("scope")
+      .hasArg()
+      .desc("Sets the artifact scope for cd generation.")
       .build());
 
     return options;
