@@ -1,9 +1,8 @@
-package de.monticore.lang.sd4development.sdgenerator.sd2test;
+package de.monticore.lang.sd4development.sdgenerator;
 
 import de.monticore.cd.methodtemplates.CD4C;
 import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.cd4codebasis._ast.ASTCDMethod;
-import de.monticore.cd4codebasis._ast.ASTCDParameter;
 import de.monticore.cdbasis._ast.ASTCDAttribute;
 import de.monticore.cdbasis._ast.ASTCDClass;
 import de.monticore.cdbasis._ast.ASTCDCompilationUnit;
@@ -28,9 +27,7 @@ import de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
-import de.monticore.types.MCTypeFacade;
 import de.monticore.types.mcbasictypes.MCBasicTypesMill;
-import de.monticore.types.prettyprint.MCBasicTypesFullPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
 
@@ -44,16 +41,13 @@ public class MonitorTransformer extends AbstractVisitor {
   public void visit(ASTSequenceDiagram sequenceDiagram) {
     ASTSDBody sdBody = sequenceDiagram.getSDBody();
 
+    String monitorName = capitalize(sequenceDiagram.getName() + "Monitor");
+
     ASTCDClass cdClass = CD4CodeMill.cDClassBuilder()
       .setModifier(CD4CodeMill.modifierBuilder().PUBLIC().build())
-      .setName(sequenceDiagram.getName() + "Monitor")
-      .setCDInterfaceUsage(CD4CodeMill.cDInterfaceUsageBuilder()
-        .addInterface(MCTypeFacade.getInstance()
-          .createQualifiedType("monitor.Monitor"))
-        .build())
+      .setName(monitorName)
       .build();
 
-    String monitorName = sequenceDiagram.getName() + "Monitor";
 
     String monitorNameAttribute = "private static final String monitorName = \" " + monitorName + "\"";
     cd4C.addAttribute(cdClass, true, false, monitorNameAttribute);
@@ -190,7 +184,7 @@ public class MonitorTransformer extends AbstractVisitor {
     List<String> paramValues = Arrays.asList(paramValue.split(","));
 
     String callee = call.getName();
-    for(TypeSymbol type : scope.getTypeSymbols().values()) {
+    for(TypeSymbol type: scope.getTypeSymbols().values()) {
       if(type.getName().equalsIgnoreCase(target)) {
         List<FunctionSymbol> methodList = type.getFunctionList();
         for(FunctionSymbol m: methodList) {
@@ -203,7 +197,7 @@ public class MonitorTransformer extends AbstractVisitor {
         }
       }
     }
-    for(OOTypeSymbol type : scope.getOOTypeSymbols().values()) {
+    for(OOTypeSymbol type: scope.getOOTypeSymbols().values()) {
       if(type.getName().equalsIgnoreCase(target)) {
         List<FunctionSymbol> methodList = type.getFunctionList();
         for(FunctionSymbol m: methodList) {
@@ -216,7 +210,7 @@ public class MonitorTransformer extends AbstractVisitor {
         }
       }
     }
-    cd4C.addMethod(cdClass, "sdgenerator.sd2test.BeginMonitorMethods",
+    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorBeginMethods",
       capitalize(target), capitalize(callee), methodParameters, parameterList, paramValues, monitorName);
   }
 
@@ -268,7 +262,11 @@ public class MonitorTransformer extends AbstractVisitor {
       }
     }
 
-    cd4C.addMethod(cdClass, "sdgenerator.sd2test.EndMonitorMethods", capitalize(target), capitalize(call), returnValue, returnType, monitorName);
+    if(returnValue.isEmpty()) {
+      cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorLogEndEmpty", capitalize(target), capitalize(call), monitorName);
+    } else {
+      cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorLogEndparameters", capitalize(target), capitalize(call), returnValue, returnType, monitorName);
+    }
   }
 
   public MonitorTransformer(ASTCDCompilationUnit compilationUnit, List<ASTCDElement> classes, ISD4DevelopmentArtifactScope scope, GlobalExtensionManagement glex) {

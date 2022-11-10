@@ -1,4 +1,4 @@
-package de.monticore.lang.sd4development.sdgenerator.sd2test;
+package de.monticore.lang.sd4development.sdgenerator;
 
 import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.cd4code._visitor.CD4CodeTraverser;
@@ -50,10 +50,10 @@ public class MockClassTransformer extends AbstractVisitor {
 
   private ASTCDClass createMockClass(ASTSDArtifact ast, TypeSymbol type) {
     String sdName = ast.getSequenceDiagram().getName();
-    String monitorTemplate = "protected " + sdName + "Monitor " + uncapitalize(sdName) + "Monitor";
+    String monitorTemplate = "protected " + capitalize(sdName) + "Monitor " + sdName + "Monitor";
     ASTCDClass mockClass = CD4CodeMill.cDClassBuilder()
       .setModifier(CD4CodeMill.modifierBuilder().PUBLIC().build())
-      .setName("Mock" + type.getName())
+      .setName(type.getName() + "Mock")
       .setCDExtendUsage(CD4CodeMill.cDExtendUsageBuilder()
         .addSuperclass(MCTypeFacade.getInstance().createQualifiedType(type.getName())).build())
       .build();

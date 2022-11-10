@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.lang.sd4development.sdgenerator.sd2test;
+package de.monticore.lang.sd4development.sdgenerator;
 
 import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.cdbasis._ast.ASTCDClass;
@@ -26,14 +26,14 @@ public class MockBuilderTransformer extends AbstractVisitor {
     List<ASTCDElement> mockBuilders = new ArrayList<>();
 
     for (TypeSymbol type : scope.getTypeSymbols().values()) {
-      if(type.getName().endsWith("Mill") ||type.getName().endsWith("Builder")) {
+      if(type.getName().endsWith("Mill") || type.getName().endsWith("Builder")) {
         continue;
       }
       mockBuilders.add(createMockBuilders(sdArtifact, type));
     }
 
     for (OOTypeSymbol type : scope.getOOTypeSymbols().values()) {
-      if(type.getName().endsWith("Mill") ||type.getName().endsWith("Builder")) {
+      if(type.getName().endsWith("Mill") || type.getName().endsWith("Builder")) {
         continue;
       }
       mockBuilders.add(createMockBuilders(sdArtifact, type));
@@ -45,9 +45,9 @@ public class MockBuilderTransformer extends AbstractVisitor {
 
   private ASTCDClass createMockBuilders(ASTSDArtifact astsdArtifact, TypeSymbol type) {
 
-    String builderType = "Mock" + type.getName() + "Builder";
+    String builderType = type.getName() + "MockBuilder";
 
-    String sdName = astsdArtifact.getSequenceDiagram().getName();
+    String sdName = capitalize(astsdArtifact.getSequenceDiagram().getName());
 
     ASTCDClass mockBuilder = CD4CodeMill.cDClassBuilder()
       .setModifier(CD4CodeMill.modifierBuilder().PUBLIC().build())
@@ -78,10 +78,10 @@ public class MockBuilderTransformer extends AbstractVisitor {
 
     cd4C.addConstructor(mockBuilder, "sdgenerator.sd2test.BuilderConstructor",
       builderType);
-    cd4C.addMethod(mockBuilder, "sdgenerator.sd2test.BuilderBuildMethods",
-      type.getName(), fieldList, variableList, false, sdName, assignFieldList, assignVariableList);
-    cd4C.addMethod(mockBuilder, "sdgenerator.sd2test.BuilderBuildMethods",
-      type.getName(), fieldList, variableList, true, sdName, assignFieldList, assignVariableList);
+    cd4C.addMethod(mockBuilder, "sdgenerator.sd2test.BuilderUncheckedBuild",
+      type.getName(), fieldList, variableList, sdName, assignFieldList, assignVariableList);
+    cd4C.addMethod(mockBuilder, "sdgenerator.sd2test.BuilderCheckedBuild",
+      type.getName(), fieldList, variableList, sdName, assignFieldList, assignVariableList);
 
     return mockBuilder;
   }

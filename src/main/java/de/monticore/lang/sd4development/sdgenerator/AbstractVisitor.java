@@ -1,4 +1,4 @@
-package de.monticore.lang.sd4development.sdgenerator.sd2test;
+package de.monticore.lang.sd4development.sdgenerator;
 
 import de.monticore.cd.methodtemplates.CD4C;
 import de.monticore.cdbasis._ast.ASTCDCompilationUnit;

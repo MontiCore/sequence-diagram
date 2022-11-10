@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.lang.sd4development.sdgenerator.sd2test;
+package de.monticore.lang.sd4development.sdgenerator;
 
 import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.cdbasis._ast.*;
@@ -20,12 +20,12 @@ public class MonitorMillTransformer extends AbstractVisitor {
   public void visit(ASTSDArtifact ast) {
 
     ASTSequenceDiagram sequenceDiagram = ast.getSequenceDiagram();
-    String millName = sequenceDiagram.getName() + "Mill";
+    String millName = capitalize(sequenceDiagram.getName() + "Mill");
     String mainMillName = "";
 
     ASTCDClass cdClass = CD4CodeMill.cDClassBuilder()
       .setModifier(CD4CodeMill.modifierBuilder().PUBLIC().build())
-      .setName(millName)
+      .setName(capitalize(millName))
       .build();
 
     List<String> classList = new ArrayList<>();
@@ -54,25 +54,27 @@ public class MonitorMillTransformer extends AbstractVisitor {
 
     String millNameAttribute = "protected static " + millName + " mill;";
     cd4C.addAttribute(cdClass, millNameAttribute);
-    String monitorAttribute = "protected static " + sequenceDiagram.getName() + "Monitor monitor;";
+
+    String diagramName = capitalize(sequenceDiagram.getName());
+    String monitorAttribute = "protected static " + diagramName + "Monitor monitor;";
     cd4C.addAttribute(cdClass, monitorAttribute);
 
     cd4C.addConstructor(cdClass, "sdgenerator.sd2java.DefaultConstructor", sequenceDiagram.getName()+"Mill");
 
-    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorMillMethods",
-      "init",classList, sequenceDiagram.getName(), mainMillName, uncapitalize(sequenceDiagram.getName()));
+    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MillInit",
+      diagramName, mainMillName);
 
-    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorMillMethods",
-      "initMe",classList, sequenceDiagram.getName(), mainMillName, uncapitalize(sequenceDiagram.getName()));
+    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MillInitMe",
+      classList, diagramName);
 
-    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorMillMethods",
-      "getMill",classList, sequenceDiagram.getName(), mainMillName, uncapitalize(sequenceDiagram.getName()));
+    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MillGetMill",
+      diagramName);
 
-    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorMillMethods",
-      "getMonitor",classList, sequenceDiagram.getName(), mainMillName, uncapitalize(sequenceDiagram.getName()));
+    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MillGetMonitor",
+      diagramName);
 
-    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MonitorMillMethods",
-      "reset",classList, sequenceDiagram.getName(), mainMillName, uncapitalize(sequenceDiagram.getName()));
+    cd4C.addMethod(cdClass, "sdgenerator.sd2test.MillReset",
+      classList, mainMillName);
 
     compilationUnit.getCDDefinition().getCDPackagesList().get(0).addCDElement(cdClass);
   }

@@ -17,7 +17,7 @@ public class SD2CDGeneratorTest {
 
   @Test
   public void testGenerate() {
-    SD4DevelopmentTool.main(new String[] {"-i","src/test/resources/examples/correct/example.sd" ,"-o" ,"-scope", "src/test/resources/examples/symboltable/example.tdsym"});
+    SD4DevelopmentTool.main(new String[] {"-i","src/test/resources/examples/correct/example.sd" ,"-o" ,"-scope", "src/test/resources/examples/symboltable/Example.tdsym"});
     assertTrue(!false);
   }
 

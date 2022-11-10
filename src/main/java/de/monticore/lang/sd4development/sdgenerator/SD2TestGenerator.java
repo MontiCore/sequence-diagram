@@ -1,5 +1,5 @@
 /* (c) https://github.com/MontiCore/monticore */
-package de.monticore.lang.sd4development.sdgenerator.sd2test;
+package de.monticore.lang.sd4development.sdgenerator;
 
 import de.monticore.cd.facade.MCQualifiedNameFacade;
 import de.monticore.cd4code.CD4CodeMill;
@@ -28,8 +28,6 @@ public class SD2TestGenerator {
     p = addVisitor(ast, new MockBuilderTransformer(p.a, p.b, scope, glex));
 
     p = addVisitor(ast, new MockClassTransformer(p.a, p.b, scope, glex));
-
-    p = addVisitor(ast, new MonitorInterfaceTransformer(p.a, p.b, scope, glex));
 
     p = addVisitor(ast, new MonitorMillTransformer(p.a, p.b, scope, glex));
 
