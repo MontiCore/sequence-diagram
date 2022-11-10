@@ -26,7 +26,7 @@ public class MockBuilderTransformer extends AbstractVisitor {
     List<ASTCDElement> mockBuilders = new ArrayList<>();
 
     for (TypeSymbol type : scope.getTypeSymbols().values()) {
-      if(type.getName().endsWith("Mill") || type.getName().endsWith("Builder")) {
+      if(type.getName().contains("Mill") || type.getName().contains("Builder")) {
         continue;
       }
       mockBuilders.add(createMockBuilders(sdArtifact, type));

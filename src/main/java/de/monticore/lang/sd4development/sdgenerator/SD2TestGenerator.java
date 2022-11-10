@@ -33,6 +33,8 @@ public class SD2TestGenerator {
 
     p = addVisitor(ast, new MonitorTransformer(p.a, p.b, scope, glex));
 
+    p = addVisitor(ast, new AuxiliaryMillVisitor(p.a, p.b, scope, glex));
+
     return new SD2TestData(p.a, p.b);
   }
 

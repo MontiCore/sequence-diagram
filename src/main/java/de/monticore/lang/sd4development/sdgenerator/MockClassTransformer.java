@@ -32,13 +32,13 @@ public class MockClassTransformer extends AbstractVisitor {
     List<ASTCDElement> mockClasses = new ArrayList<>();
 
     for(TypeSymbol type : scope.getTypeSymbols().values()) {
-      if(type.getName().endsWith("Mill") || type.getName().endsWith("Builder")) {
+      if(type.getName().contains("Mill") || type.getName().contains("Builder")) {
         continue;
       }
       mockClasses.add(createMockClass(ast, type));
     }
     for(OOTypeSymbol type : scope.getOOTypeSymbols().values()) {
-      if(type.getName().endsWith("Mill") || type.getName().endsWith("Builder")) {
+      if(type.getName().contains("Mill") || type.getName().contains("Builder")) {
         continue;
       }
       mockClasses.add(createMockClass(ast, type));
