@@ -6,7 +6,7 @@ import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentGlobalScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
-import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
+import de.monticore.lang.sdbasis.types.FullSDBasisSynthesizer;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbolBuilder;
@@ -15,6 +15,7 @@ import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.symbols.oosymbols._symboltable.*;
 import de.monticore.types.MCTypeFacade;
 import de.monticore.types.check.SymTypeExpressionFactory;
+import de.monticore.types.mcbasictypes._ast.ASTMCType;
 
 import java.util.List;
 import java.util.Optional;
@@ -53,9 +54,11 @@ public final class TestUtils {
   }
 
   private static OOTypeSymbol createDeepOOTypeSymbol() {
-    MethodSymbol someMethod = new MethodSymbolBuilder().setReturnType(new DeriveSymTypeOfSDBasis(SD4DevelopmentMill.traverser()).calculateType(typeFacade.createIntType()).get()).setName("someMethod").build();
+    ASTMCType intType = typeFacade.createIntType();
+    intType.setEnclosingScope(BasicSymbolsMill.globalScope());
+    MethodSymbol someMethod = new MethodSymbolBuilder().setType(new FullSDBasisSynthesizer().synthesizeType(intType).getResult()).setName("someMethod").build();
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
-    FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
+    FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new FullSDBasisSynthesizer().synthesizeType(intType).getResult()).build();
     scope.add(valueField);
     someMethod.setSpannedScope(scope);
     // TimingPolicy oo type symbol
@@ -68,9 +71,11 @@ public final class TestUtils {
 
   private static OOTypeSymbol createBiddingPolicyOOTypeSymbol() {
     // validateBid method symbol
-    MethodSymbol validateBid = new MethodSymbolBuilder().setName("validateBid").setReturnType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
+    ASTMCType intType = typeFacade.createIntType();
+    intType.setEnclosingScope(BasicSymbolsMill.globalScope());
+    MethodSymbol validateBid = new MethodSymbolBuilder().setName("validateBid").setType(new FullSDBasisSynthesizer().synthesizeType(intType).getResult()).build();
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
-    FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
+    FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new FullSDBasisSynthesizer().synthesizeType(intType).getResult()).build();
     scope.add(valueField);
     validateBid.setSpannedScope(scope);
     // BiddingPolicy oo type symbol
@@ -83,9 +88,11 @@ public final class TestUtils {
 
   private static OOTypeSymbol createTimingPolicyOOTypeSymbol() {
     // newCurrentClosingTime method symbol
-    MethodSymbol newCurrentClosingTime = new MethodSymbolBuilder().setReturnType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).setName("newCurrentClosingTime").build();
+    ASTMCType intType = typeFacade.createIntType();
+    intType.setEnclosingScope(BasicSymbolsMill.globalScope());
+    MethodSymbol newCurrentClosingTime = new MethodSymbolBuilder().setType(new FullSDBasisSynthesizer().synthesizeType(intType).getResult()).setName("newCurrentClosingTime").build();
     SD4DevelopmentScope scope = new SD4DevelopmentScope();
-    FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new DeriveSymTypeOfSDBasis().calculateType(typeFacade.createIntType()).get()).build();
+    FieldSymbol valueField = new FieldSymbolBuilder().setName("value").setType(new FullSDBasisSynthesizer().synthesizeType(intType).getResult()).build();
     scope.add(valueField);
     newCurrentClosingTime.setSpannedScope(scope);
     // TimingPolicy oo type symbol

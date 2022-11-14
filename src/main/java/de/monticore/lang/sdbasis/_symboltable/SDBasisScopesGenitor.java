@@ -2,23 +2,22 @@
 package de.monticore.lang.sdbasis._symboltable;
 
 import de.monticore.lang.sdbasis._ast.ASTSDObject;
-import de.monticore.lang.sdbasis.types.DeriveSymTypeOfSDBasis;
+import de.monticore.lang.sdbasis.types.FullSDBasisSynthesizer;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.SymTypeExpressionFactory;
-import de.monticore.types.mcbasictypes.MCBasicTypesMill;
+import de.monticore.types.check.TypeCheckResult;
 import de.monticore.types.mcbasictypes._ast.ASTMCObjectType;
 import de.monticore.types.prettyprint.MCBasicTypesFullPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
-import java.util.Deque;
 import java.util.Optional;
 
 public class SDBasisScopesGenitor extends SDBasisScopesGenitorTOP {
 
-  private final DeriveSymTypeOfSDBasis typeChecker = new DeriveSymTypeOfSDBasis();
+  private final FullSDBasisSynthesizer synthesizer = new FullSDBasisSynthesizer();
 
   /**
    * prettyPrinter used for error reporting.
@@ -37,12 +36,12 @@ public class SDBasisScopesGenitor extends SDBasisScopesGenitorTOP {
     if (node.isPresentMCObjectType()) {
       ASTMCObjectType objectType = node.getMCObjectType();
 
-      final Optional<SymTypeExpression> typeResult = typeChecker.calculateType(objectType);
-      if (!typeResult.isPresent()) {
+      final TypeCheckResult typeResult = synthesizer.synthesizeType(objectType);
+      if (!typeResult.isPresentResult()) {
         Log.error(String.format("0xB0005: The type (%s) of the object (%s) could not be calculated", prettyPrinter.prettyprint(objectType), node.getName()));
       }
       else {
-        symbol.setType(typeResult.get());
+        symbol.setType(typeResult.getResult());
       }
     }
     else {

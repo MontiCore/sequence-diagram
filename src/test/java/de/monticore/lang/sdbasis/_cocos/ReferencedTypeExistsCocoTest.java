@@ -31,7 +31,7 @@ public class ReferencedTypeExistsCocoTest extends SDCocoTest {
   public void testCocoViolation1() {
     ASTSDArtifact sd = loadModel("src/test/resources/examples/incorrect/used_type_undefined.sd");
 
-    assertEquals(2, Log.getErrorCount());
+    assertEquals(1, Log.getErrorCount());
     assertEquals(0,
       Log.getFindings()
         .stream()
@@ -44,7 +44,7 @@ public class ReferencedTypeExistsCocoTest extends SDCocoTest {
   public void testCocoViolation2() {
     ASTSDArtifact sd = loadModel("src/test/resources/examples/incorrect/deepTypeUsageIncorrect.sd");
 
-    assertEquals(2, Log.getErrorCount());
+    assertEquals(1, Log.getErrorCount());
     assertEquals(0,
       Log.getFindings()
         .stream()
