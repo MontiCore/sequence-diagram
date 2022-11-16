@@ -3,6 +3,7 @@ package de.monticore.lang.sd4development;
 
 import de.monticore.cd.codegen.CDGenerator;
 import de.monticore.cd.codegen.CdUtilsPrinter;
+import de.monticore.cd4code.CD4CodeMill;
 import de.monticore.generating.GeneratorSetup;
 import de.monticore.generating.templateengine.GlobalExtensionManagement;
 import de.monticore.generating.templateengine.TemplateController;
@@ -13,7 +14,7 @@ import de.monticore.lang.sd4development._cocos.*;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentPrettyPrinter;
-import de.monticore.lang.sd4development.sd2cd.SD2CDTransformer;
+import de.monticore.lang.sd4development.sdgenerator.SD2TestGenerator;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
 import de.monticore.lang.sddiff.SDInteraction;
@@ -194,33 +195,13 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
       }
 
       if (cmd.hasOption("o")) {
-        String outputPath = cmd.getOptionValue("o", ".");
-
-        GlobalExtensionManagement glex = new GlobalExtensionManagement();
-        glex.setGlobalValue("cdPrinter", new CdUtilsPrinter());
-
-        GeneratorSetup generatorSetup = new GeneratorSetup();
-
-        if (cmd.hasOption("fp")) { // Template path
-          generatorSetup.setAdditionalTemplatePaths(Arrays.stream(cmd.getOptionValues("fp"))
-            .map(Paths::get)
-            .map(Path::toFile)
-            .collect(Collectors.toList()));
-        }
-
-        generatorSetup.setGlex(glex);
-        generatorSetup.setOutputDirectory(new File(outputPath));
-
-        SD2CDTransformer transformer = new SD2CDTransformer();
-
-        CDGenerator generator = new CDGenerator(generatorSetup);
-        String configTemplate = cmd.getOptionValue("ct", "sd2java.SD2Java");
-        TemplateController tc = generatorSetup.getNewTemplateController(configTemplate);
-        TemplateHookPoint hpp = new TemplateHookPoint(configTemplate);
-        List<Object> configTemplateArgs = Arrays.asList(glex, transformer, generator);
-
-        for (ASTSDArtifact ast : inputSDs) {
-          hpp.processValue(tc, ast, configTemplateArgs);
+        if(!cmd.hasOption("scope")) {
+          Log.error("0x13509 No given scope for generation");
+        } else {
+          SD4DevelopmentMill.init();
+          ISD4DevelopmentArtifactScope scope = new SD4DevelopmentSymbols2Json().load(cmd.getOptionValue("scope"));
+          CD4CodeMill.init();
+          generateCD(inputSDs, cmd, scope, new SD2TestGenerator());
         }
       }
     }
@@ -228,7 +209,30 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
       // unexpected error from apache CLI parser
       Log.error("0xA7103 Could not process CLI parameters: " + e.getMessage());
     }
+  }
 
+  public void generateCD(List<ASTSDArtifact> inputSDs, CommandLine cmd, ISD4DevelopmentArtifactScope scope, SD2TestGenerator sdGenerator) {
+    String outputPath = cmd.getOptionValue("o", "target/gen-test");
+
+    GlobalExtensionManagement glex = new GlobalExtensionManagement();
+    glex.setGlobalValue("cdPrinter", new CdUtilsPrinter());
+    GeneratorSetup generatorSetup = new GeneratorSetup();
+    if(cmd.hasOption("fp")) { // Template path
+      generatorSetup.setAdditionalTemplatePaths(Arrays.stream(cmd.getOptionValues("fp"))
+        .map(Paths::get)
+        .map(Path::toFile)
+        .collect(Collectors.toList()));
+    }
+    generatorSetup.setGlex(glex);
+    generatorSetup.setOutputDirectory(new File(outputPath));
+    CDGenerator generator = new CDGenerator(generatorSetup);
+    String configTemplate = cmd.getOptionValue("ct", "sdgenerator.SDTransformer");
+    TemplateController tc = generatorSetup.getNewTemplateController(configTemplate);
+    TemplateHookPoint hpp = new TemplateHookPoint(configTemplate);
+    List<Object> configTemplateArgs = Arrays.asList(glex, sdGenerator, generator, scope);
+    for(ASTSDArtifact ast: inputSDs) {
+      hpp.processValue(tc, ast, configTemplateArgs);
+    }
   }
 
   /**
@@ -375,6 +379,11 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
     options.addOption(Option.builder("path")
       .hasArgs()
       .desc("Sets the artifact path for imported symbols, space separated.")
+      .build());
+
+    options.addOption(Option.builder("scope")
+      .hasArg()
+      .desc("Sets the artifact scope for cd generation.")
       .build());
 
     return options;

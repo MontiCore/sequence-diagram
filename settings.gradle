@@ -1,6 +1,10 @@
 /* (c) https://github.com/MontiCore/monticore */
 pluginManagement {
   repositories {
+    if(("true").equals(getProperty('useLocalRepo'))){
+      mavenLocal()
+    }
+    mavenCentral()
     maven {
       credentials.username mavenUser
       credentials.password mavenPassword
@@ -11,4 +15,4 @@ pluginManagement {
 }
 rootProject.name = 'sd-language'
 
-include(':it:sd2java')
+include(':gentest')

@@ -39,6 +39,7 @@ public class SD4DevelopmentToolTest {
     SD4DevelopmentMill.reset();
     SD4DevelopmentMill.init();
     this.setupGlobalScope();
+    Log.init();
     Log.getFindings().clear();
     Log.enableFailQuick(false);
 
