@@ -39,6 +39,7 @@ public class SD4DevelopmentToolTest {
     SD4DevelopmentMill.reset();
     SD4DevelopmentMill.init();
     this.setupGlobalScope();
+    Log.init();
     Log.getFindings().clear();
     Log.enableFailQuick(false);
 
@@ -325,7 +326,7 @@ public class SD4DevelopmentToolTest {
     String printed = out.toString().trim();
     assertNotNull(printed);
     assertFalse(printed.contains("java.lang.NullPointerException"));
-    Assert.assertEquals(8, Log.getErrorCount());
+    Assert.assertEquals(4, Log.getErrorCount());
   }
 
 }
