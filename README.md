@@ -40,14 +40,14 @@ sequencediagram Bid {
 ```
 
 This was for us the most intuitive textual representation of SDs, which was not 
-easy to define, because SDs are inherently two dimensional with their 
+easy to define, because SDs are inherently two-dimensional with their 
 objects, activity bars and interactions in time.
 
 # Command Line Tool
 
 This section describes the command line tool of the SD language. 
 The tool provides typical functionality used when
-processing models. To this effect, it provides funcionality
+processing models. To this effect, it provides functionality
 for 
 * parsing, 
 * coco-checking, 
@@ -190,13 +190,13 @@ The command prints the pretty-printed model contained in the input file into the
 For checking context conditions, the `-c,--coco <arg>` option can be used. 
 Using this option without any arguments checks whether the model satisfies all context conditions. 
 
-If you are only interested in checking whether a model only satisfies a subset of the context conditions or want to explicate that all context conditions shoud 
+If you are only interested in checking whether a model only satisfies a subset of the context conditions or want to explicate that all context conditions should 
 be checked, you can do this by additionally providing one of the three
  arguments `intra`, `inter`, and `type`.
 * Using the argument `intra` only executes context conditions concerning violations of intra-model context conditions.
   These context conditions, for example, check naming conventions. 
 * Using the argument `inter` executes all intra-model context conditions and additionally checks whether imported `Variables`, i.e., objects, are defined.
-* Using the argument `type` executes all context coniditions. These context conditions include checking whether
+* Using the argument `type` executes all context conditions. These context conditions include checking whether
   used types and methods exist. The behavior when using the argument `type` is the equal to the default behavior when using no arguments. 
 
 Execute the following command for trying out a simple example:
@@ -204,7 +204,7 @@ Execute the following command for trying out a simple example:
 java -jar MCSD4Development.jar -i Example.sd -c
 ```
 You may notice that the tool prints nothing to the console when executing this command.
-This means that the model satisfies all context condtions. 
+This means that the model satisfies all context conditions. 
 
 Let us now consider a more complex example.
 Recall the SD `Bid` from the `An Example Model` section above.
@@ -405,4 +405,3 @@ semantic evolution analysis via semantic differencing for arbitrary SDs. Great!
 * [Best Practices](https://github.com/MontiCore/monticore/blob/opendev/docs/BestPractices.md)
 * [Publications about MBSE and MontiCore](https://www.se-rwth.de/publications/)
 * [Licence definition](https://github.com/MontiCore/monticore/blob/master/00.org/Licenses/LICENSE-MONTICORE-3-LEVEL.md)
-
