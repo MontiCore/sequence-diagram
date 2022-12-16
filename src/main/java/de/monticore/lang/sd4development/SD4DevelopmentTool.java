@@ -11,9 +11,9 @@ import de.monticore.generating.templateengine.TemplateHookPoint;
 import de.monticore.io.FileReaderWriter;
 import de.monticore.io.paths.MCPath;
 import de.monticore.lang.sd4development._cocos.*;
+import de.monticore.lang.sd4development._prettyprint.SD4DevelopmentFullPrettyPrinter;
 import de.monticore.lang.sd4development._symboltable.*;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
-import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentPrettyPrinter;
 import de.monticore.lang.sd4development.sdgenerator.SD2TestGenerator;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.*;
@@ -243,8 +243,8 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
    */
   @Override
   public void prettyPrint(ASTSDArtifact ast, String file) {
-    SD4DevelopmentPrettyPrinter prettyPrinter = new SD4DevelopmentPrettyPrinter(new IndentPrinter(), SD4DevelopmentMill.traverser());
-    print(prettyPrinter.prettyPrint(ast), file);
+    SD4DevelopmentFullPrettyPrinter prettyPrinter = new SD4DevelopmentFullPrettyPrinter(new IndentPrinter());
+    print(prettyPrinter.prettyprint(ast), file);
   }
 
   /**
