@@ -4,14 +4,15 @@ package de.monticore.lang.sd4development._cocos;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDEndCall;
 import de.monticore.lang.sd4development._ast.ASTSDReturn;
+import de.monticore.lang.sd4development._prettyprint.SD4DevelopmentFullPrettyPrinter;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor2;
-import de.monticore.lang.sd4development.prettyprint.SD4DevelopmentPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDArtifactCoCo;
 import de.monticore.lang.sdbasis._visitor.SDBasisVisitor2;
 import de.monticore.lang.util.SourceAndTargetEquals;
+import de.monticore.prettyprint.IndentPrinter;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.HashSet;
@@ -40,7 +41,7 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
    * If there does not exists such a SendCall, an error will be produced.
    */
   private static final class ReturnOnlyAfterMethodCocoVisitor implements SDBasisVisitor2, SD4DevelopmentVisitor2 {
-    private final SD4DevelopmentPrettyPrinter pp = new SD4DevelopmentPrettyPrinter();
+    private final SD4DevelopmentFullPrettyPrinter pp = new SD4DevelopmentFullPrettyPrinter(new IndentPrinter());
 
     private final Set<ASTSDSendMessage> openMethodCalls = new HashSet<>();
 
@@ -66,9 +67,9 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
             return;
           }
         }
-        String nodeAsString = pp.prettyPrint(endCall).trim();
-        String targetAsString = endCall.isPresentSDTarget() ? pp.prettyPrint(endCall.getSDTarget()) : "<empty>";
-        String sourceAsString = endCall.isPresentSDSource() ? pp.prettyPrint(endCall.getSDSource()) : "<empty>";
+        String nodeAsString = pp.prettyprint(endCall).trim();
+        String targetAsString = endCall.isPresentSDTarget() ? pp.prettyprint(endCall.getSDTarget()) : "<empty>";
+        String sourceAsString = endCall.isPresentSDSource() ? pp.prettyprint(endCall.getSDSource()) : "<empty>";
         Log.warn(String.format(MESSAGE, nodeAsString, targetAsString, sourceAsString),
                 endCall.get_SourcePositionStart());
       }
