@@ -3,6 +3,7 @@ package de.monticore.lang.sd4development.prettyprint;
 
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
+import de.monticore.lang.sd4development._prettyprint.SD4DevelopmentFullPrettyPrinter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.prettyprint.IndentPrinter;
 import de.se_rwth.commons.logging.Log;
@@ -26,12 +27,12 @@ public class SD4DevelopmentDelegatorPrettyPrinterTest {
 
   private SD4DevelopmentParser parser;
 
-  private SD4DevelopmentPrettyPrinter prettyPrinter;
+  private SD4DevelopmentFullPrettyPrinter prettyPrinter;
 
   @BeforeEach
   void setup() {
     this.parser = new SD4DevelopmentParser();
-    this.prettyPrinter = new SD4DevelopmentPrettyPrinter(new IndentPrinter(), SD4DevelopmentMill.traverser());
+    this.prettyPrinter = new SD4DevelopmentFullPrettyPrinter(new IndentPrinter());
     Log.enableFailQuick(false);
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
@@ -61,7 +62,7 @@ public class SD4DevelopmentDelegatorPrettyPrinterTest {
     // given
     ASTSDArtifact ast = testParseModel(CORRECT_PATH, model);
     // when
-    String printed = prettyPrinter.prettyPrint(ast);
+    String printed = prettyPrinter.prettyprint(ast);
     System.out.println(printed);
     // then
     ASTSDArtifact newAst = parser.parse(new StringReader(printed)).orElseThrow(NoSuchElementException::new);
