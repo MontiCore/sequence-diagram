@@ -5,3 +5,6 @@
 **/.gradle
 out/**
 out
+gradlew.bat
+gradle/
+gradlew
