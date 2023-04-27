@@ -7,6 +7,7 @@ import de.monticore.lang.sd4development._prettyprint.SD4DevelopmentFullPrettyPri
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.prettyprint.IndentPrinter;
 import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.LogStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -31,9 +32,12 @@ public class SD4DevelopmentDelegatorPrettyPrinterTest {
 
   @BeforeEach
   void setup() {
+    LogStub.init();
+    Log.enableFailQuick(false);
+    SD4DevelopmentMill.reset();
+    SD4DevelopmentMill.init();
     this.parser = new SD4DevelopmentParser();
     this.prettyPrinter = new SD4DevelopmentFullPrettyPrinter(new IndentPrinter());
-    Log.enableFailQuick(false);
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     ByteArrayOutputStream err = new ByteArrayOutputStream();

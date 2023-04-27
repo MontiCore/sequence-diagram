@@ -11,6 +11,7 @@ import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.LogStub;
 import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
@@ -36,12 +37,11 @@ public class SD4DevelopmentToolTest {
 
   @BeforeEach
   public void setup() {
+    LogStub.init();
+    Log.enableFailQuick(false);
     SD4DevelopmentMill.reset();
     SD4DevelopmentMill.init();
     this.setupGlobalScope();
-    Log.init();
-    Log.getFindings().clear();
-    Log.enableFailQuick(false);
 
     out = new ByteArrayOutputStream();
     err = new ByteArrayOutputStream();
