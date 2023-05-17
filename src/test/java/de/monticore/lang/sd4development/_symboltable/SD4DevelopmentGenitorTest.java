@@ -7,6 +7,8 @@ import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
+import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.LogStub;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
@@ -31,6 +33,8 @@ public class SD4DevelopmentGenitorTest {
 
   @BeforeEach
   void setup() {
+    LogStub.init();
+    Log.enableFailQuick(false);
     SD4DevelopmentMill.reset();
     SD4DevelopmentMill.init();
     BasicSymbolsMill.initializePrimitives();

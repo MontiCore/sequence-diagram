@@ -13,6 +13,7 @@ import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.symboltable.serialization.JsonPrinter;
 import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.LogStub;
 import org.apache.commons.io.FilenameUtils;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -44,9 +45,10 @@ public class SD4DevelopmentDeSerTest {
 
   @BeforeEach
   void setup() {
+    LogStub.init();
+    Log.enableFailQuick(false);
     SD4DevelopmentMill.reset();
     SD4DevelopmentMill.init();
-    Log.enableFailQuick(false);
     SD4DevelopmentMill.globalScope().setSymbolPath(new MCPath(Paths.get(SYMBOL_PATH)));
     JsonPrinter.enableIndentation();
     TestUtils.setupGlobalScope(SD4DevelopmentMill.globalScope());

@@ -10,6 +10,7 @@ import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScopesGenitor
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.LogStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -47,12 +48,13 @@ public abstract class SDCocoTest {
 
   @BeforeEach
   public void setup() {
+    LogStub.init();
+    Log.enableFailQuick(false);
     SD4DevelopmentMill.reset();
     SD4DevelopmentMill.init();
     this.setupGlobalScope();
     this.checker = new SD4DevelopmentCoCoChecker();
     initCoCoChecker();
-    Log.getFindings().clear();
 
     out = new ByteArrayOutputStream();
     err = new ByteArrayOutputStream();
