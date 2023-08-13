@@ -2,8 +2,10 @@
 package de.monticore.lang;
 
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.LogStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
@@ -26,8 +28,11 @@ public class SDParserTest {
 
   @BeforeEach
   void setup() {
-    this.parser = new SD4DevelopmentParser();
+    LogStub.init();
     Log.enableFailQuick(false);
+    SD4DevelopmentMill.reset();
+    SD4DevelopmentMill.init();
+    this.parser = new SD4DevelopmentParser();
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
     ByteArrayOutputStream err = new ByteArrayOutputStream();

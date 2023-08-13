@@ -3,6 +3,8 @@ package de.monticore.lang.sddiff;
 
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
+import de.se_rwth.commons.logging.Log;
+import de.se_rwth.commons.logging.LogStub;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -36,6 +38,8 @@ public class SDSemDiffTest {
 
   @BeforeEach
   void setup() {
+    LogStub.init();
+    Log.enableFailQuick(false);
     sdSemDiff = new SDSemDiff();
 
     ByteArrayOutputStream out = new ByteArrayOutputStream();
