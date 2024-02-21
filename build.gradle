@@ -9,7 +9,6 @@ plugins {
   id 'org.ec4j.editorconfig' version "0.0.3"
 }
 
-def commons_version = "7.6.0-SNAPSHOPT"
 def grammar_classifier = "grammars"
 def grammarDir = "src/main/grammars"
 
