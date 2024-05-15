@@ -3,6 +3,7 @@
 package de.monticore.lang.sdbasis._cocos;
 
 import com.google.common.collect.Sets;
+import de.monticore.lang.sdbasis.SDBasisMill;
 import de.monticore.lang.sdbasis._ast.ASTSDObject;
 import de.monticore.lang.sdbasis._ast.ASTSequenceDiagram;
 import de.se_rwth.commons.logging.Log;

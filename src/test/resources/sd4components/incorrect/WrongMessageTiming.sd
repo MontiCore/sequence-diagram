@@ -1,0 +1,9 @@
+/* (c) https://github.com/MontiCore/monticore */
+package sd4components.incorrect;
+
+sequencediagram WrongMessageTiming {
+  aSync:ASync;
+  a:A;
+
+  a.pOut -> aSync.pIn : 1; // mismatch timing timed -> sync
+}

@@ -1,0 +1,19 @@
+/* (c) https://github.com/MontiCore/monticore */
+package sd4components.correct;
+
+sequencediagram Example {
+
+  a:A;
+  b:B;
+  c1:C;
+  c2:C;
+
+  let int m = 0;
+
+  -> a.pIn : m;
+  a.pOut -> b.pIn : ...;
+  a.pOut -> c1.pIn : m + 2;
+  c1.pOut -> c2.pOut : 4;
+
+  assert c2.pOut == 4;
+}
