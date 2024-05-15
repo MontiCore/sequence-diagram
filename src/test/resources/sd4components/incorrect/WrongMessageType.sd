@@ -1,0 +1,16 @@
+/* (c) https://github.com/MontiCore/monticore */
+package sd4components.incorrect;
+
+sequencediagram WrongMessageType {
+  a:A;
+  b:B;
+  c:ABool;
+
+  let double m = 0;
+
+  -> a.pIn : m; // mismatch double <-> int
+  a.pOut -> b.pIn : 0.5; // mismatch double <-> int
+  b.pOut -> c.pIn : 1; // mismatch port type int -> bool
+
+  assert c.pOut && m == 0;
+}

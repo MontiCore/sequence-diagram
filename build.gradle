@@ -102,6 +102,7 @@ repositories {
 def grammarDependencies = ext {
   SDBasis = []
   SD4Development = ["SDBasis"]
+  SD4Components = ["SDBasis"]
 }
 
 // one task per grammar file

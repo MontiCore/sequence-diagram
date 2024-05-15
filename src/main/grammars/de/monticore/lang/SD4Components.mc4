@@ -1,0 +1,89 @@
+/* (c) https://github.com/MontiCore/monticore */
+package de.monticore.lang;
+
+/* This is a MontiCore alpha grammar. */
+
+/*
+ * This grammar defines a textual representation of UML/P sequence
+ * diagrams (SDs). UML/P SDs are especially suited for the modeling
+ * of tests.
+ *
+ * UML/P sequence diagrams are defined in detail in the following books:
+ *
+ * [Rum16] B. Rumpe: Modeling with UML:
+ * Language, Concepts, Methods. Springer International, July 2016.
+ *
+ * [Rum17] B. Rumpe: Agile Modeling with UML:
+ * Code Generation, Testing, Refactoring. Springer International, May 2017.
+ *
+ * see also: http://mbse.se-rwth.de/
+ *
+ * This grammar extends the grammar SDBasis with advanced concepts used in
+ * component & connector programming and embeds OCL for defining local variables
+ * and stating conditions.
+ * This grammar defines the syntax for
+ *  * actions representing port messages
+ *  * ocl conditions, and
+ *  * local variable declarations.
+ *
+ * This grammar extends the grammar
+ *  * SDBasis to reuse the basic constituents of SDs,
+ *  * MCCommonLiterals to be able to common literals in expressions.
+ *  * CommonExpressions to be able to use simple expressions, e.g. a == b
+ *  * OCLExpressions for embedding OCL expressions as conditions and to
+ *  * be able to use expressions for the definition of local variables.
+ */
+grammar SD4Components extends
+                  de.monticore.lang.SDBasis,
+                  de.monticore.literals.MCCommonLiterals,
+                  de.monticore.expressions.CommonExpressions,
+                  de.monticore.ocl.OCLExpressions,
+                  de.monticore.symbols.CompSymbols {
+
+  start SDArtifact;
+
+  /**
+   * Component definition introducing a new component in form of
+   * a SubcomponentSymbol (by implementing Subcomponent).
+   *
+   * Sequence diagrams in graphical notation allow to introduce
+   * anonymous objects. Unfortunately in a textual notation object
+   * names are needed to refer to the object as source or target
+   * of an interaction. The use of anonymous objects is therefore
+   * not possible with this grammar.
+   */
+  SDComponent extends SDObject =
+    Stereotype? SDModifier* Name ( ":" MCObjectType Arguments? )? ";";
+
+  /*
+   * Possible targets of interactions.
+   */
+  SDPort implements SDSource, SDTarget = Name@Subcomponent "." port:Name@Port;
+
+  /*
+   * Actions for a triggering message.
+   * Triggers are used e.g. in tests to start the test execution
+   * (as opposed to normal interactions that are observations)
+   */
+  SDCall implements SDAction = Expression;
+
+  /**
+   * SDIncompleteAction is introduced to enable modeling of
+   * incomplete specifications of actions.
+   */
+  SDIncompleteAction implements SDAction = "...";
+
+  /*
+   * Conditions that can be stated between interactions in SDs.
+   * With this grammar, OCL expressions are possible.
+   */
+  SDCondition implements SDElement =
+    key("assert") Expression ";";
+
+  /*
+   * Declarations of variables between interactions in SDs.
+   * Variable declarations define variable symbols.
+   */
+  SDVariableDeclaration implements SDElement, Variable =
+    "let" MCType Name "=" assignment:Expression ";";
+}
