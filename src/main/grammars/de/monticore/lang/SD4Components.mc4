@@ -38,7 +38,8 @@ grammar SD4Components extends
                   de.monticore.literals.MCCommonLiterals,
                   de.monticore.expressions.CommonExpressions,
                   de.monticore.ocl.OCLExpressions,
-                  de.monticore.symbols.CompSymbols {
+                  de.monticore.symbols.CompSymbols,
+                  de.monticore.symbols.OOSymbols {
 
   start SDArtifact;
 
