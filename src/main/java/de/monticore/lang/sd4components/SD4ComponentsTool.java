@@ -77,7 +77,7 @@ public class SD4ComponentsTool extends SD4ComponentsToolTOP {
     Log.enableFailQuick(false);
 
     // Parse input SDs
-    List<ASTSDArtifact> inputSDs = this.parse(".cd", this.createModelPath(cmd).getEntries());
+    List<ASTSDArtifact> inputSDs = this.parse(".sd", this.createModelPath(cmd).getEntries());
 
     // pretty print
     if (cmd.hasOption("pp")) {
