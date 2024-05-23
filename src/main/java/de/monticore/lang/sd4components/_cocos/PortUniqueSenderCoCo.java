@@ -20,6 +20,9 @@ import java.util.stream.Collectors;
  */
 public class PortUniqueSenderCoCo implements SDBasisASTSDBodyCoCo {
 
+  public static final String MESSAGE_ERROR = "0xB5003: "
+    + "Port '%s' is target of multiple connectors";
+
   @Override
   public void check(ASTSDBody node) {
     Map<String, String> targetSource = new HashMap<>();
@@ -38,7 +41,7 @@ public class PortUniqueSenderCoCo implements SDBasisASTSDBodyCoCo {
         ASTSDPort astTarget = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(connector.getSDTarget());
         String target = astTarget.getName() + "." + astTarget.getPort();
         if (targetSource.containsKey(target) && !targetSource.get(target).equals(source)) {
-          Log.error(String.format("0xB5003: Port '%s' is target of multiple connectors", target), connector.get_SourcePositionStart(), connector.get_SourcePositionEnd());
+          Log.error(String.format(MESSAGE_ERROR, target), connector.get_SourcePositionStart(), connector.get_SourcePositionEnd());
         } else {
           targetSource.put(target, source);
         }

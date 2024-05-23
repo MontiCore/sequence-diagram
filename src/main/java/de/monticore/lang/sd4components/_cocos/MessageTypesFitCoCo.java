@@ -8,6 +8,7 @@ import de.monticore.lang.sd4components.types.FullSD4ComponentsDeriver;
 import de.monticore.lang.sdbasis._ast.ASTSDAction;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDSendMessageCoCo;
+import de.monticore.symboltable.resolving.ResolvedSeveralEntriesForSymbolException;
 import de.monticore.types.check.AbstractDerive;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.TypeCheckResult;
@@ -27,7 +28,7 @@ import java.util.Optional;
  */
 public class MessageTypesFitCoCo implements SDBasisASTSDSendMessageCoCo {
 
-  protected final AbstractDerive deriver;
+  public final AbstractDerive deriver;
 
   public MessageTypesFitCoCo() {
     this(new FullSD4ComponentsDeriver());
@@ -44,13 +45,19 @@ public class MessageTypesFitCoCo implements SDBasisASTSDSendMessageCoCo {
       return;
 
     ASTSDPort target = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(node.getSDTarget());
-    Optional<SymTypeExpression> targetType = target.getNameSymbol().getType().getTypeOfPort(target.getPort());
+    Optional<SymTypeExpression> targetType = Optional.empty();
+    if (target.isPresentNameSymbol() && target.getNameSymbol().isTypePresent()) {
+      targetType = target.getNameSymbol().getType().getTypeOfPort(target.getPort());
+    }
 
     if (node.isPresentSDSource()
       && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(node.getSDSource())
     ) {
       ASTSDPort source = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(node.getSDSource());
-      Optional<SymTypeExpression> sourceType = source.getNameSymbol().getType().getTypeOfPort(source.getPort());
+      Optional<SymTypeExpression> sourceType = Optional.empty();
+      if (source.isPresentNameSymbol() && source.getNameSymbol().isTypePresent()) {
+        sourceType = source.getNameSymbol().getType().getTypeOfPort(source.getPort());
+      }
 
       if (sourceType.isEmpty() || targetType.isEmpty()) {
         Log.warn("Skipping CoCo MessageTypesFitCoCo");
@@ -70,13 +77,17 @@ public class MessageTypesFitCoCo implements SDBasisASTSDSendMessageCoCo {
     if (!SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDCall(sdAction))
       return;
     ASTSDCall callAction = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDCall(sdAction);
-    TypeCheckResult result = deriver.deriveType(callAction.getExpression());
-    if (!result.isPresentResult()) {
-      return;
-    }
+    try {
+      TypeCheckResult result = deriver.deriveType(callAction.getExpression());
+      if (!result.isPresentResult()) {
+        return;
+      }
 
-    if (!SymTypeRelations.isCompatible(target, result.getResult())) {
-      Log.error(String.format("0xB5001: Type mismatch, expected '%s' but provided '%s'", target.print(), result.getResult().print()), sdAction.get_SourcePositionStart(), sdAction.get_SourcePositionEnd());
+      if (!SymTypeRelations.isCompatible(target, result.getResult())) {
+        Log.error(String.format("0xB5001: Type mismatch, expected '%s' but provided '%s'", target.print(), result.getResult().print()), sdAction.get_SourcePositionStart(), sdAction.get_SourcePositionEnd());
+      }
+    } catch (ResolvedSeveralEntriesForSymbolException ignored) {
+      Log.debug("Skipped CoCo MessageTypesFitCoCo: ResolvedSeveralEntriesForSymbolException", sdAction.get_SourcePositionStart(), "MessageTypesFitCoCo");
     }
   }
 }
