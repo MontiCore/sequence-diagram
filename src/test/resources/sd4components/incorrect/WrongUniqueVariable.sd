@@ -1,0 +1,12 @@
+/* (c) https://github.com/MontiCore/monticore */
+package sd4components.incorrect;
+
+sequencediagram WrongUniqueVariable {
+  a:A;
+
+  let int m = 0;
+  let boolean m = true; // duplicate variable m
+
+  let int a = 0; // duplicate variable a
+  -> a.pIn : a;
+}

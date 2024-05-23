@@ -7,6 +7,7 @@ sequencediagram Example {
   b:B;
   c1:C;
   c2:C;
+  c; // No type
 
   let int m = 0;
 

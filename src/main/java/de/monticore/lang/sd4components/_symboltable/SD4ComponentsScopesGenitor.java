@@ -84,6 +84,7 @@ public class SD4ComponentsScopesGenitor extends SD4ComponentsScopesGenitorTOP {
   @Override
   public void endVisit(ASTSDComponent node) {
     super.endVisit(node);
+    if(!node.isPresentMCObjectType()) return;
 
     Optional<CompKindExpression> typeExpression = componentSynthesizer.synthesize(node.getMCObjectType());
     if (typeExpression.isPresent()) {
@@ -96,7 +97,7 @@ public class SD4ComponentsScopesGenitor extends SD4ComponentsScopesGenitorTOP {
 
   @Override
   public void endVisit(ASTSDPort node) {
-    if (node.getNameSymbol().isTypePresent() && SD4ComponentsMill.typeDispatcher().isCompSymbolsComponent(node.getNameSymbol().getType().getTypeInfo())) {
+    if (node.isPresentNameSymbol() && node.getNameSymbol().isTypePresent() && SD4ComponentsMill.typeDispatcher().isCompSymbolsComponent(node.getNameSymbol().getType().getTypeInfo())) {
       Optional<PortSymbol> port = SD4ComponentsMill.typeDispatcher().asCompSymbolsComponent(node.getNameSymbol().getType().getTypeInfo()).getPort(node.getPort());
       port.ifPresent(node::setPortSymbol);
     }

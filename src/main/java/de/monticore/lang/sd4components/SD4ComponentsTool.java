@@ -9,6 +9,8 @@ import de.monticore.lang.sd4components._cocos.MessageTimingFitCoCo;
 import de.monticore.lang.sd4components._cocos.MessageTypesFitCoCo;
 import de.monticore.lang.sd4components._cocos.PortUniqueSenderCoCo;
 import de.monticore.lang.sd4components._cocos.SD4ComponentsCoCoChecker;
+import de.monticore.lang.sd4components._cocos.TriggerMessageConcreteCoCo;
+import de.monticore.lang.sd4components._cocos.UniqueVariableNamingCoco;
 import de.monticore.lang.sd4components._cocos.VariableDeclarationTypesFitCoCo;
 import de.monticore.lang.sd4components._prettyprint.SD4ComponentsFullPrettyPrinter;
 import de.monticore.lang.sd4components._symboltable.ISD4ComponentsArtifactScope;
@@ -19,7 +21,6 @@ import de.monticore.lang.sdbasis._cocos.ObjectNameNamingConventionCoco;
 import de.monticore.lang.sdbasis._cocos.PackageNameIsFolderNameCoco;
 import de.monticore.lang.sdbasis._cocos.SDNameIsArtifactNameCoco;
 import de.monticore.lang.sdbasis._cocos.SendMessageHasSourceOrTargetCoco;
-import de.monticore.lang.sdbasis._cocos.UniqueObjectNamingCoco;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.se_rwth.commons.logging.Log;
@@ -60,6 +61,7 @@ public class SD4ComponentsTool extends SD4ComponentsToolTOP {
         return;
       }
 
+      this.init();
       this.initGlobalScope(cmd);
 
       runTasks(cmd);
@@ -105,9 +107,6 @@ public class SD4ComponentsTool extends SD4ComponentsToolTOP {
     for (ASTSDArtifact sd : inputSDs) {
       createSymbolTable(sd);
     }
-    if (Log.getErrorCount() > 0) {
-      return;
-    }
 
     // cocos
     if (cmd.hasOption("c")) {
@@ -115,11 +114,6 @@ public class SD4ComponentsTool extends SD4ComponentsToolTOP {
         runDefaultCoCos(sd);
         runAdditionalCoCos(sd);
       }
-    }
-
-    if (Log.getErrorCount() > 0) {
-      // if the model is not well-formed, then stop before generating anything
-      return;
     }
 
     // fail quick in case of symbol storing
@@ -173,14 +167,15 @@ public class SD4ComponentsTool extends SD4ComponentsToolTOP {
     checker.addCoCo(new PackageNameIsFolderNameCoco());
     checker.addCoCo(new SDNameIsArtifactNameCoco());
     checker.addCoCo(new SendMessageHasSourceOrTargetCoco());
-    checker.addCoCo(new UniqueObjectNamingCoco());
 
     // sd4components cocos
+    checker.addCoCo(new UniqueVariableNamingCoco());
     checker.addCoCo(new MessageTypesFitCoCo());
     checker.addCoCo(new MessageTimingFitCoCo());
     checker.addCoCo(new PortUniqueSenderCoCo());
 
     checker.addCoCo(new ConditionBooleanCoCo());
+    checker.addCoCo(new TriggerMessageConcreteCoCo());
     checker.addCoCo(new VariableDeclarationTypesFitCoCo());
 
     checker.checkAll(ast);

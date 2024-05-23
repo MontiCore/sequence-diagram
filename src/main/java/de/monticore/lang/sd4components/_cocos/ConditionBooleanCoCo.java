@@ -10,6 +10,9 @@ import de.se_rwth.commons.logging.Log;
 
 public class ConditionBooleanCoCo implements SD4ComponentsASTSDConditionCoCo {
 
+  public static final String MESSAGE_ERROR = "0xB5004: "
+    + "Assert expression is not boolean";
+
   protected final AbstractDerive deriver;
 
   public ConditionBooleanCoCo() {
@@ -24,7 +27,7 @@ public class ConditionBooleanCoCo implements SD4ComponentsASTSDConditionCoCo {
   public void check(ASTSDCondition node) {
     TypeCheckResult result = deriver.deriveType(node.getExpression());
     if (result.isPresentResult() && !SymTypeRelations.isBoolean(result.getResult())) {
-      Log.error("0xB5004: Assert expression is not boolean", node.get_SourcePositionStart(), node.get_SourcePositionEnd());
+      Log.error(MESSAGE_ERROR, node.get_SourcePositionStart(), node.get_SourcePositionEnd());
     }
   }
 }
