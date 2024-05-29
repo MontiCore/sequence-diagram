@@ -11,6 +11,7 @@ sequencediagram WrongMessageType {
   -> a.pIn : m; // mismatch double <-> int
   a.pOut -> b.pIn : 0.5; // mismatch double <-> int
   b.pOut -> c.pIn : 1; // mismatch port type int -> bool
+  c.pOut -> : 1; // mismatch bool <-> int
 
   assert c.pOut && m == 0;
 }

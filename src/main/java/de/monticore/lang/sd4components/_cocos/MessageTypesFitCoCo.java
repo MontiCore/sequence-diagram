@@ -40,36 +40,38 @@ public class MessageTypesFitCoCo implements SDBasisASTSDSendMessageCoCo {
 
   @Override
   public void check(ASTSDSendMessage node) {
-    if (!node.isPresentSDTarget()
-      || !SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(node.getSDTarget()))
-      return;
-
-    ASTSDPort target = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(node.getSDTarget());
+    // Collect types
     Optional<SymTypeExpression> targetType = Optional.empty();
-    if (target.isPresentNameSymbol() && target.getNameSymbol().isTypePresent()) {
-      targetType = target.getNameSymbol().getType().getTypeOfPort(target.getPort());
+    if (node.isPresentSDTarget() && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(node.getSDTarget())) {
+      ASTSDPort target = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(node.getSDTarget());
+      if (target.isPresentNameSymbol() && target.getNameSymbol().isTypePresent()) {
+        targetType = target.getNameSymbol().getType().getTypeOfPort(target.getPort());
+      }
     }
 
-    if (node.isPresentSDSource()
-      && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(node.getSDSource())
+    Optional<SymTypeExpression> sourceType = Optional.empty();
+    if (node.isPresentSDSource() && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(node.getSDSource())
     ) {
       ASTSDPort source = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(node.getSDSource());
-      Optional<SymTypeExpression> sourceType = Optional.empty();
       if (source.isPresentNameSymbol() && source.getNameSymbol().isTypePresent()) {
         sourceType = source.getNameSymbol().getType().getTypeOfPort(source.getPort());
       }
+    }
 
-      if (sourceType.isEmpty() || targetType.isEmpty()) {
-        Log.warn("Skipping CoCo MessageTypesFitCoCo");
-        return;
-      }
-
+    // Check source and target fit each other and actions fits source or target
+    if (sourceType.isPresent() && targetType.isPresent()) {
       if (!SymTypeRelations.isCompatible(sourceType.get(), targetType.get())) {
-        Log.error(String.format("0xB5000: Type mismatch, expected '%s' but provided '%s'", targetType.get().print(), sourceType.get().print()), node.get_SourcePositionStart(), node.get_SourcePositionEnd());
+        Log.error(String.format("0xB5000: Type mismatch, expected '%s' but provided '%s'", targetType.get().print(), sourceType.get().print()),
+          node.get_SourcePositionStart(),
+          node.get_SourcePositionEnd());
       }
-      sourceType.ifPresent(symTypeExpression -> checkMessageFits(node.getSDAction(), symTypeExpression));
+      checkMessageFits(node.getSDAction(), sourceType.get());
+    } else if (sourceType.isPresent()) {
+      checkMessageFits(node.getSDAction(), sourceType.get());
+    } else if (targetType.isPresent()) {
+      checkMessageFits(node.getSDAction(), targetType.get());
     } else {
-      targetType.ifPresent(symTypeExpression -> checkMessageFits(node.getSDAction(), symTypeExpression));
+      Log.warn("Skipping CoCo MessageTypesFitCoCo");
     }
   }
 
