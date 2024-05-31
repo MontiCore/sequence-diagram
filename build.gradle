@@ -14,7 +14,8 @@ def grammarDir = "src/main/grammars"
 
 group = "de.monticore.lang"
 description = "Sequence Diagram DSL"
-sourceCompatibility = "1.11"
+sourceCompatibility = JavaVersion.VERSION_11
+targetCompatibility = JavaVersion.VERSION_11
 
 
 // configure non-standard source sets
@@ -101,6 +102,7 @@ repositories {
 def grammarDependencies = ext {
   SDBasis = []
   SD4Development = ["SDBasis"]
+  SD4Components = ["SDBasis"]
 }
 
 // one task per grammar file

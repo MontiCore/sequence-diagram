@@ -1,0 +1,35 @@
+{
+  "generated-using": "www.MontiCore.de technology",
+  "name": "ABool",
+  "package": "sd4components.incorrect",
+  "symbols": [
+    {
+      "kind": "de.monticore.symbols.compsymbols._symboltable.ComponentSymbol",
+      "name": "ABool",
+      "spannedScope": {
+        "symbols": [
+          {
+            "kind": "de.monticore.symbols.compsymbols._symboltable.PortSymbol",
+            "name": "pOut",
+            "type": {
+              "kind": "de.monticore.types.check.SymTypePrimitive",
+              "primitiveName": "boolean"
+            },
+            "incoming": false,
+            "timing": "timed"
+          },
+          {
+            "kind": "de.monticore.symbols.compsymbols._symboltable.PortSymbol",
+            "name": "pIn",
+            "type": {
+              "kind": "de.monticore.types.check.SymTypePrimitive",
+              "primitiveName": "boolean"
+            },
+            "incoming": true,
+            "timing": "timed"
+          }
+        ]
+      }
+    }
+  ]
+}

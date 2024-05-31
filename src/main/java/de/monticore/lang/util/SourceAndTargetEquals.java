@@ -1,15 +1,19 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.util;
 
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.ASTSDClass;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor2;
 import de.monticore.lang.sdbasis._ast.*;
+import de.monticore.lang.sdbasis._visitor.SDBasisVisitor2;
 
 /**
  * Dispatcher for checking whether the source and target objects of two interactions
  * are equal to each other. The use of the dispatcher is necessary to avoid
  * instanceof checks.
  */
-public final class SourceAndTargetEquals implements InteractionEntityDispatcher {
+public final class SourceAndTargetEquals implements SDBasisVisitor2, SD4DevelopmentVisitor2 {
 
   private boolean isProcessingSource = false;
 
@@ -31,17 +35,17 @@ public final class SourceAndTargetEquals implements InteractionEntityDispatcher 
   }
 
   @Override
-  public void handle(ASTSDObjectSource s) {
+  public void visit(ASTSDObjectSource s) {
     this.objectSource = s;
   }
 
   @Override
-  public void handle(ASTSDObjectTarget s) {
+  public void visit(ASTSDObjectTarget s) {
     this.objectTarget = s;
   }
 
   @Override
-  public void handle(ASTSDClass c) {
+  public void visit(ASTSDClass c) {
     if (isProcessingSource) {
       this.classSource = c;
     }
@@ -53,9 +57,12 @@ public final class SourceAndTargetEquals implements InteractionEntityDispatcher 
   public boolean equals(ASTSDSource source, ASTSDTarget target) {
     reset();
     isProcessingSource = true;
-    source.accept(this);
+    SD4DevelopmentTraverser traverser = SD4DevelopmentMill.traverser();
+    traverser.add4SDBasis(this);
+    traverser.add4SD4Development(this);
+    source.accept(traverser);
     isProcessingSource = false;
-    target.accept(this);
+    target.accept(traverser);
     return isSameClass() || isSameObject();
   }
 

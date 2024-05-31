@@ -2,7 +2,10 @@
 package de.monticore.lang;
 
 import com.google.common.collect.Lists;
-import de.monticore.lang.sd4development.SD4DevelopmentMill;
+import de.monticore.lang.sd4components.SD4ComponentsMill;
+import de.monticore.lang.sd4components._symboltable.ISD4ComponentsGlobalScope;
+import de.monticore.lang.sd4components._symboltable.SD4ComponentsArtifactScope;
+import de.monticore.lang.sd4components._symboltable.SD4ComponentsScope;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentGlobalScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
@@ -12,6 +15,11 @@ import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.DiagramSymbolBuilder;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
+import de.monticore.symbols.compsymbols._symboltable.ComponentSymbol;
+import de.monticore.symbols.compsymbols._symboltable.ICompSymbolsScope;
+import de.monticore.symbols.compsymbols._symboltable.PortSymbol;
+import de.monticore.symbols.compsymbols._symboltable.PortSymbolBuilder;
+import de.monticore.symbols.compsymbols._symboltable.Timing;
 import de.monticore.symbols.oosymbols._symboltable.*;
 import de.monticore.types.MCTypeFacade;
 import de.monticore.types.check.SymTypeExpressionFactory;
@@ -30,6 +38,10 @@ public final class TestUtils {
     BasicSymbolsMill.initializePrimitives();
     addOOTypeSymbols(globalScope);
     addVariableSymbols(globalScope);
+  }
+
+  public static void setupGlobalScope(ISD4ComponentsGlobalScope globalScope) {
+    BasicSymbolsMill.initializePrimitives();
   }
 
   private static void addOOTypeSymbols(ISD4DevelopmentGlobalScope globalScope) {

@@ -1,0 +1,16 @@
+/* (c) https://github.com/MontiCore/monticore */
+package sd4components.incorrect;
+
+sequencediagram MultipleSenders {
+  a:A;
+  b:B;
+  c:C;
+
+  // Sender world and a.pOut
+  -> b.pIn : 1;
+  a.pOut -> b.pIn : 1;
+
+  // Sender a.pOut and b.pOut
+  a.pOut -> c.pIn : 1;
+  b.pOut -> c.pIn : 1;
+}

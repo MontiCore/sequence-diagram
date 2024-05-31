@@ -26,9 +26,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.fail;
 
 
-public abstract class SDCocoTest {
-
-  protected static final String SYMBOL_PATH = "src/test/resources";
+public abstract class SDCocoTest extends SDAbstractTest {
 
   protected final static String CORRECT_PATH = SYMBOL_PATH + "/examples/correct/";
 

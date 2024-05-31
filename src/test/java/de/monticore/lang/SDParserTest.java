@@ -19,10 +19,10 @@ import java.util.Optional;
 import static org.junit.Assert.fail;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
-public class SDParserTest {
+public class SDParserTest extends SDAbstractTest {
 
-  private final static String CORRECT_PATH = "src/test/resources/examples/correct/";
-  protected final static String INCORRECT_PATH = "src/test/resources/examples/incorrect/";
+  private final static String CORRECT_PATH = SYMBOL_PATH + "/examples/correct/";
+  protected final static String INCORRECT_PATH = SYMBOL_PATH + "/examples/incorrect/";
 
   private SD4DevelopmentParser parser;
 

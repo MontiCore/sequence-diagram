@@ -1,0 +1,11 @@
+/* (c) https://github.com/MontiCore/monticore */
+package sd4components.incorrect;
+
+sequencediagram MissingVariable {
+  a:A(k);
+  c:Missing(); // Missing type
+
+  -> a.pIn : m1; // Missing message m1
+  a.pOut -> b.pIn : 1; // Component b missing
+  a.pMissing -> a.pIn : 1; // Port a.pMissing missing
+}
