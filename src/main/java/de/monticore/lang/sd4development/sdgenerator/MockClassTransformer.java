@@ -2,7 +2,6 @@
 package de.monticore.lang.sd4development.sdgenerator;
 
 import de.monticore.cd4code.CD4CodeMill;
-import de.monticore.cd4code._visitor.CD4CodeTraverser;
 import de.monticore.cdbasis._ast.ASTCDClass;
 import de.monticore.cdbasis._ast.ASTCDCompilationUnit;
 import de.monticore.cdbasis._ast.ASTCDElement;
@@ -12,15 +11,11 @@ import de.monticore.lang.sd4development._ast.ASTSDCall;
 import de.monticore.lang.sd4development._ast.ASTSDClass;
 import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sdbasis._ast.*;
-import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
 import de.monticore.types.MCTypeFacade;
-import de.monticore.types.mcbasictypes.MCBasicTypesMill;
-import de.monticore.types.prettyprint.MCArrayTypesPrettyPrinter;
-import de.monticore.types.prettyprint.MCSimpleGenericTypesFullPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.ArrayList;
@@ -88,7 +83,7 @@ public class MockClassTransformer extends AbstractVisitor {
               targetObject = SD4DevelopmentMill.sDObjectTargetBuilder().setName("Target").build();
             }
             if(targetObject instanceof ASTSDClass) {
-              target = ((ASTSDClass) targetObject).getMCObjectType().printType(MCBasicTypesMill.mcBasicTypesPrettyPrinter());
+              target = SD4DevelopmentMill.prettyPrint(((ASTSDClass) targetObject).getMCObjectType(), false);
             } else if(targetObject instanceof ASTSDObjectTarget) {
               target = ((ASTSDObjectTarget) targetObject).getName();
             } else {
@@ -98,11 +93,6 @@ public class MockClassTransformer extends AbstractVisitor {
         }
       }
       String parameterString = "";
-      //initialize required printers
-      MCSimpleGenericTypesFullPrettyPrinter simplePrinter = new MCSimpleGenericTypesFullPrettyPrinter(new IndentPrinter());
-      MCArrayTypesPrettyPrinter arrayPrinter = new MCArrayTypesPrettyPrinter(simplePrinter.getPrinter());
-      ((CD4CodeTraverser) simplePrinter.getTraverser()).add4MCArrayTypes(arrayPrinter);
-      ((CD4CodeTraverser) simplePrinter.getTraverser()).setMCArrayTypesHandler(arrayPrinter);
 
       //Get return type, method name and list of parameters
       String prodReturnType = function.getType().print();
