@@ -22,15 +22,13 @@ import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScop
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverserImplementation;
 import de.monticore.lang.sdbasis._ast.*;
-import de.monticore.literals.prettyprint.MCCommonLiteralsPrettyPrinter;
+import de.monticore.literals.mccommonliterals._prettyprint.MCCommonLiteralsPrettyPrinter;
 import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.symbols.oosymbols._symboltable.OOTypeSymbol;
-import de.monticore.types.mcbasictypes.MCBasicTypesMill;
 import de.se_rwth.commons.logging.Log;
-
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -163,7 +161,7 @@ public class MonitorTransformer extends AbstractVisitor {
 
     String target = "";
     if(targetObject instanceof ASTSDClass) {
-      target = ((ASTSDClass) targetObject).getMCObjectType().printType(MCBasicTypesMill.mcBasicTypesPrettyPrinter());
+      target = SD4DevelopmentMill.prettyPrint((((ASTSDClass) targetObject).getMCObjectType()), false);
     } else if(targetObject instanceof ASTSDObjectTarget) {
       target = ((ASTSDObjectTarget) targetObject).getName();
     } else {
@@ -177,7 +175,7 @@ public class MonitorTransformer extends AbstractVisitor {
     ASTSDCall call = (ASTSDCall) action;
     SD4DevelopmentTraverser t = new SD4DevelopmentTraverserImplementation();
     CustomPrinter ip = new CustomPrinter();
-    MCCommonLiteralsPrettyPrinter lp = new MCCommonLiteralsPrettyPrinter(ip);
+    MCCommonLiteralsPrettyPrinter lp = new MCCommonLiteralsPrettyPrinter(ip, true);
     t.add4MCCommonLiterals(lp);
     t.setMCCommonLiteralsHandler(lp);
     action.accept(t);
@@ -229,7 +227,7 @@ public class MonitorTransformer extends AbstractVisitor {
 
     String target = "";
     if(targetObject instanceof ASTSDClass) {
-      target = ((ASTSDClass) targetObject).getMCObjectType().printType(MCBasicTypesMill.mcBasicTypesPrettyPrinter());
+      target = SD4DevelopmentMill.prettyPrint(((ASTSDClass) targetObject).getMCObjectType(), false);
     } else if(targetObject instanceof ASTSDObjectSource) {
       target = ((ASTSDObjectSource) targetObject).getName();
     } else {
@@ -239,7 +237,7 @@ public class MonitorTransformer extends AbstractVisitor {
     ASTSDAction action = sendMessage.getSDAction();
     SD4DevelopmentTraverser t = new SD4DevelopmentTraverserImplementation();
     IndentPrinter ip = new IndentPrinter();
-    MCCommonLiteralsPrettyPrinter lp = new MCCommonLiteralsPrettyPrinter(ip);
+    MCCommonLiteralsPrettyPrinter lp = new MCCommonLiteralsPrettyPrinter(ip, true);
     t.add4MCCommonLiterals(lp);
     t.setMCCommonLiteralsHandler(lp);
     action.accept(t);

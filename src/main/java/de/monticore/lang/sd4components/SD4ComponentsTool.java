@@ -4,32 +4,14 @@ package de.monticore.lang.sd4components;
 import com.google.common.base.Preconditions;
 import de.monticore.io.FileReaderWriter;
 import de.monticore.io.paths.MCPath;
-import de.monticore.lang.sd4components._cocos.ConditionBooleanCoCo;
-import de.monticore.lang.sd4components._cocos.MessageTimingFitCoCo;
-import de.monticore.lang.sd4components._cocos.MessageTypesFitCoCo;
-import de.monticore.lang.sd4components._cocos.PortUniqueSenderCoCo;
-import de.monticore.lang.sd4components._cocos.SD4ComponentsCoCoChecker;
-import de.monticore.lang.sd4components._cocos.TriggerMessageConcreteCoCo;
-import de.monticore.lang.sd4components._cocos.UniqueVariableNamingCoco;
-import de.monticore.lang.sd4components._cocos.VariableDeclarationTypesFitCoCo;
-import de.monticore.lang.sd4components._prettyprint.SD4ComponentsFullPrettyPrinter;
+import de.monticore.lang.sd4components._cocos.*;
 import de.monticore.lang.sd4components._symboltable.ISD4ComponentsArtifactScope;
 import de.monticore.lang.sd4components._symboltable.SD4ComponentsSymbols2Json;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.monticore.lang.sdbasis._cocos.CommonFileExtensionCoco;
-import de.monticore.lang.sdbasis._cocos.ObjectNameNamingConventionCoco;
-import de.monticore.lang.sdbasis._cocos.PackageNameIsFolderNameCoco;
-import de.monticore.lang.sdbasis._cocos.SDNameIsArtifactNameCoco;
-import de.monticore.lang.sdbasis._cocos.SendMessageHasSourceOrTargetCoco;
-import de.monticore.prettyprint.IndentPrinter;
+import de.monticore.lang.sdbasis._cocos.*;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.se_rwth.commons.logging.Log;
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.DefaultParser;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
+import org.apache.commons.cli.*;
 import org.apache.commons.io.FilenameUtils;
 
 import java.io.File;
@@ -189,8 +171,7 @@ public class SD4ComponentsTool extends SD4ComponentsToolTOP {
    */
   @Override
   public void prettyPrint(ASTSDArtifact ast, String file) {
-    SD4ComponentsFullPrettyPrinter prettyPrinter = new SD4ComponentsFullPrettyPrinter(new IndentPrinter());
-    print(prettyPrinter.prettyprint(ast), file);
+    print(SD4ComponentsMill.prettyPrint(ast, true), file);
   }
 
   protected void initGlobalScope(CommandLine cl) {

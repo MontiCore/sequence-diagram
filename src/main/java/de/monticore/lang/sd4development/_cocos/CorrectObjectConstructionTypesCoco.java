@@ -9,7 +9,6 @@ import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScope;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDArtifactCoCo;
-import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.SymTypeExpressionFactory;
@@ -17,7 +16,6 @@ import de.monticore.types.check.TypeCheck;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCObjectType;
 import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
-import de.monticore.types.prettyprint.MCBasicTypesFullPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.ArrayList;
@@ -39,11 +37,6 @@ public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactC
 
   private List<ASTMCImportStatement> imports = new ArrayList<>();
   private ASTMCQualifiedName packageDeclaration;
-  private final MCBasicTypesFullPrettyPrinter prettyPrinter;
-
-  public CorrectObjectConstructionTypesCoco() {
-    this.prettyPrinter = new MCBasicTypesFullPrettyPrinter(new IndentPrinter());
-  }
 
   @Override
   public void check(ASTSDArtifact node) {
@@ -65,8 +58,8 @@ public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactC
     ASTMCObjectType declType = node.getDeclarationType();
     ASTMCObjectType initType = node.getInitializationType();
 
-    String declTypeName = declType.printType(prettyPrinter);
-    String initTypeName = initType.printType(prettyPrinter);
+    String declTypeName = SD4DevelopmentMill.prettyPrint(declType, false);
+    String initTypeName = SD4DevelopmentMill.prettyPrint(initType, false);
 
     TypeSymbol declTypeSymbol = resolveOOTypeSymbol(node, declTypeName);
     TypeSymbol initTypeSymbol = resolveOOTypeSymbol(node, initTypeName);

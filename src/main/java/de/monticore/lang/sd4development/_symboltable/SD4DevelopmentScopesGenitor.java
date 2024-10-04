@@ -6,21 +6,13 @@ import de.monticore.lang.sd4development._ast.ASTSDNew;
 import de.monticore.lang.sd4development._ast.ASTSDVariableDeclaration;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis.types.FullSDBasisSynthesizer;
-import de.monticore.prettyprint.IndentPrinter;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
-import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.TypeCheckResult;
-import de.monticore.types.prettyprint.MCBasicTypesFullPrettyPrinter;
 import de.se_rwth.commons.logging.Log;
-
-import java.util.Optional;
 
 public class SD4DevelopmentScopesGenitor extends SD4DevelopmentScopesGenitorTOP {
 
   private final FullSDBasisSynthesizer synthesizer = new FullSDBasisSynthesizer();
-
-  // used when printing error messages
-  private final MCBasicTypesFullPrettyPrinter prettyPrinter = new MCBasicTypesFullPrettyPrinter(new IndentPrinter());
 
   @Override
   public ISD4DevelopmentArtifactScope createFromAST(ASTSDArtifact rootNode) {
@@ -37,7 +29,7 @@ public class SD4DevelopmentScopesGenitor extends SD4DevelopmentScopesGenitorTOP 
     final TypeCheckResult typeResult = synthesizer.synthesizeType(node.getDeclarationType());
     if (!typeResult.isPresentResult()) {
       Log.error(String.format("0xB0002: The type (%s) of the object (%s) could not be calculated",
-        prettyPrinter.prettyprint(node.getDeclarationType()),
+        SD4DevelopmentMill.prettyPrint(node.getDeclarationType(), false),
         node.getName()));
     } else {
       symbol.setType(typeResult.getResult());
@@ -52,7 +44,7 @@ public class SD4DevelopmentScopesGenitor extends SD4DevelopmentScopesGenitorTOP 
     final TypeCheckResult typeResult = synthesizer.synthesizeType(node.getMCType());
     if (!typeResult.isPresentResult()) {
       Log.error(String.format("0xB0004: The type (%s) of the variable (%s) could not be calculated",
-        prettyPrinter.prettyprint(node.getMCType()),
+        SD4DevelopmentMill.prettyPrint(node.getMCType(), false),
         node.getName()));
     } else {
       symbol.setType(typeResult.getResult());

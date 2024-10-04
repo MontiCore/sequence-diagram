@@ -1,14 +1,13 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sddiff;
 
+import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._ast.*;
-import de.monticore.lang.sd4development._prettyprint.SD4DevelopmentFullPrettyPrinter;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentHandler;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor2;
 import de.monticore.lang.sdbasis._ast.*;
 import de.monticore.lang.sdbasis._visitor.SDBasisVisitor2;
-import de.monticore.prettyprint.IndentPrinter;
 
 import java.util.HashSet;
 import java.util.LinkedList;
@@ -16,8 +15,6 @@ import java.util.List;
 import java.util.Set;
 
 final class SDDiffSDInfoVisitor implements SD4DevelopmentVisitor2, SDBasisVisitor2, SD4DevelopmentHandler {
-
-  private final SD4DevelopmentFullPrettyPrinter pp = new SD4DevelopmentFullPrettyPrinter(new IndentPrinter());
 
   // the information required for the trafo to an NFA
   private final Set<String> objects;
@@ -138,25 +135,25 @@ final class SDDiffSDInfoVisitor implements SD4DevelopmentVisitor2, SDBasisVisito
 
   @Override
   public void visit(ASTSDAction node) {
-    currentInteractionAction = pp.prettyprint(node);
+    currentInteractionAction = SD4DevelopmentMill.prettyPrint(node, false);
     actions.add(currentInteractionAction);
   }
 
   @Override
   public void visit(ASTSDCall node) {
-    currentInteractionAction = pp.prettyprint(node);
+    currentInteractionAction = SD4DevelopmentMill.prettyPrint(node, false);
     actions.add(currentInteractionAction);
   }
 
   @Override
   public void visit(ASTSDReturn node) {
-    currentInteractionAction = pp.prettyprint(node);
+    currentInteractionAction = SD4DevelopmentMill.prettyPrint(node, false);
     actions.add(currentInteractionAction);
   }
 
   @Override
   public void visit(ASTSDThrow node) {
-    currentInteractionAction = pp.prettyprint(node);
+    currentInteractionAction = SD4DevelopmentMill.prettyPrint(node, false);
     actions.add(currentInteractionAction);
   }
 

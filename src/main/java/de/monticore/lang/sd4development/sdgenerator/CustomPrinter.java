@@ -52,4 +52,5 @@ public class CustomPrinter extends IndentPrinter {
     }
     linebuffer.setLength(0);
   }
+
 }
