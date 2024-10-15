@@ -2,11 +2,9 @@
 package de.monticore.lang.sd4components._symboltable;
 
 import de.monticore.lang.sd4components.SD4ComponentsMill;
-import de.monticore.lang.sd4components._ast.ASTSDCall;
 import de.monticore.lang.sd4components._ast.ASTSDComponent;
 import de.monticore.lang.sd4components._ast.ASTSDPort;
 import de.monticore.lang.sd4components._ast.ASTSDVariableDeclaration;
-import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis.types.FullSDBasisComponentsSynthesizer;
 import de.monticore.lang.sdbasis.types.FullSDBasisSynthesizer;
@@ -16,9 +14,6 @@ import de.monticore.symbols.compsymbols._symboltable.SubcomponentSymbol;
 import de.monticore.symboltable.ImportStatement;
 import de.monticore.types.check.CompKindExpression;
 import de.monticore.types.check.ISynthesizeComponent;
-import de.monticore.types.check.KindOfGenericComponent;
-import de.monticore.types.check.SymTypeExpression;
-import de.monticore.types.check.SymTypeExpressionFactory;
 import de.monticore.types.check.TypeCheckResult;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.se_rwth.commons.logging.Log;
@@ -84,7 +79,7 @@ public class SD4ComponentsScopesGenitor extends SD4ComponentsScopesGenitorTOP {
   @Override
   public void endVisit(ASTSDComponent node) {
     super.endVisit(node);
-    if(!node.isPresentMCObjectType()) return;
+    if (!node.isPresentMCObjectType()) return;
 
     Optional<CompKindExpression> typeExpression = componentSynthesizer.synthesize(node.getMCObjectType());
     if (typeExpression.isPresent()) {

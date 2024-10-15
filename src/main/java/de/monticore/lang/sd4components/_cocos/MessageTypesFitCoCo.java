@@ -2,7 +2,7 @@
 package de.monticore.lang.sd4components._cocos;
 
 import de.monticore.lang.sd4components.SD4ComponentsMill;
-import de.monticore.lang.sd4components._ast.ASTSDCall;
+import de.monticore.lang.sd4components._ast.ASTSDMessage;
 import de.monticore.lang.sd4components._ast.ASTSDPort;
 import de.monticore.lang.sd4components.types.FullSD4ComponentsDeriver;
 import de.monticore.lang.sdbasis._ast.ASTSDAction;
@@ -76,9 +76,9 @@ public class MessageTypesFitCoCo implements SDBasisASTSDSendMessageCoCo {
   }
 
   private void checkMessageFits(ASTSDAction sdAction, SymTypeExpression target) {
-    if (!SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDCall(sdAction))
+    if (!SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDMessage(sdAction))
       return;
-    ASTSDCall callAction = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDCall(sdAction);
+    ASTSDMessage callAction = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDMessage(sdAction);
     try {
       TypeCheckResult result = deriver.deriveType(callAction.getExpression());
       if (!result.isPresentResult()) {

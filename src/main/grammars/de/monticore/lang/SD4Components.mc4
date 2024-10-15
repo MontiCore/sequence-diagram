@@ -66,7 +66,7 @@ grammar SD4Components extends
    * Triggers are used e.g. in tests to start the test execution
    * (as opposed to normal interactions that are observations)
    */
-  SDCall implements SDAction = Expression;
+  SDMessage implements SDAction = [key("trigger")]? Expression;
 
   /**
    * SDIncompleteAction is introduced to enable modeling of

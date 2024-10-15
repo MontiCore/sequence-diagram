@@ -109,7 +109,6 @@ public class SD4ComponentsToolTest extends SDAbstractTest {
       Arguments.of("WrongComponentNamingConvention.sd", new String[]{"0xB0017"}),
       Arguments.of("WrongMessageTiming.sd", new String[]{"0xB5002"}),
       Arguments.of("WrongMessageType.sd", new String[]{"0xB5000", "0xB5001", "0xB5001", "0xB5001"}),
-      Arguments.of("WrongTriggerWithoutConcreteMessage.sd", new String[]{"0xB5006"}),
       Arguments.of("WrongUniqueComponent.sd", new String[]{"0xB5007"}),
       Arguments.of("WrongUniqueVariable.sd", new String[]{"0xB5007", "0xB5007"}),
       Arguments.of("WrongVariableDeclarationType.sd", new String[]{"0xB5005"})
