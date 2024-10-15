@@ -32,7 +32,7 @@ public class PortUniqueSenderCoCo implements SDBasisASTSDBodyCoCo {
       .collect(Collectors.toList())) {
       if (connector.isPresentSDTarget()
         && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(connector.getSDTarget())) {
-        String source = "world";
+        String source = "";
         if (connector.isPresentSDSource()
           && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(connector.getSDSource())) {
           ASTSDPort astSource = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(connector.getSDSource());
@@ -42,7 +42,7 @@ public class PortUniqueSenderCoCo implements SDBasisASTSDBodyCoCo {
         String target = astTarget.getName() + "." + astTarget.getPort();
         if (targetSource.containsKey(target) && !targetSource.get(target).equals(source)) {
           Log.error(String.format(MESSAGE_ERROR, target), connector.get_SourcePositionStart(), connector.get_SourcePositionEnd());
-        } else {
+        } else if (!source.isEmpty()) {
           targetSource.put(target, source);
         }
       }

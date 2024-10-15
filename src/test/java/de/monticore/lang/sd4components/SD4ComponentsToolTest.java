@@ -103,8 +103,10 @@ public class SD4ComponentsToolTest extends SDAbstractTest {
 
   protected static Stream<Arguments> provideIncorrectAndErrorCodes() {
     return Stream.of(
-      Arguments.of("MultipleSenders.sd", new String[]{"0xB5003", "0xB5003"}),
-      Arguments.of("MissingVariable.sd", new String[]{"0xA0240", "0xB5001", "0xB5003", "0xD0104"}),
+      Arguments.of("MultipleSenders.sd", new String[]{"0xB5003"}),
+      Arguments.of("MissingVariable.sd", new String[]{"0xA0240", "0xB5001", "0xD0104"}),
+      Arguments.of("TriggerToConnectedPort.sd", new String[]{"0xB5006"}),
+      Arguments.of("TriggerWithoutTarget.sd", new String[]{"0xB5008"}),
       Arguments.of("WrongConditionType.sd", new String[]{"0xB5004"}),
       Arguments.of("WrongComponentNamingConvention.sd", new String[]{"0xB0017"}),
       Arguments.of("WrongMessageTiming.sd", new String[]{"0xB5002"}),
