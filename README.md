@@ -57,7 +57,7 @@ for
 * loading symbols from symbol files, and 
 * semantic differencing. 
 
-The requirements for building and using the SD tool are that Java 8, Git, and Gradle are 
+The requirements for building and using the SD tool are that Java, Git, and Gradle are 
 installed and available for use in Bash. 
 
 The following subsection describes how to download the tool.
@@ -77,7 +77,15 @@ wget "http://monticore.de/download/MCSD4Development.jar" -O MCSD4Development.jar
 ``` 
 
 ## Building the Tool from the Sources
- 
+
+### Dependencies
+Install and add to `PATH`:
+- Gradle 7.6
+- Java 11
+- Git
+
+### Commands
+
 It is possible to build an executable JAR of the tool from the source files located in GitHub.
 The following describes the process for building the tool from the source files using Bash.
 For building an executable Jar of the tool with Bash from the source files available
