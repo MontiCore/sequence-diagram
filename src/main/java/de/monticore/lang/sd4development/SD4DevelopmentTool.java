@@ -33,6 +33,12 @@ import java.util.stream.Collectors;
  * Tool providing functionality for processing Sequence Diagram (SD) artifacts.
  */
 public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
+  
+  public static void main(String[] args) {
+    SD4DevelopmentMill.init();
+    SD4DevelopmentTool tool = new SD4DevelopmentTool();
+    tool.run(args);
+  }
 
   @Override
   public void run(String[] args) {
