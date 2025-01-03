@@ -1,0 +1,11 @@
+/* (c) https://github.com/MontiCore/monticore */
+package sd4components.incorrect;
+
+sequencediagram TriggerToConnectedPort {
+  a:A;
+  b:B;
+
+  // Trigger and a.pOut to b.pIn
+  -> b.pIn : trigger 1;
+  a.pOut -> b.pIn : 1;
+}

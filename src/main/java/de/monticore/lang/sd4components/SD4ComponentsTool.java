@@ -155,9 +155,10 @@ public class SD4ComponentsTool extends SD4ComponentsToolTOP {
     checker.addCoCo(new MessageTypesFitCoCo());
     checker.addCoCo(new MessageTimingFitCoCo());
     checker.addCoCo(new PortUniqueSenderCoCo());
+    checker.addCoCo(new TriggerMessageOnlyToUnconnectedPortsCoCo());
+    checker.addCoCo(new TriggerMessageRequiresTargetCoCo());
 
     checker.addCoCo(new ConditionBooleanCoCo());
-    checker.addCoCo(new TriggerMessageConcreteCoCo());
     checker.addCoCo(new VariableDeclarationTypesFitCoCo());
 
     checker.checkAll(ast);
