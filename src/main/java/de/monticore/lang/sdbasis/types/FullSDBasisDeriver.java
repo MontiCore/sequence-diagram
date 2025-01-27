@@ -9,6 +9,10 @@ import de.monticore.types.check.DeriveSymTypeOfLiterals;
 import de.monticore.types.check.DeriveSymTypeOfMCCommonLiterals;
 import de.monticore.visitor.ITraverser;
 
+/**
+ * @deprecated using TC3 instead.
+ */
+@Deprecated
 public class FullSDBasisDeriver extends AbstractDerive {
 
   public FullSDBasisDeriver(){

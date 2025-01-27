@@ -4,15 +4,13 @@ package de.monticore.lang.sd4components._cocos;
 import de.monticore.lang.sd4components.SD4ComponentsMill;
 import de.monticore.lang.sd4components._ast.ASTSDMessage;
 import de.monticore.lang.sd4components._ast.ASTSDPort;
-import de.monticore.lang.sd4components.types.FullSD4ComponentsDeriver;
 import de.monticore.lang.sdbasis._ast.ASTSDAction;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDSendMessageCoCo;
 import de.monticore.symboltable.resolving.ResolvedSeveralEntriesForSymbolException;
-import de.monticore.types.check.AbstractDerive;
 import de.monticore.types.check.SymTypeExpression;
-import de.monticore.types.check.TypeCheckResult;
 import de.monticore.types3.SymTypeRelations;
+import de.monticore.types3.TypeCheck3;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.Optional;
@@ -27,16 +25,6 @@ import java.util.Optional;
  * supertype of the source port type. (p. 66, lst. 3.43)
  */
 public class MessageTypesFitCoCo implements SDBasisASTSDSendMessageCoCo {
-
-  public final AbstractDerive deriver;
-
-  public MessageTypesFitCoCo() {
-    this(new FullSD4ComponentsDeriver());
-  }
-
-  public MessageTypesFitCoCo(AbstractDerive deriver) {
-    this.deriver = deriver;
-  }
 
   @Override
   public void check(ASTSDSendMessage node) {
@@ -80,13 +68,13 @@ public class MessageTypesFitCoCo implements SDBasisASTSDSendMessageCoCo {
       return;
     ASTSDMessage callAction = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDMessage(sdAction);
     try {
-      TypeCheckResult result = deriver.deriveType(callAction.getExpression());
-      if (!result.isPresentResult()) {
+      SymTypeExpression result = TypeCheck3.typeOf(callAction.getExpression(), target);
+      if (result.isObscureType()) {
         return;
       }
 
-      if (!SymTypeRelations.isCompatible(target, result.getResult())) {
-        Log.error(String.format("0xB5001: Type mismatch, expected '%s' but provided '%s'", target.print(), result.getResult().print()), sdAction.get_SourcePositionStart(), sdAction.get_SourcePositionEnd());
+      if (!SymTypeRelations.isCompatible(target, result)) {
+        Log.error(String.format("0xB5001: Type mismatch, expected '%s' but provided '%s'", target.printFullName(), result.printFullName()), sdAction.get_SourcePositionStart(), sdAction.get_SourcePositionEnd());
       }
     } catch (ResolvedSeveralEntriesForSymbolException ignored) {
       Log.debug("Skipped CoCo MessageTypesFitCoCo: ResolvedSeveralEntriesForSymbolException", sdAction.get_SourcePositionStart(), "MessageTypesFitCoCo");

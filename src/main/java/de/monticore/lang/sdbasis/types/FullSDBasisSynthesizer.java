@@ -6,6 +6,10 @@ import de.monticore.lang.sdbasis._visitor.SDBasisTraverser;
 import de.monticore.types.check.AbstractSynthesize;
 import de.monticore.types.check.SynthesizeSymTypeFromMCBasicTypes;
 
+/**
+ * @deprecated using TC3 instead.
+ */
+@Deprecated
 public class FullSDBasisSynthesizer extends AbstractSynthesize {
 
   public FullSDBasisSynthesizer(){

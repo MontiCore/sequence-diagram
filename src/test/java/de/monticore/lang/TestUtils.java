@@ -20,6 +20,7 @@ import de.monticore.symbols.compsymbols._symboltable.ICompSymbolsScope;
 import de.monticore.symbols.compsymbols._symboltable.PortSymbol;
 import de.monticore.symbols.compsymbols._symboltable.PortSymbolBuilder;
 import de.monticore.symbols.compsymbols._symboltable.Timing;
+import de.monticore.symbols.oosymbols.OOSymbolsMill;
 import de.monticore.symbols.oosymbols._symboltable.*;
 import de.monticore.types.MCTypeFacade;
 import de.monticore.types.check.SymTypeExpressionFactory;
@@ -46,6 +47,7 @@ public final class TestUtils {
 
   private static void addOOTypeSymbols(ISD4DevelopmentGlobalScope globalScope) {
     List<OOTypeSymbol> ooTypes = Stream.of("BidMessage", "Auction", "NotASubType", "Protocol", "Factory", "AuctionTest", "Person", "Order", "Customer", "Mail", "A", "B", "C", "D", "E", "F", "G", "H", "ExceptionTyp").map(OOTypeSymbol::new).collect(Collectors.toList());
+    ooTypes.forEach(s -> s.setSpannedScope(OOSymbolsMill.scope()));
     ooTypes.add(createBiddingPolicyOOTypeSymbol());
     ooTypes.add(createTimingPolicyOOTypeSymbol());
     ooTypes.forEach(t -> {

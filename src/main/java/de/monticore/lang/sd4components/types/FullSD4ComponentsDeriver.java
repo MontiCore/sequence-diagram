@@ -9,6 +9,10 @@ import de.monticore.types.check.DeriveSymTypeOfExpression;
 import de.monticore.types.check.DeriveSymTypeOfLiterals;
 import de.monticore.types.check.DeriveSymTypeOfMCCommonLiterals;
 
+/**
+ * @deprecated using TC3 instead.
+ */
+@Deprecated
 public class FullSD4ComponentsDeriver extends AbstractDerive {
 
   public FullSD4ComponentsDeriver() {

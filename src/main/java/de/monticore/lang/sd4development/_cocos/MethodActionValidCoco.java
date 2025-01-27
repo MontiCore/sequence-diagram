@@ -12,15 +12,14 @@ import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSDObjectTarget;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDArtifactCoCo;
-import de.monticore.lang.sdbasis.types.FullSDBasisDeriver;
 import de.monticore.symbols.basicsymbols._symboltable.FunctionSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.types.check.SymTypeExpression;
-import de.monticore.types.check.TypeCheck;
-import de.monticore.types.check.TypeCheckResult;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
+import de.monticore.types3.SymTypeRelations;
+import de.monticore.types3.TypeCheck3;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.*;
@@ -39,13 +38,8 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
   private static final String TYPE_DEFINED_MUTLIPLE_TIMES = "0xB0033: Type '%s' is defined more than once.";
   private static final String TYPE_USED_BUT_UNDEFINED = "0xB0034: Type '%s' is used but not defined.";
 
-  private final FullSDBasisDeriver deriver;
   private final List<ASTMCImportStatement> imports = new ArrayList<>();
   private ASTMCQualifiedName packageDeclaration;
-
-  public MethodActionValidCoco() {
-    this.deriver = new FullSDBasisDeriver();
-  }
 
   @Override
   public void check(ASTSDArtifact node) {
@@ -131,13 +125,13 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
     for (int i = 0; i < methodSymbol.getParameterList().size(); i++) {
       SymTypeExpression methodParameterType = methodSymbol.getParameterList().get(i).getType();
       ASTExpression callArgument = call.getArguments().getExpression(i);
-      TypeCheckResult callArgumentType = deriver.deriveType(callArgument);
+      SymTypeExpression callArgumentType = TypeCheck3.typeOf(callArgument, methodParameterType);
 
-      if (!callArgumentType.isPresentResult() && !(callArgument instanceof ASTNameExpression)) {
+      if (callArgumentType.isObscureType() && !(callArgument instanceof ASTNameExpression)) {
         return false;
       }
 
-      if (callArgumentType.isPresentResult() && !TypeCheck.compatible(methodParameterType, callArgumentType.getResult())) {
+      if (!callArgumentType.isObscureType() && !SymTypeRelations.isCompatible(methodParameterType, callArgumentType)) {
         return false;
       }
     }

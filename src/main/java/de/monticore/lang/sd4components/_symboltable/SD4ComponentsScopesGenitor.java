@@ -14,8 +14,9 @@ import de.monticore.symbols.compsymbols._symboltable.SubcomponentSymbol;
 import de.monticore.symboltable.ImportStatement;
 import de.monticore.types.check.CompKindExpression;
 import de.monticore.types.check.ISynthesizeComponent;
-import de.monticore.types.check.TypeCheckResult;
+import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
+import de.monticore.types3.TypeCheck3;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.ArrayList;
@@ -26,11 +27,12 @@ public class SD4ComponentsScopesGenitor extends SD4ComponentsScopesGenitorTOP {
 
   protected final ISynthesizeComponent componentSynthesizer;
 
-  protected final FullSDBasisSynthesizer synthesizer;
-
+  /**
+   * @deprecated use different Constructor
+   */
+  @Deprecated
   public SD4ComponentsScopesGenitor(ISynthesizeComponent componentSynthesizer, FullSDBasisSynthesizer synthesizer) {
     this.componentSynthesizer = componentSynthesizer;
-    this.synthesizer = synthesizer;
   }
 
   public SD4ComponentsScopesGenitor() {
@@ -102,13 +104,9 @@ public class SD4ComponentsScopesGenitor extends SD4ComponentsScopesGenitorTOP {
   public void endVisit(ASTSDVariableDeclaration node) {
     VariableSymbol symbol = node.getSymbol();
 
-    final TypeCheckResult typeResult = synthesizer.synthesizeType(node.getMCType());
-    if (!typeResult.isPresentResult()) {
-      Log.error(String.format("0xB0004: The type (%s) of the variable (%s) could not be calculated",
-        SD4ComponentsMill.prettyPrint(node.getMCType(), false),
-        node.getName()));
-    } else {
-      symbol.setType(typeResult.getResult());
+    final SymTypeExpression typeResult = TypeCheck3.symTypeFromAST(node.getMCType());
+    if (!typeResult.isObscureType()) {
+      symbol.setType(typeResult);
     }
   }
 }

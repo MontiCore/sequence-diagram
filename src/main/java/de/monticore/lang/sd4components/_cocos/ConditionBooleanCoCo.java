@@ -2,31 +2,24 @@
 package de.monticore.lang.sd4components._cocos;
 
 import de.monticore.lang.sd4components._ast.ASTSDCondition;
-import de.monticore.lang.sd4components.types.FullSD4ComponentsDeriver;
-import de.monticore.types.check.AbstractDerive;
-import de.monticore.types.check.TypeCheckResult;
+import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types3.SymTypeRelations;
+import de.monticore.types3.TypeCheck3;
 import de.se_rwth.commons.logging.Log;
 
+/**
+ * WARN: as this CoCo checks OCL conditions,
+ * the TypeCheck has to be initialized accordingly.
+ */
 public class ConditionBooleanCoCo implements SD4ComponentsASTSDConditionCoCo {
 
   public static final String MESSAGE_ERROR = "0xB5004: "
     + "Assert expression is not boolean";
 
-  protected final AbstractDerive deriver;
-
-  public ConditionBooleanCoCo() {
-    this(new FullSD4ComponentsDeriver());
-  }
-
-  public ConditionBooleanCoCo(AbstractDerive deriver) {
-    this.deriver = deriver;
-  }
-
   @Override
   public void check(ASTSDCondition node) {
-    TypeCheckResult result = deriver.deriveType(node.getExpression());
-    if (result.isPresentResult() && !SymTypeRelations.isBoolean(result.getResult())) {
+    SymTypeExpression result = TypeCheck3.typeOf(node.getExpression());
+    if (!result.isObscureType() && !SymTypeRelations.isBoolean(result)) {
       Log.error(MESSAGE_ERROR, node.get_SourcePositionStart(), node.get_SourcePositionEnd());
     }
   }

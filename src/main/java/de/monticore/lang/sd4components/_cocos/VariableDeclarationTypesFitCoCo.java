@@ -2,10 +2,9 @@
 package de.monticore.lang.sd4components._cocos;
 
 import de.monticore.lang.sd4components._ast.ASTSDVariableDeclaration;
-import de.monticore.lang.sd4components.types.FullSD4ComponentsDeriver;
-import de.monticore.types.check.AbstractDerive;
-import de.monticore.types.check.TypeCheckResult;
+import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types3.SymTypeRelations;
+import de.monticore.types3.TypeCheck3;
 import de.se_rwth.commons.logging.Log;
 
 public class VariableDeclarationTypesFitCoCo implements SD4ComponentsASTSDVariableDeclarationCoCo {
@@ -13,21 +12,12 @@ public class VariableDeclarationTypesFitCoCo implements SD4ComponentsASTSDVariab
   public static final String MESSAGE_ERROR = "0xB5005: "
     + "Cannot assign %s to %s";
 
-  protected final AbstractDerive deriver;
-
-  public VariableDeclarationTypesFitCoCo() {
-    this(new FullSD4ComponentsDeriver());
-  }
-
-  public VariableDeclarationTypesFitCoCo(AbstractDerive deriver) {
-    this.deriver = deriver;
-  }
-
   @Override
   public void check(ASTSDVariableDeclaration node) {
-    TypeCheckResult result = deriver.deriveType(node.getAssignment());
-    if (result.isPresentResult() && !SymTypeRelations.isCompatible(node.getSymbol().getType(), result.getResult())) {
-      Log.error(String.format(MESSAGE_ERROR, result.getResult().print(), node.getSymbol().getType().print()), node.get_SourcePositionStart(), node.get_SourcePositionEnd());
+    SymTypeExpression target = node.getSymbol().getType();
+    SymTypeExpression result = TypeCheck3.typeOf(node.getAssignment(), target);
+    if (!result.isObscureType() && !SymTypeRelations.isCompatible(target, result)) {
+      Log.error(String.format(MESSAGE_ERROR, result.printFullName(), node.getSymbol().getType().printFullName()), node.get_SourcePositionStart(), node.get_SourcePositionEnd());
     }
   }
 }
