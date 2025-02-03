@@ -43,6 +43,7 @@ public final class TestUtils {
 
   public static void setupGlobalScope(ISD4ComponentsGlobalScope globalScope) {
     BasicSymbolsMill.initializePrimitives();
+    BasicSymbolsMill.initializeString();
   }
 
   private static void addOOTypeSymbols(ISD4DevelopmentGlobalScope globalScope) {

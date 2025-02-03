@@ -188,6 +188,7 @@ public class SD4ComponentsTool extends SD4ComponentsToolTOP {
     SD4ComponentsMill.globalScope().clear();
     SD4ComponentsMill.globalScope().init();
     BasicSymbolsMill.initializePrimitives();
+    BasicSymbolsMill.initializeString();
   }
 
   /**
