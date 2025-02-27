@@ -10,6 +10,7 @@ import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
+import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
 import org.junit.Assert;
@@ -23,6 +24,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Paths;
+import java.util.stream.Collectors;
 
 import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
@@ -78,7 +80,7 @@ public class SD4DevelopmentToolTest {
     SD4DevelopmentTool tool = new SD4DevelopmentTool();
     ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
-    assertEquals(0, Log.getErrorCount());
+    assertErrorCount(0);
   }
 
   @ParameterizedTest
@@ -108,7 +110,7 @@ public class SD4DevelopmentToolTest {
     tool.createSymbolTable(ast);
 
     tool.checkIntraModelCoCos(ast);
-    assertEquals(0, Log.getErrorCount());
+    assertErrorCount(0);
   }
 
   @ParameterizedTest
@@ -138,7 +140,7 @@ public class SD4DevelopmentToolTest {
     tool.createSymbolTable(ast);
 
     tool.checkAllExceptTypeCoCos(ast);
-    assertEquals(0, Log.getErrorCount());
+    assertErrorCount(0);
   }
 
   @ParameterizedTest
@@ -170,7 +172,7 @@ public class SD4DevelopmentToolTest {
     SD4DevelopmentMill.globalScope().accept(t);
 
     tool.checkAllCoCos(ast);
-    assertEquals(0, Log.getErrorCount());
+    assertErrorCount(0);
   }
 
   @ParameterizedTest
@@ -198,7 +200,7 @@ public class SD4DevelopmentToolTest {
     ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
     tool.prettyPrint(ast, "");
-    assertEquals(0, Log.getErrorCount());
+    assertErrorCount(0);
   }
 
   @ParameterizedTest
@@ -243,7 +245,7 @@ public class SD4DevelopmentToolTest {
     for(VariableSymbol var : loadedST.getLocalVariableSymbols()) {
       assertTrue(artifactScope.getLocalVariableSymbols().stream().anyMatch(x -> x.getFullName().equals(var.getFullName())));
     }
-    assertEquals(0, Log.getErrorCount());
+    assertErrorCount(0);
   }
 
   /*****************************************************************
@@ -263,7 +265,7 @@ public class SD4DevelopmentToolTest {
     String printed = out.toString().trim();
     assertNotNull(printed);
     assertTrue(printed.contains("is a refinement of the input SD"));
-    Assert.assertEquals(0, Log.getErrorCount());
+    assertErrorCount(0);
   }
 
   @Test
@@ -279,7 +281,7 @@ public class SD4DevelopmentToolTest {
     String printed = out.toString().trim();
     assertNotNull(printed);
     assertTrue(printed.contains("Diff witness:"));
-    Assert.assertEquals(0, Log.getErrorCount());
+    assertErrorCount(0);
   }
 
   @Test
@@ -294,7 +296,7 @@ public class SD4DevelopmentToolTest {
     String printed = out.toString().trim();
     assertNotNull(printed);
     assertTrue(printed.contains("rob1"));
-    Assert.assertEquals(0, Log.getErrorCount());
+    assertErrorCount(0);
   }
 
   @Test
@@ -308,7 +310,7 @@ public class SD4DevelopmentToolTest {
     });
     String printed = out.toString().trim();
     assertNotNull(printed);
-    Assert.assertEquals(0, Log.getErrorCount());
+    assertErrorCount(0);
   }
 
   @Test
@@ -326,7 +328,15 @@ public class SD4DevelopmentToolTest {
     String printed = out.toString().trim();
     assertNotNull(printed);
     assertFalse(printed.contains("java.lang.NullPointerException"));
-    Assert.assertEquals(4, Log.getErrorCount());
+    assertErrorCount(4);
+  }
+
+  protected void assertErrorCount(int expectedAmountOfErrors) {
+    Assert.assertEquals(Log.getFindings().stream()
+        .map(Finding::buildMsg)
+        .collect(Collectors.joining(System.lineSeparator())),
+      expectedAmountOfErrors, Log.getErrorCount()
+    );
   }
 
 }
