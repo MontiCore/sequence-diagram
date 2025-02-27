@@ -8,7 +8,6 @@ import de.monticore.lang.sd4development._symboltable.SD4DevelopmentArtifactScope
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCompleter;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.monticore.symbols.basicsymbols.BasicSymbolsMill;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
@@ -52,6 +51,7 @@ public class SD4DevelopmentToolTest {
   }
 
   private void setupGlobalScope() {
+    SD4DevelopmentMill.globalScope().clear();
     SD4DevelopmentMill.globalScope().setSymbolPath(new MCPath(Paths.get(SYMBOL_PATH)));
     TestUtils.setupGlobalScope(SD4DevelopmentMill.globalScope());
   }
@@ -318,7 +318,6 @@ public class SD4DevelopmentToolTest {
     Log.clearFindings();
     SD4DevelopmentMill.reset();
     SD4DevelopmentMill.init();
-    BasicSymbolsMill.initializePrimitives();
 
     SD4DevelopmentTool.main(new String[] {
       "-i",
@@ -328,7 +327,7 @@ public class SD4DevelopmentToolTest {
     String printed = out.toString().trim();
     assertNotNull(printed);
     assertFalse(printed.contains("java.lang.NullPointerException"));
-    assertErrorCount(4);
+    assertErrorCount(5);
   }
 
   protected void assertErrorCount(int expectedAmountOfErrors) {
