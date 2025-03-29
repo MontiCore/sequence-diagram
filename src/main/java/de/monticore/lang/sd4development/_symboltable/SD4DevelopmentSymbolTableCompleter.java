@@ -48,6 +48,21 @@ public class SD4DevelopmentSymbolTableCompleter extends SDBasisSymbolTableComple
     this.packageDeclaration = packageDeclaration;
   }
 
+  public static void apply(ASTSDArtifact ast){
+    ASTMCQualifiedName packageDeclaration = ast.isPresentPackageDeclaration() ? ast.getPackageDeclaration() : SD4DevelopmentMill.mCQualifiedNameBuilder().build();
+
+    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), packageDeclaration);
+    SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
+
+    t.add4BasicSymbols(stCompleter);
+    t.setSD4DevelopmentHandler(stCompleter);
+    t.add4SD4Development(stCompleter);
+    t.add4SDBasis(stCompleter);
+    stCompleter.setTraverser(t);
+
+    ast.accept(t);
+  }
+
   @Override
   public SD4DevelopmentTraverser getTraverser() {
     return traverser;

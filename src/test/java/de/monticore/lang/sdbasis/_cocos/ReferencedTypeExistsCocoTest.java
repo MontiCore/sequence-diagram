@@ -59,15 +59,7 @@ public class ReferencedTypeExistsCocoTest extends SDCocoTest {
 
     SD4DevelopmentScopesGenitorDelegator genitor = SD4DevelopmentMill.scopesGenitorDelegator();
     ISD4DevelopmentArtifactScope st = genitor.createFromAST(sd);
-
-    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), sd.getPackageDeclaration());
-    SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
-    t.setSD4DevelopmentHandler(stCompleter);
-    t.add4SD4Development(stCompleter);
-    t.add4BasicSymbols(stCompleter);
-    t.add4SDBasis(stCompleter);
-    stCompleter.setTraverser(t);
-    st.accept(t);
+    SD4DevelopmentSymbolTableCompleter.apply(sd);
 
     assertEquals(0, Log.getErrorCount());
     assertEquals(0,

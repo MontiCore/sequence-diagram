@@ -134,13 +134,6 @@ public abstract class SDCocoTest extends SDAbstractTest {
     ISD4DevelopmentArtifactScope as = genitor.createFromAST(ast);
     SD4DevelopmentMill.globalScope().addSubScope(as);
 
-    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
-    SD4DevelopmentTraverser t = SD4DevelopmentMill.inheritanceTraverser();
-    t.add4BasicSymbols(stCompleter);
-    t.setSD4DevelopmentHandler(stCompleter);
-    t.add4SD4Development(stCompleter);
-    t.add4SDBasis(stCompleter);
-    stCompleter.setTraverser(t);
-    ast.accept(t);
+    SD4DevelopmentSymbolTableCompleter.apply(ast);
   }
 }

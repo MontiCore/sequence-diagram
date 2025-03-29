@@ -130,15 +130,7 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
 
         if (cocoOptionValues.isEmpty() || cocoOptionValues.contains("type") || cmd.hasOption("s")) {
           for (ASTSDArtifact sd : inputSDs) {
-            ASTMCQualifiedName packageDeclaration = sd.isPresentPackageDeclaration() ? sd.getPackageDeclaration() : SD4DevelopmentMill.mCQualifiedNameBuilder().build();
-            SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), packageDeclaration);
-            SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
-            t.add4BasicSymbols(stCompleter);
-            t.setSD4DevelopmentHandler(stCompleter);
-            t.add4SD4Development(stCompleter);
-            t.add4SDBasis(stCompleter);
-            stCompleter.setTraverser(t);
-            sd.accept(t);
+            SD4DevelopmentSymbolTableCompleter.apply(sd);
           }
         }
         if(Log.getErrorCount()>0){
