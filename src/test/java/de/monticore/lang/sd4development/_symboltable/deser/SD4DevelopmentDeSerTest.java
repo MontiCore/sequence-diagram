@@ -131,12 +131,7 @@ public class SD4DevelopmentDeSerTest {
     try {
       ASTSDArtifact ast = parser.parse(modelPath).orElseThrow(NoSuchElementException::new);
       createSymbolTableFromAST(ast);
-      SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
-      SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
-      t.setSD4DevelopmentHandler(stCompleter);
-      t.add4BasicSymbols(stCompleter);
-      stCompleter.setTraverser(t);
-      SD4DevelopmentMill.globalScope().accept(t);
+      SD4DevelopmentSymbolTableCompleter.apply(ast);
 
       return ast;
     }

@@ -161,15 +161,9 @@ public class SD4DevelopmentToolTest {
     SD4DevelopmentTool tool = new SD4DevelopmentTool();
     ASTSDArtifact ast = tool.parse(CORRECT_PATH + model);
     Assertions.assertNotNull(ast);
+
     tool.createSymbolTable(ast);
-
-    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
-    SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
-    t.add4BasicSymbols(stCompleter);
-    t.setSD4DevelopmentHandler(stCompleter);
-    stCompleter.setTraverser(t);
-
-    SD4DevelopmentMill.globalScope().accept(t);
+    SD4DevelopmentSymbolTableCompleter.apply(ast);
 
     tool.checkAllCoCos(ast);
     assertErrorCount(0);
@@ -231,6 +225,7 @@ public class SD4DevelopmentToolTest {
     String symbolFileName = SYMBOLS_OUT + ast.getSequenceDiagram().getName() +".sdsym";
     tool.createSymbolTable(ast);
     SD4DevelopmentArtifactScope artifactScope = (SD4DevelopmentArtifactScope) ast.getEnclosingScope();
+    SD4DevelopmentSymbolTableCompleter.apply(ast);
 
     tool.storeSymbols(ast, symbolFileName);
     ISD4DevelopmentArtifactScope loadedST = tool.loadSymbols(symbolFileName);

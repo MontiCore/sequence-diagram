@@ -12,8 +12,6 @@ import de.se_rwth.commons.logging.Log;
 
 public class SD4DevelopmentScopesGenitor extends SD4DevelopmentScopesGenitorTOP {
 
-  private final FullSDBasisSynthesizer synthesizer = new FullSDBasisSynthesizer();
-
   @Override
   public ISD4DevelopmentArtifactScope createFromAST(ASTSDArtifact rootNode) {
     ISD4DevelopmentArtifactScope artifactScope = super.createFromAST(rootNode);
@@ -21,34 +19,4 @@ public class SD4DevelopmentScopesGenitor extends SD4DevelopmentScopesGenitorTOP 
     artifactScope.setPackageName(packageDeclaration);
     return artifactScope;
   }
-
-  @Override
-  public void endVisit(ASTSDNew node)  {
-    VariableSymbol symbol = node.getSymbol();
-
-    final TypeCheckResult typeResult = synthesizer.synthesizeType(node.getDeclarationType());
-    if (!typeResult.isPresentResult()) {
-      Log.error(String.format("0xB0002: The type (%s) of the object (%s) could not be calculated",
-        SD4DevelopmentMill.prettyPrint(node.getDeclarationType(), false),
-        node.getName()));
-    } else {
-      symbol.setType(typeResult.getResult());
-    }
-  }
-
-
-  @Override
-  public void endVisit(ASTSDVariableDeclaration node) {
-    VariableSymbol symbol = node.getSymbol();
-
-    final TypeCheckResult typeResult = synthesizer.synthesizeType(node.getMCType());
-    if (!typeResult.isPresentResult()) {
-      Log.error(String.format("0xB0004: The type (%s) of the variable (%s) could not be calculated",
-        SD4DevelopmentMill.prettyPrint(node.getMCType(), false),
-        node.getName()));
-    } else {
-      symbol.setType(typeResult.getResult());
-    }
-  }
-
 }
