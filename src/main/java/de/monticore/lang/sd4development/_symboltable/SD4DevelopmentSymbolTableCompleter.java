@@ -11,16 +11,14 @@ import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor2;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.lang.sdbasis._ast.ASTSequenceDiagram;
 import de.monticore.lang.sdbasis._symboltable.SDBasisSymbolTableCompleter;
-import de.monticore.lang.sdbasis.types.FullSDBasisSynthesizer;
-import de.monticore.symbols.basicsymbols._ast.ASTDiagram;
 import de.monticore.symbols.basicsymbols._symboltable.TypeSymbol;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.symbols.basicsymbols._visitor.BasicSymbolsVisitor2;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.SymTypeExpressionFactory;
-import de.monticore.types.check.TypeCheckResult;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
 import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
+import de.monticore.types3.TypeCheck3;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.ArrayList;
@@ -38,8 +36,6 @@ public class SD4DevelopmentSymbolTableCompleter extends SDBasisSymbolTableComple
   private final List<ASTMCImportStatement> imports;
   private final ASTMCQualifiedName packageDeclaration;
   private SD4DevelopmentTraverser traverser;
-  // TODO: remove with TypeCheck3!
-  private final FullSDBasisSynthesizer synthesizer = new FullSDBasisSynthesizer();
 
   private List<VariableSymbol> variableSymbols = new ArrayList<>();
 
@@ -114,30 +110,11 @@ public class SD4DevelopmentSymbolTableCompleter extends SDBasisSymbolTableComple
 
   @Override
   public void visit(ASTSDNew node)  {
-    VariableSymbol symbol = node.getSymbol();
-
-    final TypeCheckResult typeResult = synthesizer.synthesizeType(node.getDeclarationType());
-    if (!typeResult.isPresentResult()) {
-      Log.error(String.format("0xB0002: The type (%s) of the object (%s) could not be calculated",
-        SD4DevelopmentMill.prettyPrint(node.getDeclarationType(), false),
-        node.getName()));
-    } else {
-      symbol.setType(typeResult.getResult());
-    }
+    node.getSymbol().setType(TypeCheck3.symTypeFromAST(node.getDeclarationType()));
   }
-
 
   @Override
   public void visit(ASTSDVariableDeclaration node) {
-    VariableSymbol symbol = node.getSymbol();
-
-    final TypeCheckResult typeResult = synthesizer.synthesizeType(node.getMCType());
-    if (!typeResult.isPresentResult()) {
-      Log.error(String.format("0xB0004: The type (%s) of the variable (%s) could not be calculated",
-        SD4DevelopmentMill.prettyPrint(node.getMCType(), false),
-        node.getName()));
-    } else {
-      symbol.setType(typeResult.getResult());
-    }
+    node.getSymbol().setType(TypeCheck3.symTypeFromAST(node.getMCType()));
   }
 }

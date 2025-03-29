@@ -13,13 +13,7 @@ public class SDBasisSymbolTableCompleter implements SDBasisVisitor2 {
 
   @Override
   public void endVisit(ASTSDObject node) {
-    // TODO: continue here
-    //  Tests are very weird, since they only test for amount of errors, not specific once
-    //  Also: getType().getTypeInfo() is used often, but will fail on obscure
-
     VariableSymbol symbol = node.getSymbol();
-
-    boolean fallback = false;
 
     if (node.isPresentMCObjectType()) {
       ASTMCObjectType objectType = node.getMCObjectType();
@@ -27,8 +21,6 @@ public class SDBasisSymbolTableCompleter implements SDBasisVisitor2 {
       final SymTypeExpression typeResult = TypeCheck3.symTypeFromAST(objectType);
       if (!typeResult.isObscureType()) {
         symbol.setType(typeResult);
-      }else{
-        fallback = true;
       }
     } else {
       OOTypeSymbol objectType = new OOTypeSymbol("Object");
