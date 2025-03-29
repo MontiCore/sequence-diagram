@@ -135,9 +135,14 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
             SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
             t.add4BasicSymbols(stCompleter);
             t.setSD4DevelopmentHandler(stCompleter);
+            t.add4SD4Development(stCompleter);
+            t.add4SDBasis(stCompleter);
             stCompleter.setTraverser(t);
-            globalScope.accept(t);
+            sd.accept(t);
           }
+        }
+        if(Log.getErrorCount()>0){
+          return;
         }
       }
 

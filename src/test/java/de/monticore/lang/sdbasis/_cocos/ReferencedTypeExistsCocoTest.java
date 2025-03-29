@@ -63,7 +63,9 @@ public class ReferencedTypeExistsCocoTest extends SDCocoTest {
     SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(sd.getMCImportStatementList(), sd.getPackageDeclaration());
     SD4DevelopmentTraverser t = SD4DevelopmentMill.traverser();
     t.setSD4DevelopmentHandler(stCompleter);
+    t.add4SD4Development(stCompleter);
     t.add4BasicSymbols(stCompleter);
+    t.add4SDBasis(stCompleter);
     stCompleter.setTraverser(t);
     st.accept(t);
 

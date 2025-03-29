@@ -6,7 +6,10 @@ import de.monticore.io.paths.MCPath;
 import de.monticore.lang.sd4development.SD4DevelopmentMill;
 import de.monticore.lang.sd4development._cocos.SD4DevelopmentCoCoChecker;
 import de.monticore.lang.sd4development._parser.SD4DevelopmentParser;
+import de.monticore.lang.sd4development._symboltable.ISD4DevelopmentArtifactScope;
 import de.monticore.lang.sd4development._symboltable.SD4DevelopmentScopesGenitorDelegator;
+import de.monticore.lang.sd4development._symboltable.SD4DevelopmentSymbolTableCompleter;
+import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
@@ -128,6 +131,16 @@ public abstract class SDCocoTest extends SDAbstractTest {
 
   private void createSymbolTableFromAST(ASTSDArtifact ast) {
     SD4DevelopmentScopesGenitorDelegator genitor = SD4DevelopmentMill.scopesGenitorDelegator();
-    genitor.createFromAST(ast);
+    ISD4DevelopmentArtifactScope as = genitor.createFromAST(ast);
+    SD4DevelopmentMill.globalScope().addSubScope(as);
+
+    SD4DevelopmentSymbolTableCompleter stCompleter = new SD4DevelopmentSymbolTableCompleter(ast.getMCImportStatementList(), ast.getPackageDeclaration());
+    SD4DevelopmentTraverser t = SD4DevelopmentMill.inheritanceTraverser();
+    t.add4BasicSymbols(stCompleter);
+    t.setSD4DevelopmentHandler(stCompleter);
+    t.add4SD4Development(stCompleter);
+    t.add4SDBasis(stCompleter);
+    stCompleter.setTraverser(t);
+    ast.accept(t);
   }
 }
