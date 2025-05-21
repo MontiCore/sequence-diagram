@@ -4,7 +4,7 @@
   "package": "sd4components.correct",
   "symbols": [
     {
-      "kind": "de.monticore.symbols.compsymbols._symboltable.ComponentSymbol",
+      "kind": "de.monticore.symbols.compsymbols._symboltable.ComponentTypeSymbol",
       "name": "C",
       "spannedScope": {
         "symbols": [

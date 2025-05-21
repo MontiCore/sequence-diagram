@@ -6,7 +6,6 @@ import de.monticore.symbols.basicsymbols._symboltable.IBasicSymbolsScope;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.symbols.compsymbols._symboltable.SubcomponentSymbol;
 import de.monticore.symboltable.modifiers.BasicAccessModifier;
-import de.monticore.types.check.KindOfGenericComponent;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.check.SymTypeExpressionFactory;
 import de.se_rwth.commons.SourcePosition;
@@ -55,11 +54,11 @@ public class Subcomponent2VariableAdapter extends VariableSymbol {
   public SymTypeExpression getType() {
     if (!adaptee.isTypePresent())
       return SymTypeExpressionFactory.createObscureType();
-    if (!(adaptee.getType() instanceof KindOfGenericComponent) || ((KindOfGenericComponent) adaptee.getType()).getTypeBindingsAsList().isEmpty()) {
-      return SymTypeExpressionFactory.createTypeObject(new Component2TypeSymbolAdapter(adaptee.getType().getTypeInfo()));
+    if (!adaptee.getType().isGenericComponentType() || adaptee.getType().asGenericComponentType().getTypeBindingsAsList().isEmpty()) {
+      return SymTypeExpressionFactory.createTypeObject(new ComponentType2TypeSymbolAdapter(adaptee.getType().getTypeInfo()));
     } else {
       return SymTypeExpressionFactory.createGenerics(
-        new Component2TypeSymbolAdapter(adaptee.getType().getTypeInfo()), ((KindOfGenericComponent) adaptee.getType()).getTypeBindingsAsList()
+        new ComponentType2TypeSymbolAdapter(adaptee.getType().getTypeInfo()), adaptee.getType().asGenericComponentType().getTypeBindingsAsList()
       );
     }
   }

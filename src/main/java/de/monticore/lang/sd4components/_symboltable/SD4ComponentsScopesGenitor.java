@@ -6,13 +6,12 @@ import de.monticore.lang.sd4components._ast.ASTSDComponent;
 import de.monticore.lang.sd4components._ast.ASTSDPort;
 import de.monticore.lang.sd4components._ast.ASTSDVariableDeclaration;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
-import de.monticore.lang.sdbasis.types.FullSDBasisComponentsSynthesizer;
-import de.monticore.lang.sdbasis.types.FullSDBasisSynthesizer;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.symbols.compsymbols._symboltable.PortSymbol;
 import de.monticore.symbols.compsymbols._symboltable.SubcomponentSymbol;
 import de.monticore.symboltable.ImportStatement;
 import de.monticore.types.check.CompKindExpression;
+import de.monticore.types.check.FullSynthesizeCompKindFromMCBasicTypes;
 import de.monticore.types.check.ISynthesizeComponent;
 import de.monticore.types.check.SymTypeExpression;
 import de.monticore.types.mcbasictypes._ast.ASTMCImportStatement;
@@ -27,16 +26,12 @@ public class SD4ComponentsScopesGenitor extends SD4ComponentsScopesGenitorTOP {
 
   protected final ISynthesizeComponent componentSynthesizer;
 
-  /**
-   * @deprecated use different Constructor
-   */
-  @Deprecated
-  public SD4ComponentsScopesGenitor(ISynthesizeComponent componentSynthesizer, FullSDBasisSynthesizer synthesizer) {
+  public SD4ComponentsScopesGenitor(ISynthesizeComponent componentSynthesizer) {
     this.componentSynthesizer = componentSynthesizer;
   }
 
   public SD4ComponentsScopesGenitor() {
-    this(new FullSDBasisComponentsSynthesizer(), new FullSDBasisSynthesizer());
+    this(new FullSynthesizeCompKindFromMCBasicTypes());
   }
 
   @Override
@@ -94,8 +89,8 @@ public class SD4ComponentsScopesGenitor extends SD4ComponentsScopesGenitorTOP {
 
   @Override
   public void endVisit(ASTSDPort node) {
-    if (node.isPresentNameSymbol() && node.getNameSymbol().isTypePresent() && SD4ComponentsMill.typeDispatcher().isCompSymbolsComponent(node.getNameSymbol().getType().getTypeInfo())) {
-      Optional<PortSymbol> port = SD4ComponentsMill.typeDispatcher().asCompSymbolsComponent(node.getNameSymbol().getType().getTypeInfo()).getPort(node.getPort());
+    if (node.isPresentNameSymbol() && node.getNameSymbol().isTypePresent() && SD4ComponentsMill.typeDispatcher().isCompSymbolsComponentType(node.getNameSymbol().getType().getTypeInfo())) {
+      Optional<PortSymbol> port = SD4ComponentsMill.typeDispatcher().asCompSymbolsComponentType(node.getNameSymbol().getType().getTypeInfo()).getPort(node.getPort());
       port.ifPresent(node::setPortSymbol);
     }
   }

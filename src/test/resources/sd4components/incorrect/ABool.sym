@@ -4,7 +4,7 @@
   "package": "sd4components.incorrect",
   "symbols": [
     {
-      "kind": "de.monticore.symbols.compsymbols._symboltable.ComponentSymbol",
+      "kind": "de.monticore.symbols.compsymbols._symboltable.ComponentTypeSymbol",
       "name": "ABool",
       "spannedScope": {
         "symbols": [
