@@ -214,8 +214,6 @@ publishing {
       from components.java
       artifact sourcesJar
       artifact javadocJar
-      artifact shadowJar
-    //  artifact grammarJar
     }
   }
   repositories.maven {
