@@ -5,7 +5,7 @@ plugins {
   id "java"
   id "monticore" version "$mc_version" // MontiCore Plugin
   id "maven-publish"
-  id "com.github.johnrengelman.shadow" version "4.0.4"
+  id "com.github.johnrengelman.shadow" version "$shadow_plugin_version"
   id 'org.ec4j.editorconfig' version "0.0.3"
 }
 
