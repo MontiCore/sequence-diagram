@@ -5,9 +5,11 @@ import de.monticore.lang.sd4components.SD4ComponentsMill;
 import de.monticore.lang.sd4components._ast.ASTSDComponent;
 import de.monticore.lang.sd4components._ast.ASTSDPort;
 import de.monticore.lang.sd4components._ast.ASTSDVariableDeclaration;
+import de.monticore.lang.sd4components._ast.Expression2SubcomponentArgumentAdapter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.monticore.symbols.compsymbols._symboltable.PortSymbol;
+import de.monticore.symbols.compsymbols._symboltable.Subcomponent2VariableAdapter;
 import de.monticore.symbols.compsymbols._symboltable.SubcomponentSymbol;
 import de.monticore.symboltable.ImportStatement;
 import de.monticore.types.check.CompKindExpression;
@@ -21,6 +23,7 @@ import de.se_rwth.commons.logging.Log;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class SD4ComponentsScopesGenitor extends SD4ComponentsScopesGenitorTOP {
 
@@ -82,7 +85,7 @@ public class SD4ComponentsScopesGenitor extends SD4ComponentsScopesGenitorTOP {
     if (typeExpression.isPresent()) {
       ((Subcomponent2VariableAdapter) node.getSymbol()).getAdaptee().setType(typeExpression.get());
       if (node.isPresentArguments())
-        typeExpression.get().addArgument(node.getArguments().getExpressionList());
+        typeExpression.get().addArgument(node.getArguments().getExpressionList().stream().map(Expression2SubcomponentArgumentAdapter::new).collect(Collectors.toList()));
       typeExpression.get().bindParams();
     }
   }
