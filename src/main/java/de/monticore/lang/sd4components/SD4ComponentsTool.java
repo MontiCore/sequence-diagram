@@ -111,7 +111,7 @@ public class SD4ComponentsTool extends SD4ComponentsToolTOP {
 
           String fileName = cmd.getOptionValues("i")[i];
           String symbolFile = FilenameUtils.getName(fileName) + "sym";
-          String symbol_out = "target/symbols";
+          String symbol_out = "build/symbols";
           String packagePath = sd.isPresentPackageDeclaration() ? sd.getPackageDeclaration().getQName().replace('.', '/') : "";
           Path filePath = Paths.get(symbol_out, packagePath, symbolFile);
           FileReaderWriter.storeInFile(filePath, serialized);
