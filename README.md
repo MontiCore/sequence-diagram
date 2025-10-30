@@ -80,8 +80,8 @@ wget "http://monticore.de/download/MCSD4Development.jar" -O MCSD4Development.jar
 
 ### Dependencies
 Install and add to `PATH`:
-- Gradle 7.6
-- Java 11
+- Gradle 8.5
+- Java 21
 - Git
 
 ### Commands

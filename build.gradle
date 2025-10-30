@@ -9,14 +9,16 @@ plugins {
   id 'org.ec4j.editorconfig' version "0.0.3"
 }
 
-def grammar_classifier = "grammars"
 def grammarDir = "src/main/grammars"
 
 group = "de.monticore.lang"
 description = "Sequence Diagram DSL"
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
 
+java {
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
+  }
+}
 
 // configure non-standard source sets
 sourceSets {
