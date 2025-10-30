@@ -32,7 +32,7 @@ public class SD4DevelopmentToolTest {
 
   protected static final String SYMBOL_PATH = "src/test/resources";
   protected final static String CORRECT_PATH = SYMBOL_PATH + "/examples/correct/";
-  protected final static String SYMBOLS_OUT = "target/symbols/";
+  protected final static String SYMBOLS_OUT = "build/symbols/";
   ByteArrayOutputStream out;
   ByteArrayOutputStream err;
 

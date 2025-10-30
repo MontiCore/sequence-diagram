@@ -178,7 +178,7 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
 
             String fileName = cmd.getOptionValues("i")[i];
             String symbolFile = FilenameUtils.getName(fileName) + "sym";
-            String symbol_out = "target/symbols";
+            String symbol_out = "build/symbols";
             String packagePath = sd.isPresentPackageDeclaration() ? sd.getPackageDeclaration().getQName().replace('.', '/') : "";
             Path filePath = Paths.get(symbol_out, packagePath, symbolFile);
             FileReaderWriter.storeInFile(filePath, serialized);
@@ -213,7 +213,7 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
   }
 
   public void generateCD(List<ASTSDArtifact> inputSDs, CommandLine cmd, ISD4DevelopmentArtifactScope scope, SD2TestGenerator sdGenerator) {
-    String outputPath = cmd.getOptionValue("o", "target/gen-test");
+    String outputPath = cmd.getOptionValue("o", "build/gen-test");
 
     GlobalExtensionManagement glex = new GlobalExtensionManagement();
     glex.setGlobalValue("cdPrinter", new CdUtilsPrinter());
@@ -307,8 +307,8 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
 
   /**
    * Stores the symbols for ast in the symbol file filename.
-   * For example, if filename = "target/symbolfiles/file.sdsym", then the symbol file corresponding to
-   * ast is stored in the file "target/symbolfiles/file.sdsym".
+   * For example, if filename = "build/symbolfiles/file.sdsym", then the symbol file corresponding to
+   * ast is stored in the file "build/symbolfiles/file.sdsym".
    *
    * @param ast      The ast of the SD.
    * @param filename The name of the produced symbol file.

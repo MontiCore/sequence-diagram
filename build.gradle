@@ -3,54 +3,22 @@ import org.gradle.api.tasks.bundling.Jar
 /* (c) https://github.com/MontiCore/monticore */
 plugins {
   id "java"
-  id "monticore" version "$mc_version" // MontiCore Plugin
+  id "de.monticore.generator" version "$mc_version"
   id "maven-publish"
   id "com.github.johnrengelman.shadow" version "$shadow_plugin_version"
   id 'org.ec4j.editorconfig' version "0.0.3"
 }
 
-def grammar_classifier = "grammars"
-def grammarDir = "src/main/grammars"
-
 group = "de.monticore.lang"
 description = "Sequence Diagram DSL"
-sourceCompatibility = JavaVersion.VERSION_11
-targetCompatibility = JavaVersion.VERSION_11
-
-
-// configure non-standard source sets
-sourceSets {
-  main {
-    java.srcDirs += ["$projectDir/target/generated-sources/monticore/sourcecode"]
-  }
-  grammars {
-    resources {
-      srcDirs([grammarDir])
-      include "**/*.mc4"
-    }
-  }
-  test {
-    java.srcDirs += ["$projectDir/target/generated-test-sources/monticore/sourcecode"]
-  }
-}
 
 java {
-    registerFeature('grammars') {
-        usingSourceSet(sourceSets.grammars)
-    }
-}
-
-subprojects {
-  apply plugin: 'idea'
-  idea {
-    module {
-      testSourceDirs += file("$projectDir/target/generated-test-sources/monticore/sourcecode")
-    }
+  withSourcesJar()
+  withJavadocJar()
+  toolchain {
+    languageVersion = JavaLanguageVersion.of(21)
   }
 }
-buildDir = file("$projectDir/target")
-
-configurations { grammar }
 
 dependencies {
   implementation "de.se_rwth.commons:se-commons-logging:$commons_version"
@@ -66,15 +34,9 @@ dependencies {
 
   implementation "de.monticore.lang:cd4analysis:$mc_version"
 
-  grammar ("de.monticore:monticore-grammar:$mc_version") {capabilities {
-    requireCapability("de.monticore:monticore-grammar-grammars") }
-  }
+  grammar ("de.monticore:monticore-grammar:$mc_version")
   grammar ("de.monticore.lang:ocl:$mc_version")
-    {capabilities {
-    requireCapability("de.monticore.lang:ocl-grammars") }
-  }
   implementation "de.monticore.lang:ocl:$mc_version"
-  //implementation "ch.qos.logback:logback-classic:1.1.7"
   implementation "commons-cli:commons-cli:1.4"
 
   // libraries for sd diff
@@ -99,44 +61,6 @@ repositories {
   }
 }
 
-def grammarDependencies = ext {
-  SDBasis = []
-  SD4Development = ["SDBasis"]
-  SD4Components = ["SDBasis"]
-}
-
-// one task per grammar file
-fileTree(grammarDir).matching { include '**/*.mc4' }.each {
-  def g = it
-  def grammarName = it.getName().substring(0, it.getName().lastIndexOf('.'))
-
-  task "generateGrammar${grammarName}"(type: MCTask) {
-    grammar = file g
-    outputDir = file "$buildDir/generated-sources/monticore/sourcecode"
-    // handcodedPath file("$projectDir/src/main/java")
-    def grammarIncludingPackage = file(grammarDir).toURI().relativize(g.toURI()).toString()
-    def uptoDate = incCheck(grammarIncludingPackage)
-    outputs.upToDateWhen { uptoDate }
-  }
-}
-
-compileJava {
-  tasks.findAll { task -> task.name.startsWith("generateGrammar") }.each {
-    def grammarName = it.getName().substring('generateGrammar'.length())
-    def dependsOnGrammars = grammarDependencies[grammarName].collect { name -> tasks["generateGrammar${name}"] }
-    it.dependsOn dependsOnGrammars
-    /*it.outputs.upToDateWhen {
-        it.outputs.upToDateWhen && !dependsOnGrammars.any { !it.outputs.upToDateWhen }
-    }*/
-  }
-
-  dependsOn project.collect { it.tasks.findAll { task -> task.name.startsWith("generateGrammar") } }
-}
-
-compileTestJava {
-  dependsOn project.collect { it.tasks.withType(MCTask) }
-}
-
 test {
   useJUnitPlatform()
   testLogging {
@@ -155,28 +79,9 @@ tasks.withType(JavaCompile) {
   options.encoding = "UTF-8"
 }
 
-// build sources jar in addition
-task sourcesJar(type: Jar) {
-  from sourceSets.main.allJava
-  archiveClassifier = "sources"
-}
-
-sourcesJar.dependsOn project.collect { it.tasks.withType(MCTask)}
-
-// build javadoc jar in addition
-task javadocJar(type: Jar) {
-  from javadoc
-  archiveClassifier = "javadoc"
-}
 
 // generated java doc contains errors, disable for now
 javadoc.failOnError(false)
-
-// build grammar jar as well
-task grammarJar(type: Jar) {
-  from("$projectDir/src/main/grammars/") { include "**/*.mc4" }
-  archiveClassifier = "grammars"
-}
 
 shadowJar {
   archiveFileName = 'MCSD4Development.jar'
@@ -187,17 +92,6 @@ shadowJar {
 }
 
 jar.dependsOn(shadowJar)
-
-//jar {
-//  manifest {
-//    attributes(
-//      'Main-Class': 'de.monticore.lang.sd4development.SD4DevelopmentTool'
-//    )
-//  }
-//  from {
-//    configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
-//  }
-//}
 
 task testReport(type: TestReport) {
   destinationDir = file("$buildDir/reports/allTests")
@@ -212,8 +106,6 @@ publishing {
     mavenJava(MavenPublication) {
       artifactId = "$project.name"
       from components.java
-      artifact sourcesJar
-      artifact javadocJar
     }
   }
   repositories.maven {
@@ -224,10 +116,3 @@ publishing {
     url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
   }
 }
-
-task buildAll(type: GradleBuild) {
-  tasks = [ 'build' ]
-}
-
-defaultTasks('build')
-
