@@ -9,7 +9,7 @@ import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor2;
 import de.monticore.lang.sdbasis._ast.*;
 import de.monticore.lang.sdbasis._visitor.SDBasisVisitor2;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
@@ -36,11 +36,11 @@ final class SDDiffSDInfoVisitor implements SD4DevelopmentVisitor2, SDBasisVisito
   private SD4DevelopmentTraverser traverser;
 
   public SDDiffSDInfoVisitor() {
-    this.objects = new HashSet<>();
-    this.completeObjects = new HashSet<>();
-    this.visibleObjects = new HashSet<>();
-    this.initialObjects = new HashSet<>();
-    this.actions = new HashSet<>();
+    this.objects = new LinkedHashSet<>();
+    this.completeObjects = new LinkedHashSet<>();
+    this.visibleObjects = new LinkedHashSet<>();
+    this.initialObjects = new LinkedHashSet<>();
+    this.actions = new LinkedHashSet<>();
     this.interactions = new LinkedList<>();
     this.currentInteractionSource = "";
     this.currentInteractionTarget = "";

@@ -62,7 +62,7 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
 
       String targetObjectName = ((ASTSDObjectTarget) node.getSDTarget()).getName();
 
-      Set<VariableSymbol> varSymbols = new HashSet<>();
+      Set<VariableSymbol> varSymbols = new LinkedHashSet<>();
       for (String fqNameCandidate : calcFQNameCandidates(imports, packageDeclaration, targetObjectName)) {
         varSymbols.addAll(node.getEnclosingScope().resolveVariableMany(fqNameCandidate));
       }
@@ -78,7 +78,7 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
 
         if (targetTypeSymbol != null) {
           superTypesToProcess.add(targetTypeSymbol);
-          Set<TypeSymbol> processed = new HashSet<>();
+          Set<TypeSymbol> processed = new LinkedHashSet<>();
           while (!superTypesToProcess.isEmpty()) {
             TypeSymbol cur = superTypesToProcess.pop();
             processed.add(cur);
@@ -148,7 +148,7 @@ public class MethodActionValidCoco implements SDBasisASTSDArtifactCoCo {
   }
 
   private TypeSymbol resolveOOTypeSymbol(ASTSDSendMessage node, String typeName) {
-    Set<TypeSymbol> typeSymbols = new HashSet<>();
+    Set<TypeSymbol> typeSymbols = new LinkedHashSet<>();
     for (String fqNameCandidate : calcFQNameCandidates(imports, packageDeclaration, typeName)) {
       SD4DevelopmentScope scope = (SD4DevelopmentScope) node.getEnclosingScope();
       typeSymbols.addAll(scope.resolveOOTypeMany(fqNameCandidate));

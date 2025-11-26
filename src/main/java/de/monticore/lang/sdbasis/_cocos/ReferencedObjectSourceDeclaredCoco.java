@@ -12,7 +12,7 @@ import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -48,7 +48,7 @@ public class ReferencedObjectSourceDeclaredCoco implements SDBasisASTSDArtifactC
   }
 
   public void check(ASTSDObjectSource node) {
-    Set<VariableSymbol> varSymbols = new HashSet<>();
+    Set<VariableSymbol> varSymbols = new LinkedHashSet<>();
 
     for (String fqNameCandidate : calcFQNameCandidates(imports, packageDeclaration, node.getName())) {
       varSymbols.addAll(node.getEnclosingScope().resolveVariableMany(fqNameCandidate));

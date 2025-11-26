@@ -19,7 +19,7 @@ import de.monticore.types.mcbasictypes._ast.ASTMCQualifiedName;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -73,7 +73,7 @@ public class CorrectObjectConstructionTypesCoco implements SDBasisASTSDArtifactC
   }
 
   private TypeSymbol resolveOOTypeSymbol(ASTSDNew node, String typeName) {
-    Set<TypeSymbol> typeSymbols = new HashSet<>();
+    Set<TypeSymbol> typeSymbols = new LinkedHashSet<>();
     for (String fqNameCandidate : calcFQNameCandidates(imports, packageDeclaration, typeName)) {
       SD4DevelopmentScope scope = (SD4DevelopmentScope) node.getEnclosingScope();
       typeSymbols.addAll(scope.resolveOOTypeMany(fqNameCandidate));

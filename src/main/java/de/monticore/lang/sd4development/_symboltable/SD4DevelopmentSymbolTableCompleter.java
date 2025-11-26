@@ -22,7 +22,7 @@ import de.monticore.types3.TypeCheck3;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.ArrayList;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -84,7 +84,7 @@ public class SD4DevelopmentSymbolTableCompleter extends SDBasisSymbolTableComple
       SymTypeExpression type = var.getType();
       if (!type.isObscureType()) {
         String typeName = type.getTypeInfo().getName();
-        Set<TypeSymbol> typeSymbols = new HashSet<>();
+        Set<TypeSymbol> typeSymbols = new LinkedHashSet<>();
         for (String fqNameCandidate : calcFQNameCandidates(imports, packageDeclaration, typeName)) {
           SD4DevelopmentScope scope = (SD4DevelopmentScope) var.getEnclosingScope();
           typeSymbols.addAll(scope.resolveTypeMany(fqNameCandidate));

@@ -57,10 +57,10 @@ public class SDSemDiff {
   }
 
   Set<SDInteraction> getAlphabet(SDDiffSDInfoVisitor ast1Info, SDDiffSDInfoVisitor ast2Info) {
-    Set<String> omega = new HashSet<>(Sets.union(ast1Info.getObjects(), ast2Info.getObjects()).immutableCopy());
+    Set<String> omega = new LinkedHashSet<>(Sets.union(ast1Info.getObjects(), ast2Info.getObjects()).immutableCopy());
     omega.add("$$__$$"); // some name which doesn't occur in omega
 
-    Set<String> alpha = new HashSet<>(Sets.union(ast1Info.getActions(), ast2Info.getActions()).immutableCopy());
+    Set<String> alpha = new LinkedHashSet<>(Sets.union(ast1Info.getActions(), ast2Info.getActions()).immutableCopy());
     alpha.add("$$__$$"); // some name which doesn't occur in alpha
 
     return getAlphabet(omega, alpha);

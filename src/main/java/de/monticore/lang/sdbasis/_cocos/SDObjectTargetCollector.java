@@ -6,12 +6,12 @@ import de.monticore.lang.sdbasis._visitor.SDBasisHandler;
 import de.monticore.lang.sdbasis._visitor.SDBasisTraverser;
 import de.monticore.lang.sdbasis._visitor.SDBasisVisitor2;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class SDObjectTargetCollector implements SDBasisVisitor2, SDBasisHandler {
 
-  Set<ASTSDObjectTarget> result = new HashSet<>();
+  Set<ASTSDObjectTarget> result = new LinkedHashSet<>();
   SDBasisTraverser traverser;
 
   @Override

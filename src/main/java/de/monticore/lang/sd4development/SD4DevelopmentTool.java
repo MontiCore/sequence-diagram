@@ -116,7 +116,7 @@ public class SD4DevelopmentTool extends SD4DevelopmentToolTOP {
       globalScope.setSymbolPath(symbolPath);
 
       // handle CoCos and symbol storage: build symbol table as far as needed
-      Set<String> cocoOptionValues = new HashSet<>();
+      Set<String> cocoOptionValues = new LinkedHashSet<>();
       if (cmd.hasOption("c") && cmd.getOptionValues("c") != null) {
         cocoOptionValues.addAll(Arrays.asList(cmd.getOptionValues("c")));
       }

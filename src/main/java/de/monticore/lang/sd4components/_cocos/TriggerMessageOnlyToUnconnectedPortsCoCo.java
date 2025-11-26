@@ -7,7 +7,7 @@ import de.monticore.lang.sdbasis._ast.ASTSequenceDiagram;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSequenceDiagramCoCo;
 import de.se_rwth.commons.logging.Log;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -42,7 +42,7 @@ public class TriggerMessageOnlyToUnconnectedPortsCoCo implements SDBasisASTSeque
   }
 
   protected Set<String> getConnectedPorts(ASTSequenceDiagram node) {
-    Set<String> targets = new HashSet<>();
+    Set<String> targets = new LinkedHashSet<>();
     for (ASTSDSendMessage connector : node.getSDBody().streamSDElements()
       .filter(SD4ComponentsMill.typeDispatcher()::isSDBasisASTSDSendMessage)
       .map(SD4ComponentsMill.typeDispatcher()::asSDBasisASTSDSendMessage)

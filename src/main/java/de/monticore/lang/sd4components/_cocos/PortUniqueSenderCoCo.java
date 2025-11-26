@@ -8,7 +8,7 @@ import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDBodyCoCo;
 import de.se_rwth.commons.logging.Log;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -25,7 +25,7 @@ public class PortUniqueSenderCoCo implements SDBasisASTSDBodyCoCo {
 
   @Override
   public void check(ASTSDBody node) {
-    Map<String, String> targetSource = new HashMap<>();
+    Map<String, String> targetSource = new LinkedHashMap<>();
     for (ASTSDSendMessage connector : node.streamSDElements()
       .filter(SD4ComponentsMill.typeDispatcher()::isSDBasisASTSDSendMessage)
       .map(SD4ComponentsMill.typeDispatcher()::asSDBasisASTSDSendMessage)

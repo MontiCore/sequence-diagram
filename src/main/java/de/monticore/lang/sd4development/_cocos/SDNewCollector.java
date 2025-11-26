@@ -6,12 +6,12 @@ import de.monticore.lang.sd4development._visitor.SD4DevelopmentHandler;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentTraverser;
 import de.monticore.lang.sd4development._visitor.SD4DevelopmentVisitor2;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 public class SDNewCollector implements SD4DevelopmentVisitor2, SD4DevelopmentHandler {
 
-  Set<ASTSDNew> result = new HashSet<>();
+  Set<ASTSDNew> result = new LinkedHashSet<>();
   SD4DevelopmentTraverser traverser;
 
   @Override

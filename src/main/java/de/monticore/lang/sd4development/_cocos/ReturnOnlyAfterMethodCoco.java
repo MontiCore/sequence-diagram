@@ -13,7 +13,7 @@ import de.monticore.lang.sdbasis._visitor.SDBasisVisitor2;
 import de.monticore.lang.util.SourceAndTargetEquals;
 import de.se_rwth.commons.logging.Log;
 
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.Set;
 
 /**
@@ -39,7 +39,7 @@ public class ReturnOnlyAfterMethodCoco implements SDBasisASTSDArtifactCoCo {
    * If there does not exists such a SendCall, an error will be produced.
    */
   private static final class ReturnOnlyAfterMethodCocoVisitor implements SDBasisVisitor2, SD4DevelopmentVisitor2 {
-    private final Set<ASTSDSendMessage> openMethodCalls = new HashSet<>();
+    private final Set<ASTSDSendMessage> openMethodCalls = new LinkedHashSet<>();
 
     private boolean isReturnInteraction = false;
 
