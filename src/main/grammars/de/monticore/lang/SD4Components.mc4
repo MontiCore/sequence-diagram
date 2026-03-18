@@ -87,4 +87,17 @@ grammar SD4Components extends
    */
   SDVariableDeclaration implements SDElement, Variable =
     "let" MCType Name "=" assignment:Expression ";";
+
+  /*
+   * Sync block that enforces simultaneous execution of messages.
+   * This block should not allow event-based messages within it.
+   */
+  SDSyncBlock implements SDElement =
+    "Sync" "{" SDElement* "}";
+
+  /*
+   * Tick definition to model the occurence of ticks.
+   */
+  SDTick implements SDElement =
+    key("Tick") ";";
 }

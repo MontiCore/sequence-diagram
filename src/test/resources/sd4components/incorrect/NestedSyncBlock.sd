@@ -1,0 +1,14 @@
+/* (c) https://github.com/MontiCore/monticore */
+package sd4components.incorrect;
+
+sequencediagram NestedSyncBlock {
+  a1:ASync;
+  a2:ASync;
+
+  Sync{
+  -> a1.pIn : 1;
+  Sync{
+  a1.pOut -> a2.pIn : 2;
+  }
+  }
+  }

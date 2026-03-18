@@ -113,7 +113,12 @@ public class SD4ComponentsToolTest extends SDAbstractTest {
       Arguments.of("WrongMessageType.sd", new String[]{"0xB5000", "0xB5001", "0xB5001", "0xB5001"}),
       Arguments.of("WrongUniqueComponent.sd", new String[]{"0xB5007"}),
       Arguments.of("WrongUniqueVariable.sd", new String[]{"0xB5007", "0xB5007", "0xFD118", "0xFD226"}),
-      Arguments.of("WrongVariableDeclarationType.sd", new String[]{"0xB5005"})
+      Arguments.of("WrongVariableDeclarationType.sd", new String[]{"0xB5005"}),
+      Arguments.of("NestedSyncBlock.sd", new String[]{"0xB500D"}),
+      Arguments.of("NonSyncOutPortInSyncBlock.sd", new String[]{"0xB5009"}),
+      Arguments.of("TickInSyncBlock.sd", new String[]{"0xB500B"}),
+      Arguments.of("MultipleSendsSamePortSyncBlock.sd", new String[]{"0xB500A"}),
+      Arguments.of("MultipleSyncSamePortTick.sd", new String[]{"0xB500C"})
     );
   }
 

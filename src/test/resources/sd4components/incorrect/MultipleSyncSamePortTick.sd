@@ -1,0 +1,19 @@
+/* (c) https://github.com/MontiCore/monticore */
+package sd4components.incorrect;
+
+<<complete>> sequencediagram MultipleSyncSamePortTick {
+  a1:ASync;
+  a2:ASync;
+  a3:ASync;
+  a4:ASync;
+
+  a1.pOut -> a2.pIn : 2;
+
+  Tick;
+
+  a2.pOut -> a3.pIn : 5;
+  a2.pOut -> a4.pIn : 7;
+
+  Tick;
+
+}

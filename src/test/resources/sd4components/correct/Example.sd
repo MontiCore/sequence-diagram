@@ -4,7 +4,9 @@ package sd4components.correct;
 sequencediagram Example {
 
   a:A;
+  a1:A;
   b:B;
+  b1:B;
   c1:C;
   c2:C;
   c; // No type
@@ -15,6 +17,11 @@ sequencediagram Example {
   a.pOut -> b.pIn : ...;
   a.pOut -> c1.pIn : m + 2;
   c1.pOut -> c2.pOut : 4;
+
+  Tick;
+
+  Sync{
+  }
 
   assert c2.pOut == 4;
 }
