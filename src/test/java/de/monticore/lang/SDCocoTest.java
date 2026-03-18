@@ -25,9 +25,8 @@ import java.util.List;
 import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.fail;
-
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public abstract class SDCocoTest extends SDAbstractTest {
 
@@ -108,13 +107,13 @@ public abstract class SDCocoTest extends SDAbstractTest {
     ASTSDArtifact sd = loadModel(CORRECT_PATH + model);
     checker.checkAll(sd);
     String msgs = Log.getFindings().stream().map(Finding::getMsg).collect(Collectors.joining(System.lineSeparator()));
-    assertEquals(msgs, 0, Log.getErrorCount());
-    assertEquals(msgs, 0,
+    assertEquals(0, Log.getErrorCount(), msgs);
+    assertEquals(0,
       Log.getFindings()
          .stream()
          .map(Finding::buildMsg)
          .filter(f -> getErrorCodeOfCocoUnderTest().stream().anyMatch(f::contains))
-         .count());
+         .count(), msgs);
   }
 
   public ASTSDArtifact loadModel(String modelPath) {

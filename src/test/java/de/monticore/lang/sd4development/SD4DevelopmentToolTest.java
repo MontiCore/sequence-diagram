@@ -12,7 +12,6 @@ import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,6 @@ import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SD4DevelopmentToolTest {
@@ -326,10 +324,10 @@ public class SD4DevelopmentToolTest {
   }
 
   protected void assertErrorCount(int expectedAmountOfErrors) {
-    Assert.assertEquals(Log.getFindings().stream()
-        .map(Finding::buildMsg)
-        .collect(Collectors.joining(System.lineSeparator())),
-      expectedAmountOfErrors, Log.getErrorCount()
+    assertEquals(expectedAmountOfErrors, Log.getErrorCount(),
+        Log.getFindings().stream()
+            .map(Finding::buildMsg)
+            .collect(Collectors.joining(System.lineSeparator()))
     );
   }
 

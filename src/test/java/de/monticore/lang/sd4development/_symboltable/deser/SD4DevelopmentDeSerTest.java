@@ -31,7 +31,7 @@ import java.util.NoSuchElementException;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SD4DevelopmentDeSerTest {
 
@@ -70,7 +70,7 @@ public class SD4DevelopmentDeSerTest {
     String serializedSD = symbols2Json.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
 
     // then
-    assertTrue(serializedSD.length() > 0);
+    assertFalse(serializedSD.isEmpty());
     symbols2Json.deserialize(serializedSD); // test if JSON is valid
   }
 
@@ -84,7 +84,7 @@ public class SD4DevelopmentDeSerTest {
     String serializedSD = symbols2Json.serialize((SD4DevelopmentArtifactScope) ast.getEnclosingScope());
 
     // then
-    assertTrue(serializedSD.length() > 0);
+    assertFalse(serializedSD.isEmpty());
     symbols2Json.deserialize(serializedSD); // test if JSON is valid
   }
 

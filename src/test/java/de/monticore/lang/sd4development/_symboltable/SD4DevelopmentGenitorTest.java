@@ -21,7 +21,7 @@ import java.nio.file.Paths;
 import java.util.NoSuchElementException;
 import java.util.Optional;
 
-import static org.junit.Assert.*;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class SD4DevelopmentGenitorTest {
 
