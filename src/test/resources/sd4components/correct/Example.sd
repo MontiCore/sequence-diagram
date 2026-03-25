@@ -20,7 +20,7 @@ sequencediagram Example {
 
   Tick;
 
-  Sync{
+  Tick{
   }
 
   assert c2.pOut == 4;

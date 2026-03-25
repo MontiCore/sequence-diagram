@@ -89,15 +89,9 @@ grammar SD4Components extends
     "let" MCType Name "=" assignment:Expression ";";
 
   /*
-   * Sync block that enforces simultaneous execution of messages.
-   * This block should not allow event-based messages within it.
-   */
-  SDSyncBlock implements SDElement =
-    "Sync" "{" SDElement* "}";
-
-  /*
-   * Tick definition to model the occurence of ticks.
+   * Tick definition to model the occurrence of ticks and tick blocks.
+   * Tick blocks should not include event-based messages.
    */
   SDTick implements SDElement =
-    key("Tick") ";";
+    key("Tick") (";" | "{" SDSendMessage* "}");
 }

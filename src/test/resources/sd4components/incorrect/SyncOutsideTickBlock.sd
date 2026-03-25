@@ -1,14 +1,13 @@
 /* (c) https://github.com/MontiCore/monticore */
 package sd4components.incorrect;
 
-sequencediagram NestedSyncBlock {
+sequencediagram SyncOutsideTickBlock {
   a1:ASync;
   a2:ASync;
 
-  Sync{
-  -> a1.pIn : 1;
-  Sync{
-  a1.pOut -> a2.pIn : 2;
-  }
-  }
-  }
+  Tick{}
+
+  a1.pOut -> a2.pIn : 5;
+
+
+}

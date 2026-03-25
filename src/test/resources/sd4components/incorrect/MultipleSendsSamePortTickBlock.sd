@@ -1,12 +1,12 @@
 /* (c) https://github.com/MontiCore/monticore */
 package sd4components.incorrect;
 
-sequencediagram MultipleSendsSamePortSyncBlock {
+sequencediagram MultipleSendsSamePortTickBlock {
   a1:ASync;
   a2:ASync;
   a3:ASync;
 
-  Sync{
+  Tick{
   a1.pOut -> a2.pIn : 2;
   a1.pOut -> a3.pIn : 5;
   }

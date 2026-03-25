@@ -2,25 +2,25 @@
 package de.monticore.lang.sd4components._cocos;
 
 import de.monticore.lang.sd4components.SD4ComponentsMill;
-import de.monticore.lang.sd4components._ast.ASTSDSyncBlock;
+import de.monticore.lang.sd4components._ast.ASTSDTick;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.se_rwth.commons.logging.Log;
 import java.util.List;
 import java.util.ArrayList;
 
 /**
- * CoCo: inside sync blocks outgoing ports must send only once.
+ * CoCo: inside tick blocks outgoing ports must send only once.
  */
-public class SyncPortSendsOnceCoCo implements SD4ComponentsASTSDSyncBlockCoCo {
+public class SyncPortSendsOnceCoCo implements SD4ComponentsASTSDTickCoCo {
 
   public static final String MESSAGE_ERROR = "0xB500A: "
-    + "Port sends multiple times in sync block";
+    + "Port sends multiple times in tick block";
 
   @Override
-  public void check(ASTSDSyncBlock node) {
+  public void check(ASTSDTick node) {
     List<String> traversed = new ArrayList<>();
     //get messages
-    for (ASTSDSendMessage message : node.streamSDElements()
+    for (ASTSDSendMessage message : node.streamSDSendMessages()
       .filter(SD4ComponentsMill.typeDispatcher()::isSDBasisASTSDSendMessage)
       .map(SD4ComponentsMill.typeDispatcher()::asSDBasisASTSDSendMessage)
       .toList()) {
