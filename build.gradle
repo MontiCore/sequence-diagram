@@ -5,7 +5,7 @@ plugins {
   id "java"
   id "de.monticore.generator" version "$mc_version"
   id "maven-publish"
-  id "com.github.johnrengelman.shadow" version "$shadow_plugin_version"
+  id "com.gradleup.shadow" version "$shadow_plugin_version"
   id 'org.ec4j.editorconfig' version "0.0.3"
 }
 
@@ -26,8 +26,8 @@ dependencies {
   //implementation "com.google.guava:guava:23.0"
 
   implementation "org.antlr:antlr4-runtime:4.12.0"
-  implementation "de.monticore:monticore-runtime:${project.properties['mc_version']}"
-  implementation "de.monticore:monticore-grammar:${project.properties['mc_version']}"
+  implementation "de.monticore:monticore-runtime:$mc_version"
+  implementation "de.monticore:monticore-grammar:$mc_version"
   implementation ("de.monticore:monticore-grammar:$mc_version") {capabilities {
     requireCapability("$group:monticore-grammar-grammars") }
   }
@@ -37,17 +37,17 @@ dependencies {
   grammar ("de.monticore:monticore-grammar:$mc_version")
   grammar ("de.monticore.lang:ocl:$mc_version")
   implementation "de.monticore.lang:ocl:$mc_version"
-  implementation "commons-cli:commons-cli:1.4"
+  implementation "commons-cli:commons-cli:$commons_cli_version"
 
   // libraries for sd diff
   implementation("de.se_rwth:automata-library:1.4-SNAPSHOT") {
     exclude group: "com.google.guava", module: "guava"
   }
 
-  testImplementation "org.junit.jupiter:junit-jupiter-api:5.6.2"
-  testImplementation "org.junit.jupiter:junit-jupiter-engine:5.6.2"
-  testImplementation "org.junit.jupiter:junit-jupiter-params:5.6.2"
-  testImplementation "org.junit.vintage:junit-vintage-engine:5.6.2"
+  testImplementation "org.junit.jupiter:junit-jupiter-api:$junit_version"
+  testImplementation "org.junit.jupiter:junit-jupiter-params:$junit_version"
+  testImplementation "org.junit.jupiter:junit-jupiter-engine:$junit_version"
+  testRuntimeOnly "org.junit.platform:junit-platform-launcher:$junit_version"
 }
 
 repositories {

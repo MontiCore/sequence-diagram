@@ -12,7 +12,6 @@ import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
 import de.se_rwth.commons.logging.Finding;
 import de.se_rwth.commons.logging.Log;
 import de.se_rwth.commons.logging.LogStub;
-import org.junit.Assert;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -25,7 +24,6 @@ import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.stream.Collectors;
 
-import static org.junit.Assert.assertNotNull;
 import static org.junit.jupiter.api.Assertions.*;
 
 public class SD4DevelopmentToolTest {
@@ -251,7 +249,7 @@ public class SD4DevelopmentToolTest {
   public void testSemDiffRefinement() {
     Log.clearFindings();
 
-    SD4DevelopmentTool.main(new String[] {
+    new SD4DevelopmentTool().run(new String[] {
       "-i",
       "src/test/resources/sddiff/rob1.sd",
       "src/test/resources/sddiff/rob2.sd",
@@ -267,7 +265,7 @@ public class SD4DevelopmentToolTest {
   public void testSemDiffNoRefinement() {
     Log.clearFindings();
 
-    SD4DevelopmentTool.main(new String[] {
+    new SD4DevelopmentTool().run(new String[] {
       "-i",
       "src/test/resources/sddiff/rob2.sd",
       "src/test/resources/sddiff/rob1.sd",
@@ -283,7 +281,7 @@ public class SD4DevelopmentToolTest {
   public void testPrettyPrint() {
     Log.clearFindings();
 
-    SD4DevelopmentTool.main(new String[] {
+    new SD4DevelopmentTool().run(new String[] {
       "-i",
       "src/test/resources/sddiff/rob1.sd",
       "-pp"
@@ -299,7 +297,7 @@ public class SD4DevelopmentToolTest {
     Log.clearFindings();
     Log.initWARN();
 
-    SD4DevelopmentTool.main(new String[] {
+    new SD4DevelopmentTool().run(new String[] {
       "-i",
       "src/test/resources/examples/ast/Bid1.sd"
     });
@@ -314,7 +312,7 @@ public class SD4DevelopmentToolTest {
     SD4DevelopmentMill.reset();
     SD4DevelopmentMill.init();
 
-    SD4DevelopmentTool.main(new String[] {
+    new SD4DevelopmentTool().run(new String[] {
       "-i",
       "src/test/resources/examples/ast/Bid1.sd",
       "-c"
@@ -326,10 +324,10 @@ public class SD4DevelopmentToolTest {
   }
 
   protected void assertErrorCount(int expectedAmountOfErrors) {
-    Assert.assertEquals(Log.getFindings().stream()
-        .map(Finding::buildMsg)
-        .collect(Collectors.joining(System.lineSeparator())),
-      expectedAmountOfErrors, Log.getErrorCount()
+    assertEquals(expectedAmountOfErrors, Log.getErrorCount(),
+        Log.getFindings().stream()
+            .map(Finding::buildMsg)
+            .collect(Collectors.joining(System.lineSeparator()))
     );
   }
 

@@ -128,7 +128,7 @@ public class SD4ComponentsToolTest extends SDAbstractTest {
 
   @Test
   public void testParse() {
-    SD4ComponentsTool.main(new String[]{"-c", "-i", CORRECT_PATH, "-path", SYMBOL_PATH});
+    new SD4ComponentsTool().run(new String[]{"-c", "-i", CORRECT_PATH, "-path", SYMBOL_PATH});
     String printed = out.toString().trim();
     Assertions.assertNotNull(printed);
     checkOnlyExpectedErrorsPresent();

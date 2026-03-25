@@ -19,8 +19,8 @@ import java.io.PrintStream;
 import java.io.StringReader;
 import java.util.NoSuchElementException;
 
-import static org.junit.Assert.assertTrue;
-import static org.junit.Assert.fail;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.api.Assertions.fail;
 
 public class SD4DevelopmentDelegatorPrettyPrinterTest {
 
