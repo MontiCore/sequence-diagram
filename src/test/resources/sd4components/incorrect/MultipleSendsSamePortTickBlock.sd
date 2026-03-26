@@ -8,6 +8,6 @@ sequencediagram MultipleSendsSamePortTickBlock {
 
   Tick{
   a1.pOut -> a2.pIn : 2;
-  a1.pOut -> a3.pIn : 5;
+  a3.pOut -> a2.pIn : 5;
   }
 }

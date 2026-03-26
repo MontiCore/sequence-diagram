@@ -158,6 +158,4 @@ component grammar SDBasis extends
    * The brackets do not open a new scope.
    */
   SDActivityBar = "{" SDElement* "}";
-
-
 }

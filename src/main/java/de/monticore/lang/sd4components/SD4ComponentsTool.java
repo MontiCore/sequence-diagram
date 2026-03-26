@@ -159,7 +159,7 @@ public class SD4ComponentsTool extends SD4ComponentsToolTOP {
     checker.addCoCo(new TriggerMessageRequiresTargetCoCo());
     checker.addCoCo(new SyncOnlyInTickBlockCoCo());
     checker.addCoCo(new TickBlockOnlySyncOutPortsCoCo());
-    checker.addCoCo(new SyncPortSendsOnceCoCo());
+    checker.addCoCo(new SyncPortsReceiveOnlyOnceCoCo());
 
     checker.addCoCo(new ConditionBooleanCoCo());
     checker.addCoCo(new VariableDeclarationTypesFitCoCo());

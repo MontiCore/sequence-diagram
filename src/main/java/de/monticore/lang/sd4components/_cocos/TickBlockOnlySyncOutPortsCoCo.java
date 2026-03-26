@@ -7,7 +7,6 @@ import de.monticore.lang.sd4components._ast.ASTSDTick;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.symbols.compsymbols._symboltable.PortSymbol;
 import de.se_rwth.commons.logging.Log;
-import java.util.stream.Collectors;
 
 /**
  * CoCo: inside tick blocks outgoing ports must be time-synchronous.
