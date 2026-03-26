@@ -26,7 +26,8 @@ public class SyncPortSendsOnceCoCo implements SD4ComponentsASTSDTickCoCo {
       .toList()) {
       if (message.isPresentSDSource() && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(message.getSDSource())
       ) {
-        String sourcePort = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(message.getSDSource()).getName();
+        String sourcePort = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(message.getSDSource()).getName()
+          + "." + SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(message.getSDSource()).getPort();
         if (!traversed.contains(sourcePort)){
             traversed.add(sourcePort);
           }else{

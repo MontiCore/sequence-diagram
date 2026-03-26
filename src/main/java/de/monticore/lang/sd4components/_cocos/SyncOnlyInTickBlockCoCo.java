@@ -24,7 +24,7 @@ public class SyncOnlyInTickBlockCoCo implements SDBasisASTSequenceDiagramCoCo {
     if (!node.getSDElementList().isEmpty()) {
       for (int i = 0; i < node.getSDElementList().size(); i++) {
         if ((!SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDTick(node.getSDElement(i))) && checkIfSyncMessage(node.getSDElement(i))) {
-          Log.error(MESSAGE_ERROR, node.get_SourcePositionStart(), node.get_SourcePositionEnd());
+          Log.error(MESSAGE_ERROR, node.getSDElement(i).get_SourcePositionStart(), node.getSDElement(i).get_SourcePositionEnd());
         }
       }
     }

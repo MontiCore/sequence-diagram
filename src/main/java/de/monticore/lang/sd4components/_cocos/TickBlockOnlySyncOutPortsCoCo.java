@@ -29,7 +29,7 @@ public class TickBlockOnlySyncOutPortsCoCo implements SD4ComponentsASTSDTickCoCo
           return;
         } else {
           PortSymbol source = sourcePort.getPortSymbol();
-          if (!source.getTiming().getName().matches("sync")) {
+          if (!"sync".equals(source.getTiming().getName())) {
             Log.error(MESSAGE_ERROR, node.get_SourcePositionStart(), node.get_SourcePositionEnd());
           }
         }
