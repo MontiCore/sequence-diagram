@@ -7,6 +7,7 @@ import de.monticore.lang.sdbasis._ast.ASTSDElement;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._ast.ASTSequenceDiagram;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSequenceDiagramCoCo;
+import de.monticore.symbols.compsymbols._symboltable.Timing;
 import de.se_rwth.commons.logging.Log;
 import de.monticore.lang.sd4components.SD4ComponentsMill;
 
@@ -41,7 +42,7 @@ public class SyncOnlyInTickBlockCoCo implements SDBasisASTSequenceDiagramCoCo {
           && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(m.getSDSource())) {
         ASTSDPort source = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(m.getSDSource());
         if (source.isPresentPortSymbol()) {
-          return source.getPortSymbol().getTiming().getName().equals("sync");
+          return source.getPortSymbol().getTiming().matches(Timing.TIMED_SYNC);
         }
       }
     }
