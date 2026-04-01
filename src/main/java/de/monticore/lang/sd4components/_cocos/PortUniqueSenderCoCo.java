@@ -11,6 +11,7 @@ import de.se_rwth.commons.logging.Log;
 import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Implements [Hab16] R1: Each outgoing port of a component type definition is
@@ -27,8 +28,13 @@ public class PortUniqueSenderCoCo implements SDBasisASTSDBodyCoCo {
   public void check(ASTSDBody node) {
     Map<String, String> targetSource = new LinkedHashMap<>();
     for (ASTSDSendMessage connector : node.streamSDElements()
-      .filter(SD4ComponentsMill.typeDispatcher()::isSDBasisASTSDSendMessage)
-      .map(SD4ComponentsMill.typeDispatcher()::asSDBasisASTSDSendMessage)
+      .flatMap(e -> {
+        if (SD4ComponentsMill.typeDispatcher().isSDBasisASTSDSendMessage(e))
+          return Stream.of(SD4ComponentsMill.typeDispatcher().asSDBasisASTSDSendMessage(e));
+        if (SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDTick(e))
+          return SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDTick(e).streamSDSendMessages();
+        return Stream.empty();
+      })
       .collect(Collectors.toList())) {
       if (connector.isPresentSDTarget()
         && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(connector.getSDTarget())) {

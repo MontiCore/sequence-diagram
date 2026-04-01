@@ -87,4 +87,11 @@ grammar SD4Components extends
    */
   SDVariableDeclaration implements SDElement, Variable =
     "let" MCType Name "=" assignment:Expression ";";
+
+  /*
+   * Tick definition to model the occurrence of ticks and tick blocks.
+   * Tick blocks should not include event-based messages.
+   */
+  SDTick implements SDElement =
+    key("Tick") (";" | "{" SDSendMessage* "}");
 }

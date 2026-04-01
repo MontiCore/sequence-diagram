@@ -1,0 +1,16 @@
+/* (c) https://github.com/MontiCore/monticore */
+package sd4components.incorrect;
+
+sequencediagram MultipleSendersTickBlocks {
+  a1:ASync;
+  a2:ASync;
+  a3:ASync;
+
+  Tick{
+    a1.pOut -> a2.pIn : 1;
+  }
+
+  Tick{
+    a3.pOut -> a2.pIn : 2;
+  }
+}

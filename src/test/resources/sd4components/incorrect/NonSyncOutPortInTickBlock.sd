@@ -1,0 +1,11 @@
+/* (c) https://github.com/MontiCore/monticore */
+package sd4components.incorrect;
+
+sequencediagram NonSyncOutPortInTickBlock {
+  b1:B;
+  b2:B;
+
+  Tick{
+    b1.pOut -> b2.pIn : 2;
+  }
+}

@@ -1,3 +1,4 @@
+/* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4components._cocos;
 
 import de.monticore.lang.sd4components.SD4ComponentsMill;
@@ -11,6 +12,7 @@ import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 /**
  * Trigger messages can only be sent to ports that are not connected to other ports.
@@ -23,11 +25,17 @@ public class TriggerMessageOnlyToUnconnectedPortsCoCo implements SDBasisASTSeque
   @Override
   public void check(ASTSequenceDiagram node) {
     List<ASTSDPort> targets = node.getSDBody().streamSDElements()
-      .filter(e -> SD4ComponentsMill.typeDispatcher().isSDBasisASTSDSendMessage(e))
-      .filter(e -> SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDMessage(SD4ComponentsMill.typeDispatcher().asSDBasisASTSDSendMessage(e).getSDAction()))
-      .filter(e -> SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDMessage(SD4ComponentsMill.typeDispatcher().asSDBasisASTSDSendMessage(e).getSDAction()).isTrigger())
-      .filter(e -> SD4ComponentsMill.typeDispatcher().asSDBasisASTSDSendMessage(e).isPresentSDTarget())
-      .map(e -> SD4ComponentsMill.typeDispatcher().asSDBasisASTSDSendMessage(e).getSDTarget())
+      .flatMap(e -> {
+        if (SD4ComponentsMill.typeDispatcher().isSDBasisASTSDSendMessage(e))
+          return Stream.of(SD4ComponentsMill.typeDispatcher().asSDBasisASTSDSendMessage(e));
+        if (SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDTick(e))
+          return SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDTick(e).streamSDSendMessages();
+        return Stream.empty();
+      })
+      .filter(e -> SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDMessage(e.getSDAction()))
+      .filter(e -> SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDMessage(e.getSDAction()).isTrigger())
+      .filter(ASTSDSendMessage::isPresentSDTarget)
+      .map(ASTSDSendMessage::getSDTarget)
       .filter(e -> SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(e))
       .map(e -> SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(e))
       .collect(Collectors.toList());
@@ -44,8 +52,13 @@ public class TriggerMessageOnlyToUnconnectedPortsCoCo implements SDBasisASTSeque
   protected Set<String> getConnectedPorts(ASTSequenceDiagram node) {
     Set<String> targets = new LinkedHashSet<>();
     for (ASTSDSendMessage connector : node.getSDBody().streamSDElements()
-      .filter(SD4ComponentsMill.typeDispatcher()::isSDBasisASTSDSendMessage)
-      .map(SD4ComponentsMill.typeDispatcher()::asSDBasisASTSDSendMessage)
+      .flatMap(e -> {
+        if (SD4ComponentsMill.typeDispatcher().isSDBasisASTSDSendMessage(e))
+          return Stream.of(SD4ComponentsMill.typeDispatcher().asSDBasisASTSDSendMessage(e));
+        if (SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDTick(e))
+          return SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDTick(e).streamSDSendMessages();
+        return Stream.empty();
+      })
       .collect(Collectors.toList())) {
       if (connector.isPresentSDTarget()
         && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(connector.getSDTarget())
