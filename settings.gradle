@@ -6,9 +6,9 @@ pluginManagement {
     }
     mavenCentral()
     maven {
-      credentials.username mavenUser
-      credentials.password mavenPassword
-      url repo
+      credentials.username = mavenUser
+      credentials.password = mavenPassword
+      url = repo
     }
     gradlePluginPortal()
   }
@@ -18,4 +18,3 @@ plugins {
 }
 
 rootProject.name = 'sd-language'
-include(':gentest')

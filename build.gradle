@@ -55,9 +55,9 @@ repositories {
     mavenLocal()
   }
   maven {
-    credentials.username mavenUser
-    credentials.password mavenPassword
-    url repo
+    credentials.username = mavenUser
+    credentials.password = mavenPassword
+    url = repo
   }
 }
 
@@ -75,13 +75,13 @@ test {
   }
 }
 
-tasks.withType(JavaCompile) {
+tasks.withType(JavaCompile).configureEach {
   options.encoding = "UTF-8"
 }
 
 
 // generated java doc contains errors, disable for now
-javadoc.failOnError(false)
+javadoc.failOnError = false
 
 shadowJar {
   archiveFileName = 'MCSD4Development.jar'
@@ -93,8 +93,8 @@ shadowJar {
 
 jar.dependsOn(shadowJar)
 
-task testReport(type: TestReport) {
-  destinationDir = file("$buildDir/reports/allTests")
+tasks.register('testReport', TestReport) {
+  destinationDirectory = layout.buildDirectory.dir("reports/allTests")
   // Include the results from the 'test' task
   reportOn tasks.withType(Test)
 }
@@ -109,8 +109,8 @@ publishing {
     }
   }
   repositories.maven {
-    credentials.username mavenUser
-    credentials.password mavenPassword
+    credentials.username = mavenUser
+    credentials.password = mavenPassword
     def releasesRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-releases/"
     def snapshotsRepoUrl = "https://nexus.se.rwth-aachen.de/content/repositories/monticore-snapshots/"
     url = version.endsWith("SNAPSHOT") ? snapshotsRepoUrl : releasesRepoUrl
