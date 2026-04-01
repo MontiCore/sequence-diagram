@@ -6,6 +6,7 @@ import de.monticore.lang.sd4components._ast.ASTSDPort;
 import de.monticore.lang.sd4components._ast.ASTSDTick;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.symbols.compsymbols._symboltable.PortSymbol;
+import de.monticore.symbols.compsymbols._symboltable.Timing;
 import de.se_rwth.commons.logging.Log;
 
 /**
@@ -28,7 +29,7 @@ public class TickBlockOnlySyncOutPortsCoCo implements SD4ComponentsASTSDTickCoCo
           return;
         } else {
           PortSymbol source = sourcePort.getPortSymbol();
-          if (!"sync".equals(source.getTiming().getName())) {
+          if (!source.getTiming().matches(Timing.TIMED_SYNC)) {
             Log.error(MESSAGE_ERROR, node.get_SourcePositionStart(), node.get_SourcePositionEnd());
           }
         }

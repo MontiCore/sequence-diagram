@@ -6,6 +6,6 @@ sequencediagram NonSyncOutPortInTickBlock {
   b2:B;
 
   Tick{
-  b1.pOut -> b2.pIn : 2;
+    b1.pOut -> b2.pIn : 2;
   }
-  }
+}
