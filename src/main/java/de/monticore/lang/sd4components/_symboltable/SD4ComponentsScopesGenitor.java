@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4components._symboltable;
 
+import com.google.common.base.Preconditions;
 import de.monticore.lang.sd4components.SD4ComponentsMill;
 import de.monticore.lang.sd4components._ast.ASTSDComponent;
 import de.monticore.lang.sd4components._ast.ASTSDPort;
@@ -39,7 +40,7 @@ public class SD4ComponentsScopesGenitor extends SD4ComponentsScopesGenitorTOP {
 
   @Override
   public ISD4ComponentsArtifactScope createFromAST(ASTSDArtifact rootNode) {
-    Log.errorIfNull(rootNode, "0xA7004x34638 Error by creating of the SD4ComponentsScopesGenitor symbol table: top ast node is null");
+    Preconditions.checkNotNull(rootNode, "0xA7004x34638 Error by creating of the SD4ComponentsScopesGenitor symbol table: top ast node is null");
 
     String packageDeclaration = rootNode.isPresentPackageDeclaration() ? rootNode.getPackageDeclaration().getQName() : "";
     List<ImportStatement> imports = new ArrayList<>();
