@@ -70,9 +70,12 @@ test {
   }
 
   // listen to standard out and standard error of the test JVM(s)
-  onOutput { descriptor, event ->
-    logger.lifecycle("Test: " + descriptor + " produced standard out/err: " + event.message)
-  }
+  addTestOutputListener(new TestOutputListener() {
+    @Override
+    void onOutput(TestDescriptor testDescriptor, TestOutputEvent outputEvent) {
+      logger.lifecycle("Test: " + testDescriptor.getName() + " produced standard out/err: " + outputEvent.getMessage())
+    }
+  })
 }
 
 tasks.withType(JavaCompile).configureEach {
