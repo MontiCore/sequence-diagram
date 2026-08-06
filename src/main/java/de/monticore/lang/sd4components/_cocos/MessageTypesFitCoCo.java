@@ -1,7 +1,6 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4components._cocos;
 
-import de.monticore.lang.sd4components.SD4ComponentsMill;
 import de.monticore.lang.sd4components._ast.ASTSDMessage;
 import de.monticore.lang.sd4components._ast.ASTSDPort;
 import de.monticore.lang.sdbasis._ast.ASTSDAction;
@@ -30,54 +29,57 @@ public class MessageTypesFitCoCo implements SDBasisASTSDSendMessageCoCo {
   public void check(ASTSDSendMessage node) {
     // Collect types
     Optional<SymTypeExpression> targetType = Optional.empty();
-    if (node.isPresentSDTarget() && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(node.getSDTarget())) {
-      ASTSDPort target = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(node.getSDTarget());
-      if (target.isPresentNameSymbol() && target.getNameSymbol().isTypePresent()) {
-        targetType = target.getNameSymbol().getType().getTypeOfPort(target.getPort());
+    if (node.isPresentSDTarget() && node.getSDTarget() instanceof ASTSDPort targetPort) {
+      if (targetPort.isPresentNameSymbol() && targetPort.getNameSymbol().isTypePresent()) {
+        targetType = targetPort.getNameSymbol().getType().getTypeOfPort(targetPort.getPort());
       }
     }
 
     Optional<SymTypeExpression> sourceType = Optional.empty();
-    if (node.isPresentSDSource() && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(node.getSDSource())
-    ) {
-      ASTSDPort source = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(node.getSDSource());
-      if (source.isPresentNameSymbol() && source.getNameSymbol().isTypePresent()) {
-        sourceType = source.getNameSymbol().getType().getTypeOfPort(source.getPort());
+    if (node.isPresentSDSource() && node.getSDSource() instanceof ASTSDPort sourcePort) {
+      if (sourcePort.isPresentNameSymbol() && sourcePort.getNameSymbol().isTypePresent()) {
+        sourceType = sourcePort.getNameSymbol().getType().getTypeOfPort(sourcePort.getPort());
       }
     }
 
     // Check source and target fit each other and actions fits source or target
     if (sourceType.isPresent() && targetType.isPresent()) {
       if (!SymTypeRelations.isCompatible(sourceType.get(), targetType.get())) {
-        Log.error(String.format("0xB5000: Type mismatch, expected '%s' but provided '%s'", targetType.get().print(), sourceType.get().print()),
-          node.get_SourcePositionStart(),
-          node.get_SourcePositionEnd());
+        Log.error(String.format("0xB5000: Type mismatch, expected '%s' but provided '%s'",
+                targetType.get().print(), sourceType.get().print()), node.get_SourcePositionStart(),
+            node.get_SourcePositionEnd());
       }
       checkMessageFits(node.getSDAction(), sourceType.get());
-    } else if (sourceType.isPresent()) {
+    }
+    else if (sourceType.isPresent()) {
       checkMessageFits(node.getSDAction(), sourceType.get());
-    } else if (targetType.isPresent()) {
+    }
+    else if (targetType.isPresent()) {
       checkMessageFits(node.getSDAction(), targetType.get());
-    } else {
+    }
+    else {
       Log.warn("Skipping CoCo MessageTypesFitCoCo");
     }
   }
-
+  
   private void checkMessageFits(ASTSDAction sdAction, SymTypeExpression target) {
-    if (!SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDMessage(sdAction))
-      return;
-    ASTSDMessage callAction = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDMessage(sdAction);
-    try {
-      SymTypeExpression result = TypeCheck3.typeOf(callAction.getExpression(), target);
-      if (result.isObscureType()) {
-        return;
+    if (sdAction instanceof ASTSDMessage callAction) {
+      try {
+        SymTypeExpression result = TypeCheck3.typeOf(callAction.getExpression(), target);
+        if (result.isObscureType()) {
+          return;
+        }
+        
+        if (!SymTypeRelations.isCompatible(target, result)) {
+          Log.error(String.format("0xB5001: Type mismatch, expected '%s' but provided '%s'",
+                  target.printFullName(), result.printFullName()), sdAction.get_SourcePositionStart(),
+              sdAction.get_SourcePositionEnd());
+        }
       }
-
-      if (!SymTypeRelations.isCompatible(target, result)) {
-        Log.error(String.format("0xB5001: Type mismatch, expected '%s' but provided '%s'", target.printFullName(), result.printFullName()), sdAction.get_SourcePositionStart(), sdAction.get_SourcePositionEnd());
+      catch (ResolvedSeveralEntriesForSymbolException ignored) {
+        Log.debug("Skipped CoCo MessageTypesFitCoCo: ResolvedSeveralEntriesForSymbolException",
+            sdAction.get_SourcePositionStart(), "MessageTypesFitCoCo");
       }
-    } catch (ResolvedSeveralEntriesForSymbolException ignored) {
-      Log.debug("Skipped CoCo MessageTypesFitCoCo: ResolvedSeveralEntriesForSymbolException", sdAction.get_SourcePositionStart(), "MessageTypesFitCoCo");
     }
   }
 }

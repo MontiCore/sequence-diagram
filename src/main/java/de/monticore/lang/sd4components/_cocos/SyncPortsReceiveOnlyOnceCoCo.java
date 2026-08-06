@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4components._cocos;
 
-import de.monticore.lang.sd4components.SD4ComponentsMill;
+import de.monticore.lang.sd4components._ast.ASTSDPort;
 import de.monticore.lang.sd4components._ast.ASTSDTick;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.se_rwth.commons.logging.Log;
@@ -20,15 +20,12 @@ public class SyncPortsReceiveOnlyOnceCoCo implements SD4ComponentsASTSDTickCoCo 
   public void check(ASTSDTick node) {
     List<String> traversed = new ArrayList<>();
     for (ASTSDSendMessage message : node.streamSDSendMessages().toList()) {
-      if (message.isPresentSDTarget()
-          && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(message.getSDTarget())) {
-        String targetPort = SD4ComponentsMill.typeDispatcher()
-            .asSD4ComponentsASTSDPort(message.getSDTarget()).getName()
-            + "." + SD4ComponentsMill.typeDispatcher()
-            .asSD4ComponentsASTSDPort(message.getSDTarget()).getPort();
-        if (!traversed.contains(targetPort)) {
-          traversed.add(targetPort);
-        } else {
+      if (message.isPresentSDTarget() && message.getSDTarget() instanceof ASTSDPort targetPort) {
+        String targetPortName = targetPort.getName() + "." + targetPort.getPort();
+        if (!traversed.contains(targetPortName)) {
+          traversed.add(targetPortName);
+        }
+        else {
           Log.error(MESSAGE_ERROR, node.get_SourcePositionStart(), node.get_SourcePositionEnd());
         }
       }

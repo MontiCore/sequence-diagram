@@ -1,16 +1,16 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4components._cocos;
 
-import de.monticore.lang.sd4components.SD4ComponentsMill;
 import de.monticore.lang.sd4components._ast.ASTSDPort;
+import de.monticore.lang.sd4components._ast.ASTSDTick;
 import de.monticore.lang.sdbasis._ast.ASTSDBody;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDBodyCoCo;
 import de.se_rwth.commons.logging.Log;
 
 import java.util.LinkedHashMap;
+import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 /**
@@ -23,32 +23,34 @@ public class PortUniqueSenderCoCo implements SDBasisASTSDBodyCoCo {
 
   public static final String MESSAGE_ERROR = "0xB5003: "
     + "Port '%s' is target of multiple connectors";
-
+  
   @Override
   public void check(ASTSDBody node) {
     Map<String, String> targetSource = new LinkedHashMap<>();
-    for (ASTSDSendMessage connector : node.streamSDElements()
-      .flatMap(e -> {
-        if (SD4ComponentsMill.typeDispatcher().isSDBasisASTSDSendMessage(e))
-          return Stream.of(SD4ComponentsMill.typeDispatcher().asSDBasisASTSDSendMessage(e));
-        if (SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDTick(e))
-          return SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDTick(e).streamSDSendMessages();
-        return Stream.empty();
-      })
-      .collect(Collectors.toList())) {
-      if (connector.isPresentSDTarget()
-        && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(connector.getSDTarget())) {
+    List<ASTSDSendMessage> connectors = node.streamSDElements().flatMap(e -> {
+      if (e instanceof ASTSDSendMessage astsdSendMessage) {
+        return Stream.of(astsdSendMessage);
+      }
+      if (e instanceof ASTSDTick astsdTick) {
+        return astsdTick.streamSDSendMessages();
+      }
+      return Stream.empty();
+    }).toList();
+    
+    for (ASTSDSendMessage connector : connectors) {
+      if (connector.isPresentSDTarget() &&
+          connector.getSDTarget() instanceof ASTSDPort targetPort) {
         String source = "";
-        if (connector.isPresentSDSource()
-          && SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(connector.getSDSource())) {
-          ASTSDPort astSource = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(connector.getSDSource());
-          source = astSource.getName() + "." + astSource.getPort();
+        if (connector.isPresentSDSource() &&
+            connector.getSDSource() instanceof ASTSDPort sourcePort) {
+          source = sourcePort.getName() + "." + sourcePort.getPort();
         }
-        ASTSDPort astTarget = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(connector.getSDTarget());
-        String target = astTarget.getName() + "." + astTarget.getPort();
+        String target = targetPort.getName() + "." + targetPort.getPort();
         if (targetSource.containsKey(target) && !targetSource.get(target).equals(source)) {
-          Log.error(String.format(MESSAGE_ERROR, target), connector.get_SourcePositionStart(), connector.get_SourcePositionEnd());
-        } else if (!source.isEmpty()) {
+          Log.error(String.format(MESSAGE_ERROR, target), connector.get_SourcePositionStart(),
+              connector.get_SourcePositionEnd());
+        }
+        else if (!source.isEmpty()) {
           targetSource.put(target, source);
         }
       }

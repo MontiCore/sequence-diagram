@@ -1,7 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4components._cocos;
 
-import de.monticore.lang.sd4components.SD4ComponentsMill;
+import de.monticore.lang.sd4components._ast.ASTSDPort;
 import de.monticore.lang.sdbasis._ast.ASTSDSendMessage;
 import de.monticore.lang.sdbasis._cocos.SDBasisASTSDSendMessageCoCo;
 import de.monticore.symbols.compsymbols._symboltable.PortSymbol;
@@ -17,23 +17,21 @@ public class MessageTimingFitCoCo implements SDBasisASTSDSendMessageCoCo {
 
   @Override
   public void check(ASTSDSendMessage node) {
-    if (!node.isPresentSDTarget()
-      || !SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(node.getSDTarget())
-      || !node.isPresentSDSource()
-      || !SD4ComponentsMill.typeDispatcher().isSD4ComponentsASTSDPort(node.getSDSource()))
-      return;
-
-    if (!SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(node.getSDSource()).isPresentPortSymbol()
-      || !SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(node.getSDTarget()).isPresentPortSymbol()) {
-      Log.warn("Skipping CoCo MessageTimingFitCoCo");
+    if(!node.isPresentSDSource() || !node.isPresentSDTarget()) {
       return;
     }
-
-    PortSymbol source = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(node.getSDSource()).getPortSymbol();
-    PortSymbol target = SD4ComponentsMill.typeDispatcher().asSD4ComponentsASTSDPort(node.getSDTarget()).getPortSymbol();
-
-    if (!source.getTiming().matches(target.getTiming())) {
-      Log.error(MESSAGE_ERROR, node.get_SourcePositionStart(), node.get_SourcePositionEnd());
+    
+    if (node.getSDSource() instanceof ASTSDPort sourcePort &&
+        node.getSDTarget() instanceof ASTSDPort targetPort) {
+      if (!sourcePort.isPresentPortSymbol() || !targetPort.isPresentPortSymbol()) {
+        Log.warn("Skipping CoCo MessageTimingFitCoCo");
+        return;
+      }
+      PortSymbol source = sourcePort.getPortSymbol();
+      PortSymbol target = targetPort.getPortSymbol();
+      if (!source.getTiming().matches(target.getTiming())) {
+        Log.error(MESSAGE_ERROR, node.get_SourcePositionStart(), node.get_SourcePositionEnd());
+      }
     }
   }
 }

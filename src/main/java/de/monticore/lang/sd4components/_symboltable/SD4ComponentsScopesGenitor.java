@@ -1,6 +1,7 @@
 /* (c) https://github.com/MontiCore/monticore */
 package de.monticore.lang.sd4components._symboltable;
 
+import com.google.common.base.Preconditions;
 import de.monticore.lang.sd4components.SD4ComponentsMill;
 import de.monticore.lang.sd4components._ast.ASTSDComponent;
 import de.monticore.lang.sd4components._ast.ASTSDPort;
@@ -8,6 +9,7 @@ import de.monticore.lang.sd4components._ast.ASTSDVariableDeclaration;
 import de.monticore.lang.sd4components._ast.Expression2SubcomponentArgumentAdapter;
 import de.monticore.lang.sdbasis._ast.ASTSDArtifact;
 import de.monticore.symbols.basicsymbols._symboltable.VariableSymbol;
+import de.monticore.symbols.compsymbols._symboltable.ComponentTypeSymbol;
 import de.monticore.symbols.compsymbols._symboltable.PortSymbol;
 import de.monticore.symbols.compsymbols._symboltable.Subcomponent2VariableAdapter;
 import de.monticore.symbols.compsymbols._symboltable.SubcomponentSymbol;
@@ -39,7 +41,8 @@ public class SD4ComponentsScopesGenitor extends SD4ComponentsScopesGenitorTOP {
 
   @Override
   public ISD4ComponentsArtifactScope createFromAST(ASTSDArtifact rootNode) {
-    Log.errorIfNull(rootNode, "0xA7004x34638 Error by creating of the SD4ComponentsScopesGenitor symbol table: top ast node is null");
+    Preconditions.checkNotNull(rootNode,
+        "0xA7004x34638 Error by creating of the SD4ComponentsScopesGenitor symbol table: top ast node is null");
 
     String packageDeclaration = rootNode.isPresentPackageDeclaration() ? rootNode.getPackageDeclaration().getQName() : "";
     List<ImportStatement> imports = new ArrayList<>();
@@ -61,11 +64,13 @@ public class SD4ComponentsScopesGenitor extends SD4ComponentsScopesGenitorTOP {
 
   @Override
   public void visit(ASTSDComponent node) {
-    SubcomponentSymbol symbol = SD4ComponentsMill.subcomponentSymbolBuilder().setName(node.getName()).build();
+    SubcomponentSymbol symbol =
+        SD4ComponentsMill.subcomponentSymbolBuilder().setName(node.getName()).build();
     Subcomponent2VariableAdapter adapter = new Subcomponent2VariableAdapter(symbol);
     if (getCurrentScope().isPresent()) {
       getCurrentScope().get().add(symbol);
-    } else {
+    }
+    else {
       Log.warn("0xA5021x48901 Symbol cannot be added to current scope, since no scope exists.");
     }
 
@@ -81,19 +86,24 @@ public class SD4ComponentsScopesGenitor extends SD4ComponentsScopesGenitorTOP {
     super.endVisit(node);
     if (!node.isPresentMCObjectType()) return;
 
-    Optional<CompKindExpression> typeExpression = componentSynthesizer.synthesize(node.getMCObjectType());
+    Optional<CompKindExpression> typeExpression =
+        componentSynthesizer.synthesize(node.getMCObjectType());
     if (typeExpression.isPresent()) {
       ((Subcomponent2VariableAdapter) node.getSymbol()).getAdaptee().setType(typeExpression.get());
-      if (node.isPresentArguments())
-        typeExpression.get().addArgument(node.getArguments().getExpressionList().stream().map(Expression2SubcomponentArgumentAdapter::new).collect(Collectors.toList()));
+      if (node.isPresentArguments()) {
+        typeExpression.get().addArgument(node.getArguments().getExpressionList().stream()
+            .map(Expression2SubcomponentArgumentAdapter::new).collect(Collectors.toList()));
+      }
       typeExpression.get().bindParams();
     }
   }
 
   @Override
   public void endVisit(ASTSDPort node) {
-    if (node.isPresentNameSymbol() && node.getNameSymbol().isTypePresent() && SD4ComponentsMill.typeDispatcher().isCompSymbolsComponentType(node.getNameSymbol().getType().getTypeInfo())) {
-      Optional<PortSymbol> port = SD4ComponentsMill.typeDispatcher().asCompSymbolsComponentType(node.getNameSymbol().getType().getTypeInfo()).getPort(node.getPort());
+    if (node.isPresentNameSymbol() &&
+        node.getNameSymbol().isTypePresent() &&
+        node.getNameSymbol().getType().getTypeInfo() instanceof ComponentTypeSymbol typeSymbol) {
+      Optional<PortSymbol> port = typeSymbol.getPort(node.getPort());
       port.ifPresent(node::setPortSymbol);
     }
   }
