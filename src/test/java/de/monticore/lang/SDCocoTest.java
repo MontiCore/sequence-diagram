@@ -19,7 +19,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.nio.file.Paths;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -121,7 +120,7 @@ public abstract class SDCocoTest extends SDAbstractTest {
       ASTSDArtifact ast = parser.parse(modelPath).orElseThrow(NoSuchElementException::new);
       createSymbolTableFromAST(ast);
       return ast;
-    } catch (IOException | NoSuchElementException e) {
+    } catch (NoSuchElementException e) {
       System.err.println("Loading model: " + modelPath + " failed: " + e.getMessage());
       fail();
     }

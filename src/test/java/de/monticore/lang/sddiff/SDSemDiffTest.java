@@ -9,7 +9,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.List;
@@ -29,7 +28,7 @@ public class SDSemDiffTest {
     try {
       return parser.parse(BASE_PATH + "/" + model + ".sd").orElseThrow(NoSuchElementException::new);
     }
-    catch (IOException | NoSuchElementException e) {
+    catch (NoSuchElementException e) {
       e.printStackTrace();
     }
     System.exit(1);

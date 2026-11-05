@@ -11,7 +11,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.util.NoSuchElementException;
 import java.util.Optional;
@@ -92,7 +91,7 @@ public class SDParserTest extends SDAbstractTest {
     try {
       Optional<ASTSDArtifact> ast = parser.parse(path + model);
       assertTrue(ast.isPresent(), "Failed to parse model: " + model);
-    } catch (IOException | NoSuchElementException e) {
+    } catch (NoSuchElementException e) {
       System.err.println("Loading model: " + model + " failed: " + e.getMessage());
       fail();
     }

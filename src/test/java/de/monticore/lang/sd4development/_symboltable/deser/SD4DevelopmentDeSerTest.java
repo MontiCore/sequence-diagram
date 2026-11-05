@@ -135,7 +135,7 @@ public class SD4DevelopmentDeSerTest {
 
       return ast;
     }
-    catch (IOException | NoSuchElementException e) {
+    catch (NoSuchElementException e) {
       System.err.println("Loading model: " + modelPath + " failed: " + e.getMessage());
       fail();
     }

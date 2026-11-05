@@ -77,7 +77,7 @@ public class SD4DevelopmentDelegatorPrettyPrinterTest {
   private ASTSDArtifact testParseModel(String path, String model) {
     try {
       return parser.parse(path + model).orElseThrow(NoSuchElementException::new);
-    } catch (IOException | NoSuchElementException e) {
+    } catch (NoSuchElementException e) {
       System.err.println("Loading model: " + model + " failed: " + e.getMessage());
       fail();
     }

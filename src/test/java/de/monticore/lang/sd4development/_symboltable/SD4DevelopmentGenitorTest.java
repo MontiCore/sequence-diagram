@@ -15,7 +15,6 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.CsvSource;
 
 import java.io.ByteArrayOutputStream;
-import java.io.IOException;
 import java.io.PrintStream;
 import java.nio.file.Paths;
 import java.util.NoSuchElementException;
@@ -71,7 +70,7 @@ public class SD4DevelopmentGenitorTest {
   private ASTSDArtifact loadModel(String modelPath) {
     try {
       return parser.parse(modelPath).orElseThrow(NoSuchElementException::new);
-    } catch (IOException | NoSuchElementException e) {
+    } catch (NoSuchElementException e) {
       System.err.println("Loading model: " + modelPath + " failed: " + e.getMessage());
       fail();
     }
