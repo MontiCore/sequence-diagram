@@ -10,6 +10,7 @@ import de.monticore.types3.SymTypeRelations;
 import de.monticore.types3.Type4Ast;
 import de.monticore.types3.generics.context.InferenceContext4Ast;
 import de.monticore.types3.util.MapBasedTypeCheck3;
+import de.monticore.types3.util.PostTypeCheckNodeReplacer;
 import de.monticore.types3.util.TypeContextCalculator;
 import de.monticore.types3.util.TypeVisitorLifting;
 import de.monticore.types3.util.TypeVisitorOperatorCalculator;
@@ -31,6 +32,7 @@ public class SDBasisTypeCheck3 extends MapBasedTypeCheck3 {
     WithinTypeBasicSymbolsResolver.init();
     WithinScopeBasicSymbolsResolver.init();
     TypeContextCalculator.init();
+    PostTypeCheckNodeReplacer.init();
     TypeVisitorOperatorCalculator.init();
     TypeVisitorLifting.init();
   }
